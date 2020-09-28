@@ -1,0 +1,15 @@
+<problem display_name="Somme de sous-espaces vectoriels : problème 13" markdown="null" max_attempts="1" showanswer="attempted">
+  <p> Soient \(S=\{(2,5,3), (1,0,2)\}, T=\{(2,0,5),(3,5,5)\} \subseteq \mathbb{R}^3\). La somme \({\rm Vect}(S)+ {\rm Vect} (T)\) est elle directe?  </p>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false"> Oui.</choice>
+      <choice correct="true"> Non.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>La somme \({\rm Vect}(S)+ {\rm Vect} (T)\) est directe si et seulement si \({\rm Vect}(S)\cap {\rm Vect}(T)=0\). On peut facilement voir que \((3,5,5) \in  {\rm Vect}(S)\cap {\rm Vect}(T) \). En effet \((3,5,5)\in{\rm Vect}(T)\) et \((3,5,5)=(2,5,3)+(1,0,2)\in {\rm Vect}(S)\). Ainsi  \({\rm Vect}(S)\cap {\rm Vect}(T) \neq 0\) et la somme \({\rm Vect}(S)+{\rm Vect}(T)\) n'est pas directe. </p>
+    </div>
+  </solution>
+</problem>

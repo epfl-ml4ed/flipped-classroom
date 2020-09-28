@@ -1,0 +1,33 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Tout espace vectoriel de dimension finie admet une base.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. Il est vrai qu\'en dimension infinie, des problèmes pourraient subvenir. Cependant, ne peut-on pas appliquer un résultat du cours afin de construire une base pour n\'importe quel espace vectoriel de dimension finie ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, considérons un espace vectoriel \(V\) de dimension \(n\in \mathbb{N}.\) Si \(V=\{0\},\) alors on sait que \(\emptyset\) est une base de \(V.\) Si au contraire \(V\) ne contient pas uniquement le vecteur nul, alors choisissons arbitrairement un vecteur non-nul \(v\in V.\) Par un résultat vu dans la vidéo 4.4, il est possible de compléter \(\{v\}\) (qui est une partie libre de \(V,\) vu que \(v\) est non-nul) en une base \(\{v,v_1,\ldots,v_{n-1}\}\) de \(V,\) d\'où le résultat.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

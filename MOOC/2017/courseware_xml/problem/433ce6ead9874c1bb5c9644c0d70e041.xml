@@ -1,0 +1,44 @@
+<problem display_name="Quiz 5" markdown="null" weight="0.0">
+  <p>On considère la forme quadratique sur \(\mathbb{R}^3\) définie par \(Q(x,y,z)=2x^2+y^2 + z^2-2xy-2xz,\) ceci pour tout \((x,y,z)\in \mathbb{R}^3\).</p>
+  <p>Parmi les affirmations suivantes, cochez celle qui vous semble correcte.</p>
+  <p><b>Indication :</b> il est possible de répondre à ce quiz en s'aidant du quiz 4 et  de la généralisation du théorème introduit en cours présentée dans la section "Concept(s)-clé(s)".</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans :
+    feedback = 'C\'est incorrect. En effet, que vaut \(Q(1,1,1)\), par exemple ?'
+  elif 'choice_1' in ans :
+    feedback = 'C\'est incorrect. En effet, que vaut \(Q(1,0,0)\) ou \(Q(1,1,1)\), par exemple ?'
+  elif 'choice_3' in ans :
+    feedback = 'C\'est incorrect. En effet, que vaut \(Q(1,0,0)\), par exemple ?'
+  elif 'choice_4' in ans :
+    feedback = 'C\'est incorrect. En effet, remarquons que \(Q(x,y,z)=(x-y)^2 + (x-z)^2\). Que peut-on tirer de cette observation ?'
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, il y a plusieurs manières de résoudre cet exercice. \[\] 1) La première consiste à observer que \(Q(x,y,z)= (x^2-2xy+y^2) + (x^2-2xz + z^2)=(x-y)^2 + (x-z)^2\\geq 0\), ceci pour tout \((x,y,z)\in \mathbb{R}^3\). Ainsi, la forme \(Q\) est (au moins) positive. Cependant, on remarque également que \(Q(1,1,1)=0\), par exemple, ce qui montre que \(Q\) n\'est pas définie positive.\[\] 2) Une autre façon de procéder est d\'utiliser la généralisation du résultat introduit en cours (voir la section "concept(s)-clé(s)", qui stipule qu\'une forme quadratique est positive (respectivement négative) si et seulement si toutes les valeurs propres de la matrice associée sont positives (respectivement négatives). Dans notre situation, un simple calcul montre que le polnyôme caractéristique de \(A\) est donné par \(c_A(x)=-x(x-1)(x-3)\), qui admet les racines \(\\lambda_1=0\),\(\\lambda_2=1\) et \(\\lambda_3=3\). Ainsi, les valeurs propres de \(A\) sont toutes positives et la forme \(Q\) est positive. Finalement, comme \(\\lambda=0\) est une valeur propre de \(A\), alors une application du Quiz 4 implique qu\'il existe \(v\in \mathbb{R}^3\) non-nul tel que \(Q(v)=0\). Par conséquent, la forme \(Q\) ne peut être définie positive.  '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">La forme quadratique \(Q\) est définie positive.</choice>
+      <choice correct="false">La forme quadratique \(Q\) est définie négative.</choice>
+      <choice correct="true">La forme quadratique \(Q\) est positive, mais n'est pas définie positive.</choice>
+      <choice correct="false">La forme quadratique \(Q\) est négative, mais n'est pas définie négative.</choice>
+      <choice correct="false">La forme quadratique \(Q\) n'est ni négative, ni positive.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

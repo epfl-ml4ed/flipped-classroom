@@ -1,0 +1,36 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soit \(V=\mathbb{P}_5(\mathbb{R})\) l'espace vectoriel des polynômes à coefficients réels de degré plus petit ou égal à \(5\) et fixons la base ordonnée \(\mathscr{B}=(1,t,t^2,t^3,t^4,t^5)\) de \(V.\) Considérons également la famille ordonnée \[ S=(t^5+2t+1,t^4-t^2+7t+3,2t^3+2t^2-t)\subset V\] et désignons par \(A\) la matrice dont les lignes correspondent aux transposées des vecteurs de coordonnées (dans la base \(\mathscr{B}\)) de la famille \(S,\) comme dans la vidéo 4.11. Dans cet exercice, on supposera n'utiliser <b>que des opérations élémentaires de type III</b>. Parmi les affirmations suivantes, cochez celle qui vous paraît correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. Ici, faites bien attention à l\'ordre de la base \(\mathscr{B}.\) On a par exemple \[[t^5+2t+1]_{\mathscr{B}}=\\begin{pmatrix} 1 \cr 2 \cr 0 \cr 0 \cr 0 \cr 1 \\end{pmatrix}.\]'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, la méthode vue dans la vidéo 4.11 consiste justement à échelonner la matrice \(A,\) puis à rajouter des lignes de manière à ce qu\'elle le reste.'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, dans notre situation, la matrice \(A\) est donnée par \[A=\\begin{pmatrix} 1 &amp; 2 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \cr 3 &amp; 7 &amp; -1 &amp; 0 &amp; 1 &amp; 0 \cr 0 &amp; -1 &amp; 2 &amp; 2 &amp; 0 &amp; 0\\end{pmatrix},\] et en l\'échelonnant sans avoir recours à des opérations de type I et II, on obtient la matrice \[B=\\begin{pmatrix} 1 &amp; 2 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \cr 0 &amp; 1 &amp; -1 &amp; 0 &amp; 1 &amp; -3 \cr 0 &amp; 0 &amp; 1 &amp; 2 &amp; 1 &amp; -3\\end{pmatrix}.\] Finalement, en complétant comme il se doit, on obtient la matrice \[C=\\begin{pmatrix} 1 &amp; 2 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \cr 0 &amp; 1 &amp; -1 &amp; 0 &amp; 1 &amp; -3 \cr 0 &amp; 0 &amp; 1 &amp; 2 &amp; 1 &amp; -3 \cr 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 &amp;0 \cr 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \cr 0 &amp; 0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 \\end{pmatrix}.\]'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">La matrice obtenue en appliquant la méthode à la matrice \(A\) est échelonnée et sa diagonale est égale à \(I_6.\) </choice>
+      <choice correct="false">La matrice obtenue en appliquant la méthode à la matrice \(A\) est échelonnée et sa diagonale n'est pas égale à \(I_6.\) </choice>
+      <choice correct="false">La matrice obtenue en appliquant la méthode à la matrice \(A\) n'est pas échelonnée.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

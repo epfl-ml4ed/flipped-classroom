@@ -1,0 +1,15 @@
+<problem display_name="Interprétation géométrique : problème 3" markdown="null" showanswer="always" weight="0.0"><p>On considère le système linéaire défini par </p>
+\[
+  S=\left\{ \begin{array}{llll} 
+  	x &amp; = &amp;3t &amp; + 1 \\
+  	y &amp; = &amp;t &amp; \\
+  	z &amp; = &amp;2t &amp; +1 \\
+  \end{array}\right.
+  .\]
+<p>Que représente géométriquement le système \(S\) dans l'espace \(\mathbb{R}^3\) ?</p>
+  <p><b>Attention :</b> veuillez s'il vous plaît cocher <b>toutes</b> les possibilités valables.</p>
+<choiceresponse><checkboxgroup direction="vertical"><choice correct="false">une droite passant par l'origine.</choice><choice correct="true">une droite passant par le point \((1,0,1)\).</choice><choice correct="false">un plan passant par le point \((3,1,2)\).</choice><choice correct="false">un plan passant par le point \((1,0,1)\).</choice></checkboxgroup></choiceresponse> 
+  
+  <solution><div class="detailed-solution"><p>Explication</p><p>Soit \(d\) l'ensemble des points \((x,y,z)\) de \(\mathbb{R}^3\) satisfaisant le système. En exprimant le paramètre réel \(t\) en fonction de \(x\), \(y\) et \(z\) on obtient:</p><p> \(\left\{ \begin{array}{l} t= \frac{x-1}{3}\\ t=y\\ t=\frac{z-1}{2} \end{array} \right.\) </p><p>On déduit que \(d\) est l'intersection de deux plans \(P_1\) et \(P_2\) ayant pour équations respectives: \(y=\frac{x-1}{3}\) et \(y=\frac{z-1}{2}.\) Il y a donc trois possibilités pour \(d\): un plan (si \(P_1=P_2\)), l'ensemble vide (si \(P_1\neq P_2\) et \(P_1,P_2\) sont parallèles) ou une droite. Etant données les équations de \(P_1\) et \(P_2\), on déduit que \(d\) est une droite qui ne passe pas par l'origine, ni par le point \((3,1,2)\) mais qui passe par le point \((1,0,1)\).   </p></div></solution>
+
+</problem>

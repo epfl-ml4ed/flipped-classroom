@@ -1,0 +1,37 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{n\times n}(\mathbb{R})\) une matrice triangulaire supérieure de taille \(n\times n\) à coefficient réels. </p>
+  <p> Est-il possible que \(A\) soit orthogonalement diagonalisable ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, d\'après le cours, une matrice orthogonalement diagonalisable est obligatoirement symétrique. Est-ce le cas de n\'importe quelle matrice triangulaire supérieure ?'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, qu\'a-t-on dans le cas où \(A=I_n\), par exemple ?'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En effet, d\'après le cours, une matrice orthogonalement diagonalisable est obligatoirement symétrique. Ainsi, si \(A\) est une matrice triangulaire supérieure non-diagonale, alors elle n\'est pas symétrique et donc ne peut pas être orthogonalement diagonalisable. \[\] Cependant, si \(A\) est une matrice diagonale, alors elle est symétrique. Par la remarque faite à la fin du cours, elle est donc orthogonalement diagonalisable. \[\] Remarque : si l\'on veut éviter d\'utiliser l\'observation faite en cours (stipulant qu\'une matrice symétrique est toujours orthogonalement diagonalisable), on peut par exemple considérer le cas particulier de \(A=I_n\). Ici \(A\) est clairement triangulaire supérieure et en posant \(P=I_n\) (une matrice orthogonale), on a bien \(P^T AP= I_n A I_n = A =I_n\) diagonale. Ainsi, \(A=I_n\) est orthogonalement diagonalisable.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Oui, toujours.</choice>
+      <choice correct="true">Parfois oui, parfois non.</choice>
+      <choice correct="false">Non, jamais</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

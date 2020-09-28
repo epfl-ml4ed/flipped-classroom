@@ -1,0 +1,145 @@
+<problem display_name="Applications et linéarité : problème 1" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Parmi les applications suivantes, cocher celles qui sont linéaires.</p>
+  <p>Attention : veuillez s'il vous plaît cocher <b>toutes</b> les réponses correctes.</p>
+  <choiceresponse>
+    <checkboxgroup label="Parmi les applications suivantes, cocher celles qui sont linéaires." direction="vertical">
+      <choice correct="false">
+      \( T_1: M_{2 \times 2}(\mathbb{R})\to M_{2 \times 2}(\mathbb{R}), 
+      \left(
+      \begin{matrix}
+      a &amp; b \\
+      c &amp; d 
+      \end{matrix}
+      \right)
+      \mapsto
+      \left(
+      \begin{matrix}
+      a+2 &amp; c \\
+      b &amp; -d 
+      \end{matrix}
+      \right). \)
+    </choice>
+      <choice correct="true">
+    \(
+    T_2: \mathbb{R}^2 \to \mathbb{R}^2, (x,y) \mapsto (x-y,4x).
+      \)
+    </choice>
+      <choice correct="true">
+    \( T_3 : M_{n \times m}(\mathbb{R}) \to M_{m \times n}(\mathbb{R}), A \mapsto A^T
+      .\)
+    </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">
+    \(
+      T_4: \mathbb{R}^2 \to \mathbb{R}^3, (x,y) \mapsto (4x,y^2,y+2x)
+      .\)
+    </choice>
+      <choice correct="true">
+    \( T_5: \mathbb{P}_2(\mathbb{R}) \to \mathbb{R}, p \mapsto p(3)
+      .\)
+    </choice>
+      <choice correct="true">
+    \( T_6: M_{5\times 3}(\mathbb{R}) \to \mathbb{P}_5(\mathbb{R}), A \mapsto 0
+      .\)
+    </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> On rappelle qu'une application \(T: V\rightarrow W\), où \(V\) et \(W\) sont des \(\mathbb{R}\)-espaces vectoriels est linéaire, si pour tous \(u,v \in V\) et \(\lambda\in \mathbb{R}\) on a: </p>
+      <p>\(T(u+v)=T(u)+T(v) \quad \textrm{et} \quad T(\lambda u)=\lambda T(u).\)</p>
+      <p> 1) Commençons par étudier 
+  \[ T_1: M_{2 \times 2}(\mathbb{R})\to M_{2 \times 2}(\mathbb{R}), 
+      \left(
+      \begin{matrix}
+      a &amp; b \\
+      c &amp; d 
+      \end{matrix}
+      \right)
+      \mapsto
+      \left(
+      \begin{matrix}
+      a+2 &amp; c \\
+      b &amp; -d 
+      \end{matrix}
+      \right). \]
+ Prenons \(u=v=0\). Alors \[T_1(u+v)=T_1(0+0)=T_1(0)=T_1\left(\left(\begin{matrix}  0 &amp; 0 \\ 0 &amp; 0\end{matrix}\right)\right)= \left(\begin{matrix}  2 &amp; 0 \\ 0 &amp; 0\end{matrix}\right)\]
+  et \[T_1(u)+T_1(v)=T_1(0)+T_1(0)=2T_1(0)=\left(\begin{matrix}  4 &amp; 0 \\ 0 &amp; 0\end{matrix}\right).\]
+    Ainsi \(T_1(u+v)\neq T_1(u)+T_1(v)\) et \(T_1\) n'est pas linéaire.
+  </p>
+      <p>  2) Continuons avec \[
+    T_2 : \mathbb{R}^2 \to \mathbb{R}^2, (x,y) \mapsto (x-y,4x).
+      \] 
+  Soient \(u=(a,b), v=(c,d) \in V=\mathbb{R}^2\) et \(\lambda \in \mathbb{R}.\) On a 
+  \begin{eqnarray*}
+  T_2(u+v) &amp; = &amp; T_2((a,b)+(c,d))\\
+  &amp; = &amp; T_2((a+c,b+d))\\
+  &amp; = &amp; ((a+c)-(b+d),4(a+c))\\
+  &amp; = &amp; ((a-b)+(c-d),4a+4c)\\
+  &amp; = &amp;(a-b,4a)+(c-d,4c)\\
+  &amp; = &amp; T_2(u)+T_2(v)
+  \end{eqnarray*}
+  et 
+  \begin{eqnarray*}
+  T_2(\lambda u) &amp; = &amp; T_2(\lambda(a,b))\\
+  &amp; = &amp; T_2((\lambda a,\lambda b))\\
+  &amp; = &amp; (\lambda a -\lambda b,4\lambda a)\\
+  &amp; = &amp; (\lambda (a-b),\lambda (4a))\\
+  &amp; = &amp;\lambda(a-b,4a))\\
+  &amp; = &amp; \lambda T_2(u).
+  \end{eqnarray*}
+  Ainsi \(T_2\) est linéaire. 
+  </p>
+      <p>  3) Continuons avec 
+    \[ T_3 : M_{n \times m}(\mathbb{R}) \to M_{m \times n}(\mathbb{R}), A \mapsto A^T
+      .\]
+  Soient \(A, B \in V=M_{n\times m}(\mathbb{R})\) et \(\lambda \in \mathbb{R}.\) On a 
+  \begin{eqnarray*}
+  T_3(A+B) &amp; = &amp; (A+B)^T\\
+  &amp; = &amp; A^T+B^T\\
+  &amp; = &amp; T_3(A)+T_3(B).
+  \end{eqnarray*}
+  et 
+  \begin{eqnarray*}
+  T_3(\lambda A) &amp; = &amp; (\lambda A)^T\\
+  &amp; = &amp; \lambda A^T\\
+  &amp; = &amp; \lambda T_3(A).
+  \end{eqnarray*}
+  Ainsi \(T_3\) est linéaire. 
+  </p>
+      <p> 4) Continuons avec
+     \[
+      T_4: \mathbb{R}^2 \to \mathbb{R}^3, (x,y) \mapsto (4x,y^2,y+2x)
+      .\]
+    Soient \(u=(0,2)\) et \(\lambda=2\). Alors on a \(T_4(\lambda u)=T_4(2(0,2))=T_4((0,4))=(0,16,4)\) et 
+    \(\lambda T_4(u)=2T_4((0,2))=2(0,4,2)=(0,8,4)\). Ainsi \(T_4(\lambda u)\neq \lambda T_4(u)\) et donc \(T_4\) n'est pas linéaire.
+  </p>
+      <p>  5) Continuons avec 
+   \[ T_5: \mathbb{P}_2(\mathbb{R}) \to \mathbb{R}, p \mapsto p(3)
+      .\]
+  Soient \(p, q \in V=\mathbb{P}_2(\mathbb{R})\) et \(\lambda \in \mathbb{R}.\) On a 
+  \begin{eqnarray*}
+  T_5(p+q) &amp; = &amp; (p+q)(3)\\
+  &amp; = &amp; p(3)+q(3)\\
+  &amp; = &amp; T_5(p)+T_5(q).
+  \end{eqnarray*}
+  et 
+  \begin{eqnarray*}
+  T_5(\lambda p) &amp; = &amp; (\lambda p)(3)\\
+  &amp; = &amp; \lambda \cdot p(3)\\
+  &amp; = &amp; \lambda T_5(p).
+  \end{eqnarray*}
+  Ainsi \(T_5\) est linéaire. 
+  </p>
+      <p>  6) Finalement, considérons
+   \[ T_6: M_{5\times 3}(\mathbb{R}) \to \mathbb{P}_5(\mathbb{R}), A \mapsto 0
+      .\] 
+  Alors pour tout \(\lambda\in \mathbb{R}\) et toutes matrices \(A,B\in M_{5\times 3}(\mathbb{R}),\) on a clairement \(T_6(\lambda A + B) = 0 =\lambda \cdot 0 + 0 = \lambda T_6(A)+T_6(B).\) Ainsi \(T_6\) est linéaire. 
+  </p>
+    </div>
+  </solution>
+</problem>

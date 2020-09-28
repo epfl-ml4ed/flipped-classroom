@@ -1,0 +1,43 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Parmi les affirmations suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' not in ans and 'choice_1' not in ans and 'choice_2' not in ans and 'choice_3' not in ans :
+    feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  elif 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, existe-t-il réellement \(x\in \mathbb{R}\) tel que \(f_2(x)=3,\) par exemple ?'
+  elif 'choice_3' in ans:
+    feedback = 'C\'est incorrect. En effet, existe-t-il réellement \(p(t)\in \mathbb{P}_2(\mathbb{R})\) tel que \(f_4(p(t))= t^2,\) par exemple ?'
+  elif 'choice_0' not in ans:
+    feedback = 'C\'est incorrect. En effet, pour \(y\in \mathbb{R}_{\geq 0},\) n\'est-il pas possible de trouver \(x\in \mathbb{R}\) tel que \(f_1(x)=y\) ?'
+  elif 'choice_2' not in ans:
+    feedback = 'C\'est incorrect. En effet, bien que \(f_1\) soit surjective, ce n\'est pas le seul exemple, parmis ceux proposés.'
+  elif 'choice_0' in ans and 'choice_2' in ans:
+    feedback = 'Correct! En effet, on rappelle qu\'une application \(f:X\\to Y\) est surjective si et seulement si (par définition) pour tout \(y\in Y,\) il existe \(x\in X\) tel que \(f(x)=y.\) \[\] Dans le cas de \(f_1,\) on remarque que pour tout \(y\in \mathbb{R}_{\geq 0},\) on a \(f_1(\sqrt{y})=(\sqrt{y})^2=y.\) Ainsi, \(f_1\) est surjective. \[\] Dans le cas de \(f_2,\) on observe que quel que soit \(x\in \mathbb{R},\) on a \(f_2(x)=\sin x \in [-1,1].\) Ainsi, si par exemple \(y=5,\) alors il est impossible de trouver \(x\in \mathbb{R}\) tel que \(f(x)=y.\) L\'application \(f_2\) n\'est donc pas surjective. \[\] Dans le cas de \(f_3,\) on commence par remarquer que l\'image de la fonction \(\cos:\mathbb{R}\\to \mathbb{R}\) est exactement l\'intervalle \([-1,1].\) Autrement dit, si \(z\in [-1,1],\) il existe \(x\in \mathbb{R}\) tel que \(\cos(x)=z.\) Aussi, pour \(y\in [0,1],\) il existe \(z\in [-1,1]\) tel que \(z^2=y.\) Ainsi, on a \(f_3(x)=(\cos(x))^2 =z^2=y\) et donc (comme \(y\) était arbitraire) l\'application \(f_3\) est surjective. \[\] Finalement, il n\'existe pas de polynôme \(p(t)=at^2+bt + c\in \mathbb{P}_2(\mathbb{R})\) tel que \(f_4(p(t))=t^2,\) par exemple. En effet, cela voudrait dire que \(f_4(t)=(abc)t^2 + bt +c = t^2\) et donc \(c=0,\) ce qui impliquerait \(abc=0.\) La fonction \(f_4\) n\'est donc pas surjective.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">L'application \(f_1:\mathbb{R}\to \mathbb{R}_{\geq 0}\) définie par \(f_1(x)=x^2\) (\(x\in \mathbb{R}\)) est surjective.      </choice>
+      <choice correct="false">L'application \(f_2:\mathbb{R}\to \mathbb{R}\) définie par \(f_2(x)=\sin(x)\) (\(x\in \mathbb{R}\)) est surjective.</choice>
+      <choice correct="true">L'application \(f_3:\mathbb{R}\to [0,1]\) définie par \(f_3(x)=\cos^2(x)\) (\(x\in \mathbb{R}\)) est surjective.</choice>
+      <choice correct="false">L'application \(f_4:\mathbb{P}_2(\mathbb{R})\to \mathbb{P}_2(\mathbb{R})\) définie par \(f_4(at^2+bt+c)= (abc)t^2+at+c\) (\(a,b,c\in \mathbb{R}\)) est surjective.</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

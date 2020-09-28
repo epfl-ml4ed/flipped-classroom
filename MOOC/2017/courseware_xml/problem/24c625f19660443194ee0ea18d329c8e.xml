@@ -1,0 +1,23 @@
+<problem display_name="Espace ligne - Espace colonne revisités : problème 2" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p> Soit \(A=\left(\begin{matrix} 1 &amp; 0 &amp; 0 &amp;  0\\ 1 &amp; 1 &amp; 0 &amp; 0\\ 0 &amp; 0 &amp; 1  &amp; 1\\ 0 &amp; 1 &amp; 1 &amp; 0 \end{matrix}\right)\). Que vaut l'espace ligne  \(L\) de \(A\)? </p>
+  <p> Attention : veuillez s'il vous plaît donner <b>toutes</b> les réponses correctes.</p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="true"> \(L=\mathbb{R}^4\).</choice>
+      <choice correct="false"> \(L= \{(t,u,u,v): t, u , v \in \mathbb{R}\} \).</choice>
+      <choice correct="true">  \(L=\{(\alpha+\beta, \beta+\gamma, \gamma+\delta, \delta): \alpha, \beta, \gamma, \delta \in \mathbb{R}\}\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>En échelonnant la matrice \(A\), on remarque que \(A\) est ligne-équivalente à: </p>
+      <p> \(A'= \left(\begin{matrix} 1 &amp; 0 &amp; 0 &amp; 0\\ 0 &amp; 1 &amp; 0 &amp; 0\\ 0 &amp; 0 &amp; 1 &amp;  0\\ 0 &amp; 0 &amp; 0 &amp; 1 \end{matrix}\right)\)</p>
+      <p> L'espace ligne \(L\) de \(A\) est donc:</p>
+      <p>\({\rm Vect}(\{(1,0,0,0),(0,1,0,0),(0,0,1,0),(0,0,0,1)\})=\mathbb{R}^4\)</p>
+      <p> En d'autres mots, l'espace ligne de \(A\) est 
+    \(\{(\alpha+\beta,\beta+\gamma,\gamma+\delta,\delta): \alpha,\beta,\gamma,\delta \in \mathbb{R}\}\). </p>
+      <p>Finalement on remarque que \(\{(t,u,u,v): t,u,v \in \mathbb{R}\}\subsetneq \mathbb{R}^4\), en effet \((0,1,0,0)\not \in \{(t,u,u,v): t,u,v \in \mathbb{R}\}\).</p>
+    </div>
+  </solution>
+</problem>

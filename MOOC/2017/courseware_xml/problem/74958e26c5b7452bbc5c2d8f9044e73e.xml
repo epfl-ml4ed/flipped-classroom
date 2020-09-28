@@ -1,0 +1,33 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(V\) un espace vectoriel muni d'un produit scalaire \(\langle~,~\rangle\) et considérons deux vecteurs non-nuls \(u,v\in V.\) Si \(v\) est de norme égale à \(1,\) alors la longueur de la projection orthogonale de \(u\) sur \(v\) est donnée par \(|\langle u, v\rangle|.\) </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle que la formule nous donnant la projection orthogonale de \(u\) sur \(v\) est donnée par \[\mbox{proj}_v(u)=\\frac{\langle u,v \\rangle}{\langle v, v\\rangle} v.\] Or, dans notre cas, comme \(v\) est de norme égale à \(1\), on a que \[\mbox{proj}_v(u)=\langle u,v \\rangle v.\] Que vaut la norme d\'un tel vecteur ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct!  En effet, on rappelle que la formule nous donnant la projection orthogonale de \(u\) sur \(v\) est donnée par \[\mbox{proj}_v(u)=\\frac{\langle u,v \\rangle}{\langle v, v\\rangle} v.\] Or, dans notre cas, comme \(v\) est de norme égale à \(1\), on a que \[\mbox{proj}_v(u)=\langle u,v \\rangle v.\] Ainsi, la norme au carré de ce dernier vecteur est donnée par \[||\mbox{proj}_v(u)||^2=\langle \mbox{proj}_v(u), \mbox{proj}_v(u) \\rangle = \langle \langle u,v \\rangle v, \langle u,v \\rangle v  \\rangle =  \langle u,v \\rangle^2 \langle v,v \\rangle = \langle u,v \\rangle^2.\] Ainsi, la norme de la projection de \(u\) sur \(v\) est bel et bien égale à \(|\langle u,v\\rangle| \).'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true">Oui.</choice>
+      <choice correct="false">Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

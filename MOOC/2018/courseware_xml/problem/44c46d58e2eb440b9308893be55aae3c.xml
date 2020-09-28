@@ -1,0 +1,135 @@
+<problem display_name="Diagonalisation : problème 12" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Soit \(A=\left(
+  \begin{matrix}
+  1 &amp; 1-b &amp; 0 \\
+  0 &amp; b &amp; 0 \\
+  1+b &amp; 1+b &amp; b
+  \end{matrix}
+  \right)\in M_{3 \times 3}(\mathbb{R})\).</p>
+  <p>Pour quelles valeurs de \(b \in \mathbb{R}\) la matrice \(A\) est-elle diagonalisable?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Pour quelles valeurs de \(b \in \mathbb{R}\) la matrice \(A\) est-elle                        diagonalisable?" type="MultipleChoice">
+      <choice correct="false">\(b \neq 0\).</choice>
+      <choice correct="true">\(b \neq 1\).</choice>
+      <choice correct="false">Uniquement si \(b=1\).</choice>
+      <choice correct="false">\(b \neq -1\).</choice>
+      <choice correct="false">Uniquement si \(b=-1\).</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> 
+On rappelle qu'une matrice carrée \(A\in M_{n\times n}(\mathbb{R})\) est  diagonalisable si et seulement si 
+le polynôme caractéristique \(p_A(t)\) de \(A\) est un produit de polynômes de degré 1 définis sur \(\mathbb{R}\) et la multiplicité algébrique de chaque valeur propre de \(A\) est égale à sa multiplicité géométrique.   </p>
+      <p>  En particulier si \(A\) a \(n\) valeurs propres distinctes, alors \(A\) est diagonalisable. Dans ce qui suit on pose \(V=\mathbb{R}^n\).</p>
+      <p>
+Ici on a \(A=\begin{pmatrix}
+ 1 &amp; 1-b &amp; 0\\
+ 0 &amp; b &amp; 0\\
+ 1+b &amp; 1+b &amp; b\\
+ \end{pmatrix}.\)
+Ici \(V=\mathbb{R}^3\), \(b\in \mathbb{R}\), et on a 
+\begin{eqnarray*}
+p_A(t) &amp; = &amp; \det (A-tI)\\
+&amp; = &amp; \det\begin{pmatrix}
+ 1-t &amp; 1-b &amp; 0\\
+ 0 &amp; b-t &amp; 0\\
+ 1+b &amp; 1+b &amp; b-t\\
+ \end{pmatrix}\\ 
+&amp; = &amp; (1-t)(b-t)^2\\
+&amp; = &amp; -(t-1)(t-b)^2.
+\end{eqnarray*}
+</p>
+      <p> Ainsi \(p_A(t)\) est un produit de polynômes de degré 1 à coefficients dans \(\mathbb{R}\).</p>
+      <p>
+Il y a maintenant deux cas à traiter: le cas \(b=1\) et le cas \(b\neq 1\). En effet \(A\) a deux valeurs propres distinctes \(\lambda_1=b\), \(\lambda_2=1\) si et seulement si  \(b\neq 1\). Si \(b=1\) alors \(A\) a une unique valeur propre: \(\lambda_1=1\).
+</p>
+      <p>
+Pour une valeur propre \(\lambda\) de \(A\), on note \(m_a(\lambda)\)
+et \(m_g(\lambda)\) les multiplicités algébrique et géométrique de \(\lambda\).</p>
+      <p> 1) Supposons \(b=1\). On a \(m_a(\lambda_1)=3\) et donc \(A\) est diagonalisable si et seulement si \(m_g(\lambda_1)=3\), si et seulement si \(\dim E_{\lambda_1}=3\).</p>
+      <p>
+Soit \(v \in V\). On a
+\begin{eqnarray*}
+v \in E_{\lambda_1} &amp; \Leftrightarrow &amp; (A-\lambda_1 I)v=0\\
+ &amp; \Leftrightarrow &amp; (A-I)v=0\\
+\end{eqnarray*}
+Ceci mène au système donné par la matrice augmentée suivante:
+\[A_1=
+\begin{pmatrix}
+0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+2 &amp; 2 &amp; 0 &amp; &amp; 0\\
+\end{pmatrix}
+.\]
+</p>
+      <p>
+Avec les opérations élémentaires \(L_1'=L_3/2\) et \(L_3'=L_2\), on obtient la matrice augmentée suivante:
+\[A_1'=
+\begin{pmatrix}
+1 &amp; 1 &amp; 0 &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+\end{pmatrix}
+.\]
+</p>
+      <p>
+On déduit que 
+\begin{eqnarray*}
+E_{\lambda_1}&amp; =  &amp; \{(x,y,z) \in V: x+y=0\}\\
+&amp; =  &amp; \{(x,y,z) \in V: x=-y\}
+&amp; =  &amp; \{(-y,y,z):  z \in \mathbb{R}\}.
+\end{eqnarray*}
+Ainsi \(E_{\lambda_1}={\rm Vect}(\{(1,-1,0),(0,0,1)\})\) et \(\dim E_{\lambda_1}=2\).
+On déduit que \(A\) n'est pas diagonalisable. 
+</p>
+      <p>
+2) Supposons finalement que \(b\neq 1\). On a \(m_a(\lambda_1)=2\). Comme \(A\) a deux valeurs propres distinctes et \(\dim V=3\), on déduit que \(A\) est diagonalisable si et seulement si \(m_g(\lambda_1)=2\).
+Ainsi \(A\) est diagonalisable si et seulement si \(\dim E_{\lambda_1}=2\).</p>
+      <p>Soit \(v \in V\). On a
+\begin{eqnarray*}
+v \in E_{\lambda_1} &amp; \Leftrightarrow &amp; (A-\lambda_1 I)v=0\\
+ &amp; \Leftrightarrow &amp; (A-bI)v=0\\
+\end{eqnarray*} </p>
+      <p> Ceci mène au système donné par la matrice augmentée suivante:
+\[A_1=
+\begin{pmatrix}
+1-b &amp; 1-b &amp; 0 &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+1+b &amp; 1+b &amp; 0 &amp; &amp; 0\\
+\end{pmatrix}
+.\]
+</p>
+      <p> Avec les opérations élémentaires \(L_1'=(L_1+L_3)/2\), \(L_2'=L_3\) et \(L_3'=L_2\), on obtient la matrice augmentée suivante:
+\[A_1'=
+\begin{pmatrix}
+1 &amp; 1 &amp; 0 &amp; &amp; 0\\
+1+b &amp; 1+b &amp; 0 &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+\end{pmatrix}
+.\]
+</p>
+      <p> Avec l'opération élémentaire \(L_2''=L_2'-(1+b)L_1'\), on obtient la matrice augmentée suivante:
+\[A_1''=
+\begin{pmatrix}
+1 &amp; 1 &amp; 0 &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+\end{pmatrix}
+.\]
+</p>
+      <p>
+On déduit que 
+\begin{eqnarray*}
+E_{\lambda_1}&amp; =  &amp; \{(x,y,z) \in V: x+y=0\}\\
+&amp; =  &amp; \{(x,y,z) \in V: x=-y\}
+&amp; =  &amp; \{(-y,y,z):  z \in \mathbb{R}\}.
+\end{eqnarray*}
+Ainsi \(E_{\lambda_1}={\rm Vect}(\{(1,-1,0),(0,0,1)\})\) et \(\dim E_{\lambda_1}=2\).
+On déduit que \(A\) est  diagonalisable. 
+</p>
+      <p> On déduit que \(A\) est diagonalisable si et seulement si \(b\neq 1\). </p>
+    </div>
+  </solution>
+</problem>

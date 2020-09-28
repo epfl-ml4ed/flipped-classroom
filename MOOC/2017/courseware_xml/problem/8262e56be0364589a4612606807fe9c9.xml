@@ -1,0 +1,38 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(V\) un espace euclidien, muni du produit scalaire \(\langle~,~\rangle\) et de la norme correspondante \(||~||\) et \(T:V\to V\) une application linéaire.</p>
+  <p>Supposons de plus que \(v\in V\) soit un vecteur propre pour \(T\) correspondant à une valeur propre \(\lambda \in \mathbb{R}\).</p>
+  <p>Parmi les affirmations suivantes, cochez celle qui vous semble correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, d\'après la définition de ce qu\'est une norme, que peut-on dire d\'un vecteur \(v\in V\) tel que \(||v||=0\) ? Un tel vecteur peut-il être un vecteur propre ?'
+  elif 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, d\'après la définition de ce qu\'est une norme, que peut-on dire d\'un vecteur \(v\in V\) tel que \(||v||=0\) ? Un tel vecteur peut-il être un vecteur propre ? La valeur propre correspondante fait-elle réellement une différence ?'
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, d\'après la définition de ce qu\'est une norme, on a que si \(||v||=0\), alors \(v=0\). Or, le vecteur nul n\'est jamais un vecteur propre. (Ceci est vrai peu importe la valeur propre.)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="false">Il est possible que \(||v||=0\).</choice>
+      <choice correct="false">Il n'est pas possible d'avoir \(||v||=0\), sauf dans le cas où \(\lambda=0\).</choice>
+      <choice correct="true">Il n'est pas possible d'avoir \(||v||=0\).</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

@@ -1,0 +1,36 @@
+<problem display_name="Bases : problème 4" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>  Soit \(V\) un \(\mathbb{R}\)-espace vectoriel de dimension finie \(m\) et soient  \(S\) et \(T\) des sous ensembles finis de \(V\). Parmi les énoncés suivants, donner <b>tous ceux</b> qui sont corrects. </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="true">  Si \({\rm Vect}(S)=V\) alors \(|S|\geq m\). (Rappel : \(|S|\) désigne la cardinalité de \(S\).)</choice>
+      <choice correct="false">  Si \(|S|=\dim V\) alors \(S\) est une base de \(V\). </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> Si \(S\)  et \(T\) sont  des familles libres de \(V\)   alors \(S\cup T\) est une famille libre de \(V\). </choice>
+      <choice correct="true"> Si \(S\)  et \(T\) sont  des familles libres de \(V\)   alors \(S\cap T\) est une famille libre de \(V\). </choice>
+      <choice correct="true"> Si \(S\)  est une famille liée de \(V\)   alors \(S\cup T\) est aussi une famille liée de \(V\). </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> Si \(S\)  et \(T\) sont  des familles liées de \(V\)   alors \(S\cap T\) est une famille liée de \(V\). </choice>
+      <choice correct="true"> Si \(0\neq v \in V\) et \(1\neq \alpha \in \mathbb{R}\) alors \(v\) et \(\alpha v\) sont linéairement dépendants. </choice>
+      <choice correct="false"> Si \(V= M_{p \times q}(\mathbb{R})\), et \(A\) et \(B\) sont des éléments de \(V\) tels que \(2a_{11}=b_{11}\) et \(a_{22}=2b_{22}\) alors  \(\{A,B\}\) est une famille libre de \(V\). </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>  1) Soit \(n=|S|\) et écrivons \(S=\{v_1,\dots,v_n\}\). Alors \({\rm Vect}(S)=\{\sum_{i=1}^n \lambda_i v_i: \lambda_i \in \mathbb{R}\}\) et \(\dim {\rm Vect}(S)\leq n\). Ici on a \(V={\rm Vect}(S)\) et donc \(\dim V=\dim {\rm Vect}(S)=m\).   On obtient donc \(m \leq n\), i.e. \(|S|\geq m\). </p>
+      <p> 2) Soit \(v\) un élément non trivial de \(V\) et \(S=\{v_1,\dots ,v_m\}\) où \(v_i=i v\) pour tout \(1 \leq i \leq m\). Alors \(|S|=m = \dim V\), mais \(S\) n'est pas une famille libre de \(V\). En effet \(2v_1-v_2= 2v-2v=0\). Ainsi \(S\) n'est pas une base de \(V\). </p>
+      <p> 3) Soient \(S\) et \(T\) des bases distinctes de \(V\). Alors \(S,T \subset V\) et \(|S|=|T|=\dim V=m\). Aussi \(S\cup T \subset V\), \({\rm Vect}(S\cup T)=V\) et \(|S \cup T|&gt; m\). On déduit que \(S \cup T\) n'est pas une famille libre de \(V\). </p>
+      <p> 4) Tout sous ensemble d'une famille libre de \(V\) est également une famille libre de \(V\). Ainsi si \(S\) et \(T\) sont des familles libres de \(V\), le sous ensemble \(S\cap T\) de \(S\) (et de \(T\)) est une famille libre de \(V\). On notera que \(\emptyset\) est une famille libre de \(V\).</p>
+      <p> 5) Soient \(S=\{v_1,\dots , v_n\}\) et \(T=\{w_1,\dots , w_n\}\). Si \(S\) est une famille liée de \(V\) alors il existe \(\lambda_i \in \mathbb{R}\), où \(1\leq i \leq n\),  non tous nuls tels que \(\sum_{i=1}^n \lambda_i v_i =0\). Ainsi \(0w_1+\dots +0w_r+\sum_{i=1}^n \lambda_i v_i=0\). Comme au moins un des \(\lambda_i\) est non nul, on déduit que \(S \cup T\) est liée. </p>
+      <p> 6) Si \(S\) et \(T\) sont des familles liées de \(V\) alors \(S\cap T\) peut être liée ou libre.  On donne quelques illustrations. Par exemple si \(S=T\) alors \(S\cap T=S\), et donc \(S\cap T\) est une famille liée de \(V\). A l'opposé, prenons \(S\) et \(T\) de telle sorte que \(S\cap T=\{v\}\) où \(v\neq 0\). Alors \(S\cap T\) est une famille libre de \(V\). Par exemple, si \(V=\mathbb{R}^2\), on peut prendre \(S=\{(1,0), (0,0)\}\) et \(T=\{(1,0),(2,0)\}\). Finalement si \(S\cap T=\emptyset\) alors \(S\cap T\)  est une famille libre de \(V\), e.g. \(V=\mathbb{R}^2\), \(S=\{(1,0), (2,0)\}\), \(T=\{(0,1),(0,2)\}\). </p>
+      <p> 7)   On a \(a\cdot v +b\alpha v=0\) où \((a,b)=(\alpha,-1)\neq (0,0)\). Comme \(v\neq \alpha v\) (en effet \(v \neq 0\) et \(\alpha \neq 1\)) on déduit que \(\alpha v\) et \(v\) sont linéairement dépendants. </p>
+      <p> 8) On peut prendre \(A=B=0\). On a bien \(2a_{11}=b_{11}\) et \(a_{22}=2b_{22}\). On remarque que \((A,B)=(0,0)\) n'est pas une famille libre de \(V\). </p>
+    </div>
+  </solution>
+</problem>

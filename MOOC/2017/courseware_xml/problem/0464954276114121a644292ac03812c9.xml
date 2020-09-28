@@ -1,0 +1,104 @@
+<problem display_name="Diagonalisation d'une matrice  par une matrice orthogonale: problème 3" markdown="null" max_attempts="1" showanswer="attempted" weight="4.0">
+  <p> Soit \(A= \begin{pmatrix}  1 &amp; 2 &amp;  2\\ 2 &amp;  1 &amp;  2 \\ 2 &amp;  2 &amp;  1\end{pmatrix}\).
+ Lesquelles des affirmations suivantes sont correctes? Donner toutes les réponses correctes. </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="true"> La matrice \(A\) est symétrique.</choice>
+      <choice correct="true"> Il existe une matrice orthogonale \(P\) telle que \(P^{-1}AP\) soit une matrice diagonale \(D\).</choice>
+      <choice correct="true"> Si l'on prend \(P=  \frac{1}{\sqrt 6} \begin{pmatrix} 
+  \sqrt{2} &amp;  -\sqrt{3} &amp;-1 \\ 
+  \sqrt{2} &amp; \sqrt{3} &amp; -1 \\ 
+  \sqrt{2} &amp; 0&amp; 2\end{pmatrix}\) et \(D=    \begin{pmatrix}
+5&amp;  0&amp;  0\\
+0&amp;  -1&amp;  0\\
+0&amp;  0&amp;  -1
+\end{pmatrix}\), alors \(P\) est orthogonale, \(D\) est diagonale et \(P^{-1}AP=D.\) </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>
+  Soit \(A=\begin{pmatrix}  1 &amp; 2 &amp;  2\\ 2 &amp;  1 &amp;  2 \\ 2 &amp;  2 &amp;  1\end{pmatrix}\). On doit trouver une matrice orthogonale \(P\in M_{3\times 3}(\mathbb{R})\) telle que  \(P^TAP\) soit diagonale. </p>
+      <p>On détermine le polynôme caractéristique \(c_A(t)\) de \(A\).  On 
+a 
+\begin{eqnarray*}
+c_A(t)&amp;  = &amp;  {\rm det}\begin{pmatrix}1-t &amp;  2 &amp;  2\\ 2&amp;  1-t &amp;  2 \\ 2 &amp;  2 &amp;  1-t \end{pmatrix}\\
+&amp;  = &amp; (1-t)\cdot  {\rm det}\begin{pmatrix}  1-t &amp;  2 \\  2 &amp;  1-t\end{pmatrix} -2\cdot {\rm det}\begin{pmatrix}  2 &amp;  2 \\ 2 &amp;  1-t\end{pmatrix}+2\cdot {\rm det}\begin{pmatrix}  2 &amp;  1-t \\ 2 &amp;  2\end{pmatrix}\\
+&amp;  = &amp;  (1-t)[(1-t)^2-4]+2\cdot2[4-2(1-t)]\\
+&amp;  = &amp;  -(t-1)(t-3)(t+1)+4\cdot2(t+1)\\
+&amp;  = &amp;  -(t+1)[(t-1)(t-3)-8]\\
+&amp;  = &amp;  -(t+1)(t^2-4t-5)\\ 
+&amp;  = &amp;  -(t+1)^2(t-5)\\    
+\end{eqnarray*}
+  </p>
+      <p> On détermine toutes les racines \(\lambda\) de \(c_A(t)\). Ici il est clair que les racines de \(c_A(t)\) sont \(\lambda_1=5\) et \(\lambda_2=-1\). (Note. Le polynôme caractéristique \(c_A(t)\)  d'une matrice symétrique \(A\in M_{n\times n}(\mathbb{R})\) est un produit de polynômes de degré 1 à coefficients réels.)</p>
+      <p> Pour \(1\leq i \leq 2\), on cherche un base \(\mathcal{B}_i\) de l'espace propre \(E_{\lambda_i}\) associé à \(\lambda_i\). </p>
+      <p>Comme la multiciplicité algébrique de \(\lambda_1\) vaut 1 et celle de \(\lambda_2\) vaut 2, on a \(\dim E_{\lambda_1}=1\) et   \(\dim E_{\lambda_2}=2\). (En effet pour une matrice symétrique  \(A \in M_{n\times n}(\mathbb{R})\) ayant valeur propre \(\lambda\), la multiplicité algébrique de \(\lambda\) est égale à la multiplicité géométrique de \(\lambda\).)</p>
+      <p>On a \(E_{\lambda_i}=\{v\in \mathbb{R}^3:(A-\lambda_iI)v=0\}\).</p>
+      <p>Supposons \(\lambda=\lambda_1=5\). </p>
+      <p>On a \((A-\lambda_1I)=\begin{pmatrix} -4 &amp;  2 &amp;  2 \\ 2 &amp;  -4 &amp;  2 \\ 2 &amp;  2  &amp;  -4  \end{pmatrix}.\) Les éléments de \(E_{\lambda_1}\) sont les solutions  du système correspondant à la matrice augmentée suivante:
+\[B_1= \begin{pmatrix} -4 &amp;  2 &amp;  2  &amp;  &amp;  0\\ 2 &amp;  -4 &amp;  2 &amp;  &amp;  0 \\ 2 &amp;  2 &amp;  -4 &amp;  &amp;  0 \end{pmatrix}.\]
+  </p>
+      <p>Avec les opérations élémentaires \(L_2'=-(L_1+2L_2)/6\), \(L_1'=L_2/2\) et \(L_3'=(L_3-L_2)/6\), on obtient:
+\[B_1'= \begin{pmatrix} 1 &amp;  -2 &amp;  1  &amp;  &amp;  0\\ 0 &amp;  1 &amp;  -1 &amp;  &amp;  0 \\ 0 &amp;  1 &amp;  -1 &amp;  &amp;  0 \end{pmatrix}.\]</p>
+      <p>Avec l'opération élémentaire \(L_1''=L_1'+2L_2'\) et \(L_3''=L_3'-L_2'\), on obtient:
+\[B_1''= \begin{pmatrix} 1 &amp;  0 &amp;  -1  &amp;  &amp;  0\\ 0 &amp;  1 &amp;  -1 &amp;  &amp;  0 \\ 0 &amp;  0 &amp;  0 &amp;  &amp;  0 \end{pmatrix}.\]</p>
+      <p>On déduit que \(E_{\lambda_1}=\{(t,t,t): t \in \mathbb{R}\}\) et \(\mathcal{B}_1=((1,1,1))\) est une base de \(E_{\lambda_1}\). </p>
+      <p>
+  Supposons \(\lambda=\lambda_2=-1\). </p>
+      <p>On a \((A-\lambda_2I)=\begin{pmatrix} 2 &amp;  2 &amp;  2 \\ 2 &amp;  2 &amp;  2 \\ 2 &amp;  2 &amp;  2  \end{pmatrix}.\) Les éléments de \(E_{\lambda_2}\) sont les solutions  du système correspondant à la matrice augmentée suivante:
+\[B_2= \begin{pmatrix} 1 &amp;  1 &amp;  1  &amp;  &amp;  0\\ 1 &amp;  1 &amp;  1 &amp;  &amp;  0 \\ 1 &amp;  1 &amp;  1 &amp;  &amp; 0 \end{pmatrix}.\]</p>
+      <p> Avec les opérations élémentaires \(L_2'=L_2-L_1\) et  \(L_3'=L_3-L_1\), on obtient:
+\[B_2'= \begin{pmatrix} 1 &amp;  1 &amp;  1  &amp;  &amp;  0\\ 0 &amp;  0&amp;  0 &amp;  &amp;  0 \\ 0 &amp;  0 &amp;  0 &amp;  &amp;  0 \end{pmatrix}.\]</p>
+      <p>On déduit que \(E_{\lambda_2}=\{(-s-t,s,t): s,t \in \mathbb{R}\}\) et \(\mathcal{B}_2=((-1,1,0),(-1,0,1))\) est une base de \(E_{\lambda_2}\). </p>
+      <p>On utilise maintenant le procédé de Gram-Schmidt afin de trouver une base orthogonale \(\mathcal{B}_2'=(u_2,u_3)\) de \(E_{\lambda_2}\).</p>
+      <p>(Rappel. Si \(u\) et \(v\) sont des éléments de \(\mathbb{R}^n\), alors \({\rm proj}_u(v)=\frac{\langle u,  v\rangle }{\langle u, u\rangle}{u}\).)</p>
+      <p> Prenons \(v_2=(-1,1,0)\) et \(v_3=(-1,0,1)\). Alors \((v_2,v_3)\) est une base de  \(E_{\lambda_2}\).</p>
+      <p>Prenons:</p>
+      <p> \(u_2=v_2=(-1,1,0)\)</p>
+      <p>et \(u_3=v_3-{\rm proj}_{u_2}(v_3)=v_3-\frac{\langle u_2, v_3\rangle}{\langle u_2, u_2\rangle}u_2=(-1,0,1)-\frac{1}{2}(-1,1,0)=(-1/2,-1/2,1)\).</p>
+      <p>Soient \(u_1=(1,1,1)\), \(u_2=(-1,1,0)\) et \(u_3=(-1/2,-1/2,1)\).  Alors \((u_1)\) est une base (orthogonale) de \(E_{\lambda_1}\) et \((u_2,u_3)\) est une base orthogonale de \(E_{\lambda_2}\). Comme \(A\) est symétrique  et \(\lambda_1\neq \lambda_2\), on a \(E_{\lambda_1}\perp E_{\lambda_2}\) et donc \((u_1,u_2,u_3)\) est en fait une base orthogonale de \(\mathbb{R}^3\).</p>
+      <p>Soient 
+\[w_1=\frac{u_1}{||u_1||}=\left(\frac{1}{\sqrt 3},\frac{1}{\sqrt{3}},\frac{1}{\sqrt 3}\right), w_2=\frac{u_2}{||u_2||}=\left(\frac{-1}{\sqrt 2},\frac{1}{\sqrt 2},0\right),w_3=\frac{u_3}{||u_3||}= \left(\frac{-1}{\sqrt 6},\frac{-1}{\sqrt 6},\frac{2}{\sqrt{6}}\right)  \]
+Alors \(\mathcal{B}'=(w_1,w_2,w_3)\) est une base orthonormée de \(\mathbb{R}^3\), \((w_1)\) est une base orthonormée de \(E_{\lambda_1}\) et \((w_2,w_3)\) est une base orthonormée de  \(E_{\lambda_2}\).</p>
+      <p> Soit \(P= [{\rm id}]_{\mathcal{C}\mathcal{B}'} \) où \(\mathcal{C}\) est la base canonique de \(\mathbb{R}^3\).  On a 
+\begin{eqnarray*}
+P&amp;  = &amp;  [{\rm id}]_{\mathcal{C}\mathcal{B}'} \\
+&amp;  = &amp;  \frac{1}{\sqrt 6} \begin{pmatrix} 
+  \sqrt{2} &amp;  -\sqrt{3} &amp;-1 \\ 
+  \sqrt{2} &amp; \sqrt{3} &amp; -1 \\ 
+  \sqrt{2} &amp; 0&amp; 2\end{pmatrix}.
+  \end{eqnarray*} Alors \(P\) est orthogonale.</p>
+      <p> Soit \(D=P^TAP=P^{-1}AP\). Alors</p>
+      <p>\begin{eqnarray*}
+D&amp;  = &amp;   \frac{1}{\sqrt 6}
+  \begin{pmatrix} \sqrt 2 &amp;  \sqrt 2&amp;\sqrt 2  \\ -\sqrt 3 &amp; \sqrt 3 &amp; 0 \\ -1 &amp; -1&amp; 2\end{pmatrix} 
+  \begin{pmatrix}  
+  1 &amp; 2 &amp; 2\\ 
+  2 &amp; 1 &amp; 2 \\ 
+  2 &amp; 2 &amp; 1\end{pmatrix} 
+  \frac{1}{\sqrt 6} \begin{pmatrix} 
+ \sqrt{2} &amp;  -\sqrt{3} &amp;-1 \\ 
+  \sqrt{2} &amp; \sqrt{3} &amp; -1 \\ 
+  \sqrt{2} &amp; 0&amp; 2
+\end{pmatrix}\\
+&amp;  = &amp;  \frac{1}6\begin{pmatrix} 
+  \sqrt 2 &amp;  \sqrt 2&amp;\sqrt 2  \\ 
+  -\sqrt 3 &amp; \sqrt 3 &amp; 0 \\ 
+  -1 &amp; -1&amp; 2 \end{pmatrix}  
+  \begin{pmatrix}  
+  5\sqrt 2 &amp;   \sqrt 3 &amp; 1 \\ 
+  5\sqrt 2 &amp;  -\sqrt 3 &amp;  1 \\ 
+  5\sqrt 2 &amp;  0 &amp;  -2 
+  \end{pmatrix}\\
+&amp;  = &amp;  \begin{pmatrix}
+5&amp;  0&amp;  0\\
+0&amp;  -1&amp;  0\\
+0&amp;  0&amp;  -1
+\end{pmatrix}.
+\end{eqnarray*}
+  </p>
+    </div>
+  </solution>
+</problem>

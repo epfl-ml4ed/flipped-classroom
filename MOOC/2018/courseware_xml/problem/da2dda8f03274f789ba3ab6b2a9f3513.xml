@@ -1,0 +1,40 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soient \(A\in M_{3\times 2}(\mathbb{R})\) la matrice de taille \(3\times 2\) définie par \[A=\begin{pmatrix} 3&amp; 2\cr2&amp;3\cr 2&amp; -2\end{pmatrix}\] et \(\phi:\mathbb{R}^2\to \mathbb{R}^3\) l'application linéaire correspondante. On a vu dans le quiz de la section 10.10 que les valeurs singulières de \(A\) étaient données par \(\sigma_1=5\) et \(\sigma_2=3\). Aussi, nous avions montré (quiz 10.11) que la liste \[\mathscr{B}=\left(\tfrac{\sqrt{2}}{2}(1,1,0),\tfrac{\sqrt{2}}{6}(1,-1,4) \right)\] formait une base de l'image de \(\phi\) à l'aide du théorème d'existence de bases compatibles introduit en cours. On la complète en une base de \(\mathbb{R}^3\) en ajoutant le vecteur \(w_3=(0,0,1).\) </p>
+  <p>Parmi les affirmations suivantes, cochez celle qui vous semble correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans :
+    feedback = 'C\'est incorrect. En effet, la matrice \(V\) dans la décomposition singulière \(A=U\\Sigma V\) est donnée par \[V=\\begin{pmatrix}\\tfrac{\\sqrt{2}}{2} &amp; \\tfrac{\\sqrt{2}}{2}  \cr \\tfrac{\\sqrt{2}}{2} &amp; -\\tfrac{\\sqrt{2}}{2}  \\end{pmatrix}.\] '
+  elif 'choice_0' in ans and 'choice_2' not in ans:
+    feedback = 'C\'est incorrect. Bien que la première affirmation soit en bel et bien vérifiée, ce n\'est pas la seule, parmi celles proposées.'
+  elif 'choice_2' in ans and 'choice_0' not in ans:
+    feedback = 'C\'est incorrect. Bien que la troisième affirmation soit en bel et bien vérifiée, ce n\'est pas la seule, parmi celles proposées.'
+  elif 'choice_0' in ans and 'choice_2' in ans and 'choice_1' not in ans and 'choice_3' not in ans:
+    feedback = 'Correct! En effet, on va suivre la méthode suggérée par l\'énoncé du théorème de décomposition en valeurs singulières. (Notons que les points 1),2) et 3) ont déjà été traités dans le quiz de la section précédentes. Néanmoins, nous les répétons ici afin d\'avoir la méthode complète sous les yeux.) \[\]1) On commence par calculer une base orthonormée \(\mathscr{B}_1\) de \(\mathbb{R}^2\) formée de vecteurs propres de \(A^TA\). Les valeurs singulières de \(A\) étant égales à \(\\sigma_1=5\) et \(\\sigma_2=3,\) on en déduit que les valeurs propres de \(A^TA\) valent \(\\lambda_1=\\sigma_1^2=25\) et \(\\lambda_2=\\sigma_2^2=9\). (On pourrait bien sûr calculer directement les valeurs propres de \(A^TA\), comme nous l\'avions déjà fait dans le quiz 10.10.) Les espaces propres correspondants sont donc donnés par \[E_{25}=\mbox{Ker}(A^TA-25I_2)=\mbox{Ker}\\left(\\begin{pmatrix} 17-25&amp; 8\cr 8&amp; 17-25\\end{pmatrix}\\right)= \mbox{Vect}\\left( \\begin{pmatrix} 1\cr 1\\end{pmatrix}\\right),\] \[E_{9}=\mbox{Ker}(A^TA-9I_2)=\mbox{Ker}\\left(\\begin{pmatrix} 17-9&amp; 8\cr 8&amp; 17-9\\end{pmatrix}\\right)= \mbox{Vect}\\left( \\begin{pmatrix} 1\cr -1\\end{pmatrix}\\right).\] Ainsi, la base orthonormée \(\mathscr{B}_1\) de \(\mathbb{R}^2\) cherchée n\'est autre que \[\mathscr{B}_1=(v_1,v_2)=\\left(\\tfrac{\\sqrt{2}}{2}(1,1),\\tfrac{\\sqrt{2}}{2}(1,-1)\\right).\] On en déduit que la matrice \(V\) dans la décomposition singulière \(A=U\\Sigma V\) est donnée par \[V=\\begin{pmatrix}\\tfrac{\\sqrt{2}}{2} &amp; \\tfrac{\\sqrt{2}}{2}  \cr \\tfrac{\\sqrt{2}}{2} &amp; -\\tfrac{\\sqrt{2}}{2}  \\end{pmatrix}.\] Par conséquent, la deuxième affirmation est incorrecte. \[\]2) On calcule les vecteurs \(\phi(v_1)\) et \(\phi(v_2)\), qui, d\'après le théorème d\'existence de bases compatibles, forment une base orthogonale de l\'image de \(\phi\) . Or, comme \[Av_1 = \\tfrac{\\sqrt{2}}{2}\\begin{pmatrix} 5\cr 5 \cr 0\\end{pmatrix}, ~Av_2 = \\tfrac{\\sqrt{2}}{2}\\begin{pmatrix} 1\cr -1 \cr 4\\end{pmatrix}, \] on en déduit que \(\phi(v_1)=\\tfrac{\\sqrt{2}}{2}(5,5,0)\) et \(\phi(v_2)= \\tfrac{\\sqrt{2}}{2}(1,-1,4).\) \[\]3) Ensuite, la base \(\mathscr{B}\) cherchée est donnée par \[\mathscr{B}=(w_1,w_2)=\\left(\\tfrac{\\phi(v_1)}{\\sigma_1} ,\\tfrac{\\phi(v_2)}{\\sigma_2}  \\right)= \\left(\\tfrac{\\sqrt{2}}{2}(1,1,0), \\tfrac{\\sqrt{2}}{6}(1,-1,4)\\right).\] 4) On complète la base \(\mathscr{B}\) en une base orthonormée \(\mathscr{B}_2=(w_1,w_2,w_3)\) de \(\mathbb{R}^3\) en appliquant le procédé de Gram-Schmidt à la base \(\mathscr{B}\'= \\left(w_1,w_2 ,(0,0,1)\\right)\) de \(\mathbb{R}^3\). On obtient alors \[w_3=\\tfrac{1}{3}(-2,2,1).\]'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup>
+      <choice correct="true">La matrice \(U\in M_{3\times 3}(\mathbb{R})\) dans la décomposition en valeurs singulières \(A=U\Sigma V\) est donnée par \(\begin{pmatrix} \tfrac{\sqrt{2}}{2} &amp; \tfrac{\sqrt{2}}{6}  &amp; -\tfrac{2}{3} \cr  \tfrac{\sqrt{2}}{2} &amp; -\tfrac{\sqrt{2}}{6}  &amp; \tfrac{2}{3} \cr  0 &amp; \tfrac{2\sqrt{2}}{3}  &amp; \tfrac{1}{3} \end{pmatrix}\).</choice>
+      <choice correct="false">La matrice \(V\in M_{2\times 2}(\mathbb{R})\) dans la décomposition en valeurs singulières \(A=U\Sigma V\) est donnée par \(\begin{pmatrix}\tfrac{\sqrt{2}}{2} &amp; \tfrac{\sqrt{2}}{2}  \cr - \tfrac{\sqrt{2}}{2} &amp; \tfrac{\sqrt{2}}{2}  \end{pmatrix}\).</choice>
+      <choice correct="true">La matrice \(\Sigma\in M_{3\times 2}(\mathbb{R})\) dans la décomposition en valeurs singulières \(A=U\Sigma V\) est donnée par \(\begin{pmatrix}5 &amp; 0  \cr 0 &amp; 3 \cr 0 &amp; 0 \end{pmatrix}\) et on déduit aisément le résultat.</choice>
+      <choice correct="false">Aucune des affirmations citées ci-dessus n'est correcte.</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

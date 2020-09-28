@@ -1,0 +1,38 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soient \(V=\mathbb{P}_{6}(\mathbb{R})\) l'espace vectoriel des polynômes à coefficients réels de degré plus petit ou égal à \(6\) et \(T:V\to V\) une transformation linéaire. Supposons que \(\lambda_1,\ldots,\lambda_k\) soient les valeurs propres distinctes de \(T\) et que \(k\geq 2\). </p>
+  <p>Aussi, supposons que la multiplicité géométrique de \(\lambda_i\) soit égale à la multiplicité géométrique de \(\lambda_j\), ceci pour tous \(1\leq i,j\leq k\), et que celle-ci soit plus grande ou égale à \(2\).</p>
+  <p>Parmi les affirmations suivantes, cochez celle qui vous paraît correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, il suffit de considérer une transformation linéaire \(T:V\\to V\) dont la matrice dans une base ordonnée \(\mathscr{B}\) est donnée par \[[T]_{\mathscr{B}}=\\begin{pmatrix} 1 &amp; 0 &amp; 0 &amp;0 &amp;0 &amp;0 &amp;0 \cr 0 &amp; 1 &amp; 0 &amp;0 &amp;0 &amp;0 &amp;0 \cr 0 &amp; 0 &amp; 2 &amp;0 &amp;0 &amp;0 &amp;0 \cr 0 &amp; 0 &amp; 0 &amp; 2 &amp;0 &amp;0 &amp;0 \cr 0 &amp; 0 &amp; 0 &amp;0 &amp;3 &amp;0 &amp;0 \cr 0 &amp; 0 &amp; 0 &amp;0 &amp;0 &amp;3 &amp; 1 \cr 0 &amp; 0 &amp; 0 &amp;0 &amp;0 &amp;0 &amp;3 \cr \\end{pmatrix}.\] Une telle transformation est-elle diagonalisable ?'
+  elif 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle que d\'après le théorème vu en cours, pour si la transformation \(T\) est diagonalisable, alors la multiplicité géométrique de chaque valeur propre est égale à sa multiplicité algébrique. Est-ce possible dans cette situation ? On peut répondre à cette question en ne raisonnant que sur le polynôme caractéristique de \(T.\)'
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, si \(T\) était diagonalisable, alors la multiplicité géométrique de chaque valeur propre serait égale à sa multiplicité algébrique. Ainsi, le polynôme caractéristique de \(T\) serait de la forme \( c_T(t)= -(t-\lambda_1)^m (t-\lambda_2)^m \cdots (t-\lambda_k)^m\) et on aurait \(km=7.\) Ceci n\'étant possible que si \(k=1\) (i.e. \(T\) n\'admet qu\'une valeur propre) ou si \(m=1\) (i.e. chaque valeur propre est de multiplicité égale à \(1\)), on en déduit que ce n\'est pas le cas dans notre situation.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">La transformation \(T\) est toujours diagonalisable.</choice>
+      <choice correct="false">Il se peut que la transformation \(T\) soit diagonalisable.</choice>
+      <choice correct="true">La transformation \(T\) n'est jamais diagonalisable.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

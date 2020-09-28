@@ -1,0 +1,25 @@
+<problem display_name="Espace ligne - Espace colonne revisités : problème 1" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p> Soient \(A=\left(\begin{matrix} 0 &amp;  1  &amp; 3\\-1&amp;  0 &amp;  1\\-1 &amp; 2 &amp;7\end{matrix}\right)\) et \(v_1=(1,-1,1)\), \(v_2=(1,1,1)\) et \(v_3=(0,1,1)\). Soit \(C\) l'espace colonne de \(A\). Lesquels des énoncés suivants sont corrects?</p>
+  <p>Attention : veuillez s'il vous plaît donner <b>toutes</b> les réponses correctes.</p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="true"> \(v_1\in C\).</choice>
+      <choice correct="false"> \(v_2 \in C\).</choice>
+      <choice correct="true"> \(v_3\in C\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>  Soient \(C\) l'espace colonne de \(A\) et \(u \in \mathbb{R}^3\). On a \(u\in C \Leftrightarrow u \in {\rm Vect(c_1,c_2,c_3)}\) où \(c_1=(0,-1,-1)\), \(c_2=(1,0,2)\) et \(c_3=(3,1,7)\). En d'autres mots \(u\) in \(A\) si et seulement si \(u\) appartient à l'espace ligne \(L\) de \(B\) où:</p>
+      <p> 
+   \(B=\left(\begin{matrix}  0 &amp; -1 &amp; -1 \\  1 &amp; 0 &amp; 2\\  3 &amp; 1 &amp; 7  \end{matrix}\right).\)</p>
+      <p> Après échelonnage on obtient: 
+   \(B'=\left(\begin{matrix}  1 &amp; 0 &amp; 2 \\  0 &amp; 1 &amp; 1\\  0 &amp; 0 &amp; 0  \end{matrix}\right).\)</p>
+      <p> Bien sur \(u \in C \Leftrightarrow u \in L \Leftrightarrow u \in L'\) où \(L'\) est l'espace ligne de \(B'\).  Il est maintenant évident que \(v_3=(0,1,1)\in L'\) et donc \(v_3=(0,1,1)\in C\). Aussi on a 
+  \((1,-1,1)=(1,0,2)-(0,1,1)\) et donc \(v_1=(1,-1,1) \in L'\) et \(v_1=(1,-1,1)\in C\). Finalement, on montre \(v_2=(1,1,1) \not \in C\). Supposons qu'au contraire que \(v_2\in C\). Alors il existe  \(\lambda_1,\lambda_2,\lambda_3\in \mathbb{R}\) tels que \(\lambda_1(1,0,2)+\lambda_2(0,1,1)=(1,1,1)\). Ceci mène au système suivant: </p>
+      <p> \(\left\{\begin{array}{ll} \lambda_1=1\\ \lambda_2=1 \\ 2\lambda_1+\lambda_2=1 \end{array} \right.\) </p>
+      <p> Ce système n'a pas de solutions, une contradiction. Ainsi \(v_2 \not \in C\).  </p>
+    </div>
+  </solution>
+</problem>

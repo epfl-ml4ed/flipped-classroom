@@ -1,0 +1,31 @@
+<problem display_name="Diagonalisation d'une matrice par une matrice orthogonale: problème 2" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p> Soit \(A \in M_{n \times n}(\mathbb{R})\) une matrice symétrique. Que peut on dire de \(A\)? Cocher toutes les affirmations correctes </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="true"> Le polynôme caractéristique \(c_A(t)\) de \(A\) est un produit de polynômes à coefficients réels et de degré 1.  </choice>
+      <choice correct="true"> Si \(A\) a deux valeurs propres distinctes, disons \(\lambda_1\) et \(\lambda_2\) ayant comme espaces propres respectifs \(E_{\lambda_1}\) et \(E_{\lambda_2}\), alors \(E_{\lambda_1}\perp E_{\lambda_2}\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> Comme \(A\) est symétrique, \(A\) est orthogonalement diagonalisable. Il existe donc une base \((v_1,\dots,v_n)\) de \(\mathbb{R}^n\) telle que  pour tout \(1\leq i \leq n\), \(v_i\) est un  vecteur propre de \(A\) avec valeur propre \(\lambda_i \in \mathbb{R}\). En particulier, les racines de \(c_A(t)\) sont \(\lambda_1,\dots,\lambda_n\) et \(c_A(t)\) est un produit de polynômes à coefficients réels et de degré 1.
+  </p>
+      <p>
+       Soient \( 0\neq v_1 \in E_{\lambda_1}\) et \(0 \neq v_2 \in E_{\lambda_2}\). On a alors \(Av_1=\lambda_1 v_1\) et \(Av_2=\lambda_2 v_2\). Ainsi
+        \begin{eqnarray*}
+        \lambda_1 v_2^Tv_1 &amp; = &amp; v_2^T(\lambda_1v_1)\\
+        &amp; = &amp; v_2^T(Av_1)\\
+        &amp; = &amp; (v_2^TA)v_1\\
+        &amp; = &amp; (A^Tv_2)^Tv_1\\
+        &amp; = &amp; (Av_2)^Tv_1\\
+        &amp; = &amp; (\lambda_2 v_2)^Tv_1\\
+        &amp; = &amp;\lambda_2 v_2^Tv_1.
+        \end{eqnarray*}
+        Ici on a utilisé le fait que la matrice \(A\) est symétrique: \(A^T=A\).  On obtient donc
+        \[(\lambda_1-\lambda_2)v_2^Tv_1=0.\]
+        Si \(\lambda_1\neq \lambda_2\) alors \(v_2^Tv_1=0\), c'est a dire \(\langle v_1,v_2\rangle=0\) et on déduit que \(E_{\lambda_1}\perp E_{\lambda_2}.\)
+      </p>
+    </div>
+  </solution>
+</problem>

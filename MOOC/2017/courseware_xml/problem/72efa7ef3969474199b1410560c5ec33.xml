@@ -1,0 +1,38 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{3\times 3}(\mathbb{R})\) la matrice de taille \(3\times 3\) définie par \[A=\begin{pmatrix}1 &amp; -1 &amp; 4 \cr 0 &amp; 2 &amp; 2\cr 0 &amp; 0&amp; 3\end{pmatrix}.\]</p>
+  <p>Parmi les affirmations suivantes, cochez celle qui vous semble correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_2' in ans or 'choice_3' in ans :
+    feedback = 'C\'est incorrect. En effet, quelles sont les valeurs propres de \(A\) ? Ne peut-on pas appliquer un des critères de diagonalisabilité introduit en cours ?'
+  elif 'choice_1' in ans:
+    feedback = ' C\'est incorrect. En effet, bien que la matrice \(A\) soit diagonale, l\'affirmation choisie n\'est pas vérifiée. Pour calculer \(A^k\) (ceci pour tout \(k\in \mathbb{N}\)), on commence par trouver \(P\in M_{n\\times n}(\mathbb{R})\) inversible telle que \(P^{-1}AP =D\) soit diagonale. Ensuite, on a que \(A^k=PD^kP^{-1}\). Or, il est facile d\'élever une matrice diagonale à n\'importe quelle puissance.'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, la matrice \(A\) étant triangulaire supérieure, on a que ses valeurs propres sont ses coefficients diagonaux, c\'est-à-dire \(\\lambda_1=1,\\lambda_2=2,\\lambda_3=3.\) La matrice \(A\) admet donc trois valeurs propres distinctes et donc est forcément diagonalisable par un critère vu en cours (dans la leçon 8.5). \[\] Aussi, un simple calcul montre que \(E_{\\lambda_1}=\mbox{Vect}((1,0,0)),\) \(E_{\\lambda_2}=\mbox{Vect}((1,-1,0)),\) \(E_{\\lambda_3}=\mbox{Vect}((1,2,1))\), ce qui implique que \[P=[id]_{\mathscr{C}\mathbb{B}}=\\begin{pmatrix} 1&amp; 1 &amp; 1\cr 0 &amp; -1 &amp; 2 \cr 0&amp; 0 &amp; 1\\end{pmatrix},\] où \(\mathscr{C}\) désigne la base canonique de \(\mathbb{R}^3\) et \(\mathscr{B}=((1,0,0),(1,-1,0),(1,2,1))\). On calcule alors \(P^{-1}\) et on obtient \[P^{-1}AP=D=\\begin{pmatrix}1&amp; 0&amp; 0 \cr 0 &amp; 2 &amp; 0\cr 0&amp; 0&amp; 3\\end{pmatrix},\] c\'est-à-dire \[A^k=(PDP^{-1})^5 =PD^5P^{-1} = P\\begin{pmatrix}1&amp; 0&amp; 0 \cr 0 &amp; 2^5 &amp; 0\cr 0&amp; 0&amp; 3^5\\end{pmatrix} P^{-1}.\] Un simple calcul permet donc de conclure.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">La matrice \(A\) est diagonalisable et on a \(A^5=\begin{pmatrix}1 &amp; -31 &amp; 304 \cr 0 &amp; 32 &amp; 422\cr 0 &amp; 0&amp; 243\end{pmatrix}.\)</choice>
+      <choice correct="false">La matrice \(A\) est diagonalisable et on a \(A^5=\begin{pmatrix}1 &amp; 422 &amp; -31 \cr 0 &amp; 32 &amp; 304\cr 0 &amp; 0&amp; 243\end{pmatrix}.\)</choice>
+      <choice correct="false">La matrice \(A\) n'est pas diagonalisable et on a \(A^5=\begin{pmatrix}1 &amp; -31 &amp; 422 \cr 0 &amp; 32 &amp; 304\cr 0 &amp; 0&amp; 243\end{pmatrix}.\)</choice>
+      <choice correct="false">La matrice \(A\) n'est pas diagonalisable et on a \(A^5=\begin{pmatrix}1 &amp; 304 &amp; -31 \cr 0 &amp; 32 &amp; 422\cr 0 &amp; 0&amp; 243\end{pmatrix}.\)</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

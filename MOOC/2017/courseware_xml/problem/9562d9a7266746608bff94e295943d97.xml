@@ -1,0 +1,39 @@
+<problem display_name="Quiz 5 (@)" markdown="null" weight="0.0">
+  <p>Soit \(V\) un espace euclidien muni du produit scalaire \(\langle~,~\rangle_V\) et de la norme associée \(||~||_V :V\to \mathbb{R}^+\). Aussi, désignons par \(||~||_{\mathbb{R}^n}:\mathbb{R}^n \to \mathbb{R}^+\) la norme usuelle sur \(\mathbb{R}^n\).</p>
+  <p>D'après le quiz 3 (#), si \(\mathscr{B}\) est une base orthonormée de \(V\), alors on a que \(||v||_V= ||[v]_{\mathscr{B}}||_{\mathbb{R}^n}\) pour tout \(v\in V\).</p>
+  <p>Si \(\mathscr{B}\) est une base non-orthonormée de \(V\), alors existe-t-il forcément \(v\in V\) tel que \(||v||_V\neq ||[v]_{\mathscr{B}}||_{\mathbb{R}^n}\) ?</p>
+  <p> Indication : essayez de comparer les normes de \(x+y\) et \([x+y]_{\mathscr{B}}\) pour certains vecteurs \(x,y\in V\) bien choisis, en vous aidant par exemple du quiz précédent.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, comme \(\mathscr{B}\) n\'est pas orthonormée, alors il existe \(x,y\in V\) tels que \(\langle x,y\\rangle_V \\neq \langle [x]_{\mathscr{B}},[y]_{\mathscr{B}}\\rangle_{\mathbb{R}^n}\), d\'après le quiz précédent. A-t-on \(||x+y||_V = ||[x+y]_{\mathscr{B}}||_{\mathbb{R}^n}\) dans cette situation ?'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, si la base \(\mathscr{B}\) de \(V\) contient un vecteur \(v\in V\) qui n\'est pas de norme égale à \(1\), par exemple, alors on aura \(||v||_V\\neq 1=||[v]_{\mathscr{B}}||_{\mathbb{R}^n}\). Il existe donc bien un tel vecteur dans cette situation.'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, comme \(\mathscr{B}\) n\'est pas orthonormée, alors il existe \(x,y\in V\) tels que \(\langle x,y\\rangle_V \\neq \langle [x]_{\mathscr{B}},[y]_{\mathscr{B}}\\rangle_{\mathbb{R}^n}\), d\'après le quiz précédent. Si \(||x||_V\\neq ||[x]_{\mathscr{B}}||_{\mathbb{R}^n}\) ou si \(||y||_V\\neq ||[y]_{\mathscr{B}}||_{\mathbb{R}^n}\), alors nous avons terminé. \[\] Supposons donc que \(||x||_V =||[x]_{\mathscr{B}}||_{\mathbb{R}^n}\) et que \(||y||_V=||[y]_{\mathscr{B}}||_{\mathbb{R}^n}\). Alors \[\langle x+y,x+y\\rangle_V=\langle x,x\\rangle_V + \langle y,y\\rangle_V + 2\langle x,y\\rangle_V = [x]_{\mathscr{B}}\cdot [x]_{\mathscr{B}} + [y]_{\mathscr{B}} \cdot [y]_{\mathscr{B}} + 2\langle x,y\\rangle_V\] Or, comme nous avions \(\langle x,y\\rangle_V \\neq \langle [x]_{\mathscr{B}},[y]_{\mathscr{B}}\\rangle_{\mathbb{R}^n}\), on obtient \[\langle x+y,x+y\\rangle_V \\neq  [x]_{\mathscr{B}}\cdot [x]_{\mathscr{B}} + [y]_{\mathscr{B}} \cdot [y]_{\mathscr{B}} + 2\langle [x]_{\mathscr{B}},[y]_{\mathscr{B}}\\rangle_{\mathbb{R}^n} =\langle [x+y]_{\mathscr{B}},[x+y]_{\mathscr{B}}\\rangle_{\mathbb{R}^n}.\] Par conséquent, le vecteur \(v=x+y\in V\) satisfait bel et bien \(||v||_V\\neq ||[v]_{\mathscr{B}}||_{\mathbb{R}^n}\).  '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Oui, toujours.</choice>
+      <choice correct="false">Parfois oui, parfois non.</choice>
+      <choice correct="false">Non, jamais.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

@@ -1,0 +1,37 @@
+<problem display_name="Quiz 3 (#)" markdown="null" weight="0.0">
+  <p>Soient \(V\) un espace euclidien de dimension \(n\) et \(\mathscr{B}_1\), \(\mathscr{B}_2\) deux bases orthonormées de \(V\).</p>
+  <p> La matrice \([id]_{\mathscr{B}_1\mathscr{B}_2} \in M_{n\times n}(\mathbb{R})\) est-elle orthogonale ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, d\'après le critère vu en cours, il suffit (par exemple) de montrer que les colonnes de la matrice \([id]_{\mathscr{B}_2 \mathscr{B}_1}\) forment une base orthonormée de \(V\).\[\] Aussi on pourra utiliser le résultat présenté dans le quiz 3 (#) de la section 9.2, qui implique que l\'on a ici \(\langle u,v\\rangle =[u]_{\mathscr{B}_2} \\cdot [v]_{\mathscr{B}_2}\), ceci pour tous \(u,v\in V\).  '
+  if 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, que se passe-t-il dans le cas où \(\mathscr{B}_1=\mathscr{B}_2\), par exemple ? '
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, d\'après le critère vu en cours, il suffit (par exemple) de montrer que les colonnes de la matrice \([id]_{\mathscr{B}_2 \mathscr{B}_1}\) forment une base orthonormée de \(V\). Or, d\'après le quiz 3 (#) de la section 9.2, et comme \(\mathscr{B}_2\) est orthonormée, on a \(\langle u,v\\rangle =[u]_{\mathscr{B}_2} \\cdot [v]_{\mathscr{B}_2}\), ceci pour tous \(u,v\in V\). Aussi, la base  \(\mathscr{B}_1=(v_1,\\ldots,v_n)\) est également orthonormée, d\'où \[[v_i]_{\mathscr{B}_2}\\cdot [v_j]_{\mathscr{B}_2} = \langle v_i,v_j\\rangle = \\delta_{ij},\] ceci pour tous \(1\\leq i,j\\leq n\). Par conséquent, les colonnes de \([id]_{\mathscr{B}_2 \mathscr{B}_1}\) forment une base orthonormée de \(V\) comme désiré et donc cette matrice est bel et bien orthogonale. '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Oui, toujours.</choice>
+      <choice correct="false">Parfois oui, parfois non.</choice>
+      <choice correct="false">Non, jamais.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

@@ -1,0 +1,74 @@
+<problem display_name="Espace-colonne : problème 19  " markdown="null" max_attempts="1" showanswer="closed" weight="3.0">
+  <p> Soient \(A=\left(\begin{matrix} 1 &amp; 2 &amp; 0 &amp;  1 &amp; 1 \\ 2 &amp; 4 &amp; 1 &amp; 3 &amp; 0\\ 3 &amp; 6 &amp; 2  &amp; 5 &amp;  1\\ -4 &amp; -8 &amp; 1 &amp; -3&amp; 1 \end{matrix}\right)\) et \(C\) l'espace colonne de \(A\). Parmi les affirmations suivantes, donner toutes celles qui sont correctes.  </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> \(C\) est un sous espace vectoriel de \(\mathbb{R}^5\).</choice>
+      <choice correct="true"> \(C\) est un sous espace vectoriel de \(\mathbb{R}^4\).</choice>
+      <choice correct="false"> \(C=\mathbb{R}^5\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false"> \(C=\mathbb{R}^4\).</choice>
+      <choice correct="true">  \(C={\rm Vect}(\{(1,2,3,-4), (0,1,2,1), (0,0,2,7)\})\) </choice>
+      <choice correct="true">  \(C={\rm Vect}(\{(1,2,3,-4), (0,1,2,1), (0,-2,-2,5),(0,0,0,0)\})\) </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">  \((1,4,13,18) \in C\) </choice>
+      <choice correct="true">  \((3,8,11,-17) \in C\) </choice>
+      <choice correct="true"> \(C= \{(s,2s+t,3s+2t+2u,-4s+t+7u): s, t , u \in \mathbb{R}\} \).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> Si \(A\in M_{m\times n}(\mathbb{R})\), alors par définition \(C\) est le sous espace vectoriel de \(\mathbb{R}^m\) engendré par les colonnes de \(A\). Ici on \(A \in M_{4\times 5}(\mathbb{R})\), on déduit que \(C\) est sous espace vectoriel de \(\mathbb{R}^4\). En particulier \(C\) n'est pas un sous espace vectoriel de \(\mathbb{R}^5\) et \(C \neq \mathbb{R}^5.\) </p>
+      <p>Soient \(v_1=(1,2,3,-4)\), \(v_2=(2,4,6,-8)\), \(v_3=(0,1,2,1)\), \(v_4=(1,3,5,-3)\) et \(v_5=(1,0,1,1).\) Alors \(C={\rm Vect}(S)\) où \(S=\{v_1,v_2,v_3,v_4,v_5\}\). </p>
+      <p>
+    Soient \[v_2'=v_2-2v_1=(0,0,0,0),\] \[v_4'=v_4-v_1=(0,1,2,1)=v_3,\] \[v_5'=v_5-v_1=(0,-2,-2,5)\] et \(S'=\{v_1,v_3, v_5'\}.\)</p>
+      <p> Alors \({\rm Vect}(S')\subseteq {\rm Vect}(S)\). En effet \(S'=\{v_1,v_3,v_5'\}\) et  \(v_1, v_3,  v_5' \in {\rm Vect}(S)\). </p>
+      <p> 
+    En fait, \(v_1 \in {\rm Vect}(S')\), \(v_2=2v_1 \in {\rm Vect}(S')\), \(v_3\in {\rm Vect}(S')\), \(v_4=v_1+v_3 \in {\rm Vect}(S')\) et \(v_5=v_1+v_5' \in {\rm Vect}(S')\). Comme \(S=\{v_1,v_2,v_3,v_4,v_5\}\), on déduit que \({\rm Vect}(S) \subset {\rm Vect}(S')\). Donc \({\rm Vect}(S)={\rm Vect}(S')\). 
+  </p>
+      <p> Soient \(v_5''=v_5'+2v_3= (0,0,2,7)\) et \(S''=\{v_1,v_3,v_5''\}\).</p>
+      <p> Alors \({\rm Vect}(S'')\subseteq {\rm Vect}(S')\). En effet \(S''=\{v_1,v_3,v_5''\}\) et  \(v_1, v_3, v_5'' \in {\rm Vect}(S')\). </p>
+      <p> 
+    En fait, \(v_1 \in {\rm Vect}(S'')\), \(v_3 \in {\rm Vect}(S'')\) et \(v_5'=v_5''-2v_3 \in {\rm Vect}(S'')\). Comme \(S'=\{v_1,v_3,v_5'\}\), on déduit que \({\rm Vect}(S') \subset {\rm Vect}(S'')\). Donc \({\rm Vect}(S')={\rm Vect}(S'')\) et \({\rm Vect}(S)={\rm Vect}(S'')\).
+  </p>
+      <p> Montrons à présent que \(v=(3,8,11,-17)\in C\). On utilise le fait que \(C={\rm Vect}(S'')\) où \(S'''=\{v_1,v_3,v_5''\}\).  </p>
+      <p>  On a 
+  \begin{eqnarray*}
+    v \in C &amp; \Leftrightarrow &amp; v=av_1+bv_3+cv_5'' \ \textrm{où} \ a,b,c \in \mathbb{R}\\
+    &amp; \Leftrightarrow &amp; v=a(1,2,3,-4)+b(0,1,2,1)+c(0,0,2,7)\\
+    &amp; \Leftrightarrow &amp; v=(a,2a+b,3a+2b+2c,-4a+b+7c)\\
+    &amp; \Leftrightarrow &amp; (3,8,11,-17)=(a,2a+b,3a+2b+2c,-4a+b+7c)\\
+        &amp; \Leftrightarrow &amp; \left\{\begin{array}{l} a=3\\ 2a+b=8\\ 3a+2b+2c=11\\ -4a+b+7c=-17\\  \end{array} \right.\\
+     &amp; \Leftrightarrow &amp; \left\{\begin{array}{l} a=3\\  b=2\\  c=-1. \end{array} \right.
+    \end{eqnarray*}
+  On déduit que \(v=(3,8,11,-17)\in C\). 
+  </p>
+      <p> Montrons maintenant que \(u=(1,4, 13 ,18)\not \in C\). On utilise le fait que \(C={\rm Vect}(S''')\) où \(S'''=\{v_1,v_3,v_5''\}\). On procède à un raisonnement par l'absurde. </p>
+      <p>  On a 
+  \begin{eqnarray*}
+    v \in C &amp; \Leftrightarrow &amp; v=av_1+bv_3+cv_5'' \ \textrm{où} \ a,b,c \in \mathbb{R}\\
+    &amp; \Leftrightarrow &amp; v=a(1,2,3,-4)+b(0,1,2,1)+c(0,0,2,7)\\
+    &amp; \Leftrightarrow &amp; v=(a,2a+b,3a+2b+2c,-4a+b+7c)\\
+    &amp; \Leftrightarrow &amp; (1,4,13,18)=(a,2a+b,3a+2b+2c,-4a+b+7c)\\
+        &amp; \Leftrightarrow &amp; \left\{\begin{array}{l} a=1\\ 2a+b=4\\ 3a+2b+2c=13\\ -4a+b+7c=18. \end{array} \right.\\
+&amp; \Leftrightarrow &amp; \left\{\begin{array}{l} a=1\\ b=2\\ c=3\\ 19=18. \end{array} \right.    
+    \end{eqnarray*}
+  Cette contradiction montre que  \(u=(1,4,13,18)\not \in C\).
+  </p>
+      <p>On déduit donc que \(C\neq \mathbb{R}^4\). En effet \((1,4,13,18)\in \mathbb{R}^4\) mais   \((1,4,13,18) \not \in C\). </p>
+      <p> Finalement comme \(C={\rm Vect}(S'')\) où \(S''=\{v_1,v_3,v_5''\}\), on déduit que 
+  \begin{eqnarray*}
+    C &amp; = &amp; \{sv_1+tv_3+uv_5'': s, t, u \in \mathbb{R}\}\\
+&amp; =&amp; \{s(1,2,3,-4)+t(0,1,2,1)+u(0,0,2,7): s,t, u\in \mathbb{R}\}\\
+    &amp; = &amp; \{(s,2s+t,3s+2t+2u,-4s+t+7u): s,t,u \in \mathbb{R}\}.
+    \end{eqnarray*}
+  </p>
+    </div>
+  </solution>
+</problem>

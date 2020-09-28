@@ -1,0 +1,34 @@
+<problem display_name="Quiz 3" markdown="null" weight="0.0">
+  <p>Soient \(V=\mathscr{C}^1([1,2],(\mathbb{R}))\) le \(\mathbb{R}\)-espace vectoriel des fonctions dérivables de \([1,2]\) vers \(\mathbb{R}\) et \(\langle~,~\rangle:V\times V \to \mathbb{R}\) l'application définie par \[\langle f,g\rangle = \int_1^2{f'(x)g'(x)dx},\] ceci pour tous \(f,g\in V.\)</p>
+  <p>L'application \(\langle~,~\rangle:V\times V \to \mathbb{R}\) est-elle un produit scalaire sur \(V\) ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, bien que l\'application \(\langle ~,~\\rangle\) soit symétrique et bilinéaire, est-elle réellement définie positive ? N\'est-il pas possible de trouver une fonction \(f\in V\) non-nulle telle que tel que \(\langle f,f\\rangle = 0\) ?'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En effet, bien que l\'application \(\langle ~,~\\rangle\) soit symétrique et bilinéaire, on peut facilement montrer qu\'elle n\'est pas définie positive. Par exemple, si \(f\in V\) est la fonction définie par \(f(x)=2\) pour tout \(x\in [1,2]\) (i.e. \(f\) est une fonction constante), alors on a \[\langle f,f\\rangle = \int_1^2{(1\')^2dx} =\int_1^2{0dx}=0.\] Ainsi, l\'application \(\langle ~,~\\rangle\) n\'est pas un produit scalaire sur \(V\).'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="false">Oui.</choice>
+      <choice correct="true">Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

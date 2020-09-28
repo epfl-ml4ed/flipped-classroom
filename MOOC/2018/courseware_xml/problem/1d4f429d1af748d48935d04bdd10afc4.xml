@@ -1,0 +1,32 @@
+<problem display_name="Interprétation géométrique : problème 12" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soient \(u=(-2,1,3)^T\), \(v=(\frac{1}{2},5,1)^T\) et \(w=(-3,6,7)^T\) des vecteurs dans \(\mathbb{R}^3\). 
+  Calculer le volume du parallélépipède P engendré par les vecteurs \(u,v,w\).</p>
+  <p>Que vaut le volume de P? (N'entrer que des valeurs exactes. S'il y a des fractions, les entrer avec un 
+  "slash", i.e. "1/2" pour \(\frac{1}{2}\).)</p>
+  <numericalresponse answer="10.5">
+    <formulaequationinput label="Que vaut le volume de P?"/>
+  </numericalresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Le volume du parallélépipède engendré par les vecteurs \(u,v,w\) est égal à la valeur absolue du déterminant de la matrice 
+    obtenue en plaçant les vecteurs en colonne. Ici, il s'agit de calculer le déterminant de la matrice 
+    \(A=\left(
+    \begin{matrix}
+    -2 &amp; \frac{1}{2} &amp; -3 \\
+    1 &amp; 5 &amp; 6 \\
+    3 &amp; 1 &amp; 7
+    \end{matrix}
+    \right)\) puis la valeur absolue, \(|\det(A)|\), de ce déterminant.</p>
+      <p> Avec les opérations élémentaires \(L_1'=L_1+2L_2\) et \(L_3'=L_3-3L_2\), on obtient
+  \[A'=\begin{pmatrix}
+    0 &amp; \frac{21}{2} &amp; 9 \\
+    1 &amp; 5 &amp; 6 \\
+    0 &amp; -14 &amp; -11
+    \end{pmatrix}\] et \(\det(A)=\det(A').\)
+  </p>
+      <p> On a \[\det(A)=\det(A')=-\frac{21}2\cdot\left(-11\right)+9\cdot(-14)=\frac{231-252}{2}=-\frac{21}{2}.\]
+  Ainsi \(|\det(A)|=21/2\).</p>
+    </div>
+  </solution>
+</problem>

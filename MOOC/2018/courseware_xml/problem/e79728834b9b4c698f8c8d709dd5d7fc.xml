@@ -1,0 +1,57 @@
+<problem display_name="Applications et linéarité : problème 2" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soit \(0 \lt \theta \le 2\pi.\)  Soit \(T:\mathbb{R}^2 \to \mathbb{R}^2\) définie par \[T(x,y)=\big(x\cos(\theta)-y\sin(\theta), x \sin(\theta)+y\cos(\theta)\big).\]</p>
+  <p>On commence par se poser des questions liées à la linéarité de \(T\) : parmi les possibilités suivantes, cochez <b>toutes</b> celles qui sont vérifiées.</p>
+  <choiceresponse>
+    <checkboxgroup label="Alors :" direction="vertical">
+      <choice correct="true">\(T\) fixe l'origine \((0,0)\) de \(\mathbb{R}^2\), c'est-à-dire \(T((0,0))=(0,0)\).</choice>
+      <choice correct="true">\(T\) est linéaire.</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <p>Nous nous intéressons maintenant à l'injectivité/surjectivité/bijectivité de \(T\) : parmi les possibilités suivantes, cochez <b>toutes</b> celles qui sont vérifiées.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">\(T\) n'est pas injective.</choice>
+      <choice correct="true">\(T\) est bijective.</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> On montre dans un premier temps que \(T\) est linéaire. Soient \(u=(a,b), v=(c,d) \in V=\mathbb{R}^2\) et \(\lambda \in \mathbb{R}.\) On a 
+  \begin{eqnarray*}
+  T(u+v) &amp; = &amp; T((a,b)+(c,d))\\
+  &amp; = &amp; T((a+c,b+d))\\
+  &amp; = &amp; ((a+c)\cos(\theta)-(b+d)\sin(\theta),(a+c)\sin(\theta)+(b+d)\cos(\theta))\\
+  &amp; = &amp; ((a\cos(\theta)-b\sin(\theta))+(c\cos(\theta)-d\sin(\theta)),(a\sin(\theta)+b\cos(\theta))+(c\sin(\theta)+d\cos(\theta)))\\
+  &amp; = &amp;(a\cos(\theta)-b\sin(\theta),a\sin(\theta)+b\cos(\theta))+(c\cos(\theta)-d\sin(\theta),c\sin(\theta)+d\cos(\theta))\\
+  &amp; = &amp; T(u)+T(v)
+  \end{eqnarray*}
+  et 
+  \begin{eqnarray*}
+  T(\lambda u) &amp; = &amp; T(\lambda(a,b))\\
+  &amp; = &amp; T((\lambda a,\lambda b))\\
+  &amp; = &amp; (\lambda a \cos(\theta) -\lambda b \sin(\theta),\lambda a \sin(\theta)+\lambda b\cos(\theta))\\
+  &amp; = &amp; (\lambda (a\cos(\theta)-b\sin(\theta)),\lambda (a\sin(\theta)+b\cos(\theta)) )\\
+  &amp; = &amp;\lambda(a\cos(\theta)-b\sin(\theta),a\sin(\theta)+b\cos(\theta))\\
+  &amp; = &amp; \lambda T(u).
+  \end{eqnarray*}
+  Ainsi \(T\) est linéaire et donc \(T\) envoie \((0,0)\) sur \((0,0)\). 
+      </p>
+      <p>
+        
+    Calculons maintenant le noyau de \(T\). Soit \(u=(a,b) \in V\). On a:
+    \begin{eqnarray*}
+    u \in {\rm Ker}(T) &amp; \Leftrightarrow &amp; T(u)=0\\
+    &amp; &amp; (a\cos(\theta)-b\sin(\theta),a\sin(\theta)+b\cos(\theta))=(0,0)\\
+    &amp; &amp; \left\{\begin{array}{l} a\cos(\theta)-b\sin(\theta)=0\\ a\sin(\theta)+b\cos(\theta)=0 \end{array} \right.
+    \end{eqnarray*}
+    Considérons le système: 
+    \[ \left\{\begin{array}{l} a\cos(\theta)-b\sin(\theta)=0\\ a\sin(\theta)+b\cos(\theta)=0 \end{array} \right.\]
+    Avec les opérations élémentaires \(L_1'=\cos(\theta)L_1+\sin(\theta)L_2\) et \(L_2'=-\sin(\theta)L_1+\cos(\theta)L_2\), on obtient:
+    \[\left\{\begin{array}{l} a(\cos^2(\theta)+\sin^2(\theta))=0\\ b(\cos^2(\theta)+\sin^2(\theta))=0 \end{array} \right.\]
+    Comme \(\cos^2(\theta)+\sin^2(\theta)=1\), on obtient \(a=b=0\) et donc \({\rm Ker}(T)=\{0\}.\)
+    On en déduit que \(T\) est injective. Comme \(T\) est une application linéaire, on peut appliquer le théorème du rang: \(\dim {\rm Ker}(T)+\dim {\rm Im}(T)= \dim V\). Ici, on a \(\dim {\rm Ker}(T)=0\) et donc \(\dim {\rm Im}(T)=\dim V=2\). Comme \(T: V\rightarrow V\) est une application linéaire, où \(V\) est un \(\mathbb{R}\)-espace vectoriel de dimension finie, et \(\dim {\rm Im}(T)={\rm \dim V}\), on obtient que \(T\) est surjective. L'application \(T\) est donc bijective.  
+  </p>
+    </div>
+  </solution>
+</problem>

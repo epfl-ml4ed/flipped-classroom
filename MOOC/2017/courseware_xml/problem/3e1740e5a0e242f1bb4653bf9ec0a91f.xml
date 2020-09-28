@@ -1,0 +1,34 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soit \(V\) un \(\mathbb{R}\)-espace vectoriel de dimension \(3.\) Alors toute transformation linéaire \(T:V\to V\) admet au moins une valeur propre réelle.</p>
+  <p>Rappel : si \(\alpha=a+ib \in \mathbb{C}\) est une racine d'un polynôme \(p(t)\in \mathbb{P}(\mathbb{R})\) à coefficient réels, alors \(\bar{\alpha}=a-ib\) est également une racine de \(p(t).\)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, si  \(\\alpha=a+ib\in \mathbb{C}\) (\(b\\neq 0\)) est une racine de \(p(t),\) alors l\'indication nous informe que \(\\bar{\\alpha}=a-ib\) est une racine de \(p(t)\) également. Comme \(b\\neq 0,\) on remarque que \(\\alpha\\neq \\bar{\\alpha}\) et donc il ne reste qu\'une racine à déterminer. Est-il possible que cette dernière ne soit pas réelle? '
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, si \(\\alpha\in \mathbb{C}\) est une racine de \(p(t),\) alors soit \(\\alpha\) est réelle (auquel cas il n\'y a plus rien à montrer), soit \(\\alpha=a+ib\) pour un certain \(b\in \mathbb{R}\) non-nul. D\'après l\'indication, le scalaire \(\\bar{\\alpha}=a-ib\) est une racine de \(p(t)\) également, et comme \(b\) était supposé non-nul, on a \(\\alpha\\neq \\bar{\\alpha}.\) Ainsi, il ne reste plus qu\'une racine \(\\beta\in \mathbb{C}\) à déterminer. Cette dernière ne peut être de la forme \(\\beta=c+id\) pour \(d\in \mathbb{R}\) non-nul, car sinon, le scalaire \(\\bar{\\beta}=c-id\) serait une quatrième racine de \(p(t),\) qui est de degré \(3.\) Ainsi, \(\\beta\in \mathbb{R}.\)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

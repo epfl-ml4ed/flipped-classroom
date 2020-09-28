@@ -1,0 +1,43 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>On considère la matrice \(A\in M_{2\times 2}(\mathbb{R})\) définie par
+  \[
+  A=\begin{pmatrix}		0	&amp;	0	\\
+  						0	&amp;	0 	\end{pmatrix}.
+  \]</p>
+  <p>Parmi les possibilités suivantes, cochez celle qui vous semble correcte.</p>
+  <multiplechoiceresponse targeted-feedback="">
+    <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Au moins une des possibilités proposées est correcte.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, dans cette situation, il est clair que chaque ligne nulle n\'est suivie que de lignes nulles. Aussi, il n\'y a pas de coefficient non-nul dans cette matrice et donc la condition sur les coefficients non-nuls est vérifiée. Ainsi, \(A\) est bel est bien échelonnée. Que peut-on dire à propos des pivots ici?'
+  elif 'choice_0' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, dans cette situation, il est clair que chaque ligne nulle n\'est suivie que de lignes nulles. Aussi, il n\'y a pas de coefficient non-nul dans cette matrice et donc la condition sur les coefficients non-nuls est vérifiée. Ainsi, \(A\) est bel est bien échelonnée. Que peut-on dire à propos des pivots ici?'
+  elif 'choice_2' in ans:
+    feedback = '\(~\)On remarque ici que chaque ligne nulle n\'est suivie que de lignes nulles. Aussi, la matrice \(A\) ne contient que des coefficients nuls et donc il est correct de dire que le premier coefficient non-nul de chaque ligne se situe à droite du premier coefficient non-nul de la ligne prédédente. Ainsi, la matrice \(A\) est échelonnée. En ayant recours à un raisonnement similaire, peut-on déterminer si \(A\) est échelonnée réduite ou non? '
+  elif 'choice_1' in ans:
+    feedback = '\(~\)Correct! La matrice est bien échelonnée réduite. En effet, chaque ligne nulle n\'est suivie que de lignes nulles et les conditions sur les coefficients non-nuls sont automatiquement vérifiées, étant donné que \(A\) ne contient aucun coefficient non-nul.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">La matrice \(A\) est échelonnée, mais elle n'est pas échelonnée réduite.</choice>
+      <choice correct="true">La matrice \(A\) est échelonnée réduite.</choice>
+      <choice correct="false"> La matrice \(A\) n'est pas échelonnée (et donc ne peut être échelonnée réduite).</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

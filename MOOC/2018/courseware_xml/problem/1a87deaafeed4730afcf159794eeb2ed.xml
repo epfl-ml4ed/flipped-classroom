@@ -1,0 +1,16 @@
+<problem display_name="Bases : problème 5" markdown="null" max_attempts="1" showanswer="attempted" weight="1.0">
+  <p> Soit \(V\) un \(\mathbb{R}\)-espace vectoriel. Est ce que une base de \(V\) peut contenir l'élément trivial \(0\) ?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="false"> Oui.</choice>
+      <choice correct="true"> Non. </choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> Si \(S=\{v_1,\dots,v_n\}\) est une famille de \(V\) contenant l'élément trivial \(0\), disons \(v_1=0\), alors \(1v_1+0v_2+\dots+0v_n=0\) et donc \(S\) est une famille liée et \(S\) ne peut etre une base de \(V\). 
+  </p>
+    </div>
+  </solution>
+</problem>

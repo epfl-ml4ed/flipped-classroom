@@ -1,0 +1,33 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soient \(V\) un \(\mathbb{R}\)-espace vectoriel et \(S_1,S_2\subset V\) deux listes (finies) <b>linéairement indépendantes</b> telles que \(S_1 \cup S_2\) est liée. Alors la somme \(\mbox{Vect}(S_1)+\mbox{Vect}(S_2)\) ne peut pas être directe.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. Ecrivons \(S_1=\{v_1,\ldots,v_k\}\) et \(S_2=\{w_1,\ldots,w_l\}\). Comme \(S_1\cup S_2\) est linéairement dépendante, il existe \(\\lambda_1,\ldots,\\lambda_k,\\mu_1,\ldots,\\mu_l\in \mathbb{R}\) non tous nuls tels que \[\sum_{i=1}^k{\\lambda_i v_i} + \sum_{j=1}^l{\\mu_j w_j} =0.\] Est-il possible d\'avoir \(\lambda_i=0\) pour tout \(1\leq i\leq k\) ? N\'est-il pas possible de transformer l\'égalité ci-dessus en une égalité entre deux vecteurs non-nuls, l\' un appartenant à \(\mbox{Vect}(S_1),\) l\'autre à \(\mbox{Vect}(S_2)\) ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! Ecrivons \(S_1=\{v_1,\ldots,v_k\}\) et \(S_2=\{w_1,\ldots,w_l\}.\) Comme \(S_1\cup S_2\) est linéairement dépendante, il existe \(\\lambda_1,\ldots,\\lambda_k,\\mu_1,\ldots,\\mu_l\in \mathbb{R}\) non tous nuls tels que \[\sum_{i=1}^k{\\lambda_i v_i} + \sum_{j=1}^l{\\mu_j w_j} =0.\] De plus, si l\'on avait \[\sum_{i=1}^k{\\lambda_i v_i}=0,\] alors par l\'indépendance linéaire de \(S_1,\) on obtiendrait \(\\lambda_i=0\) pour tout \(1\leq i\leq k\) et l\'égalité ci-dessus deviendrait \[\sum_{j=1}^l{\\mu_j w_j} =0.\] Par l\'indépendance linéaire de \(S_2\), on aurait également \(\\mu_j=0\) pour tout \(1\leq j\leq l,\) une contradiction. Un raisonnement similaire montre que \[\sum_{j=1}^l{\\mu_j w_j} \\neq 0.\] Finalement, on obtient donc \[\sum_{i=1}^k{\\lambda_i v_i} =- \sum_{j=1}^l{\\mu_j w_j},\] une égalité entre deux vecteurs non-nuls, l\'un appartenant à \(\mbox{Vect}(S_1),\) l\'autre à \(\mbox{Vect}(S_2).\) Ainsi \(\mbox{Vect}(S_1) \cap \mbox{Vect}(S_2) \\neq \{0\}\) et la somme ne peut être directe.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

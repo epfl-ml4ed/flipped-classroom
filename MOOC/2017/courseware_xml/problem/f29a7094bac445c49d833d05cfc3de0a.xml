@@ -1,0 +1,72 @@
+<problem display_name="Applications linéaires inversibles : problème 19" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Parmi les applications linéaires suivantes, cocher celles qui sont inversibles.</p>
+  <p>Attention : veuillez s'il vous plaît cocher <b>toutes</b> les possibilités.</p>
+  <choiceresponse>
+    <checkboxgroup label="Parmis les applications linéaire suivantes, cocher celles qui sont inversibles." direction="vertical">
+      <choice correct="true">\(T_1: \mathbb{R}^2 \to \mathbb{R}^2, (x,y) \mapsto (-y,2x).\)</choice>
+      <choice correct="false">\(T_2: \mathbb{R}^2 \to \mathbb{R}^3, (x,y) \mapsto (-y,2x,0).\)</choice>
+      <choice correct="false">\(T_3: \mathbb{R}^2 \to \mathbb{R}^3, (x,y) \mapsto (-y,2x,x+y).\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">\(T_4: \mathbb{P}_2(\mathbb{R}) \to \mathbb{R}^3, ax^2+bx+c \mapsto (-a-b-c,2b+c,-3b-
+      c).\)</choice>
+      <choice correct="false">\(T_5: \mathbb{R}^3 \to \mathbb{P}_2(\mathbb{R}), (a,b,c) \mapsto (a-3b)x^2+cx+
+      (-2a+6b).\)</choice>
+      <choice correct="false">\(T_6: \mathbb{R}^4 \to \mathbb{R}^4, (x,y,z,t) \mapsto (x-y,y+2t,-t,x+y-4t).\)
+    </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Une application linéaire \(T: V \rightarrow W\), entre les \(\mathbb{R}\)-espaces vectoriels \(V\) et \(W\)  est inversible si et seulement si  \(T\) est injective et surjective. En d'autres mots, \(T\) est inversible si et seulement si \( {\rm Ker}(T)=0\) et \({\rm Im}(T)=W\). Comme \(V\) et \(W\) sont de dimension finie, par le théoreme du rang, i.e. \(\dim {\rm Ker}(T)+\dim {\rm Im}(T)=\dim V\),  on a \(T\) est inversible si et seulement si  \({\rm Ker}(T)=0\) et \(\dim V=\dim W\), si et seulement si \(\dim {\rm Im}(T)=\dim W=\dim V.\)   </p>
+      <p> 1) Considérons \(T_1: V\rightarrow W\) où \(V=W=\mathbb{R}^2\) et \(T_1((x,y))=(-y,2x)\). Soit \(u=(a,b)\in V\). On a 
+\begin{eqnarray*}
+u \in {\rm Ker}(T_1)&amp; \Leftrightarrow &amp; T_1(u)=0\\
+&amp; \Leftrightarrow &amp; T_1((a,b))=(0,0)\\
+ &amp; \Leftrightarrow &amp; (-b,2a)=(0,0)\\
+&amp; \Leftrightarrow &amp; a=b=0\\
+&amp; \Leftrightarrow &amp; u=0.
+\end{eqnarray*}
+Ainsi \({\rm Ker}(T_1)=0\). Comme \(V=W\) on déduit que \(T_1\) est inversible. 
+ </p>
+      <p> 2) Considérons \(T_2: V\rightarrow W\) où \(V=\mathbb{R}^2\), \(W=\mathbb{R}^3\) et \(T_2((x,y))=(-y,2x,0)\). Ici \(\dim V \neq \dim W\) et donc \(T_2\) n'est pas inversible. 
+ </p>
+      <p>  3) Considérons \(T_3: V\rightarrow W\) où \(V=\mathbb{R}^2\), \(W=\mathbb{R}^3\) et \(T_3((x,y))=(-y,2x,x+y)\). Ici \(\dim V \neq \dim W\) et donc \(T_3\) n'est pas inversible. 
+ </p>
+      <p> 4) Considérons \(T_4: V\rightarrow W\) où \(V=\mathbb{P}_2(\mathbb{R})\), \(W=\mathbb{R}^3\) et \(T_4(ax^2+bx+c)=(-a-b-c,2b+c,-3b-c)\). Soit \(u=ax^2+bx+c\in V\). On a 
+\begin{eqnarray*}
+u \in {\rm Ker}(T_4)&amp; \Leftrightarrow &amp; T_4(u)=0\\
+&amp; \Leftrightarrow &amp; T_4(ax^2+bx+c)=0\\
+ &amp; \Leftrightarrow &amp; (-a-b-c,2b+c,-3b-c)=(0,0,0)\\
+&amp; \Leftrightarrow &amp; -a-b-c=2b+c=-3b-c=0\\
+&amp; \Leftrightarrow &amp; -a-b-c=2b+c=-b=0\\
+&amp; \Leftrightarrow &amp; a=b=c=0\\
+&amp; \Leftrightarrow &amp; u=0.
+\end{eqnarray*}
+Ainsi \({\rm Ker}(T_4)=0\). Comme \(\dim V= \dim W\) on déduit que \(T_4\) est inversible. 
+ </p>
+      <p> 5) Considérons \(T_5: V\rightarrow W\) où  \(V=\mathbb{R}^3\), \(W=\mathbb{P}_2(\mathbb{R})\), et \(T_5((a,b,c))=(a-3b)x^2+cx+(-2a+6b)\). Soit \(u=(a,b,c)\in V\). On a 
+\begin{eqnarray*}
+u \in {\rm Ker}(T_5)&amp; \Leftrightarrow &amp; T_5(u)=0\\
+&amp; \Leftrightarrow &amp; T_5((a,b,c))=0\\
+ &amp; \Leftrightarrow &amp; a-3b=c=-2a+6b=0\\
+&amp; \Leftrightarrow &amp; a-3b=c=0\\
+&amp; \Leftrightarrow &amp; a=3b, c=0\\
+\end{eqnarray*}
+Ainsi \({\rm Ker}(T_5)=\{(3b,b,0): b \in \mathbb{R}\}\neq 0\) et \(\dim {\rm Ker}(T_5)=1\). On déduit que \(T_5\) n'est pas inversible. 
+ </p>
+      <p> 6) Considérons \(T_6: V\rightarrow W\) où  \(V=W=\mathbb{R}^4\) et \(T_6((x,y,z,t))=(x-y,y+2t,-t,x+y-4t)\). Soit \(u=(a,b,c,d)\in V\). On a 
+\begin{eqnarray*}
+u \in {\rm Ker}(T_6)&amp; \Leftrightarrow &amp; T_6(u)=0\\
+&amp; \Leftrightarrow &amp; T_6((a,b,c,d))=0\\
+ &amp; \Leftrightarrow &amp; a-b=b+2d=-d=a+b-4d=0\\
+ &amp; \Leftrightarrow &amp; a=b, b=-2d, d=0.
+\end{eqnarray*}
+Ainsi \( {\rm Ker}(T_6)=\{(0,0,c,0): c \in \mathbb{R}\}\) et \(\dim {\rm Ker}(T_6)= 1\). On déduit que \(T_6\) n'est pas inversible. 
+ </p>
+    </div>
+  </solution>
+</problem>

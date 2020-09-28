@@ -1,0 +1,94 @@
+<problem display_name="Calculs de déterminants : problème 6" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(B=\left(
+  \begin{matrix}
+  0 &amp; 0 &amp; 0 &amp; 5 &amp; 0 &amp; 0 \\
+  2 &amp; 1 &amp; -11 &amp; 13 &amp; 0 &amp; -3 \\
+  0 &amp; 7 &amp; 0 &amp; 3 &amp; 0 &amp; 0 \\
+  3 &amp; 0 &amp; 8 &amp; 5 &amp; 0 &amp; 4 \\
+  2 &amp; 7 &amp; 4 &amp; 77 &amp; 0 &amp; 2 \\
+  5 &amp; 1 &amp; 6 &amp; 12 &amp; 3 &amp; 1 
+  \end{matrix}
+  \right) \in M_{6 \times 6}(\mathbb{R})\).</p>
+  <p>Que vaut \(\det(B)\)? (N'entrer que des valeurs exactes. S'il y a des fractions, les entrer avec un 
+  "slash", i.e. "1/2" pour \(\frac{1}{2}\).)</p>
+  <numericalresponse answer="-1050">
+    <formulaequationinput label="Que vaut \(\det(B)\)?"/>
+  </numericalresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>On a  \(\det(B)=-5\det(C)\) où
+  \[
+  \begin{pmatrix}
+  2 &amp; 1 &amp; -11  &amp; 0 &amp; -3 \\
+  0 &amp; 7 &amp; 0  &amp; 0 &amp; 0 \\
+  3 &amp; 0 &amp; 8  &amp; 0 &amp; 4 \\
+  2 &amp; 7 &amp; 4  &amp; 0 &amp; 2 \\
+  5 &amp; 1 &amp; 6  &amp; 3 &amp; 1 
+  \end{pmatrix}.\]
+  </p>
+      <p> Aussi  \(\det (C)=-3\det(D)\) et \(\det(B)=15\det(D)\) où
+\[ D= \begin{pmatrix}
+2 &amp; 1 &amp; -11   &amp; -3 \\
+  0 &amp; 7 &amp; 0   &amp; 0 \\
+  3 &amp; 0 &amp; 8   &amp; 4 \\
+  2 &amp; 7 &amp; 4   &amp; 2   
+   \end{pmatrix} 
+  .\]
+  </p>
+      <p> Avec les opérations élémentaires \(L_1'=L_1-L_4\) et \(L_4'=L_4-L_3\) on obtient
+  \[ D'= \begin{pmatrix}
+0 &amp; -6 &amp; -15   &amp; -5 \\
+  0 &amp; 7 &amp; 0   &amp; 0 \\
+  3 &amp; 0 &amp; 8   &amp; 4 \\
+  -1 &amp; 7 &amp; -4   &amp; -2   
+   \end{pmatrix} 
+  \] et \(\det(D')=\det(D)\), et \(\det(B)=15\det(D').\)
+  </p>
+      <p> Avec les opérations élémentaires \(L_2''=L_2'+L_1'\) et \(L_3''=L_3'+3L_4'\) on obtient
+  \[ D''= \begin{pmatrix}
+0 &amp; -6 &amp; -15   &amp; -5 \\
+  0 &amp; 1 &amp; -15   &amp; -5 \\
+  0 &amp; 21 &amp; -4   &amp; -2 \\
+  -1 &amp; 7 &amp; -4   &amp; -2   
+   \end{pmatrix} 
+  \] et \(\det(D'')=\det(D')\), et \(\det(B)=15\det(D'').\)
+  </p>
+      <p> On a \(\det(D'')=\det(E)\) et \(\det(B)=15\det(E)\) où 
+  \[ E= \begin{pmatrix}
+ -6 &amp; -15   &amp; -5 \\
+   1 &amp; -15   &amp; -5 \\
+   21 &amp; -4   &amp; -2    
+   \end{pmatrix} 
+  .\]
+  </p>
+      <p> Avec les opérations élémentaires \(L_1'=L_1+6L_2\) et \(L_3'=L_3-21L_2\) on obtient
+  \[ E'= \begin{pmatrix}
+  0&amp; -105   &amp; -35 \\
+   1 &amp; -15   &amp; -5 \\
+   0 &amp; 311   &amp; 103    
+   \end{pmatrix} 
+  \] et \(\det(E')=\det(E)\) et \(\det(B)=15\det(E')\).
+  </p>
+      <p>
+    Finalement \(\det(E')=-\det(F)\) et \(\det(B)=-15\det(F)\) où
+    \[F= \begin{pmatrix}
+   -105   &amp; -35 \\
+   311   &amp; 103    
+   \end{pmatrix}.\]
+    On déduit que \(\det(F)=(-105)\cdot103-(-35)\cdot311=-10815+10885=70\)
+    et \(\det(B)=-15\cdot 70=-1050.\)
+  </p>
+    </div>
+  </solution>
+  <p>Et que vaut \(\det(B^2)\)?</p>
+  <numericalresponse answer="1102500">
+    <formulaequationinput label="Et que vaut \(\det(B^2)\)?"/>
+  </numericalresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Finalement \(\det(B^2)=\det(B\cdot B)=\det(B)\cdot\det(B)=\det(B)^2=1102500.\)</p>
+    </div>
+  </solution>
+</problem>

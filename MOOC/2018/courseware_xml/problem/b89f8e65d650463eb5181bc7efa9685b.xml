@@ -1,0 +1,38 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(V=\mathbb{R}.\) Parmi les possibilités suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, une famille contenant le vecteur nul est toujours liée. Elle ne peut donc jamais être une base.'
+  elif 'choice_1' in ans and 'choice_2' not in ans:
+    feedback = 'En effet, la liste \(\{1\}\) est linéairement indépendante et engendre \(V=\mathbb{R}\). Elle forme donc bel et bien une base de \(V.\) Cependant, n\'arriverait-on pas à la même conclusion si l\'on remplaçait \(1\) par un autre nombre non-nul ?'
+  elif 'choice_2' in ans and 'choice_1' not in ans:
+    feedback = 'En effet, la liste \(\{37\}\) est linéairement indépendante et engendre \(V=\mathbb{R}\). Elle forme donc bel et bien une base de \(V.\) Cependant, est-ce vraiment la seule possibilité, parmi celles proposées ? '
+  elif 'choice_1' in ans and 'choice_2' in ans:
+    feedback = 'Correct! En réalité, pour tout scalaire non-nul \(a\in \mathbb{R}^*\), la liste \(\{a\}\) est linéairement indépendante et engendre \(V=\mathbb{R}.\) (En effet, on peut écrire tout \(v\in V\) comme \(v= \\lambda a,\) où \(\\lambda=v/a.\)) Elle forme donc bel et bien une base de \(V.\)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup label="The following languages are in the Indo-European family:" direction="vertical">
+      <choice correct="false">La liste \(\{0\}\) est une base de \(V.\)</choice>
+      <choice correct="true">La liste  \(\{1\}\) est une base de \(V.\)</choice>
+      <choice correct="true">La liste  \(\{37\}\) est une base de \(V.\)</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

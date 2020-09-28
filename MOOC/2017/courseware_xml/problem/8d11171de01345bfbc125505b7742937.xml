@@ -1,0 +1,46 @@
+<problem display_name="Quiz 2" markdown="null" showanswer="never" weight="0.0">
+  <p>Soit
+\[
+  
+  S=\left\{ \begin{array}{llll} 
+    2x 	&amp;	+	y	&amp;	=1	\\
+   	-x	&amp;	+	y	&amp;	=-5
+    \end{array}\right.
+    \]
+un système d'équations linéaires aux inconnues \(x,y.\) Parmi les possibilités pour \( \alpha=(\alpha_1,\alpha_2)\)  (où \(\alpha_1,\alpha_2\in \mathbb{R}\) sont des nombres réels) présentées ci-dessous, cochez celle(s) étant solution(s) du système \(S.\) </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Au moins une des possibilités proposées est solution du système.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans and 'choice_1' not in ans:
+    feedback = 'En effet, \( \\alpha=(1,-1)\) satisfait à la première équation du système. Cependant, est-ce également le cas de la deuxième?'
+  elif 'choice_1' in ans and 'choice_0' not in ans:
+    feedback = 'En effet, \( \\alpha=(-1,3)\) satisfait à la première équation du système. Cependant, est-ce également le cas de la deuxième?'
+  elif 'choice_0' in ans and 'choice_1' in ans:
+    feedback = 'En effet, chacune des possibilités cochées satisfait à la première équation du système. Cependant, est-ce également le cas de la deuxième?' 
+  elif 'choice_0' not in ans and 'choice_1' not in ans and 'choice_2' in ans:
+    feedback = 'Correct! En remplaçant \(x\) par \(2\) et \(y\) par \(-3,\) on remarque que les deux équations du système sont bel est bien vérifiées. Ce n\'est pas le cas de  \(\\alpha=(1,-1)\)  et \(\\alpha=(-1,3),\) qui même si elles satisfont à la première équation, ne satisfont pas à la deuxième.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">	\(\alpha= (1,-1)\);</choice>
+      <choice correct="false">\(\alpha= (-1,3)\);</choice>
+      <choice correct="true">	\(\alpha=(2,-3)\).</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

@@ -1,0 +1,26 @@
+<problem display_name="Angles et orthogonalité : problème 6" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Reprenons les mêmes données qu'à l'exercice précédent : soit \(V\) un \(\mathbb{R}\)-espace vectoriel muni d'un produit scalaire. Soient \(u,v \in V\) tels que 
+  \(||u||=\sqrt{5}=||v||\) et \(\langle u,v\rangle=4\).</p>
+  <p>Parmi les couples \((a,b)\) suivants, cocher ceux qui sont tels que \(au+bv\) et \(bu+av\) sont 
+  orthogonaux.</p>
+  <choiceresponse>
+    <checkboxgroup label="Parmi les couples \((a,b)\) suvants, cocher ceux qui sont tels que \(au+bv\) et                          \(bu+av\) sont orthogonaux." direction="vertical">
+      <choice correct="false">\((-2,8)\).</choice>
+      <choice correct="true">\((2,-1)\).</choice>
+      <choice correct="false">\((4,2)\).</choice>
+      <choice correct="true">\((3,-6,)\).</choice>
+      <choice correct="true">\((-1,\frac{1}{2})\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> On sait que deux vecteurs \(x,y\) sont orthogonaux si et seulement si \(\langle x,y\rangle=0.\) On 
+  calcule donc \(\langle au+bv,bu+av\rangle=ab||u||^2+ab||v||^2+(a^2+b^2)\langle u,v 
+  \rangle=10ab+4a^2+4b^2,\) en développant comme ci-dessus. Il suffit donc, pour chaque couple 
+  \((a,b)\) donné, de voir si \(10ab+4a^2+4b^2=0\) ou non. Si oui, les vecteurs \(au+bv\) et \(bu+av\) sont 
+  orthogonaux. Si non, ils ne le sont pas.
+  </p>
+    </div>
+  </solution>
+</problem>

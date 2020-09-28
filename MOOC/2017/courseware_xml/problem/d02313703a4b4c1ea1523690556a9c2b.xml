@@ -1,0 +1,33 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soient \(V=\mathbb{R}\) et \(W\) un \(\mathbb{R}\)-espace vectoriel. De plus, considérons une application \(f:V\to W\) telle que \(f(\lambda v)=\lambda f(v)\) pour tout \(\lambda \in \mathbb{R}\) et tout \(v\in V.\) Alors \(f\) est linéaire.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. Il est vrai qu\'en général, si une application \(f:V \\to W\) (où \(V,\) \(W\) sont des espaces vectoriels arbitraires) satisfait \(f(\\lambda v) = \\lambda f(v) \) pour tout \(\\lambda \in \mathbb{R}\) et tout \(v\in V,\) alors on n\'a pas obligatoirement \(f(u+v)=f(u)+f(v)\) pour tous \(u,v\in V.\) Mais ici, dans le cas où \(V=\mathbb{R},\) le vecteur \(u+v\) peut être vu comme un scalaire. Que peut-on tirer de cette information ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! Afin de montrer que \(f\) est linéaire, il suffit de montrer que \(f(u+v)=f(u)+f(v)\) pour tous \(u,v\in V.\) Or, comme dans notre situation tout vecteur de \(V\) est en fait un scalaire, on a \[f(u+v)=f((u+v)\cdot 1)=(u+v)f(1)=uf(1)+vf(1) =f(u)+f(v),\] ceci pour tous \(u,v\in V.\) Ainsi, \(f\) est bien linéaire.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

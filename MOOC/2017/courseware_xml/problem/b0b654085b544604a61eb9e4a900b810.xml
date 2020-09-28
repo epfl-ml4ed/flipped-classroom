@@ -1,0 +1,39 @@
+<problem display_name="Noyau et image : problème 10" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soit \(T :\mathbb{R}^2 \to \mathbb{R}^3 \) l'application linéaire définie par \[T((x,y)) =(2x-2y,x+2y,-y),\] ceci pour tout \((x,y)\in \mathbb{R}^2\).</p>
+  <p>Que vaut la dimension du noyau de \(T\) ?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Que vaut la dimension du noyau?" type="MultipleChoice">
+      <choice correct="true">\(0\)</choice>
+      <choice correct="false">\(1\)</choice>
+      <choice correct="false">\(2\)</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <p>Et celle de l'image de \(T\) ?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Et celle de l'image?" type="MultipleChoice">
+      <choice correct="false">\(0\)</choice>
+      <choice correct="false">\(1\)</choice>
+      <choice correct="true">\(2\)</choice>
+      <choice correct="false">\(3\)</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> 
+  On a \(T: V\rightarrow W\) où \(V\) et \(W\) sont des \(\mathbb{R}\)-espaces vectoriels de dimension finie. 
+    On a \(T\) est injective si et seulement si \({\rm Ker}(T)=0\). Aussi \(T\) est surjective si et seulement si \(\dim {\rm Im}(T)= \dim W\). Finalement par le théorème du rang, on a \(\dim {\rm Ker}(T)+\dim {\rm Im}(T)=\dim V\). 
+  </p>
+      <p>  Ici \(\dim V=2\).
+  Soit \(u=(x,y)\in V.\) On a 
+    \begin{eqnarray*}
+    u \in {\rm Ker}(T) &amp; \Leftrightarrow &amp; T(u)=0\\
+    &amp; \Leftrightarrow &amp; (2x-2y,x+2y,-y)=(0,0,0)\\
+    &amp; \Leftrightarrow &amp; x=y=0.
+    \end{eqnarray*}
+    On déduit que  \({\rm Ker}(T)=0\), et donc \(\dim {\rm Ker}(T)=0\).
+    Par le théorème du rang, on obtient \(\dim {\rm Im}(T)=\dim V-\dim{\rm Ker}(T)=2-0=2.\)
+  </p>
+    </div>
+  </solution>
+</problem>

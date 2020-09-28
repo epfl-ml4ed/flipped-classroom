@@ -1,0 +1,33 @@
+<problem display_name="Quiz " markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{4\times 4}(\mathbb{R})\) la matrice de taille \(4\times 4\) à coefficients réels définie par \[A=\begin{pmatrix} 0 &amp; 0 &amp; 1 &amp; 0\cr 1 &amp; 2 &amp; 3 &amp; 4 \cr 0 &amp; 1 &amp; 0 &amp; 3 \cr 0 &amp; 0 &amp; 0 &amp;2\end{pmatrix}.\] Alors \(\mbox{det} A = 2.\) (Remarque : il est possible de répondre à cette question sans avoir recours à la formule récursive permettant le calcul du déterminant d'une matrice.)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, en échangeant la 1ère ligne de \(A\) avec la 3ème, puis la deuxième ligne de la matrice obtenue avec le 3ème, on observe que \(A\) est ligne-équivalente à la matrice \[B=T_{23}T_{13}A=\\begin{pmatrix} 1 &amp; 2 &amp; 3 &amp; 4 \cr 0 &amp; 1 &amp; 0 &amp;3 \cr 0 &amp; 0 &amp; 1 &amp; 0 \cr 0&amp; 0 &amp; 0 &amp; 2\\end{pmatrix}.\] Qu\'est-il possible de conclure de cette information ? '
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, en échangeant la 1ère ligne de \(A\) avec la 3ème, puis la deuxième ligne de la matrice obtenue avec le 3ème, on observe que \(A\) est ligne-équivalente à la matrice \[B=T_{23}T_{13}A=\\begin{pmatrix} 1 &amp; 2 &amp; 3 &amp; 4 \cr 0 &amp; 1 &amp; 0 &amp;3 \cr 0 &amp; 0 &amp; 1 &amp; 0 \cr 0&amp; 0 &amp; 0 &amp; 2\\end{pmatrix}.\] Cette dernière étant triangulaire supérieure, son déterminant n\'est autre que le produit de ses coefficients diagonaux, ici \(1\cdot 1 \cdot 1\cdot 2=2.\) Ainsi, \[\mbox{det} A =\mbox{det} ( T_{13}\cdot T_{23} \cdot B ) = (-1) \mbox{det} (T_{23} \cdot B )= (-1)\cdot (-1) \mbox{det}(B) =(-1)\cdot (-1) \cdot 2 =2\] comme désiré.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

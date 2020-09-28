@@ -1,0 +1,17 @@
+<problem display_name="Propriétés diverses : problème 3" markdown="null" max_attempts="1" showanswer="attempted" weight="1.0">
+  <p>Existe-t-il une matrice \(A \in M_{3 \times 3}(\mathbb{R})\) telle que \(A^{42}+I_3=0\) ?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Il existe une matrice \(A \in M_{3 \times 3}(\mathbb{R})\) telle que \(A^{42}+I_3=0\)." type="MultipleChoice">
+      <choice correct="false">Oui.</choice>
+      <choice correct="true">Non.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Si c'était vrai, on aurait \(A^{42}=-I_3\), et en appliquant le déterminant \(\det(A^{42})=\det(-I_3)\), 
+  d'où \(\det(A)^{42}=(-1)^3\det(I_3)=-1\). Or on ne peut pas avoir une puissance paire d'un nombre réel qui 
+  soit négative. Une telle matrice \(A\) n'existe donc pas.</p>
+    </div>
+  </solution>
+</problem>

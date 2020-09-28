@@ -1,0 +1,37 @@
+<problem display_name="Valeurs propres et vecteurs propres : problème 5" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soient \(A,B\in M_{n \times n}(\mathbb{R})\). Soit \(\lambda\) une valeur propre de \(A\) et soit 
+    \(\mu\) une valeur propre de \(B\).</p>
+  <p>Alors \(\lambda\mu\) est une valeur propre de \(AB\).</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Alors \(\lambda\mu\) est une valeur propre de \(AB\)." type="MultipleChoice">
+      <choice correct="false">Vrai</choice>
+      <choice correct="true">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>
+Ici on a \(A, B \in M_{n\times n}(\mathbb{R})\), \(\lambda \in \mathbb{R}\) est une valeur propre de \(A\) et \(\mu \in \mathbb{R}\) est une valeur propre de \(B\). On doit déterminer si \(\lambda \mu\) est une valeur propre de \(AB\). 
+On montre qu'en général \(\lambda \mu\) n'est pas une valeur propre de \(AB\). 
+En effet soient \[A=\begin{pmatrix}  2&amp; 1\\ 0 &amp; 2 \end{pmatrix}, \quad   B=\begin{pmatrix}  3 &amp; 0\\ 1 &amp; 3\end{pmatrix} \quad \textrm{et} \quad C=AB.\]
+On a \[C=AB= \begin{pmatrix}  2&amp; 1\\ 0 &amp; 2 \end{pmatrix} \begin{pmatrix}  3 &amp; 0\\ 1 &amp; 3\end{pmatrix}= \begin{pmatrix}  7&amp; 3\\ 2 &amp; 6 \end{pmatrix}.\]
+Comme \(A\)  est triangulaire supérieure (et \(B\) est triangulaire inférieure), les valeurs propres de \(A\) (et \(B\)) sont les entrées de \(A\) (et \(B\)) dans la diagonale de \(A\) (et \(B\)). 
+Ainsi \(A\) a une unique valeur propre: \(\lambda=2\) et \(B\) a une unique valeur propre \(\mu=3\).
+Pour déterminer les valeurs propres de \(C\) on calcule le polynôme caractéristique de \(C\). En effet les valeurs propres de \(C\) sont les racines de \(p_C(t)\). Soit \(p_C(t)\), le polynôme caractéristique de \(C\). 
+On a 
+\begin{eqnarray*}
+p_C(t) &amp;  =  &amp; \det
+\begin{pmatrix}
+7-t &amp; 3\\
+2&amp; 6-t
+\end{pmatrix}\\
+&amp; = &amp; (7-t)(6-t)-6\\
+  &amp; = &amp; t^2-13 t +36\\
+&amp; = &amp; (t-4)(t-9). 
+\end{eqnarray*}
+Ainsi les valeurs propres de \(C\) sont 4 et 9. On en déduit que \(\lambda\mu=6\) n'est pas une valeur propre de \(C=AB\). 
+</p>
+    </div>
+  </solution>
+</problem>

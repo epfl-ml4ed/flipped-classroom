@@ -1,0 +1,35 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soient \(V\) un espace euclidien de dimension 6 et \(T:V\to V\) une transformation linéaire dont le polynôme caractéristique est donné par \(c_T(x)=x(x-2)^3(x+1)(x+\sqrt{5}).\) Parmi les affirmation suivantes, cochez celle qui vous semble correcte.</p>
+  <p>Remarque : il n'est pas nécessaire d'effectuer le moindre calcul pour répondre à cette question.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans or 'choice_1' in ans :
+    feedback = 'C\'est incorrect. En effet, dans la leçon, nous avons vu que si \(T\) était orthogonale, alors elle était forcément injective. Que peut-on déduire des racines du polynôme caractéristique de \(T\) dans notre situation ?'
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, étant donné que \(\\lambda=0\) est racine de \(c_T(x)\), on a que \(0\) est valeur propre de \(T\) et donc le noyau de cette dernière est non-nul. L\'application \(T\) n\'est donc pas injective et par le constat fait en cours, celle-ci ne peut être orthogonale.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false"> La transformation \(T\) est toujours orthogonale.</choice>
+      <choice correct="false"> La transformation \(T\) peut être orthogonale, mais ce n'est pas toujours le cas.</choice>
+      <choice correct="true">La transformation \(T\) n'est jamais orthogonale.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

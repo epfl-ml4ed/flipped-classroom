@@ -1,0 +1,41 @@
+<problem display_name="Quiz 3" markdown="null" weight="0.0">
+  <p>On considère la matrice \(C\in M_{2\times 3}(\mathbb{R})\) définie par
+  \[
+  ~C=\begin{pmatrix}	1	&amp;	0 	&amp;	4	\\
+  						0	&amp;	1	&amp; 	6	\end{pmatrix}.
+  \]</p>
+  <p>Comme pour les questions précédentes, cochez l'affirmation correcte, parmi celles proposées ci-dessous.</p>
+  <script type="text/python" system_path="python_lib">
+def another_hint_function(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Au moins une des possibilités proposées est correcte.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'another_hint_function called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = '\(~\)En effet, la matrice \(C\) est échelonnée et donc afin de déterminer si elle est échelonnée réduite, il suffit de vérifier si chaque pivot est égal à \(1\) et si le seul coefficient non-nul de chaque colonne contenant un pivot (et non pas chaque colonne) est le pivot lui-même. N\'est-ce pas le cas ici?'
+  elif 'choice_2' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, la matrice \(C\) ne contient pas de ligne nulle. De plus, le premier coefficient de la deuxième ligne se situe à droite du premier coefficient de la première ligne, si bien que \(C\) est (au moins) échelonnée.'
+  elif 'choice_1' in ans:
+    feedback = '\(~\)Correct! Dans cette situation, la matrice \(C\) ne contient pas de ligne nulle et donc il suffit de vérifier les affirmations liées aux coefficients non-nuls. On remarque aisément que le premier coefficient de la deuxième ligne se situe à droite du premier coefficient de la première ligne, si bien que \(C\) est échelonnée. Aussi, les pivots valent \(1\) et sont les seuls coefficients non-nuls de leur colonne respective. La matrice \(C\) est donc échelonnée réduite. '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false" explanation-id="feedback7">La matrice \(C\) est échelonnée, mais elle n'est pas échelonnée réduite.</choice>
+      <choice correct="true" explanation-id="feedback8">La matrice \(C\) est échelonnée réduite.</choice>
+      <choice correct="false" explanation-id="feedback9"> La matrice \(C\) n'est pas échelonnée (et donc ne peut être échelonnée réduite).</choice>
+    </choicegroup>
+    <hintgroup hintfn="another_hint_function"/>
+  </multiplechoiceresponse>
+</problem>

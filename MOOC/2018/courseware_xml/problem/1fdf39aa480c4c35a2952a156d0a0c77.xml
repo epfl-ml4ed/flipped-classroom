@@ -1,0 +1,30 @@
+<problem display_name="Applications linéaires importantes : problème 6" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(T_{\theta}: \mathbb{R}^3 \to \mathbb{R}^3\) la transformation de l'espace donnée par la rotation 
+  d'angle \(\theta\) autour de l'axe \(y\), comme à l'exercice précédent.</p>
+  <p>Quel est la formule générale de \(T_{\theta} \big((x,y,z)\big)\)? 
+  </p>
+  <multiplechoiceresponse>
+    <choicegroup label="Quel est la formule générale" type="MultipleChoice">
+      <choice correct="false">\( 
+     \big( x \sin(\theta)-z\cos(\theta),y,x\cos(\theta)+z\sin(\theta)\big)\).</choice>
+      <choice correct="true">\(
+      \big( x \cos(\theta)-z\sin(\theta),y,x\sin(\theta)+z\cos(\theta)\big)\).</choice>
+      <choice correct="false">\(
+      \big(x \cos(\theta)+z\sin(\theta),y,x\sin(\theta)-z\cos(\theta) \big)\).</choice>
+      <choice correct="false">\(
+      \big(x \cos(\theta)-y\sin(\theta),x\sin(\theta)+y\cos(\theta),z\big)\).</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Comme \(T_{\theta}: \mathbb{R}^3\rightarrow \mathbb{R}^3\) est une application linéaire et \(((1,0,0),(0,1,0),(0,0,1))\) est une base de \(\mathbb{R}^3\), il suffit de déterminer \(T_{\theta}((1,0,0))\), \(T_{\theta}((0,1,0))\) et \(T_{\theta}((0,0,1))\) afin de déterminer \(T_{\theta}\). 
+  Puisque la rotation se fait autour de l'axe \(y\) on a \(T_{\theta}((0,1,0))=(0,1,0)\). Aussi la deuxième coordonnée doit être fixée et on peut maintenant travailler dans le plan \((xz)\).
+  En considérant le cercle trigonométrique, on a \(T_\theta((1,0,0))=(\cos(\theta), 0 ,\sin(\theta))\) et 
+  \(T_{\theta}((0,0,1))=(-\sin(\theta),0,\cos(\theta)).\)
+  Par linéarité, pour un point \((x,y,z)\) quelconque de \(\mathbb{R}^3\), on obtient:
+  \[T_{\theta}((x,y,z))=xT_{\theta}((1,0,0))+yT_{\theta}((0,1,0))+zT_{\theta}((0,0,1))=(x\cos(\theta)-z\sin(\theta), y, x\sin(\theta)+z\cos(\theta)).\]
+  </p>
+    </div>
+  </solution>
+</problem>

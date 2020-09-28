@@ -1,0 +1,21 @@
+<problem display_name="Bases : problème 6" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p> Soit \(V=\mathbb{P}_3(\mathbb{R})\) et \(S=\{x^3-x, x^3+x,x^2,x^2+\pi\}\subset V\). Lesquels des énoncés suivants sont corrects? </p>
+  <p><b>Attention :</b> Donner <b>toutes</b> les réponses correctes.</p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> \(S\) est lié.</choice>
+      <choice correct="true"> \({\rm Vect}(S)=V\).</choice>
+      <choice correct="true"> \((x,x^2,x^3,1+x+x^2+x^3)\) est une base de \({\rm Vect}(S)\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>  On a \(\dim V=4\) et \(\{1,x,x^2,x^3\}\) est une base de \(V\). Aussi  \({\rm Vect}(S)\) est un sous espace vectoriel de \(V\) et donc  \(\dim {\rm Vect}(S)\leq \dim V= 4\).</p>
+      <p> Soient \(v_1=x^3-x\), \(v_2=x^3+x\), \(v_3=x^2\) et \(v_4=x^2+\pi\). On a \(S=\{v_1,v_2,v_3,v_4\}\). 
+  On remarque que \(x^3=(v_1+v_2)/2\), \(x^2=v_3\), \(x=(v_2-v_1)/2\), \(1=(v_4-v_3)/\pi\). Ainsi \(\{1,x,x^2,x^3\}\subset {\rm Vect}(S)\). On en déduit que \({\rm Vect}(S)=V\). Comme \(S\) possède \(\dim V\) éléments et \({\rm Vect}(S)=V\), on en déduit que \(S\) est libre et \(S\) est une base de \({\rm Vect}(S)\). 
+  </p>
+      <p> Finalement, comme \(T=\{x,x^2,x^3,1+x+x^2+x^3\}\) est une base de \(V\) et \(V={\rm Vect}(S)\), on a \(T\) est une base de \({\rm Vect}(S)\).  </p>
+    </div>
+  </solution>
+</problem>

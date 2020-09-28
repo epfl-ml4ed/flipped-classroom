@@ -1,0 +1,30 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Dans le cours, nous avons vu que tout vecteur \(v \) de \(\mathbb{R}^2\) était défini par sa direction et sa longueur \(|v|.\) On rappelle que \(v\) n'est pas caractérisé par son emplacement et donc sans perte de généralité, nous supposerons dorénavant que tout vecteur admet l'origine comme point de départ. Ainsi, on peut écrire \(v=(v_1,v_2)\) et la longueur d'un tel vecteur est définie par 
+  \[
+  |v|= \sqrt{v_1^2+v_2^2}.
+  \]</p>
+  <p>Dans ce quiz, on considère les vecteurs \(u=(1,2),\) \(v=(-6,3),\) \(w=(-1,-1).\) Entrez le produit \(\sqrt{2}\cdot|u|\cdot |v| \cdot |w|\) (à deux décimales près, si nécessaire).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = str(student_answers[aid]).lower()
+  feedback = ''
+  correctness = False
+  print 'hint_fn called, ans=', ans
+  if '30'!=ans:
+    feedback = '\(~\)C\'est incorrect. Ici, il suffit de calculer successivement les normes de \(u\), \(v\) et \(w\), puis de les multiplier entre elles. On a par exemple \[|u|=|(1,2)|=\\sqrt{1^2+ 2^2}=\\sqrt{1+4}=\\sqrt{5}.\] Qu\'en est-il des deux normes restantes ?'
+  elif '30' in ans:
+    feedback = '\(~\)Correct! En effet, on calcule successivement les normes de \(u\), \(v\) et \(w\) comme suit: \[|u|=|(1,2)|=\\sqrt{1^2+ 2^2}=\\sqrt{1+4}=\\sqrt{5},\] \[|v|=|(-6,3)|=\\sqrt{(-6)^2+ 3^2}=\\sqrt{36+9}=\\sqrt{45}=3\\sqrt{5},\] \[|w|=|(-1,-1)|=\\sqrt{(-1)^2+ (-1)^2}=\\sqrt{1+1}=\\sqrt{2},\] d\'où \(\\sqrt{2}\cdot|u|\cdot|v|\cdot|w|=\\sqrt{2}\cdot\\sqrt{5}\cdot (3\\sqrt{5})\cdot \\sqrt{2}=30\) comme désiré.' 
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <numericalresponse answer="30">
+    <formulaequationinput label="How many miles away from Earth is the sun? Use scientific notation to answer."/>
+    <hintgroup hintfn="hint_fn"/>
+  </numericalresponse>
+</problem>

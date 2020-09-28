@@ -1,0 +1,37 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soient \(a\in \mathbb{R}\) un paramètre et \(A,B\in M_{3\times 3}(\mathbb{R})\) les matrices définies par \[A=\begin{pmatrix} 0 &amp; 0 &amp; \tfrac{1}{3} \cr a &amp; -\tfrac{1}{2} &amp; 0 \cr 0 &amp; -1 &amp; 0 \end{pmatrix},~B=\begin{pmatrix} 0 &amp; 2 &amp; -1\cr 0 &amp; 0 &amp; -1 \cr 3 &amp; 0 &amp; 0 \end{pmatrix}.\]
+ Parmi les affirmations suivantes, cochez celle qui vous paraît correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, pour que \(A\) et \(B\) soient inverses l\'une de l\'autre, il faut (et il suffit) que \(BA=I_3.\) Or, d\'après la formule pour le produit matriciel, on a \((BA)_{11}=B_{11}A_{11} + B_{12}A_{21} + B_{13}A_{31} = 0 \cdot 0 + 2\cdot a - 1\cdot 0=2a.\) Ainsi, on aura obligatoirement \(a=\\tfrac{1}{2}\) et donc en aucun cas une infinité de solutions.'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, que vaut le produit \(AB\) lorsque \(a=\\tfrac{1}{2}\), par exemple ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, pour que \(A\) et \(B\) soient inverses l\'une de l\'autre, il faut (et il suffit) que \(BA=I_3.\) Or, d\'après la formule pour le produit matriciel, on a \((BA)_{11}=B_{11}A_{11} + B_{12}A_{21} + B_{13}A_{31} = 0 \cdot 0 + 2\cdot a - 1\cdot 0=2a.\) Ainsi, on aura obligatoirement \(a=\\tfrac{1}{2},\) c\'est-à-dire \[A=\\begin{pmatrix} 0 &amp; 0 &amp; \\tfrac{1}{3} \cr \\tfrac{1}{2} &amp; -\\tfrac{1}{2} &amp; 0 \cr 0 &amp; -1 &amp; 0 \\end{pmatrix}.\] Un simple calcul montre alors que dans ce cas, on a bel et bien \(BA=I_3.\) D\'après le cours, il n\'est pas nécessaire de calculer \(AB.\)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Il existe une unique valeur de \(a\in \mathbb{R}\) pour laquelle \(A\) et \(B\) sont inverses l'une de l'autre.</choice>
+      <choice correct="false">Il existe une infinité de valeurs de \(a\in \mathbb{R}\) pour lesquelles \(A\) et \(B\) sont inverses l'une de l'autre.</choice>
+      <choice correct="false">Il n'existe aucune valeur de \(a\in \mathbb{R}\) pour laquelle \(A\) et \(B\) sont inverses l'une de l'autre.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

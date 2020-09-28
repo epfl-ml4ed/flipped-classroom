@@ -1,0 +1,37 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soient \(S\) un système d'équations linéaires aux inconnue \(x_1,\ldots,x_n,\) \(\lambda\in \mathbb{R}\) un nombre réel arbitraire et \(S'\) un système obtenu à partir de \(S\) en multipliant l'une des équations par \(\lambda.\) Dans la vidéo 1.3, nous avons vu que si \(\lambda\) est non-nul, alors \(S\) et \(S'\) possèdent le même ensemble de solutions.</p>
+  <p>Qu'en est-il du cas où \(\lambda=0\) ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, considérons par exemple le système d\'équations linéaires \[S=\\left\{\\begin{array}{cc} x&amp; = 1 \cr 2x &amp; =2 \\end{array}\\right..\] Clairement, \(S\) admet une unique solution, donnée par \(\\alpha=1.\) Aussi, en multipliant la deuxième équation de \(S\) par \(\\lambda=0,\) alors on obtient le nouveau système linéaire \[S\' = \\left\{\\begin{array}{cc} x&amp; = 1 \cr 0 &amp; =0 \\end{array}\\right..\] Quel vaut l\'ensemble de solutions de \(S\'\) ?'
+  elif 'choice_2' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, considérons par exemple le système d\'équations linéaires \[S=\\left\{\\begin{array}{cc} x&amp; = 1 \cr x &amp; =2 \\end{array}\\right..\] Clairement, \(S\) n\'admet aucune solution. Cependant, en multipliant la deuxième équation de \(S\) par \(\\lambda=0,\) alors on obtient le nouveau système linéaire \[S\' = \\left\{\\begin{array}{cc} x&amp; = 1 \cr 0 &amp; =0 \\end{array}\\right..\] Quel vaut l\'ensemble de solutions de \(S\'\) ?'
+  elif 'choice_1' in ans:
+    feedback = '\(~\)Correct! En effet, cela dépend des systèmes considérés et de la ligne que l\'on choisit de multiplier par \(\\lambda=0.\) Considérons par exemple le système d\'équations linéaires \[S=\\left\{\\begin{array}{cc} x&amp; = 1 \cr 2x &amp; =2 \cr x &amp; =2\\end{array}\\right..\] Comme il n\'est pas possible pour \(\\alpha\in \mathbb{R}\) de valoir à la fois \(1\) et \(2,\) on obtient que le système \(S\) n\'admet aucune solution. En multipliant la deuxième ligne (respectivement, la troisième ligne) par \(\\lambda=0,\) on obtient les systèmes linéaires \[S\'=\\left\{\\begin{array}{cc} x&amp; = 1 \cr 0 &amp; =0 \cr x &amp; =2\\end{array}\\right., ~ S\'\'=\\left\{\\begin{array}{cc} x&amp; = 1 \cr 2x &amp; =2 \cr 0 &amp; =0\\end{array}\\right..\] On observe alors que le système \(S\'\) n\'admet aucune solution, alors que \(\\alpha=1\) est une solution de \(S\'\',\) d\'où le résultat.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Les systèmes \(S\) et \(S'\) possèdent forcément des ensembles de solutions différents.</choice>
+      <choice correct="true">Il se peut que \(S\) et \(S'\) possèdent les mêmes solutions, mais ce n'est pas toujours le cas.</choice>
+      <choice correct="false">Les systèmes \(S\) et \(S'\) possèdent toujours le même ensemble de solutions.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

@@ -1,0 +1,8 @@
+<video youtube="1.00:HACR-Rmnkek" url_name="5e2bb5cb3fba44f49282938b3d5f6a39" sub="HACR-Rmnkek" transcripts="{}" display_name="Leçon" download_track="true" download_video="true" edx_video_id="ffe1d3b7-67a0-49e4-beb3-5a8d2804f510" html5_sources="[]" youtube_id_1_0="HACR-Rmnkek">
+  <video_asset client_video_id="AlgebreX_2015_10.5.mov" duration="1149.94" image="">
+    <encoded_video bitrate="192" file_size="27614998" profile="mobile_high" url="https://d2f1egay8yehza.cloudfront.net/EPFALGBX/EPFALGBXT415-V014300_MB1.mp4"/>
+    <encoded_video bitrate="176" file_size="25324356" profile="mobile_low" url="https://d2f1egay8yehza.cloudfront.net/EPFALGBX/EPFALGBXT415-V014300_MB2.mp4"/>
+    <encoded_video bitrate="249" file_size="35859820" profile="desktop_mp4" url="https://d2f1egay8yehza.cloudfront.net/EPFALGBX/EPFALGBXT415-V014300_DTH.mp4"/>
+    <encoded_video bitrate="0" file_size="0" profile="youtube" url="HACR-Rmnkek"/>
+  </video_asset>
+</video>

@@ -1,0 +1,33 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{3 \times 3}(\mathbb{R}).\) Alors le volume du parallélépipède défini par les <b>lignes</b> de \(A\) est égal à \(|\det(A)|.\)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, quel est le lien entre \(\det A\) et \(\det A^T\) en général ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, on sait d\'après le cours que le volume du parallélépipède défini par les colonnes de \(A\) est égal à \(|\det A|.\) Or, on a également vu que \(\det A=\det A^T\) et donc le volume du parallélépipède défini par les lignes de \(A\) vaut \(|\det A^T|=|\det A|\) comme désiré.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

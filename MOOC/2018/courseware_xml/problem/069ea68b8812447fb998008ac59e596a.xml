@@ -1,0 +1,42 @@
+<problem display_name="Matrices élémentaires : problème 9" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soient \(A=
+  \left(
+  \begin{matrix}
+  2 &amp; 0 &amp; 7 \\
+  3 &amp; 5 &amp; 5 \\
+  1 &amp; 0 &amp; 9 \\
+  \end{matrix}
+  \right)
+  \) et \(B=L_{21}(-\frac{3}{2})L_{31}(-\frac{1}{2})A\).</p>
+  <p> Alors parmi les affirmations suivantes, cochez celle(s) qui est/sont correcte(s).</p>
+  <p><b>Attention :</b> veuillez s'il vous plaît cocher <b>toutes</b> les possibilités valables.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">le coefficient \(B_{23}\) vaut \(\frac{11}{2}\).</choice>
+      <choice correct="true">la matrice \(B\) est échelonnée.</choice>
+      <choice correct="false">la matrice \(B\) est diagonale.</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">le coefficient \(B_{13}\) vaut \(7\).</choice>
+      <choice correct="false">la matrice \(B\) est échelonnée réduite.</choice>
+      <choice correct="true">le coefficient \(B_{33}\) vaut \(\frac{11}{2}\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>La matrice \(B\) est obtenue à partir de \(A\) en ajoutant \(-\frac{1}{2}\) fois la première ligne à la 
+  troisième, puis en ajoutant \(-\frac{3}{2}\) fois la première ligne à la deuxième.</p>
+      <p> Soit \(A'=L_{31}(-1/2)A\). On a \(B=L_{21}(-3/2)A'\) et</p>
+      <p> \(A'= \left(\begin{matrix} 2 &amp; 0 &amp; 7\\ 3 &amp; 5 &amp; 5\\
+    1-\frac{1}2\cdot 2 &amp; 0-\frac{1}2 \cdot 0  &amp; 9-\frac{1}2 \cdot 7\end{matrix}\right)= \left( \begin{matrix}  2 &amp; 0 &amp; 7\\ 3 &amp; 5 &amp; 5\\ 0 &amp; 0  &amp; 11/2 \end{matrix}\right).\) </p>
+      <p> Finalement, on a:</p>
+      <p> \(B=L_{21}(-3/2)A'= \left(\begin{matrix} 2 &amp; 0 &amp; 7\\ 3 -\frac{3}2\cdot 2 &amp; 5-\frac{3}{2}\cdot 0 &amp; 5-\frac{3}{2}\cdot 7\\
+    0 &amp; 0  &amp; 11/2\end{matrix}\right)= \left( \begin{matrix}  2 &amp; 0 &amp; 7\\ 0 &amp; 5 &amp; -11/2\\ 0 &amp; 0  &amp; 11/2 \end{matrix}\right). \)</p>
+      <p>On remarque que la matrice \(B\) est échelonnée. Comme, par exemple, les pivots des lignes un, deux et trois de \(B\) ne sont pas égaux à \(1\), la matrice \(B\) n'est pas échelonnée 
+  réduite.</p>
+    </div>
+  </solution>
+</problem>

@@ -1,0 +1,36 @@
+<problem display_name="Quiz " markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{3\times 3}(\mathbb{R})\) la matrice de taille \(3\times 3\) définie par \[A=\begin{pmatrix}1&amp; -2 &amp; 2 \cr -2 &amp; 4 &amp; -4 \cr 2 &amp; -4 &amp; 4\end{pmatrix}.\]
+  Il est aisé de montrer que les valeurs propres de \(A\) sont données par \(\lambda_1=9,\) \(\lambda_2=0\) et que \(\dim E_9=1\), \(\dim E_0=2\).  </p>
+  <p> Or, comme \(A\) est symétrique, elle est orthogonalement diagonalisable, i.e. il existe \(P\in M_{3\times 3}(\mathbb{R})\) orthogonale telle que \[P^TAP=\begin{pmatrix} 9&amp;0  &amp;0  \cr 0 &amp; 0 &amp; 0 \cr 0&amp; 0 &amp; 0\end{pmatrix}.\] Supposons que l'on ait obtenu la matrice \(P\) en appliquant la méthode de diagonalisation orthogonale introduite en cours et en ayant imposé les conditions  \(E_0=\mbox{Vect}(v_2,v_3)\), où \(v_2\) et \(v_3\) sont linéairement indépendants et \(v_2\in \mbox{Vect}(e_1,e_2)\).</p>
+  <p><b>Vrai ou Faux : </b> Les éléments de la diagonale de \(P^T\) sont \(\tfrac{1}{3}\), \(\tfrac{1}{\sqrt{5}}\) et \(\tfrac{5}{3\sqrt{5}}\).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, supposons que les valeurs propres de \(A\) soient bel et bien \(\\lambda_1=9\) et \(\\lambda_2=0\). On calcule les espaces propres associées aux deux valeurs propres, en commençant par \(E_9\). On a \[E_9=\mbox{ker}\\begin{pmatrix}-8&amp;-2&amp;2\cr-2&amp;-5&amp;-4\cr2&amp;-4&amp;-5\\end{pmatrix}= \mbox{ker}\\begin{pmatrix}2&amp;0&amp;-1\cr0&amp;1&amp;1\cr0&amp;0&amp;0\\end{pmatrix}.\] Ainsi, on en déduit qu\'une base de l\'espace propres \(E_9\) est donnée par \((v_1)\), où \(v_1=(1,-2,2)\). On répète l\'opération pour \(E_0\) : \[E_0=\mbox{ker}\\begin{pmatrix}1&amp;-2&amp;2 \cr0 &amp;0&amp;0\cr0&amp;0&amp;0\\end{pmatrix}.\] Ainsi, l\'espace propre \(E_0\) admet \(\{(2,1,0),(-2,0,1)\}\) comme base. Comme la droite engendrée par \((2,1,0)\) est précisément l\'intrsection de \(\mbox{Vect}(e_1,e_2)\) avec \(E_0\), on en déduit que la base ordonnée de \(E_0\) cherchée est \((v_2,v_3)\), où \(v_2=(2,1,0)\) et \(v_3=(-2,0,1)\). \[\] A partir d\'ici, il suffit d\'appliquer Gram-Schmidt aux bases de chaque espace propre afin d\'obtenir une base orthonormée \(\mathscr{B}=(w_1,w_2,w_3)\) de \(\mathbb{R}^3\) formée de vecteurs propres pour \(A\). La matrice \(P\) cherchée sera alors donnée par \(P=[id]_{\mathscr{C}\mathscr{B}}\), où \(\mathscr{C}\) désigne la base canonique de \(\mathbb{R}^3\). '
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, nous donnons ici la procédure complète, en commençant par le calcul des valeurs propres. \[\]1) Le polynôme caractéristique de \(A\) est donné par \[\\begin{array}{cl} c_A(x) &amp;=&amp; \mbox{det}\\begin{pmatrix} 1-x&amp; -2 &amp; 2 \cr -2 &amp; 4-x &amp; -4 \cr 2 &amp; -4 &amp; 4-x \\end{pmatrix} \cr &amp;=&amp; (1-x)\mbox{det}\\begin{pmatrix}4-x&amp;-4 \cr -4 &amp; 4-x\\end{pmatrix} + 2 \\begin{pmatrix}-2&amp;2 \cr -4 &amp; 4-x\\end{pmatrix} +2 \\begin{pmatrix}-2&amp;2\cr 4-x &amp; -4\\end{pmatrix}  \cr &amp;=&amp; (1-x)[(4-x)^2-16] + 2 (-8+2x+8)+2(8-8+2x)\cr &amp;=&amp; -x^2(x-9).\\end{array}\] Ainsi, les valeurs propres de \(A\) sont bel et bien \(\\lambda_1=9\) et \(\\lambda_2=0\). \[\]2) On calcule les espaces propres associées aux deux valeurs propres, en commençant par \(E_9\). On a \[E_9=\mbox{ker}\\begin{pmatrix}-8&amp;-2&amp;2\cr-2&amp;-5&amp;-4\cr2&amp;-4&amp;-5\\end{pmatrix}= \mbox{ker}\\begin{pmatrix}2&amp;0&amp;-1\cr0&amp;1&amp;1\cr0&amp;0&amp;0\\end{pmatrix}.\] Ainsi, on en déduit qu\'une base de l\'espace propres \(E_9\) est donnée par \((v_1)\), où \(v_1=(1,-2,2)\). On répète l\'opération pour \(E_0\) : \[E_0=\mbox{ker}\\begin{pmatrix}1&amp;-2&amp;2 \cr0 &amp;0&amp;0\cr0&amp;0&amp;0\\end{pmatrix}.\] Ainsi, l\'espace propre \(E_0\) admet \(\{(2,1,0),(-2,0,1)\}\) comme base. Comme la droite engendrée par \((2,1,0)\) est précisément l\'intrsection de \(\mbox{Vect}(e_1,e_2)\) avec \(E_0\), on en déduit que la base ordonnée de \(E_0\) cherchée est \((v_2,v_3)\), où \(v_2=(2,1,0)\) et \(v_3=(-2,0,1)\). \[\]3) On calcule une base orthonormée de \(\mathbb{R}^3\) formée de vecteurs propres pour \(A\), en suivant la méthode introduite en cours. Premièrement, on normalise \(v_1\), de manière à obtenir \(w_1=\\tfrac{1}{3}v_1\). Ensuite, on fait de même avec \(v_2\), obtenant ainsi \(w_2=\\tfrac{1}{\sqrt{5}}(2,1,0)\). Finalement, on applique le procédé de Gram-Schmidt à \(v_3\) : \[w_3\'=v_3-(v_3\\cdot v_2) v_2= (-2,0,1)-\\tfrac{1}{5}(-4)(2,1,0)=\\tfrac{1}{5}(-2,4,5).\] On normalise alors \(w_3\'\) afin d\'obtenir \(w_3=\\tfrac{1}{3\\sqrt{5}}(-2,4,5)\). On pose \(\mathscr{B}=(w_1,w_2,w_3)\). \[\]4) La matrice \(P\) cherchée n\'est autre que la matrice \(P=[id]_{\mathscr{C} \mathscr{B}}\), où \(\mathscr{C}=(e_1,e_2,e_3)\) désigne la base conique de \(\mathbb{R}^3\). Celle-ci est donnée par \[P=\\begin{pmatrix}\\tfrac{1}{3} &amp; \\tfrac{2}{\\sqrt{5}} &amp; -\\tfrac{2}{3\\sqrt{5}}\cr-\\tfrac{2}{3} &amp; \\tfrac{1}{\\sqrt{5}}&amp;\\tfrac{4}{3\\sqrt{5}} \cr \\tfrac{2}{3} &amp; 0 &amp; \\tfrac{5}{3\\sqrt{5}}\\end{pmatrix}.\]\[\] 5) Comme \(P^{-1}=P^T\), les éléments de la diagonales de \(P^{-1}\)sont les mêmes que ceux de \(P\), d\'où le résultat. '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

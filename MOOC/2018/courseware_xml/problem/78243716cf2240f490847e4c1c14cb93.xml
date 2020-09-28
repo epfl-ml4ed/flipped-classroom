@@ -1,0 +1,27 @@
+<problem display_name="Valeurs propres et vecteurs propres : problème 3" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(V\) un \(\mathbb{R}\)-espace vectoriel de dimension finie, et \(T:V \to V\) une application 
+  linéaire. Soit \(\lambda\) une valeur propre de \(T\).</p>
+  <p>L'ensemble des vecteurs propres de \(T\) associés à la valeur propre \(\lambda\) forme un espace 
+  vectoriel.</p>
+  <multiplechoiceresponse>
+    <choicegroup label="L'ensemble des vecteurs propres de \(T\) associés à la valeur propre \(\lambda\)                        forme un espace vectoriel." type="MultipleChoice">
+      <choice correct="false">Vrai</choice>
+      <choice correct="true">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Ici on a une application linéaire \(T: V\rightarrow V\) où \(V\) est un \(\mathbb{R}\)-espace vectoriel. Aussi \(\lambda \in \mathbb{R}\) est une valeur propre de \(T\). Soit \(E\) l'espace propre de \(T\) associé à la valeur propre \(\lambda\) de \(T\). On montre que \(E\) est un sous espace vectoriel de \(V\). </p>
+      <p>Par définition, \(E=\{v\in V: T(v)=\lambda v\}.\)  On a donc \(E\subseteq V\).</p>
+      <p>Aussi comme \(T\) est une application linéaire, on a \(T(0)=0\) et donc \(T(0)=\lambda \cdot 0\). Ainsi \(0\in E\). </p>
+      <p> Finalement, soient \(v, w \in E\) et \(\mu \in \mathbb{R}\). On a 
+\[T(v+w)=T(v)+T(w)=\lambda v+\lambda w=\lambda (v+w)\] et donc \(v+w\in E\). (La première égalité vient du fait que \(T\) est une application linéaire, la deuxième du fait que \(v\) et \(w\) sont des éléments de \(E\).) Aussi
+\[T(\mu v)=\mu T(v)=\mu \lambda v= \lambda (\mu v)\] et donc \(\mu v \in E\).  (La première égalité vient du fait que \(T\) est une application linéaire, la deuxième du fait que \(v\) est un élément de \(E\).)
+  </p>
+      <p> On a donc montré que \(E\) est un sous espace vectoriel de \(V\). </p>
+      <p> Cependant \(E\) est formé des vecteurs 
+  propres associés à la valeur propre \(\lambda\) ainsi que de \(0\) qui n'est pas un vecteur propre, par définition.  L'ensemble des vecteurs propres n'est donc pas un espace vectoriel. En effet, il ne contient pas l'élément trivial.</p>
+    </div>
+  </solution>
+</problem>

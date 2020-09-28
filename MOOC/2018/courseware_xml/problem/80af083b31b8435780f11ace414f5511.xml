@@ -1,0 +1,41 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{3\times 2}(\mathbb{R})\) la matrice de taille \(3\times 2\) définie par \[A=\begin{pmatrix} 3&amp; 2\cr2&amp;3\cr 2&amp; -2\end{pmatrix}.\] </p>
+  <p>Parmi les affirmations suivantes, cochez celle qui vous semble correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, les valeurs singulières d\'une matrice \(A\in M_{m\\times n}(\mathbb{R})\) sont toujours positives.'
+  elif 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, les valeurs singulières d\'une matrice \(A\in M_{m\\times n}(\mathbb{R})\) sont les racines carrées des valeurs propres de la matrice \(A^TA\). Cette dernière admet-elle réellement \(\\lambda_=1\) comme valeur propres ?'
+  elif 'choice_3' in ans:
+    feedback = 'C\'est incorrect. Indice : n\'oubliez pas que les valeurs singulières d\'une matrice \(A\in M_{m\\times n}(\mathbb{R})\) sont les racines carrées des valeurs propres de la matrice \(A^TA\). '
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, on rappelle que les valeurs singulières d\'une matrice \(A\in M_{m\\times n}(\mathbb{R})\) sont les racines carrées des valeurs propres de la matrice \(A^TA\), ordonnées de la plus grande à la plus petite. Dans notre situation, la matrice \(A^TA\) est donnée par \[A^TA = \\begin{pmatrix} 3&amp; 2 &amp; 2 \cr2&amp;3 &amp; -2 \\end{pmatrix} \\begin{pmatrix} 3&amp; 2\cr2&amp;3\cr 2&amp; -2\\end{pmatrix} =\\begin{pmatrix}17 &amp; 8\cr 8 &amp; 17\\end{pmatrix}.\] Aussi, le polynôme caractéristique de cette dernière est donné par \[c_{A^TA}(x)=(x-17)^2-64=x^2-34x+225=(x-25)(x-9),\] ce qui montre que les valeurs propres de \(A^TA\) sont \(\\lambda_1=25\) et \(\\lambda_2=9\). Finalement, les valeurs singulières de \(A\) sont simplement les racines carrées de \(\\lambda_1\) et \(\\lambda_2\), ce qui permet de conclure.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Les valeurs singulières de \(A\) sont données par \(\sigma_1=4\) et \(\sigma_2=-1\).</choice>
+      <choice correct="false">Les valeurs singulières de \(A\) sont données par \(\sigma_1=16\) et \(\sigma_2=1\).</choice>
+      <choice correct="true">Les valeurs singulières de \(A\) sont données par \(\sigma_1=5\) et \(\sigma_2=3\).</choice>
+      <choice correct="false">Les valeurs singulières de \(A\) sont données par \(\sigma_1=25\) et \(\sigma_2=9\).
+    </choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

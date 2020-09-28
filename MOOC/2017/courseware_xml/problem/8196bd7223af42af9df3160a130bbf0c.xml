@@ -1,0 +1,21 @@
+<problem display_name="Orthogonal à un sous-espace et projection orthogonale : problème 11" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soit \(V\) un \(\mathbb{R}\)-espace vectoriel de dimension finie muni d'un produit scalaire. Soit \(W\) 
+  un sous-espace de 
+  \(V\).</p>
+  <p>Soit \(v \in W^{\perp}\). Parmi les affirmations suivantes, cochez toutes celles qui sont vérifiées.</p>
+  <choiceresponse>
+    <checkboxgroup label="Soit \(v \in W^{\perp}\)." direction="vertical">
+      <choice correct="true">\({\rm proj}_W(v)=0\).</choice>
+      <choice correct="false">On ne peut pas calculer \({\rm proj}_W(v)\).</choice>
+      <choice correct="true">\({\rm proj}_W(v) \in W\).</choice>
+      <choice correct="true">Si \(W=V\), alors \(v=0\).</choice>
+      <choice correct="false">Si \(W=V\), un tel \(v\) n'existe pas.</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> On peut écrire \(V=W\oplus W^\perp\) et on remarque que \(\dim V=\dim W+\dim W^\perp\). Soit \(u\in V\), alors il existe \(w_1\in W\) et \(w_2 \in W^\perp\) tels que \(u=w_1+w_2\). De  plus, \(w_1={\rm proj}_W(u)\) et la décomposition \(u=w_1+w_2\) est unique.  Si \(v\in W^\perp\) alors \(v=0+v\) et par l'unicité de la décomposition de \(v\) en la somme d'un élément de \(W\) et \(W^\perp\), on obtient \({\rm proj}_W(v)=0\). Bien sur \({\rm proj}_W(v)\in W\).  Finalement supposons de plus que \(V=W\) alors \(\dim W=\dim V\) et donc \(\dim W^\perp =0\) et donc \(v=0\). </p>
+    </div>
+  </solution>
+</problem>

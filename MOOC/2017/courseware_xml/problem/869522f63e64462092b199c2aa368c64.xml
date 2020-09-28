@@ -1,0 +1,18 @@
+<problem display_name="Déterminant et inversibilité : problème 8" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(A \in M_{6 \times 6}(\mathbb{R})\) une matrice carrée inversible.</p>
+  <p>Alors \(\det(-A)=-\det(A)\).</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Alors \(\det(-A)=-\det(A)\)." type="MultipleChoice">
+      <choice correct="false">Vrai</choice>
+      <choice correct="true">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Ici on a \(A\in M_{6\times  6}(\mathbb{R})\) et donc \(\det(-A)=\det(-I_6A)=\det(-I_6)\det(A)=(-1)^6\det(I_6)\det(A)=\det(A)\). Comme \(A\) est inversible, on a \(\det(A) \neq 0\) et donc \(-\det(A)\neq\det(A)\). Ainsi 
+  \(\det(-A) \neq -\det(A)\). Attention, si la matrice était de taille impaire, ce serait vrai : si 
+  \(A \in M_{(2n+1) \times (2n+1)}(\mathbb{R})\) où \(n\in \mathbb{N}\), on a \(\det(-A)=(-1)^{2n+1}\det(A)=-\det(A).\)  </p>
+    </div>
+  </solution>
+</problem>

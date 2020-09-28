@@ -1,0 +1,34 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>En cours, nous avons vu un algorithme permettant de décomposer une matrice donnée en un produit de deux matrices triangulaires (la première inférieure, la deuxième  supérieure). Si \(A\in M_{m\times n}(\mathbb{R})\) admet une telle décomposition, cette dernière est notée \(A=LU.\) Cette décomposition est-elle unique dans le cas où la matrice \(A\) est inversible ?</p>
+  <p>Indication : essayez de répondre à la question en considérant une matrice \(A\) diagonale inversible.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. Par exemple, n\'y a-t-il qu\'une seule manière de décomposer la matrice inversible \[A=\\begin{pmatrix} 2 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}\] en un produit \(LU,\) où \(U\) désigne une matrice triangulaire supérieure et \(L\) une matrice triangulaire inférieure ?'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En effet, on a par exemple \[\\begin{pmatrix} 2 &amp; 0 \cr 0 &amp; 3 \\end{pmatrix} \\begin{pmatrix} 2 &amp; 0 \cr 0 &amp; -1 \\end{pmatrix} = \\begin{pmatrix} 2 &amp; 0 \cr 0 &amp; 1 \\end{pmatrix} \\begin{pmatrix} 2 &amp; 0 \cr 0 &amp; -3\\end{pmatrix} = \\begin{pmatrix} 4 &amp; 0 \cr 0 &amp; -3 \\end{pmatrix},\] ce qui montre qu\'il y a au moins deux manières de  décomposer la matrice \[A=\\begin{pmatrix} 4 &amp; 0 \cr 0 &amp; -3 \\end{pmatrix}\] en un produit \(LU.\)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Oui.</choice>
+      <choice correct="true">Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

@@ -1,0 +1,50 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soient \(A \in M_{3\times 4}(\mathbb{R})\) et \(b\in M_{4\times 1}(\mathbb{R})\) les matrices définies par 
+  \[
+  A=\begin{pmatrix}
+  0	&amp;	1	&amp;	1	&amp;	-1	\\
+  1	&amp;	1	&amp;	0	&amp;	-3	\\
+  3	&amp;	2	&amp;	0	&amp;	1	\\
+  -2&amp;	4	&amp;	1	&amp;	2	\end{pmatrix}
+  ,\mbox{ }
+  b=\begin{pmatrix}
+  	1	\\
+  	1	\\
+  	2	\\
+  	4	
+  	\end{pmatrix}.\]
+Sans effectuer un seul calcul, il est possible de déterminer si le système \(AX=b\) admet une solution.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, on peut montrer que \(Av=b,\) pour \(v=\\begin{pmatrix} 0 &amp; 1 &amp; 0 &amp; 0\\end{pmatrix}^T.\) Cependant, cette méthode nécessite un calcul. Est-il possible de déduire cette information sans aucun calcul ?'
+  elif 'choice_2' in ans:
+    feedback = 'En général, il n\'est en effet pas possible de déduire une telle information directement. Cependant, d\'après un résultat du cours, on sait que le système \(AX=b\) admet une solution si et seulement si \(b \in \mbox{Vect}\{c_1,c_2,c_3,c_4\},\) où \(c_1,c_2,c_3,c_4\) sont les colonnes de \(A.\) Est-il possible de déterminer si oui ou non \(b\) appartient au sous-espace engendré par les colonnes de \(A\) ici?'  
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, d\'après un résultat du cours, on sait que le système \(AX=b\) admet une solution si et seulement si \(b \in \mbox{Vect}\{c_1,c_2,c_3,c_4\},\) où \(c_1,c_2,c_3,c_4\) sont les colonnes de \(A.\) Comme \(b=c_2\) dans notre situation, on a clairement que \(b\) appartient à l\'espace-colonne de \(A,\) d\'où le résultat.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true">Vrai. Le système admet (au moins) une solution.</choice>
+      <choice correct="false">Vrai. Le système n'admet aucune solution.</choice>
+      <choice correct="false">Faux. Nous n'avons pas assez d'information pour conclure quoique ce soit ici.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

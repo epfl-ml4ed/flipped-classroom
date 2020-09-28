@@ -1,0 +1,43 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soient \(V=\mathbb{R}^2,\) \(W=\mbox{Vect}(1,1)\) et \(T:V\to V\) l'application définie par \(T=\tfrac{1}{2}(x+y,x+y).\) Si l'on désigne par \(\mathscr{B}=(e_1,e_2)\) la base canonique de \(V,\) alors on a 
+  \[
+    [T]_{\mathscr{B} \mathscr{B}}=	 \begin{pmatrix}\tfrac{1}{2}	&amp; 	\tfrac{1}{2}	\\
+  						\tfrac{1}{2}	&amp; \tfrac{1}{2}	\end{pmatrix}.
+  \] Aussi, nous avions vu (dans le quiz 6.8) que la famille \(\mathscr{B}'=(v_1,v_2)=((1,1),(1,-1))\) formait une base de \(V\) telle que   
+  \[
+  [T]_{\mathscr{B'} \mathscr{B'}} =  \begin{pmatrix} 1	&amp; 	0	\\
+  						0	&amp; 0	\end{pmatrix}.
+  \] Parmi les affirmations suivantes, cochez celle qui vous paraît correcte. (Il n'est pas nécessaire d'effectuer le moindre calcul ici.) </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_2' not in ans:
+    feedback = 'C\'est incorrect. Indication: nous avons défini en cours une matrice \(P\) (la matrice de passage entre \(\mathscr{B}\'\) et \(\mathscr{B}\)) qui vérifie une telle égalité. Or, cette dernière peut être obtenue aisément à l\'aide la matrice identité.'
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, d\'après le cours, la matrice \(P=[id_V]_{\mathscr{B}\mathscr{B}\'}\) satisfait l\'équation désirée.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false"> La matrice \(P=\begin{pmatrix} 1 &amp; 0 \cr 0 &amp; 0\end{pmatrix}\) satisfait  \([T]_{\mathscr{B'} \mathscr{B'}}= P^{-1} [T]_{\mathscr{B} \mathscr{B}} P.\)</choice>
+      <choice correct="false"> La matrice \(P^{-1}=\begin{pmatrix} 1 &amp; 0 \cr 0 &amp; 0\end{pmatrix}\) satisfait  \([T]_{\mathscr{B'} \mathscr{B'}}= P^{-1} [T]_{\mathscr{B} \mathscr{B}} P.\)</choice>
+      <choice correct="true"> La matrice \(P=\begin{pmatrix} 1 &amp; 1 \cr 1 &amp; -1\end{pmatrix}\) satisfait  \([T]_{\mathscr{B'} \mathscr{B'}}= P^{-1} [T]_{\mathscr{B} \mathscr{B}} P.\)</choice>
+      <choice correct="false"> La matrice \(P^{-1}=\begin{pmatrix} 1 &amp; 1 \cr 1 &amp; -1\end{pmatrix} \) satisfait  \([T]_{\mathscr{B'} \mathscr{B'}}= P^{-1} [T]_{\mathscr{B} \mathscr{B}} P.\)</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

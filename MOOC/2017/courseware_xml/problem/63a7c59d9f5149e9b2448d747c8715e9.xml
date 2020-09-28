@@ -1,0 +1,18 @@
+<problem display_name="Décomposition LU : problème 12" markdown="null" max_attempts="1" showanswer="attempted" weight="1.0">
+  <p>Soit \(A\) une matrice \(n \times n\) à coefficient réels, avec sa décomposition \(A=LU\) en produit d'une matrice triangulaire inférieure \(L\) et d'une matrice triangulaire supérieure \(U\). On se donne le système \(AX=b\) avec \(b\) un vecteur \(n \times 1\) à coefficients réels.</p>
+  <p>Pour résoudre le système \(AX=b\) à l'aide de la décomposition \(A=LU\), on commence par </p>
+  <multiplechoiceresponse>
+    <choicegroup label="Pour résoudre le système \(AX=b\) à l'aide de la décomposition \(A=LU\), on commence par " type="MultipleChoice">
+      <choice correct="false">poser \(Y=LX\) et résoudre le système \(UY=b\).</choice>
+      <choice correct="false">résoudre le système \(UX=b\).</choice>
+      <choice correct="true">poser \(Y=UX\) et résoudre le système \(LY=b\).</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Puisque \(A=LU\), le système \(AX=b\) se réécrit \(LUX=b\), donc on cherche en premier à résoudre 
+  \(LY=b\), puis \(UX=Y\).</p>
+    </div>
+  </solution>
+</problem>

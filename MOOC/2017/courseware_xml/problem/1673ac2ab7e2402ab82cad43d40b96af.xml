@@ -1,0 +1,35 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soient \(v=(0,1,1)\in \mathbb{R}^3\) et \(\theta=\tfrac{\pi}{3}\). Notons par \(R_{v,\theta} : \mathbb{R}^3\to \mathbb{R}^3\) la rotation d'angle \(\theta\) autour de la droite \(\mbox{Vect}(v)\). </p>
+  <p><b>Vrai ou faux :</b> l'application \(R_{v,\theta}\) satisfait \[R_{v,\theta}(u)=\tfrac{1}{4}\left(2a-\sqrt{6} b + \sqrt{6} c, \sqrt{6} a + 3b  + c, -\sqrt{6}a + b + 3c\right),\] ceci pour tout  \(u=(a,b,c)\in \mathbb{R}^3\). </p>
+  <p><b>Indication :</b>  on rappelle que \(\cos (\pi/3)=1/2\) et que \(\sin (\pi/3)=\sqrt{3}/2\).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. Pour prendre connaissance de la procédure en détail, veuillez cochez la réponse "Vrai.".  '
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, le plan \(P\) d\'équation \(y+z=0\) admet \(\mathscr{B}\'=(v_1,v_2)\) comme base orthonormée, où \[v_1=(1,0,0),~ v_2=\\tfrac{\\sqrt{2}}{2}(0,1,-1).\] On peut alors compléter \(\mathscr{B}\'\) en une base orthonormée \(\mathscr{B}=(v_1,v_2,v_3)\), où \(v_3=\\tfrac{v}{||v||}\). Ainsi, on a \[\mathscr{B}=\\left((1,0,0), \\tfrac{\\sqrt{2}}{2}(0,1,-1),\\tfrac{\\sqrt{2}}{2}(0,1,1)\\right).\] Les matrices de changements de bases (entre la base \(\mathscr{B}\) et la base canonique \(\mathscr{C}\) de \(\mathbb{R}^3\)) sont donc données par \[[id]_{\mathscr{C}\mathscr{B}} = \\begin{pmatrix} 1 &amp; 0 &amp; 0 \cr 0 &amp; \\frac{\\sqrt{2}}{2} &amp; \\frac{\\sqrt{2}}{2} \cr 0 &amp; -\\frac{\\sqrt{2}}{2} &amp; \\frac{\\sqrt{2}}{2} \\end{pmatrix}, ~[id]_{\mathscr{B}\mathscr{C}} = \\begin{pmatrix} 1 &amp; 0 &amp; 0 \cr 0 &amp; \\frac{\\sqrt{2}}{2} &amp; -\\frac{\\sqrt{2}}{2} \cr 0 &amp; \\frac{\\sqrt{2}}{2} &amp; \\frac{\\sqrt{2}}{2} \\end{pmatrix}.\] Aussi, comme vu en cours, la matrice de \(R_{v,\\theta}\) dans la base \(\mathscr{B}\) est donnée par \[[R_{v,\\theta}]_{\mathscr{B}} = \\begin{pmatrix} \cos \\theta &amp; -\\sin \\theta &amp; 0 \cr \\sin \\theta &amp; \\cos \\theta &amp; 0 \cr 0 &amp; 0 &amp;1 \\end{pmatrix} = \\begin{pmatrix} \\tfrac{1}{2} &amp; -\\tfrac{\\sqrt{3}}{2} &amp; 0 \cr \\tfrac{\\sqrt{3}}{2} &amp; \\tfrac{1}{2} &amp; 0 \cr 0 &amp; 0 &amp;1 \\end{pmatrix}.\] Attention : il faut que la base \(\mathscr{B}\) soit "disposée de la même manière que la base canonique de \(\mathbb{R}^3\)", c\'est-à-dire que si l\'on oriente le premier vecteur \(v_1\) comme pointant vers nous et le second comme pointant vers la droite, alors \(v_3\) doit pointer vers le haut ! Hors, c\'est bien le cas ici, comme on peut le vérifier sur un dessin, par exemple. Il est cependant très important de ne pas oublier cette étape ! \[\] Ainsi, un simple calcul permet de calculer la matrice de \(R_{v,\\theta}\) dans la base canonique \(\mathscr{C}\) de \(\mathbb{R}^3\) : \[[R_{v,\\theta}]_{\mathscr{C}} = [id]_{\mathscr{C}\mathscr{B}}[R_{v,\\theta}]_{\mathscr{B}} [id]_{\mathscr{B}\mathscr{C}} = \\begin{pmatrix} \\tfrac{1}{2} &amp; -\\tfrac{\\sqrt{6}}{4} &amp; \\tfrac{\\sqrt{6}}{4} \cr \\tfrac{\\sqrt{6}}{4} &amp; \\tfrac{3}{4} &amp; \\tfrac{1}{4} \cr -\\tfrac{\\sqrt{6}}{4} &amp; \\tfrac{1}{4} &amp; \\tfrac{3}{4}\\end{pmatrix},\] d\'où l\'on déduit le résultat escompté.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

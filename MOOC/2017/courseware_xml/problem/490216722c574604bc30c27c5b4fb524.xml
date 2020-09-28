@@ -1,0 +1,15 @@
+<problem display_name="Familles libres/liées : problème 3" markdown="null" max_attempts="1" showanswer="attempted" weight="1.0">
+  <p> Soit \(V\) un \(\mathbb{R}\)-espace vectoriel. Parmi les énoncés suivants, cochez celui ou ceux qui est/sont correct(s). </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="true"> \(S=\emptyset\) est une famille libre de \(V\).</choice>
+      <choice correct="false"> \(S=V\) est une famille libre de \(V\). </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> Par définition \(S=\emptyset\) est toujours une famille libre d'un \(\mathbb{R}\)-espace vectoriel \(V\). Finalement, comme tout \(\mathbb{R}\)-espace vectoriel \(V\) contient l'élément trivial, \(S=V\) est une famille liée de \(V\).</p>
+    </div>
+  </solution>
+</problem>

@@ -1,0 +1,46 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Parmi les applications suivantes, cochez celle(s) qui vous semble(nt) linéaire(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' not in ans and 'choice_1' not in ans and 'choice_2' not in ans and 'choice_3' not in ans and  'choice_4' not in ans :
+    feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  elif 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, que peut-on dire de l\'application \(x\\mapsto x^2,\) par exemple ? Celle-ci envoie bien \(0\) sur \(0,\) mais est-elle vraiment linéaire ?'
+  elif 'choice_3' in ans:
+    feedback = 'C\'est incorrect. Indice : une application linéaire \(T:V\\to W\) envoie obligatoirement le vecteur nul de \(V\) sur le vecteur nul de \(W\). Est-ce le cas de \(f_2,\) par exemple ?'
+  elif 'choice_1' not in ans:
+    feedback = 'C\'est incorrect. En effet, bien que la/les possibilité(s) cochée(s) soient en effet correctes, que peut-on dire si \(g:\mathbb{R}\\to \mathbb{R}\) est de la forme \(g(x)=ax\) et que \(\\lambda,u,v\in \mathbb{R}\) ? Que valent \(g(\\lambda u + v)\) et \(\\lambda g(u) + g(v)\) ?  '
+  elif 'choice_2' not in ans:
+    feedback = 'C\'est incorrect. En effet, bien que toute fonction de la forme \(x\\mapsto ax\) soit en effet linéaire, il existe au moins un autre exemple parmi les possibilités proposées.'
+  elif 'choice_4' not in ans:
+    feedback = 'C\'est incorrect. En effet, il reste une application linéaire à identifier parmi les possibilités proposées.'
+  elif 'choice_1' in ans and 'choice_2' in ans and 'choice_4' in ans:
+    feedback = 'Correct! En effet, on commence par identifier les applications qui ne sont pas linéaires. \[\] Premièrement, une application \(f:\mathbb{R}\\to \mathbb{R}\) envoyant \(0\) sur \(0\) n\'est pas obligatoirement linéaire. Par exemple, si \(f(x)=x^2,\) alors on a bien \(f(0)=0,\) mais \(f(1)+f(2)=1+4=5 \\neq 9 =f(3)=f(1+2).\) \[\] Aussi, on rappelle qu\'une application linéaire doit forcément envoyer le vecteur nul de l\'espace de départ sur le vecteur nul de l\'espace d\'arrivée. Ce n\'est pas le cas de la fonction \(f_2,\) qui satisfait \(f_2(0)=0+1=1\\neq 0.\) Celle-ci n\'est donc pas linéaire. \[\] Considérons maintenant l\'application \(g\in \mathbb{R}\\to \mathbb{R}\) définie par \(g(x)=ax,\) où \(a\in \mathbb{R}\) est fixe. Alors pour tous \(\\lambda,x,y\in \mathbb{R},\) on a \(g(\\lambda x +y)=a(\\lambda x + y) =\\lambda (ax) + ay = \\lambda g(x) + g(y),\) ce qui montre bien que \(g\) est linéaire. \[\] De manière similaire, on a que pour tout \(\\lambda \in \mathbb{R}\) et tous \(A=(a_{ij}),B=(b_{ij})\in M_{2\\times 2}(\mathbb{R}),\)  \[f_1(\\lambda A + B)= (\\lambda a_{11} + b_{11}) -3(\\lambda a_{21} + b_{21}) = \\lambda (a_{11} -3a_{21}) + b_{11}-3b_{21}=\\lambda f_1(A) + f_1(B).\] Ainsi, \(f_1\) est une application linéaire. \[\] Finalement, pour tout \(\\lambda \in \mathbb{R}\) et tous \(x=(x_1,x_2,x_3),y=(y_1,y_2,y_3)\in \mathbb{R}^3,\) on a \[f_3(\\lambda x + y)= (\\lambda x_1+y_1)t^2 + (\\lambda x_2+y_2)t + \\lambda x_3+y_3= \\lambda (x_1 t^2 + x_2t +x_3) + (y_1t^2+y_2 t + y_3) = \\lambda f_3(x) + f_3(y),\] ce qui montre bien que \(f_3\) est linéaire. '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup label="The following languages are in the Indo-European family:" direction="vertical">
+      <choice correct="false">N'importe quelle fonction \(f:\mathbb{R}\to \mathbb{R}\) telle que \(f(0)=0.\)</choice>
+      <choice correct="true">N'importe quelle fonction \(g:\mathbb{R}\to \mathbb{R}\) de la forme \(g(x)=ax,\) où \(a\in \mathbb{R}\) est un nombre réel fixe.</choice>
+      <choice correct="true">La fonction \(f_1:M_{2\times 2}\to \mathbb{R}\) définie par \(f_1\left(\begin{pmatrix} a &amp; b \cr c &amp; d \end{pmatrix}\right)=a-3c.\)</choice>
+      <choice correct="false">La fonction \(f_2:\mathbb{P}(\mathbb{R})\to \mathbb{P}(\mathbb{R})\) définie par \(f_2(p(t))=p(3)t^2 +1.\)</choice>
+      <choice correct="true">La fonction \(f_3:\mathbb{R}^3\to \mathbb{P}_2(\mathbb{R})\) définie par \(f_3(x,y,z)=xt^2+yt+z.\)</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

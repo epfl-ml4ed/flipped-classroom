@@ -1,0 +1,39 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(E\in M_{3\times 3}(\mathbb{R})\) la matrice élémentaire correspondant à l'opération élémentaire \(T_{13}\) et soit \(A=(a_{ij})\in M_{3\times 3}(\mathbb{R})\) une matrice de taille \(3\times 3\) à coefficients réels. Parmi les possibilités suivantes, cochez celle qui vous paraît correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, que se passe-t-il dans le cas où \(A=\\begin{pmatrix} 0 &amp; 1 &amp; 0 \cr 1 &amp; 0 &amp; 0 \cr 0 &amp; 0 &amp; 0\\end{pmatrix} \) ? '
+  elif 'choice_2' in ans:
+    feedback = '\(~\)C\'est incorrect. Si \(A\in M_{3\\times 3}(\mathbb{R})\) est telle que \(l_1(A)=l_3(A)\) et \(c_1(A)=c_3(A),\) alors \(A\) est de la forme \[A=\\begin{pmatrix} a &amp; b &amp; a \cr c &amp; d &amp; c \cr a &amp; b &amp; a \\end{pmatrix},\] où \(a,b,c,d \in \mathbb{R}.\) Ainsi, échanger la première avec la troisième ligne donne bel et bien le même résultat qu\'échanger la première colonne avec la troisième. En fait, on remarque même que \(AE=EA=A\) dans cette situation. Cependant, il existe d\'autres matrices qui satisfont la condition désirée.'
+  elif 'choice_1' in ans:
+    feedback = '\(~\)C\'est incorrect. Si  \(A\in M_{3\\times 3}(\mathbb{R})\) est diagonale et satisfait \(a_{11}=a_{33},\) alors \(A\) est de la forme \[A=\\begin{pmatrix} a &amp; 0 &amp; 0 \cr 0 &amp; b &amp; 0 \cr 0&amp; 0 &amp; a \\end{pmatrix},\] où \(a,b \in \mathbb{R}.\) Ainsi, échanger la première avec la troisième ligne donne bel et bien le même résultat qu\'échanger la première colonne avec la troisième. Cependant, il est facile de construire d\'autres matrices satisfaisant les conditions désirées, comme par exemple, la matrice \[\\tilde{A}=\\begin{pmatrix} 1 &amp; 0 &amp; 1 \cr 0 &amp; 0 &amp; 0 \cr 1 &amp; 0 &amp; 1 \\end{pmatrix}.\]'
+  elif 'choice_3' in ans:
+    feedback = '\(~\)Correct! En effet, en appliquant la matrice \(T_{13}\) à gauche de la matrice \(A=(a_{ij})\in M_{3\\times 3}(\mathbb{R}),\) on permute simplement la première ligne de \(A\) avec la troisième, i.e. \[T_{13}A=\\begin{pmatrix} a_{31} &amp; a_{32} &amp; a_{33} \cr a_{21} &amp; a_{22} &amp; a_{23} \cr a_{11} &amp; a_{12} &amp; a_{13}\\end{pmatrix},\] tandis qu\'en l\'applicant à droite, on opère sur les colonnes, c\'est-à-dire \[AT_{13}=\\begin{pmatrix} a_{13} &amp; a_{12} &amp; a_{11} \cr a_{23} &amp; a_{22} &amp; a_{21} \cr a_{33} &amp; a_{32} &amp; a_{31}\\end{pmatrix}.\] Pour que ces deux matrices soient égales, il faut (et il suffit) que \(a_{31}=a_{13},\) \(a_{32}=a_{12},\) \(a_{33}=a_{11},\) et \(a_{21}=a_{23},\) i.e. que \(A\) soit de la forme \[A=\\begin{pmatrix} a &amp; b  &amp; c \cr d &amp; e &amp; d \cr c &amp; b &amp; a\\end{pmatrix}.\] Cette matrice ne satisfait pas nécessairement \(A^T=A\) (par exemple, si \(b=1\) et \(d=2\)). Aussi, elle n\'est pas obligatoirement diagonale. Finalement, sa première ligne n\'est pas toujours égale à sa troisième ligne. Ainsi, aucune des trois premières affirmations n\'est vérifiée.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="false">  \(AE=EA\) si et seulement si \(A=A^T.\)</choice>
+      <choice correct="false"> \(AE=EA\) si et seulement si \(A\) est diagonale et \(a_{11}=a_{33}.\)</choice>
+      <choice correct="false"> \(AE=EA\) si et seulement si \(l_1(A)=l_3(A)\) et \(c_1(A)=c_3(A).\)</choice>
+      <choice correct="true"> Aucune des possibilités citées ci-dessus.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

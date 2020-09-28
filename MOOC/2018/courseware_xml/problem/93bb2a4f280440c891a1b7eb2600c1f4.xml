@@ -1,0 +1,33 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p> Soit \(A=\begin{pmatrix} a &amp; b \cr c &amp; d\end{pmatrix}\) une matrice de taille \(2\times 2\) inversible et notons \(e_1=\begin{pmatrix} 1 \cr 0 \end{pmatrix},\) \(e_2=\begin{pmatrix} 0 \cr 1 \end{pmatrix}.\) Alors \[A^{-1}=\frac{1}{ad-bc}\begin{pmatrix} \det A_1(e_1) &amp; \det A_1(e_2) \cr  \det A_2(e_1) &amp; \det A_2(e_2) \end{pmatrix}.\] (On utilise ici les notations introduites dans la vidéo 7.6.)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle que l\'inverse de \(A\) est donnée par \[A^{-1}=\\frac{1}{ad-bc}\\begin{pmatrix} d &amp; -b \cr -c &amp; a\\end{pmatrix}.\] Aussi, que valent \(A_1(e_1),\) \(A_1(e_2),\) \(A_2(e_1)\) et \(A_2(e_2)\) ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, on remarque aisément que dans cette situation, on a \[\det A_1(e_1)=\det \\begin{pmatrix}1 &amp;b \cr 0 &amp; d \\end{pmatrix}=d,\] \[\det A_1(e_2)=\det \\begin{pmatrix}0 &amp;b\cr 1 &amp; d \\end{pmatrix}=-b,\] \[\det A_2(e_1)=\det \\begin{pmatrix}a &amp;1 \cr c &amp; 0 \\end{pmatrix}=-c,\] \[\det A_2(e_2)=\det \\begin{pmatrix}a &amp;0 \cr c &amp; 1 \\end{pmatrix}=a\] et donc \[ \\frac{1}{ad-bc}\\begin{pmatrix} \det A_1(e_1) &amp; \det A_1(e_2) \cr  \det A_2(e_1) &amp; \det A_2(e_2) \\end{pmatrix}=\\frac{1}{ad-bc}\\begin{pmatrix} d &amp; -b \cr  -c &amp; a \\end{pmatrix}=A^{-1}.\] Dans la prochaine vidéo, on verra que cette méthode se généralise aux matrices inversibles de tailles arbitraires.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

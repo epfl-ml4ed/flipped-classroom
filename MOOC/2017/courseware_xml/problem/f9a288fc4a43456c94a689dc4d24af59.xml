@@ -1,0 +1,41 @@
+<problem display_name="Bases : problème 7" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p> Soient \(V=\mathbb{R}^3\) et \(S=\{(1,1,3), (-1,2,0), (1,4,6)\}\subset V\). Lesquels des énoncés suivants sont corrects? Donner toutes les réponses correctes.
+ </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> \({\rm Vect}(S)=V\).</choice>
+      <choice correct="true"> \({\rm dim} \ {\rm Vect}(S)=2 \).</choice>
+      <choice correct="true"> \(((2,5,9), (0,1,1))\) est une base de \({\rm Vect}(S)\).</choice>
+      <choice correct="true"> \(((1,1,3), (-1,2,0), (1,1,1))\) est une base de \(V\). </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>  On a \(\dim V=3\) et \(\{(1,0,0),(0,1,0),(0,0,1)\}\) est une base de \(V\). Aussi  \({\rm Vect}(S)\) un sous espace vectoriel de \(V\) et \(\dim {\rm Vect}(S)\leq 3\).</p>
+      <p> On montre dans un premier temps que \(S\) est une famille liée. Soient \(v_1=(1,1,3)\), \(v_2=(-1,2,0)\) et \(v_3=(1,4,6)\). Supposons que \(\lambda_1, \lambda_2,\lambda_3\in \mathbb{R}\) sont tels que
+    \(\lambda_1v_1+\lambda_2v_2+\lambda_3v_3=0\). Alors on obtient le système suivant:</p>
+      <p>  \(\left\{ \begin{array}{l} \lambda_1-\lambda_2+\lambda_3=0\\ \lambda_1+2\lambda_2+4\lambda_3=0 \\  3\lambda_1+6\lambda_3=0 \end{array}\right.\)</p>
+      <p> Sous forme matricielle, ce système correspond à la matrice augmentée suivante: </p>
+      <p>\(A=\left(\begin{matrix} 1 &amp; -1 &amp; 1 &amp; &amp; 0\\ 1 &amp; 2 &amp; 4 &amp; &amp; 0 \\ 3 &amp; 0 &amp; 6 &amp; &amp; 0   \end{matrix} \right).\)</p>
+      <p> Après échelonnage, on obtient la matrice augmentée suivante:</p>
+      <p> \(A'=\left(\begin{matrix} 1 &amp; 2 &amp; 4 &amp; &amp; 0\\ 0 &amp; 1 &amp; 1 &amp; &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; &amp; 0   \end{matrix} \right).\)</p>
+      <p> Le système a donc une solution non triviale, par exemple: \((\lambda_1,\lambda_2,\lambda_3)=(2,1,-1).\) et donc \(S\) est une famille liée. Comme \(|S|=3\) et \(S\) est une famille liée, on a \(\dim {\rm Vect}(S) \leq 2\) et \({\rm Vect}(S)\neq V\). 
+  </p>
+      <p> Il est facile de montrer que \(\{v_1,v_2\}\) est une famille libre. Comme \(\{v_1,v_2\}\subset {\rm Vect}(S)\) est une famille libre et \(\dim {\rm Vect}(S) \leq 2\), on en déduit que \(\dim {\rm Vect}(S)=2\) et \({\rm Vect}(S)=\{v_1,v_2\}\).
+     </p>
+      <p>Soient \(w_1=(2,5,9)\) et \(w_2=(0,1,1)\).</p>
+      <p>Montrons  \(w_1 \in {\rm Vect}(S)\). Pour cela, on cherche \(\lambda_1,\lambda_2 \in \mathbb{R}\) tels que \(\lambda_1v_1+\lambda_2v_2=(2,5,9)\). On obtient le système suivant:</p>
+      <p> \(\left\{\begin{array}{l} \lambda_1-\lambda_2=2\\ \lambda_1+2\lambda_2=5\\ 3\lambda_1=9 \end{array} \right.\).</p>
+      <p>Résolvant ce sytème on obtient \(\lambda_1=3\) et \(\lambda_2=1\). Ainsi \(w_1=(2,5,9)\in {\rm Vect}(S)\).</p>
+      <p>Montrons  \(w_2 \in {\rm Vect}(S)\). Pour cela, on cherche \(\lambda_1,\lambda_2 \in \mathbb{R}\) tels que \(\lambda_1v_1+\lambda_2v_2=(0,1,1)\). On obtient le système suivant:</p>
+      <p> \(\left\{\begin{array}{l} \lambda_1-\lambda_2=0\\ \lambda_1+2\lambda_2=1\\ 3\lambda_1=1 \end{array} \right.\).</p>
+      <p>Résolvant ce sytème on obtient \(\lambda_1=1/3\) et \(\lambda_2=1/3\). Ainsi \(w_2=(0,1,1)\in {\rm Vect}(S)\).</p>
+      <p>  Ainsi \({\rm Vect}(\{w_1,w_2\})\subseteq {\rm Vect}(S)\). Comme  \(\{w_1,w_2\}\) est une famille libre, on a \(\dim {\rm Vect}(\{w_1,w_2\})=2=\dim {\rm Vect}(S)\).  On déduit que \({\rm Vect}(\{w_1,w_2\})={\rm Vect}(S)\) et \((w_1,w_2)\) est une base de \({\rm Vect}(S)\). </p>
+      <p> Finalement soit \(u_3=(1,1,1)\). On montre que \((v_1,v_2,u_3)\) est une base de 
+  \(V\). Comme \(\dim V=3\), \({\rm Vect}(S)\subset V\) et \(\dim {\rm Vect}(S)=2\), il suffit de montrer que \(u_3\not \in {\rm Vect}(\{v_1,v_2\})={\rm Vect}(S)\). Supposons au contraire que   \(u_3 \in {\rm Vect}(\{v_1,v_2\})\). Alors il existe \(\lambda_1, \lambda_2 \in \mathbb{R}\) tels que \(\lambda_1v_2+\lambda_2v_2=u_3\). Ceci mène au système suivant:</p>
+      <p> \(\left\{\begin{array}{l} \lambda_1-\lambda_2=1\\ \lambda_1+2\lambda_2=1\\ 3\lambda_1=1 \end{array}\right.\)</p>
+      <p> Il est facile de montrer que ce système n'a aucune solution. Ainsi \(u_3\not \in {\rm Vect}(\{v_1,v_2\})\) et \((v_1,v_2,u_3)\) est une base de \(V\). </p>
+    </div>
+  </solution>
+</problem>

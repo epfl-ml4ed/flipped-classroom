@@ -1,0 +1,36 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soit \(V=\mathbb{P}(\mathbb{R})\) l'espace vectoriel des polynômes à coefficients dans \(\mathbb{R}.\) Alors 
+\[  \hspace{120pt}
+  2x^2-10 \in \mbox{Vect}\{ x^2+2x-3,x+1\}.
+    \] </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = '\(~\)C\'est incorrect. Ici, n\'est-il pas possible de trouver \(\\alpha,\\beta\in \mathbb{R}\) tels que \(2x^2-10 = \\alpha (x^2+2x-3) + \\beta (x+1)\) ? '
+  elif 'choice_0' in ans:
+    feedback = '\(~\)Correct! En effet, on posant \(\\alpha = 2 \) et \(\\beta = -4,\) on obtient \[ \\alpha (x^2+2x-3) + \\beta (x+1) = 2(x^2+2x-3) -4( x+1) = 2x^2 +4x-6 -4x-4 = 2x^2-10.\] Ainsi, on a bien le résultat escompté.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

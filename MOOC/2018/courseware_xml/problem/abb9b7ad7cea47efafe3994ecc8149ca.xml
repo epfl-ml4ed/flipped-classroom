@@ -1,0 +1,33 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(V=\mathbb{P}(\mathbb{R})\) l'espace vectoriel des polynômes à coefficients dans \(\mathbb{R}\) et considérons les sous-espaces \(W_1=\mbox{Vect}\{x+3\},\) \(W_2=\mbox{Vect}\{x^3,x+7,2\}.\) Alors \(W_1+W_2=W_1 \oplus W_2.\)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, comme nous l\'avons vu en cours, l\'égalité \(W_1+W_2=W_1 \oplus W_2\) est vérifiée si et seulement si (par définition) l\'intersection \(W_1\\cap W_2\) ne contient que le vecteur nul. Afin de montrer que ce n\'est pas le cas ici, il suffit de montrer qu\'il existe \(\\alpha \\neq 0\) et des coefficients non tous nuls \(\\beta,\\gamma,\\delta\in \mathbb{R}\) tels que \(\\alpha (x+3) = \\beta x^3 + \\gamma (x+7) + 2\\delta.\)'
+  elif 'choice_1' in ans:
+    feedback = '\(~\)Correct! En effet, on voit facilement que \(x+3 = (x+7) -2\cdot 2\) et donc \(x+3 \in W_1 \\cap W_2 \\neq \{0\}.\) La somme n\'est ainsi pas directe.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="false">Vrai</choice>
+      <choice correct="true">Faux</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

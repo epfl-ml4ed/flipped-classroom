@@ -1,0 +1,39 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soit \(\mathscr{F}(\mathbb{N},\mathbb{R})\) l'ensemble des suites réelles (indexées par les entiers) de la forme  \(a=(a_n)_{n\in \mathbb{N}},\) où \(a_n\in \mathbb{R}\) pour tout \(n\in \mathbb{N}\). On munit \(\mathscr{F}(\mathbb{N},\mathbb{R})\) de l'addition et la multiplication par scalaires suivantes : </p>
+  <p>Pour \(a,b\in \mathscr{F}(\mathbb{N},\mathbb{R})\) et \(\lambda \in \mathbb{R}\), 
+\begin{align*}
+    (a+b)_n &amp;= a_n+b_n ~\forall n\in \mathbb{N},\\
+ (\lambda a)_n &amp;= \lambda a_n~\forall n\in \mathbb{N}.
+    \end{align*}</p>
+  <p>Alors l'ensemble \(\mathscr{F}(\mathbb{N},\mathbb{R})\), muni des opérations ci-dessus, est un \(\mathbb{R}\)-espace vectoriel.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, on peut voir une suite \((a_n)_{n\in \mathbb{N}}\) comme une fonction de \(\mathbb{N}\) dans \(\mathbb{R}\). Ainsi, on a l\'identification  \[\mathscr{F}(\mathbb{N},\mathbb{R})= \{f:\mathbb{N} \\to \mathbb{R}\}.\] N\'est-il alors pas possible de s\'inspirer d\'un exemple vu en cours afin de répondre à cette question ?'
+  elif 'choice_0' in ans:
+    feedback = '\(~\)Correct!  En effet, on peut voir une suite \((a_n)_{n\in \mathbb{N}}\) comme une fonction de \(\mathbb{N}\) dans \(\mathbb{R}\). Ainsi, on a l\'identification  \[\mathscr{F}(\mathbb{N},\mathbb{R})= \{f:\mathbb{N} \\to \mathbb{R}\}.\] Il est alors possible de s\'inspirer de l\'exemple \(\mathscr{F}(\mathbb{R})\) vu en cours afin de répondre à cette question. En vérifiant tous les axiômes de la même manière, on obtient alors la réponse désirée. \[\] En réalité, il est possible de montrer que si \(V\) et \(W\) sont deux espaces vectoriels, alors l\'ensemble \(\mathscr{F}(V,W)=\{f:V\\to W\}\) des fonctions de \(V\) dans \(W\) (muni des lois appropriées) est un espace vectoriel !'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

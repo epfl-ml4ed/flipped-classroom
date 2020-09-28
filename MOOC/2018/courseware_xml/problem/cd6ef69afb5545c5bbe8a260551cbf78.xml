@@ -1,0 +1,65 @@
+<problem display_name="Matrices et systèmes linéaires : problème 8" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Le système associé à la matrice augmentée 
+  \(
+  A=\left(
+  \begin{matrix}
+  2 &amp; 4 &amp; 3 &amp; 11 &amp; -10 &amp; 0 \\
+  -1 &amp; -2 &amp; 2 &amp; 5 &amp; 6 &amp; 0 \\
+  0 &amp; 0 &amp; 4 &amp; 12 &amp; -2 &amp; 0 \\
+  3 &amp; 6 &amp; -2&amp; -3 &amp; 5 &amp; 0 \\
+  \end{matrix}
+  \right)
+  \)
+  possède</p>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">une infinité de solutions.</choice>
+      <choice correct="false">une unique solution.</choice>
+      <choice correct="false">aucune solution.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <p> Aussi, le système associé à cette même matrice augmentée \(A\) possède</p>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">aucune inconnue libre.</choice>
+      <choice correct="false">une inconnue libre.</choice>
+      <choice correct="true"> deux inconnues libres.</choice>
+      <choice correct="false">trois inconnues libres.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>  Avec les opérations élémentaires \(L_1'=-L_2\), \(L_2'=L_1+2L_2\), \(L_3'=L_4+3L_2\) et \(L_4'=L_3\), on 
+  obtient la matrice augmentée:</p>
+      <p> \(A'=\left(\begin{matrix} 
+    1 &amp; 2 &amp; -2 &amp; -5 &amp; -6 &amp; 0 \\
+  0 &amp; 0 &amp; 7 &amp; 21 &amp; 2 &amp; 0 \\
+  0 &amp; 0 &amp; 4 &amp; 12 &amp; 23 &amp; 0 \\
+  0 &amp; 0 &amp; 4&amp; 12 &amp; -2 &amp; 0 \\
+    \end{matrix} \right)\).</p>
+      <p> Avec l'opération élémentaire \(L_4''=-(L_4'-L_3)/25\), on obtient la matrice augmentée:</p>
+      <p>  \(A''=\left(\begin{matrix} 
+    1 &amp; 2 &amp; -2 &amp; -5 &amp; -6 &amp; 0 \\
+  0 &amp; 0 &amp; 7 &amp; 21 &amp; 2 &amp; 0 \\
+  0 &amp; 0 &amp; 4 &amp; 12 &amp; 23 &amp; 0 \\
+  0 &amp; 0 &amp; 0&amp; 0 &amp; 1 &amp; 0 \\
+    \end{matrix} \right)\).</p>
+      <p> Avec les opérations élémentaires \(L_2'''=(L_2''-2L_4'')/7\) et   \(L_3'''=(L_2''-23L_4'')/4\) on obtient la matrice augmentée:</p>
+      <p>  \(A'''=\left(\begin{matrix} 
+    1 &amp; 2 &amp; -2 &amp; -5 &amp; -6 &amp; 0 \\
+  0 &amp; 0 &amp; 1 &amp; 3 &amp; 0 &amp; 0 \\
+  0 &amp; 0 &amp; 1 &amp; 3 &amp; 0 &amp; 0 \\
+  0 &amp; 0 &amp; 0&amp; 0 &amp; 1 &amp; 0 \\
+    \end{matrix} \right)\).</p>
+      <p> Avec les opérations élémentaires \(L_3''''=L_4'''\) et   \(L_4''''=L_3'''-L_2'''\) on obtient la matrice augmentée:</p>
+      <p>  \(A''''=\left(\begin{matrix} 
+    1 &amp; 2 &amp; -2 &amp; -5 &amp; -6 &amp; 0 \\
+  0 &amp; 0 &amp; 1 &amp; 3 &amp; 0 &amp; 0 \\
+  0 &amp; 0 &amp; 0 &amp; 0 &amp; 1 &amp; 0 \\
+  0 &amp; 0 &amp; 0&amp; 0 &amp; 0 &amp; 0 \\
+    \end{matrix} \right)\).</p>
+      <p> La matrice \(A''''\) est échelonnée et ligne équivalente à la matrice augmentée \(A\). Le nombre de pivots nous donne ensuite le nombre d'inconnues principales, et les autres sont donc libres (en sachant qu'il y a au total \(5\) inconnues, puisque la matrice est une matrice augmentée). S'il n'y a pas de ligne contradictoire (c'est-à-dire de ligne dont toutes les composantes sauf la dernière sont nulles), on a au moins une solution. S'il y a au moins une inconnue libre, il y a une infinité de solutions. Comme il n'y a pas de ligne contradictoire, on a au moins une solution. Finalement comme on a au moins une inconnue libre, plus précisément \(5-3=2\) inconnues libres, il y a une infinité de solutions. </p>
+    </div>
+  </solution>
+</problem>

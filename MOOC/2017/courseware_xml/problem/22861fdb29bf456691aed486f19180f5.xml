@@ -1,0 +1,47 @@
+<problem display_name="Bases : problème 8" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p> Soient \(V=\mathbb{R}^3\) et \({S}= \{(1,-3,2),(4,1,0),(0,2,-1))\). Lesquels des énoncés suivants sont corrects? Donner <b>toutes</b> les réponses correctes.
+ </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> \({\rm dim} \ {\rm Vect}(S)=2 \).  </choice>
+      <choice correct="true">  \(\dim {\rm Vect}(S) \leq 3\) .</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="true"> \({\rm Vect}(S)=V\).</choice>
+      <choice correct="true"> \(S\) est une base de \(V\).</choice>
+      <choice correct="true">  \(S\) est une famille libre de \(V\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> Par définition, \({\rm Vect}(S)\) est un sous espace vectoriel du \(\mathbb{R}\)-espace vectoriel \(V\). On a donc \(\dim {\rm Vect}(S)\leq \dim V\). Comme \(\dim V=3\), on obtient \(\dim {\rm Vect}(S)\leq 3\).  </p>
+      <p>  On montre maintenant que \(S\) est une famille libre de \(V\).Soient \(v_1=(1,-3,2)\), \(v_2=(4,1,0)\) et \(v_3=(0,2,-1)\) de telle sorte que \(S=\{v_1,v_2,v_3\}\). Supposons que \(\lambda_1v_1+\lambda_2v_2+\lambda_3v_3=0\) où \(\lambda_1,\lambda_2,\lambda_3 \in \mathbb{R}\). On obtient le système suivant: </p>
+      <p> \(\left \{ 
+    \begin{array}{l}
+    \lambda_1+4\lambda_2=0\\
+    -3\lambda_1+\lambda_2+2\lambda_3=0\\
+    2\lambda_1-\lambda_3=0
+    \end{array}
+    \right.\)
+     </p>
+      <p>  Sous forme matricielle, ce système correspond à la matrice augmentée suivante:</p>
+      <p> \(A=\begin{pmatrix}  1 &amp; 4 &amp; 0 &amp; &amp; 0\\ 
+    -3 &amp; 1 &amp; 2 &amp; &amp; 0\\
+    2 &amp; 0 &amp; -1 &amp; &amp; 0\\
+    \end{pmatrix}\)</p>
+      <p> Après échelonnage de la matrice \(A\), on  obtient une matrice \(A'\) ligne équivalente à \(A\) où \(A'=  \begin{pmatrix}  1 &amp; 0 &amp; 0 &amp; &amp; 0\\ 
+    0 &amp; 1 &amp; 0&amp; &amp; 0\\
+    0 &amp; 0 &amp; 1 &amp; &amp; 0\\
+    \end{pmatrix}\)  </p>
+      <p> On obtient donc que \(\lambda_1=\lambda_2=\lambda_3=0\). </p>
+      <p> Ainsi \(v_1\), \(v_2\) et \(v_3\) sont linéairement indépendants et donc \(S\) est une famille libre. Comme \(S\) est une famille libre et \(|S|=3\), on déduit que \(\dim {\rm Vect}(S)\geq 3.\)
+  </p>
+      <p>
+    Comme on a \(\dim {\rm Vect}(S)\leq \dim V=3\), on déduit que \(\dim {\rm Vect}(S)=3\). Ainsi  \(\dim {\rm Vect}(S)=\dim V\). Comme \({\rm Vect}(S)\) est un sous espace vectoriel de \(V\), \(\dim {\rm Vect}(S)=\dim V\), et \(V\) est un espace vectoriel de dimension finie, on déduit que \({\rm Vect}(S)=V.\) Il est maintenant clair que \(S\) est une base de \(V\): en effet \(S\) est une famille libre et \({\rm Vect}(S)=V\).
+  </p>
+    </div>
+  </solution>
+</problem>

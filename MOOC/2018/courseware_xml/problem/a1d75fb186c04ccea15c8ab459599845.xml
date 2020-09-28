@@ -1,0 +1,37 @@
+<problem display_name="Diagonalisation : problème 13" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soit \( A \in M_{n \times n}(\mathbb{R})\) une matrice qui possède une unique valeur propre, égale à 
+  \(0.\) Soit \(T_A: \mathbb{R}^n\rightarrow \mathbb{R}^n\) l'application linéaire dont la matrice par rapport à la base canonique de \(\mathbb{R}^n\) est \(A\).</p>
+  <p>Cocher les affirmations correctes.</p>
+  <choiceresponse>
+    <checkboxgroup label="Cocher les affirmations correctes." direction="vertical">
+      <choice correct="false">On a toujours \(A=0\).</choice>
+      <choice correct="true">Si \(A\) est diagonalisable, alors \(A=0\).</choice>
+      <choice correct="false">On peut avoir \(A\neq 0\) et \(A\) diagonalisable.</choice>
+      <choice correct="true">\(T_A\) n'est pas injective.</choice>
+      <choice correct="false">\(T_A\) peut être surjective.</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>
+Ici on a \(A\in M_{n\times n}(\mathbb{R})\)  où \(A\) possède une unique valeur propre \(\lambda=0\)
+</p>
+      <p>1)  On peut par exemple avoir \(n=2\) et 
+\[A=\begin{pmatrix}
+0 &amp; 1\\ 0 &amp; 0
+\end{pmatrix}.\] Comme \(A\) est triangulaire supérieure, les valeurs propres de \(A\) sont les entrées dans la diagonale de \(A\), et donc \(A\) a bien une unique valeur propre qui de plus est égale à \(0\). La matrice \(A\) n'est donc pas forcément nulle.
+</p>
+      <p> 2) Supposons maintenant que \(A\) est diagonalisable. On montre que cela force \(A=0\). 
+Comme \(A\) est diagonnalisable, il existe une matrice inversible \(S\in M_{n\times n}(\mathbb{R})\) telle que \(S^{-1}AS=D\) où \(D\) est une matrice diagonale. 
+Comme les matrices \(A\) et \(D\) sont semblables, ces deux matrices ont les mêmes valeurs propres.  Comme \(A\) a une unique valeur propre qui de plus est égale à \(0\), on déduit que \(D\) a aussi une unique valeur propre qui de plus est égale à \(0\). Comme \(D\) est diagonale on déduit que \(D=0\). On a donc \(S^{-1}AS=0\), ce qui mène à \(A=0\).
+</p>
+      <p> 3) Si \(A\neq 0\), alors \(A\) ne peut donc pas être diagonalisable. 
+</p>
+      <p> 4) Comme \(\lambda=0\) est une valeur propre de \(A\), il existe un élément non trivial \(w \in V=\mathbb{R}^n\)  tel que \(Aw=\lambda w\). On a alors \(Aw=0\) où \(w\neq 0\). Soit \(T_A: V\rightarrow V\) l'application linéaire définie par \(T_A(v)=Av\) pour tout \(v\in V\). On a \(w\in {\rm Ker}(T_A)\)  et donc \({\rm Ker}(T_A)\neq 0\). Ainsi \(T_A\) n'est pas injective. </p>
+      <p>
+Finalement \(T_A\) est surjective si et seulement si \(\dim{\rm Im}(T_A)=\dim V\). Par le théorème du rang, i.e. \(\dim {\rm Ker}(T_A)+\dim {\rm Im}(T_A)=\dim V\), on obtient que \(T_A\) est surjective si et seulement si \(T_A\) est injective.  Comme \(T_A\) n'est pas injective, \(T_A\) ne peut pas être surjective.
+</p>
+    </div>
+  </solution>
+</problem>

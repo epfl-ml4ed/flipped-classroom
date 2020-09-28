@@ -1,0 +1,34 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{m\times n}(\mathbb{R})\) une matrice admettant une décomposition \(LU,\) où \(L\in M_{m\times m}(\mathbb{R})\) est une matrice triangulaire inférieure et \(U\in M_{m\times n}(\mathbb{R})\) est une matrice triangulaire supérieure. Soit également \(b=(0,\ldots,0,1)\in \mathbb{R}^m\) et supposons que la dernière ligne de \(U\) ne soit constituée que de zéros.</p>
+  <p>Alors le système \(AX=b\) n'admet aucune solution. </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, d\'après la méthode vue en cours, il est possible de résoudre le système \(AX=b\) en commençant par trouver \(Y\) tel que \(LY=b.\) Que peut-on dire de \(Y\) dans cette situation ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, d\'après la méthode vue en cours, il est possible de résoudre le système \(AX=b\) en commençant par trouver \(Y\) tel que \(LY=b.\) Le système linéaire associé admet comme unique solution \(Y=(0,\ldots,0,L_{mm}^{-1})\) (on rappelle que \(L\) est inversible, car obtenue en appliquant des opérations élémentaires à la matrice identité \(I_{mm}\)) et donc afin de déterminer la valeur de \(X,\) il reste à résoudre le système \(UX=Y.\) Cependant, comme la dernière ligne de \(U\) est nulle, on obtient \((UX)_m=0 \\neq Y_m.\) Ainsi, le système \(AX=b\) n\'admet aucune solution.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

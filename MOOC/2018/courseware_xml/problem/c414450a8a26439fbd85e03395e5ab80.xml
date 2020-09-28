@@ -1,0 +1,24 @@
+<problem display_name=" Espace ligne - Espace colonne revisités : problème 3" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>  Soit \(m \in \mathbb{R}\),  \(M=\left(\begin{matrix} 2 &amp; m &amp; m-1\\ 1 &amp; 3 &amp; m \\ 1 &amp; 0 &amp; m+1  \end{matrix}\right) \in M_{3\times 3}(\mathbb{R})\) et \(L\) l'espace ligne de \(M\). Lesquels des énoncés suivants sont-ils vérifiés ?  </p>
+  <p> Attention : veuillez s'il vous plaît donner <b>toutes</b> les réponses correctes.</p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> Quelle que soit la valeur de \(m\), on a \(L=\mathbb{R}^3\).</choice>
+      <choice correct="false"> Si \(m= -9/2\) alors \(L=0\).</choice>
+      <choice correct="true">  Si \(m \neq -9/2\) alors \(L=\mathbb{R}^3\).</choice>
+      <choice correct="true"> Si \(m= -9/2\) alors \(L={\rm Vect}(\{(4,-9,-11),(0,3,-1)\})\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> En échelonnant \(M\), on remarque que \(M\) est ligne-équivalente à:</p>
+      <p> \(M'=\left(\begin{matrix} 1 &amp; \frac m2 &amp; \frac{m-1}2\\ 0 &amp; 1 &amp; -1/3\\ 0 &amp; m &amp; -m-3 \end{matrix}\right)\).</p>
+      <p>Si \(m=0\) alors </p>
+      <p> \(M'=\left(\begin{matrix} 1 &amp; 0 &amp; -1/2\\ 0 &amp; 1 &amp; -1/3\\ 0 &amp; 0 &amp; -3 \end{matrix} \right)\)  et \(L=\mathbb{R}^3\).</p>
+      <p> Si \(m\neq 0\) alors avec l'opération élémentaire \(L_3''= L_3'-mL_2'\) on obtient: </p>
+      <p> \(M''=\left(\begin{matrix} 1 &amp; \frac m2 &amp; \frac{m-1}2\\ 0 &amp; 1 &amp; -1/3\\ 0 &amp; 0 &amp; -\frac{2m+9}3 \end{matrix} \right)\).</p>
+      <p> On déduit que si \(m\neq -9/2\) alors \(L=\mathbb{R}^3\). Finalement si \(m=-9/2\) alors \(L={\rm Vect}(\{(1,-9/4,-11/4),(0,1,-1/3)\})={\rm Vect}(\{(4,-9,-11),(0,3,-1)\})\)</p>
+    </div>
+  </solution>
+</problem>

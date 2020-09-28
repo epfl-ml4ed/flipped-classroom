@@ -1,0 +1,41 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soient \(V\) un espace vectoriel et \(S\subset V\) une collection de vecteurs de \(V.\) Parmi les possibilités pour \(V\) et \(S\) suivantes, cochez celle(s) où \(S\) est une famille libre de \(V.\)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' not in ans and 'choice_1' not in ans and 'choice_2' not in ans and 'choice_3' not in ans :
+    feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  elif 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, afin de déterminer si la première liste est libre dans le premier espace vectoriel, il suffit de déterminer s\'il existe \(\\alpha,\\beta,\\gamma \in \mathbb{R}\) non tous nuls tels que \(\\alpha (2-,2,0) + \\beta (5,5,5) + \\gamma (2,0,1)=0,\) ce qui revient à résoudre un système à trois inconnues et trois équations. Ce système n\'admet-il que la solution triviale \((0,0,0)\) ? '
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, une liste contenant le vecteur nul peut-elle être libre ? '
+  elif 'choice_3' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle que \(\sin^2(x)+\cos^2(x)=1,\) ceci pour tout \(x\in \mathbb{R}.\) '
+  elif 'choice_0' not in ans and 'choice_1' in ans and 'choice_2' not in ans and 'choice_3' not in ans:
+    feedback = 'Correct! En effet, on commence par remarquer que \(5(-2,2,0)+(-2)(5,5,5)+10(2,0,1)=0\) et donc que la première liste est liée. \[\] Aussi, \(0\cdot \sin + 0 \cdot f + 0\cdot \mbox{ln} + 3\cdot 0 = 0,\) et donc la liste \(\{\sin, f,\mbox{ln},0\}\) est liée. (De manière générale, une liste contenant le vecteur nul est toujours liée.)\[\] On observe également que \(\\tfrac{1}{3}(3\sin^2(x))+\\tfrac{1}{2}(2\cos^2(x)) +(-\\tfrac{1}{9})9=0,\) pour tout \(x\in \mathbb{R}\), ce qui montre que la liste \(\{3\sin^2,2\cos^2,9\}\) est liée.\[\] Finalement, supposons que \(\\alpha,\\beta,\\gamma\in \mathbb{R}\) soient tels que \(\\alpha(x+1)(x-1) + \\beta(x+1) + \\gamma =0.\) En procédant comme dans le cours (en identifiant les termes de même degré), on obtient \(\\alpha=0,\) \(\\beta=0\) et \\(-\\alpha+\\beta+\\gamma=0,\) ce qui force \(\\alpha=\\beta=\\gamma=0.\) Ainsi, la liste \(\{(x+1)(x-1),x+1,1\}\) est libre comme désiré.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">\(V=\mathbb{R}^3,\) \(S=\{(-2,2,0),(5,5,5),(2,0,1)\}\) ;</choice>
+      <choice correct="true">\(V=\mathbb{P}_7(\mathbb{R}),\) \(S=\{(x+1)(x-1), x+1,1\}\) ;</choice>
+      <choice correct="false">\(V=\mathscr{F}(\mathbb{R}),\) \(S=\{\sin, f,\mbox{ln},0\},\) où \(f(x)=x^2+1\) pour tout \(x\in \mathbb{R}\)  ;</choice>
+      <choice correct="false">\(V=\mathscr{F}(\mathbb{R}),\) \(S=\{3\sin^2, 2\cos^2, 9\}.\)</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

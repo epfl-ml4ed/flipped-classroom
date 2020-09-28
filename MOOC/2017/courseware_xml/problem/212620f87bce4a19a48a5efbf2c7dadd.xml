@@ -1,0 +1,57 @@
+<problem display_name="Décomposition en valeurs singulières : problème 3" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Reprenons la matrice de l'exercice précédent \(A= \begin{pmatrix}  1 &amp; 1  \\ 0 &amp;  1  \\ -1 &amp;  1\end{pmatrix}\).  
+  </p>
+  <p>Si l'on prend \(U=\begin{pmatrix}  \frac{1}{\sqrt3} &amp;  \frac{1}{\sqrt 2}&amp;  \frac{1}{\sqrt6} \\   \frac{1}{\sqrt3} &amp; 0 &amp;  \frac{-2}{\sqrt6} \\ \frac{1}{\sqrt3} &amp;  \frac{-1}{\sqrt 2} &amp; \frac{1}{\sqrt 6} \end{pmatrix}\), \(\Sigma = \begin{pmatrix} \sqrt 3 &amp; 0 \\ 0&amp; \sqrt 2 \\ 0 &amp; 0  \end{pmatrix}\) et \(V=\begin{pmatrix} 0 &amp; 1 \\ 1 &amp; 0 \end{pmatrix}\), alors \(A=U\Sigma V\) et \(U\Sigma V\) est une décomposition de \(A\)  en valeurs singulières.  </p>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>On reprend ce que l'on avait obtenu dans l'exercice précédent. Pour une valeur propre \(\lambda\) de \(B\) soit \(E_{\lambda}\) l'espace propre correspondant, i.e. \(E_{\lambda}=\{v \in \mathbb{R}^2: (B-\lambda I)v=0 \}\). Comme \(B\) est symétrique, on a que pour une valeur propre \(\lambda\) de \(B\), la multiciplicité algébrique de \(\lambda\) est égale à la multiplicité géométrique de \(\lambda\). Ainsi \(\dim E_{\lambda_1}=\dim E_{\lambda_2}=1\). Aussi, comme \(B\) est symétrique et \(\lambda_1\neq \lambda_2\), on a  \(E_{\lambda_1}\perp E_{\lambda_2}\). </p>
+      <p> Supposons \(\lambda=\lambda_1=3\).  On a \[ (B-\lambda_1I)=\begin{pmatrix} -1 &amp; 0 \\ 0 &amp; 0\end{pmatrix}.\] Les éléments de \(E_{\lambda_1}\) sont les solutions du système correspondant à la matrice augmentée suivante:
+\[ C_1=\begin{pmatrix}  -1 &amp; 0 &amp; &amp; 0 \\ 0 &amp; 0 &amp; &amp; 0\end{pmatrix}.\]
+Avec l' opération élémentaire \(L_1'=-L_1\), on obtient:
+\[ C_1'=\begin{pmatrix}  1 &amp; 0 &amp; &amp; 0 \\ 0&amp; 0 &amp; &amp; 0\end{pmatrix}.\]
+On en déduit que \(E_{\lambda_1}=\{(0,t):t\in \mathbb{R} \}\), \(((0,1))\) est une base de \(E_{\lambda_1}\), et \(((0,1))\) est une base orthonormée de \(E_{\lambda_1}\) .</p>
+      <p>Supposons \(\lambda=\lambda_2=2\).  On a \[(B-\lambda_2I)=\begin{pmatrix} 0 &amp; 0 \\ 0 &amp; -1\end{pmatrix}.\] Les éléments de \(E_{\lambda_2}\) sont les solutions du système correspondant à la matrice augmentée suivante:
+\[ C_2=\begin{pmatrix}  0 &amp; 0 &amp; &amp; 0 \\ 0&amp; 1 &amp; &amp; 0\end{pmatrix}.\]
+On en déduit que \(E_{\lambda_2}=\{(t,0):t\in \mathbb{R} \}\), \(((1,0))\) est une base  de \(E_{\lambda_2}\) ,  et \(((1,0))\) est une base orthonormée de \(E_{\lambda_2}\).</p>
+      <p>Soient \[v_1=\left( 0, 1\right) \quad {\rm et} \quad v_2= \left( 1, 0\right).\] Alors \(\mathcal{B}_1=(v_1,v_2)\) est une base orthonormée de \(\mathbb{R}^2\).
+Aussi soient 
+\[ u_1= \frac{\phi(v_1)}{\sigma_1} \quad {\rm et} \quad u_2=\frac{\phi(v_2)}{\sigma_2},\] alors \((u_1,u_2)\) est une base orthonormée de \({\rm im}(\phi)\).  
+On a 
+\[ \phi(v_1)=A v_1=  \begin{pmatrix} 1 &amp; 1 \\ 0 &amp; 1 \\ -1&amp; 1 \end{pmatrix} \begin{pmatrix} 0 \\ 1 \end{pmatrix}= \begin{pmatrix} 1\\ 1 \\ 1\end{pmatrix}\]
+et 
+\[\phi(v_2)=A v_2=  \begin{pmatrix} 1 &amp; 1 \\ 0 &amp; 1 \\ -1&amp; 1 \end{pmatrix} \begin{pmatrix} 1 \\ 0 \end{pmatrix}= \begin{pmatrix} 1\\ 0 \\ -1\end{pmatrix}.\]
+On en déduit que
+\[ u_1= \left(\frac{1}{\sqrt3}, \frac{1}{\sqrt 3}, \frac{1}{\sqrt 3}\right) \quad {\rm et} \quad u_2=  \left(\frac{1}{\sqrt 2}, 0,\frac{-1}{\sqrt 2}\right).\]</p>
+      <p> On étend maintenant \((u_1,u_2)\) à une base orthonormée de \(\mathbb{R}^3\). Bien sur \({\rm Vect}(u_1,u_2)={\rm Vect}(w_1,w_2)\) où \(w_1=\sqrt3 u_1=(1,1,1)\) et \(w_2=\sqrt{2}u_2=(1,0,-1)\). Aussi \((w_1,w_2)\) est une base orthogonale de \({\rm im}(\phi)\). Dans un premier temps on complète \((w_1,w_2)\) en une base de \(\mathbb{R}^3\).  Soit \(w_3=(0,0,1)\). Il est facile de voir que \((w_1,w_2,w_3)\) est une base de \(\mathbb{R}^3\).  En effet  la dimension de \({\rm Vect}(w_1,w_2,w_3)\) est égale au rang ligne de la matrice \(E\) suivante:
+\[E=\begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 1 &amp; 0&amp; -1\\ 0&amp; 0 &amp; 1 \end{pmatrix}\] (car les lignes de \(E\) correspondent respectivement  à \(w_1\), \(w_2\) et \(w_3\)).
+  Avec l'opération \(L_2'=-(L_2-L_1)\), on obtient la matrice:
+  \[E=\begin{pmatrix} 1 &amp; 1 &amp; 1 \\ 0 &amp; 1&amp; 2\\ 0&amp; 0 &amp; 1 \end{pmatrix}\] et \({\rm rg}(E)={\rm rg}(E')=3.\)
+  Comme \({\rm rg}(E)=3\), on a que \( \dim {\rm Vect}(w_1,w_2,w_3)=3\) et donc \((w_1,w_2,w_3)\) est une base de \(\mathbb{R}^3\). On utilise Gram-Schmidt afin de transformer \((w_1,w_2,w_3)\) en une base orthogonale  \((t_1,t_2,t_3)\) de \(\mathbb{R}^3\). Comme\(\langle w_1, w_2\rangle =0\), on prend \(t_1=w_1=(1,1,1)\) et \(t_2=w_2=(1,0,-1)\). Finalement, comme \(w_2\cdot w_3=0\),  on prend
+\begin{eqnarray*}
+ t_3 &amp; = &amp; w_3-{\rm proj}_{t_1}(w_3)-{\rm proj}_{t_2}(w_3)\\
+ &amp; =&amp; w_3 -\frac{\langle t_1, w_3\rangle}{\langle t_1, t_1\rangle}t_1-\frac{\langle t_2, w_3\rangle}{\langle t_2, t_2\rangle}t_2\\
+ &amp;= &amp; (0,0,1)-\frac{\langle(1,1,1),(0,0,1)\rangle}{\langle (1,1,1),(1,1,1)\rangle}(1,1,1) -\frac{\langle(1,0,-1),(0,0,1)\rangle}{\langle (1,0,-1),(1,0,-1)\rangle}(1,0,-1)   \\
+ &amp; = &amp;  (0,0,1)-\frac{1}{3}(1,1,1)+\frac{1}{2}(1,0,-1)\\
+ &amp; = &amp; \frac{1}6(0,0,6)-\frac{1}{6}(2,2,2)+\frac{1}{6}(3,0,-3)\\
+&amp; = &amp; \frac{1}6(1,-2,1). 
+\end{eqnarray*}
+Soit \[u_3=\frac{t_3}{||t_3||}=\left(\frac{1}{\sqrt6},\frac{-2}{\sqrt6},\frac1{\sqrt 6}\right).\] Alors \(\mathcal{B}_2=(u_1,u_2,u_3)\) est une base orthonormée de \(\mathbb{R}^3\). </p>
+      <p> La décomposition singulière de \(A\) est donnée par \[A=U\Sigma V\] où 
+\[ U=[{\rm id}]_{\mathcal{C}_2\mathcal{B}_2}, \quad \Sigma=[\phi]_{\mathcal{B}_2\mathcal{B}_1} \quad {\rm et} \quad   V=[{\rm id}]_{\mathcal{B}_1\mathcal{C}_1}.\]</p>
+      <p> Comme
+\[u_1=\left(\frac{1}{\sqrt3},\frac{1}{\sqrt3}, \frac{1}{\sqrt3}\right)=\frac{1}{\sqrt3}f_1+\frac{1}{\sqrt3}f_2+\frac{1}{\sqrt3}f_3, \quad u_2=\left(\frac{1}{\sqrt 2},0,\frac{-1}{\sqrt 2}\right)=\frac1{\sqrt 2}f_1-\frac{1}{\sqrt 2}f_3 \] \[ \quad {\rm et} \quad u_3= \left(\frac{1}{\sqrt6},\frac{-2}{\sqrt6},\frac{1}{\sqrt 6}\right)=\frac{1}{\sqrt6}f_1-\frac{2}{\sqrt6}f_2+\frac{1}{\sqrt6}f_3\]
+  on en déduit que 
+\[U=\begin{pmatrix}  \frac{1}{\sqrt3} &amp;  \frac{1}{\sqrt 2}&amp;  \frac{1}{\sqrt6} \\   \frac{1}{\sqrt3} &amp; 0 &amp;  \frac{-2}{\sqrt6} \\ \frac{1}{\sqrt3} &amp;  \frac{-1}{\sqrt 2} &amp; \frac{1}{\sqrt 6} \end{pmatrix}.\]</p>
+      <p>Comme \[ e_1=(1,0)= v_2 \quad {\rm et} \quad e_2=(0,1)= v_1\] on en déduit que
+\[V= \begin{pmatrix}  0 &amp;1 \\  1&amp;0 \end{pmatrix}.\]</p>
+      <p> Finalement \[\Sigma=[\phi]_{\mathcal{B}_2\mathcal{B}_1}=\begin{pmatrix}  \sqrt 3 &amp; 0   \\ 0 &amp; \sqrt 2  \\ 0 &amp; 0  \end{pmatrix}.\]</p>
+    </div>
+  </solution>
+</problem>

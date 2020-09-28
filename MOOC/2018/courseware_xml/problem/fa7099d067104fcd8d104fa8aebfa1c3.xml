@@ -1,0 +1,33 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{m\times n}(\mathbb{R})\) une matrice de taille \(m\times n\) à coefficients réels. Si \(B\) est une matrice échelonnée telle que \(A\) est ligne-équivalente à \(B,\) alors le rang-ligne de \(A\) est égal au nombre de pivots de \(B.\)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, les matrices \(A\) et \(B\) sont ligne-équivalentes et donc par un résultat du cours, ont le même rang-ligne. Aussi, quel est le lien entre le rang-ligne d\'une matrice échelonnée et le nombre de pivot(s) de celle-ci ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, les matrices \(A\) et \(B\) sont ligne-équivalentes et donc par un résultat du cours, ont le même rang-ligne. Aussi, le rang-ligne d\'une matrice échelonnée est égal au nombre de pivots de celle-ci, d\'où le résultat. '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

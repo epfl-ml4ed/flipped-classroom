@@ -1,0 +1,39 @@
+<problem display_name="Quiz 1 " markdown="null" weight="0.0">
+  <p> Soit \(V=\mathbb{P}_4(\mathbb{R})\) l'espace vectoriel des polynômes à coefficients réels, de degré plus petit ou égal à \(4.\) Considérons aussi l'application linéaire \(T : V\to V\) donnée par \(T(p(x))=p''(x),\) ceci pour tout \(p(x)\in V.\) Que vaut le rang de \(T\) ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if '0' in ans:
+    feedback = 'C\'est incorrect. En effet, cela voudrait dire que l\'application \(T\) est l\'application nulle.'
+  elif '1' in ans:
+    feedback = 'C\'est incorrect. En effet, on a par exemple \(T(x^2)=2\) et \(T(x^3)=6x.\) Ainsi, \(\mbox{Vect}(\{2,6x\})\subset \mbox{Im}(T)\) et donc \(T\) est de rang au moins égal à \(2.\)'
+  elif '2' in ans:
+    feedback = 'C\'est incorrect. En effet, on a par exemple \(T(x^2)=2,\) \(T(x^3)=6x\) et \(T(x^4)=12x^2.\) Ainsi, \(\mbox{Vect}(\{2,6x,12x^2\})\subset \mbox{Im}(T)\) et donc \(T\) est de rang au moins égal à \(3.\)'
+  elif '4' in ans:
+    feedback = 'C\'est incorrect. En effet, quel degré maximal peut avoir \(T(p(x))\) si \(p(x)\in V\)  ?'    
+  elif '5' in ans:
+    feedback = 'C\'est incorrect. En effet, si le rang de \(T\) valait \(5,\) cela signifierait que cette dernière est surjective. Or, est-il possible de trouver \(p(x)\in V\) tel que \(T(p(x))=x^4,\) par exemple?'    
+  elif '3' in ans:
+    feedback = 'Correct! En effet, il suffit de montrer que l\'image de \(T\) est égale à \(\mathbb{P}_2(\mathbb{R}).\) On commence par remarquer qu\'en appliquant \(T\) à un polynôme \(p(x)=ax^4+bx^3+cx^2+dx+e \in V\) (où \(a,b,c,d,e \in \mathbb{R}\)), on obtient \( T(p(x))=12ax^2+6bx+2c\) et donc \(\mbox{Im}(T)\subset \mathbb{P}_2(\mathbb{R}).\)  Réciproquement, si l\'on montre que \(1,\) \(x\) et \(x^2\) appartiennent à \(\mbox{Im}(T)\), alors on aura \( \mathbb{P}_2(\mathbb{R})=\mbox{Vect}(\{1,x,x^2\})\subset \mbox{Im}(T).\) Pour se faire, il suffit de vérifier que \[T(\\tfrac{1}{12}x^4)=x^2,~~T(\\tfrac{1}{6}x^3)=x~~\mbox{et } T(\\tfrac{1}{2}x^2)=1.\] En conclusion, on a bien \(\mbox{Im}(T)= \mathbb{P}_2(\mathbb{R})\) et donc \(\mbox{rang}(T)=3.\)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <optionresponse>
+    <optioninput options="('0','1','2','3','4','5')" correct="3"/>
+    <hintgroup hintfn="hint_fn"/>
+  </optionresponse>
+  <hintgroup hintfn="hint_fn"/>
+</problem>

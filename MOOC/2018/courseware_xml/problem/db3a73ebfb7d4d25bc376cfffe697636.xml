@@ -1,0 +1,128 @@
+<problem display_name="Produits scalaires : problème 2" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(V=M_{3 \times 3}(\mathbb{R})\) muni du produit scalaire \(\langle A,B\rangle=Tr(A^TB)\). Soient 
+  \[A=\left(
+  \begin{matrix}
+  -1 &amp; 3 &amp; 1 \\
+  0 &amp; 2 &amp; 4 \\
+  1 &amp; 1 &amp; -1
+  \end{matrix}
+  \right), \hspace{2mm}
+  B=\left(
+  \begin{matrix}
+  2 &amp; 4 &amp; 1 \\
+  1 &amp;-2 &amp; 1 \\
+  3 &amp; 0 &amp; 0 
+  \end{matrix}
+  \right), \hspace{2mm}
+  C=\left(
+  \begin{matrix}
+  0 &amp; 1 &amp; 4 \\
+  1 &amp; 0 &amp; 1 \\
+  3 &amp; 2 &amp; 2
+  \end{matrix}
+  \right).\] Calculer les expressions suivantes : (S'il s'agit de fractions, les entrer avec un 
+  "slash", i.e. "\(1\)/\(2\)" pour \(\frac{1}{2}\).)</p>
+  <p>\(\langle A,C \rangle\)</p>
+  <numericalresponse answer="14">
+    <formulaequationinput label="\(\langle A,C \rangle\)"/>
+  </numericalresponse>
+  <p>\(\langle A+B,C \rangle\)</p>
+  <numericalresponse answer="33">
+    <formulaequationinput label="\(\langle A+B,C \rangle\)"/>
+  </numericalresponse>
+  <p>\(||B||\)</p>
+  <numericalresponse answer="6">
+    <formulaequationinput label="\(||B||\)"/>
+  </numericalresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>
+Ici \(V=M_{3\times 3}(\mathbb{R})\), et on munit \(V\) du produit scalaire \(\langle A,B\rangle={\rm Tr}(A^T,B)\) pour tous \(A,B \in V\).
+</p>
+      <p>De plus on donne:
+\[A=\begin{pmatrix} -1&amp; 3 &amp; 1 \\
+0 &amp; 2 &amp; 4\\ 
+1 &amp; 1 &amp; -1
+ \end{pmatrix},\quad B=
+\begin{pmatrix} 2&amp; 4 &amp; 1 \\
+1 &amp; -2 &amp; 1\\ 
+3 &amp; 0 &amp; 0
+ \end{pmatrix}
+\quad \textrm{et} \quad C=\begin{pmatrix} 0&amp; 1 &amp; 4 \\
+1 &amp; 0 &amp; 1\\ 
+3 &amp; 2 &amp; 2
+ \end{pmatrix}.\]
+</p>
+      <p> On a
+\begin{eqnarray*}
+\langle A,C\rangle &amp; = &amp; {\rm Tr}(A^TC)= {\rm Tr}\left(  \begin{pmatrix}
+ -1&amp; 0 &amp; 1 \\
+3 &amp; 2 &amp; 1\\ 
+1 &amp; 4 &amp; -1
+ \end{pmatrix}\begin{pmatrix}
+0&amp; 1 &amp; 4 \\
+1 &amp; 0 &amp; 1\\ 
+3 &amp; 2 &amp; 2
+ \end{pmatrix}\right)\\
+&amp;= &amp; {\rm Tr}\left(\begin{pmatrix} 
+3 &amp; * &amp; * \\
+* &amp; 5 &amp; *\\
+* &amp; * &amp; 6   
+\end{pmatrix}\right)\\
+&amp; = &amp; 3+5+6\\
+&amp; = &amp; 14.
+\end{eqnarray*}
+</p>
+      <p>
+On a 
+\begin{eqnarray*}
+\langle A+B,C\rangle &amp; = &amp; \langle A, C\rangle +\langle B,C \rangle\\
+ &amp; = &amp; 14+ \langle  B, C\rangle\\
+&amp; = &amp; 14+{\rm Tr}(B^TC)\\
+&amp; = &amp; 14+{\rm Tr}\left(\begin{pmatrix}
+2&amp; 1 &amp; 3 \\
+4 &amp; -2 &amp; 0\\ 
+1 &amp; 1 &amp; 0
+ \end{pmatrix}\begin{pmatrix}
+0&amp; 1 &amp; 4 \\
+1 &amp; 0 &amp; 1\\ 
+3 &amp; 2 &amp; 2
+ \end{pmatrix}\right)\\
+&amp;= &amp; 14+{\rm Tr}\left(\begin{pmatrix} 
+10 &amp; * &amp; * \\
+* &amp; 4 &amp; *\\
+* &amp; * &amp; 5   
+\end{pmatrix}\right)\\
+&amp; = &amp; 14+(10+4+5)\\
+&amp; = &amp; 33.
+\end{eqnarray*}
+</p>
+      <p>
+On a 
+\begin{eqnarray*}
+\langle B,B\rangle &amp; = &amp; \langle B, B\rangle\\
+ &amp; = &amp;  \langle  B, B\rangle\\
+&amp; = &amp; {\rm Tr}(B^TB)\\
+&amp; = &amp; {\rm Tr}\left(\begin{pmatrix}
+2&amp; 1 &amp; 3 \\
+4 &amp; -2 &amp; 0\\ 
+1 &amp; 1 &amp; 0
+ \end{pmatrix}\begin{pmatrix}
+2&amp; 4 &amp; 1 \\
+1 &amp; -2 &amp; 1\\ 
+3 &amp; 0 &amp; 0
+ \end{pmatrix}\right)\\
+&amp;= &amp; {\rm Tr}\left(\begin{pmatrix} 
+14 &amp; * &amp; * \\
+* &amp; 20 &amp; *\\
+* &amp; * &amp; 2   
+\end{pmatrix}\right)\\
+&amp; = &amp; 14+20+2)\\
+&amp; = &amp; 36.
+\end{eqnarray*}
+Donc \[||B||=\sqrt{\langle B, B\rangle}=\sqrt{36}=6.\]
+</p>
+    </div>
+  </solution>
+</problem>

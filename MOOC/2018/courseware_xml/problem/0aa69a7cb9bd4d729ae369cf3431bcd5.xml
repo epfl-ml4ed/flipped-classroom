@@ -1,0 +1,44 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(B=(b_{ij})\in M_{2\times 3}(\mathbb{R})\) la matrice de taille \(2\times 3\) définie par
+  \[
+  B=\begin{pmatrix}	1	&amp;	2	&amp;	3	\\
+  					0	&amp;	0	&amp;	4	\end{pmatrix}.
+  \]
+  Parmi les affirmations suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle qu\'une matrice de taille \(m\\times n\) est carrée si et seulement si \(m=n.\)'
+  elif 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle qu\'une matrice symétrique est carrée par définition. Est-ce le cas de \(B\) ici ?'
+  elif 'choice_3' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle qu\'une matrice diagonale est carrée par définition. Est-ce le cas de \(B\) ici ?'
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, on commence par remarquer que la matrice n\'est pas carrée, car elle n\'a pas le même nombre de lignes que de colonnes. N\'étant pas carrée, \(B\) ne peut être ni diagonale, ni symétrique (par définition). Finalement, on remarque que \(b_{21}=0\) et donc \(B\) est triangulaire supérieure.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">La matrice \(B\) est carrée.</choice>
+      <choice correct="false">La matrice \(B\) est symétrique.</choice>
+      <choice correct="true">La matrice \(B\) est triangulaire supérieure.</choice>
+      <choice correct="false">La matrice \(B\) est diagonale.</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

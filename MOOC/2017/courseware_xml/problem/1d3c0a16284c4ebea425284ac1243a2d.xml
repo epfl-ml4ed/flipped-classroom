@@ -1,0 +1,48 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>On considère le système d'équations linéaires aux inconnues \(x,y,z\) suivant \[
+  S=\left\{ \begin{array}{llllr} 
+    x 	&amp;	+ 	2y				&amp;	+3z		&amp;	=	&amp;0	\\
+    -2x 	&amp; 	&amp;	+4z		&amp;	=	&amp;0	\\
+    	&amp;	2y				&amp;	+5z		&amp;	=	&amp;0	\\ 
+  \end{array}\right.
+.\] Parmi les affirmations suivantes, cochez celle qui vous semble correcte. </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, cela signifierait que le système n\'admet que la solution triviale. Est-ce vraiment le cas ici ?'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle que cette dimension s\'obtient en soustrayant au nombre d\'inconnues (valant ici \(3\)) le nombre de pivots de n\'importe quelle matrice échelonnée ligne-équivalente à la matrice des coefficients de \(S.\) Combien de pivots comporte une telle matrice dans notre situation ?'
+  elif 'choice_3' in ans:
+    feedback = 'C\'est incorrect. En effet, cela signifierait que tout vecteur \(\\alpha=(\\alpha_1,\\alpha_2,\\alpha_3)\in \mathbb{R}^3\) est une solution de \(S.\) Or, ce n\'est clairement pas le cas ici.'
+  elif 'choice_4' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle que de manière générale, l\'espace vectoriel des solutions d\'un système linéaire contenant \(n\) équations est obligatoirement de dimension plus petite ou égale à \(n.\)'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En échelonnant la matrice des coefficients du système \(S,\) on peut montrer que cette dernière est ligne-équivalente à la matrice \[B=\\begin{pmatrix} 1 &amp; 2 &amp; 3 \cr 0 &amp; 2 &amp; 5\cr 0 &amp; 0 &amp; 0 \\end{pmatrix}.\] Cette matrice contenant \(2\) pivots, on en déduit que la dimension de l\'espace des solutions du système correspondant est de dimension \(3-2=1.\)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">L'espace des solutions de \(S\) est de dimension nulle.</choice>
+      <choice correct="true">L'espace des solutions de \(S\) est de dimension \(1.\)</choice>
+      <choice correct="false">L'espace des solutions de \(S\) est de dimension \(2.\)</choice>
+      <choice correct="false">L'espace des solutions de \(S\) est de dimension \(3.\)</choice>
+      <choice correct="false">L'espace des solutions de \(S\) est de dimension plus grande ou égale à \(4.\)</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

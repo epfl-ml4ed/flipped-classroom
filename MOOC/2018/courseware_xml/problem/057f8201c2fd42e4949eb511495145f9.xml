@@ -1,0 +1,24 @@
+<problem display_name="Diagonalisation : problème 10" markdown="null" max_attempts="1" showanswer="attempted">
+  <p> Si \(A \in M_{n \times n}(\mathbb{R})\) est une matrice diagonalisable et inversible, alors \(A^{-1}\) 
+  est aussi diagonalisable.</p>
+  <multiplechoiceresponse>
+    <choicegroup label=" Si \(A \in M_{n \times n}(\mathbb{R})\) est une matrice diagonalisable et inversible,                        alors \(A^{-1}\) est aussi diagonalisable." type="MultipleChoice">
+      <choice correct="true">Vrai</choice>
+      <choice correct="false">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>
+On montre que si \(A\in M_{n\times n}(\mathbb{R})\) est une matrice diagonalisable et inversible, alors \(A^{-1}\) est aussi diagonalisable.
+</p>
+      <p>
+Puisque \(A\) est diagonalisable, il existe une matrice inversible \(S \in M_{n\times n}(\mathbb{R})\) telle que \(S^{-1}AS=D\) où \(D \in M_{n\times n}(\mathbb{R})\) est diagonale (et inversible). 
+</p>
+      <p>
+On a donc \((S^{-1}AS)^{-1}=D^{-1}\). Ainsi \(S^{-1}A^{-1}S=D^{-1}\). Comme \(D\) est diagonale, \(D^{-1}\) l'est aussi. La matrice \(A^{-1}\) est donc diagonalisable. 
+</p>
+    </div>
+  </solution>
+</problem>

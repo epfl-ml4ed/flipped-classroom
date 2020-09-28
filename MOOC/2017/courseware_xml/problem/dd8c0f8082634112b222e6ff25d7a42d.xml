@@ -1,0 +1,34 @@
+<problem display_name="Quiz 4 (@)" markdown="null" weight="0.0">
+  <p>Soient \(V\) un espace euclidien de dimension \(n\), muni d'un produit scalaire \(\langle ~,~\rangle_V\). Dans le quiz précédent, nous avons remarqué que si \(\mathscr{B}\) est une base orthonormée de \(V\), alors on a \[\langle x,y\rangle_V=[x]_{\mathscr{B}}\cdot [y]_{\mathscr{B}},\] ceci pour tous \(x,y\in V\).</p>
+  <p>La réciproque est-elle également vérifiée ? En d'autres mots, si \(\mathscr{C}\) est une base ordonnée de \(V\) satisfaisant \(\langle x,y\rangle_V=[x]_{\mathscr{C}}\cdot [y]_{\mathscr{C}}\) pour tous \(x,y\in V\), alors \(\mathscr{C}\) est-elle obligatoirement orthonormée ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, supposons que \(\mathscr{C}=(v_1,\ldots,v_n)\) soit une base non-orthonormée de \(V\). Alors soit il existe \(1\leq i\leq n\) tel que \(||v_i||\\neq 1\), ou bien il existe \(1\leq i\lt j\leq n\) tels que \(\langle v_i,v_j\\rangle_V\\neq 0\). Dans les deux cas, n\'est-il pas possible de trouver \(x,y\in V\) tels que \(\langle x,y\\rangle_V \\neq [x]_{\mathscr{C}}\cdot [y]_{\mathscr{C}}\) ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, supposons que \(\mathscr{C}=(v_1,\ldots,v_n)\) soit une base non-orthonormée de \(V\). Alors au moins une des situations suivantes se présente : \[\] 1) Soit il existe \(1\leq i\leq n\) tel que \(||v_i||\\neq 1\), ou bien \[\]2) Il existe \(1\leq i\lt j\leq n\) tels que \(\langle v_i,v_j\\rangle_V\\neq 0\).\[\]1) Supposons que nous soyons dans le premier cas. Alors on a \(\langle v_i,v_i\\rangle_V = ||v_i|| \\neq 1 =||[v_i]_{\mathscr{C}}||=[v_i]_{\mathscr{C}}\cdot [v_i]_{\mathscr{C}}\). Ainsi, on ne peut avoir \(\langle x,y\\rangle_V \\neq [x]_{\mathscr{C}}\cdot [y]_{\mathscr{C}}\) pour tous \(x,y\in V\). \[\]2) Supposons que nous soyons dans le deuxième cas. Alors \(\langle v_i,v_j\\rangle_V \\neq 0 =[v_i]_{\mathscr{C}}\cdot [v_j]_{\mathscr{C}}.\) Par conséquent, on ne peut avoir \(\langle x,y\\rangle_V \\neq [x]_{\mathscr{C}}\cdot [y]_{\mathscr{C}}\) pour tous \(x,y\in V\). \[\]CONCLUSION : Ce quiz et le précédent montrent que l\'on peut se permettre de calculer le produit scalaire \(\langle x,y\\rangle_V\) entre deux vecteurs quelconques de \(V\) dans \(\mathbb{R}^n\), à condition qu\'une base orthonormée de \(V\) existe !'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Oui. </choice>
+      <choice correct="false">Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

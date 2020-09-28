@@ -1,0 +1,69 @@
+<problem display_name="Inversibilité : problème 3" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soit \(T:M_{2\times 2}(\mathbb{R}) \to M_{2\times 2}(\mathbb{R})\) une application linéaire dont la matrice dans la base canonique \[\mathcal{B}=\left( \left(\begin{matrix} 1 &amp; 0\\ 0 &amp; 0 \end{matrix}\right),  \begin{pmatrix} 0 &amp; 1\\ 0 &amp; 0 \end{pmatrix}, \begin{pmatrix} 0 &amp; 0\\ 1 &amp; 0 \end{pmatrix}, \begin{pmatrix} 0 &amp; 0\\ 0 &amp; 1 \end{pmatrix}\right)\]
+  est \[
+  A=\left(
+  \begin{matrix}
+  1 &amp; -2 &amp; 4 &amp; 1 \\
+  -2 &amp; 4 &amp; 1 &amp; 0 \\
+  -1 &amp; 1 &amp; -2 &amp; 1 \\
+  0 &amp; -1 &amp; -2 &amp; 3
+  \end{matrix}
+  \right)
+ .\]
+  </p>
+  <p>L'application \(T\) est-elle inversible?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="L'application \(T\) est-elle inversible?" type="MultipleChoice">
+      <choice correct="true">Oui.</choice>
+      <choice correct="false">Non.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Une application linéaire \(T: V\rightarrow W\) entre deux \(\mathbb{R}\)-espaces vectoriels \(V\), \( W\) est inversible si et seulement si \(T\) est bijective, i.e. \(T\) est injective et surjective.
+  Ainsi \(T\) est inversible si et seulement si \({\rm Ker}(T)=0\) et \(\dim {\rm Im}(T)=\dim W\). Par le théorème du rang, on a \(\dim {\rm Ker}(T)+{\rm Im}(T)=\dim V\). On en déduit que si \(V\) et \(W\) sont de dimension finie, alors \(T\) est inversible si et seulement si \(\dim {\rm Im}(T)=\dim W=\dim V\).
+    Ici \(\dim V=\dim W=4\). Il nous reste à déterminer \(\dim {\rm Im}(T)\). Par définition \(\dim {\rm Im}(T)\) est le rang colonne de \(A\). En d'autres mots, \(\dim {\rm Im}(T)\) est le rang ligne de 
+    \[B=A^T = \left(
+  \begin{matrix}
+  1 &amp; -2 &amp; -1 &amp; 0 \\
+  -2 &amp; 4 &amp; 1 &amp; -1 \\
+  4 &amp; 1 &amp; -2 &amp; -2 \\
+  1 &amp; 0 &amp; 1 &amp; 3
+  \end{matrix}
+    \right). \]</p>
+      <p> Avec les opérations élémentaires \(L_2'=-(L_2+2L_1)\), \(L_3'=(L_3-4L_1)/2\) et \(L_4'=(L_4-L_1)/2\), on obtient la matrice:
+    \[B'= \left(
+  \begin{matrix}
+  1 &amp; -2 &amp; -1 &amp; 0 \\
+  0 &amp; 0 &amp; 1 &amp; 1 \\
+      0 &amp; 9/2 &amp; 1 &amp; -1 \\
+      0 &amp; 1 &amp; 1 &amp; 3/2
+  \end{matrix}
+  \right). \]
+    </p>
+      <p> Avec les opérations élémentaires \(L_2''=L_4'\), \(L_3''=-4(L_3'-9L_4'/2)\) et \(L_4''=L_2'\), on obtient la matrice:
+    \[B''= \left(
+  \begin{matrix}
+  1 &amp; -2 &amp; -1 &amp; 0 \\
+  0 &amp; 1 &amp; 1 &amp; 3/2 \\
+      0 &amp; 0 &amp; 14 &amp; 31 \\
+      0 &amp; 0 &amp; 1 &amp; 1
+  \end{matrix}
+  \right). \]
+    </p>
+      <p> Avec les opérations élémentaires \(L_3'''=L_4''\) et \(L_4'''=(L_3''-14L_4'')/17\), on obtient la matrice:
+    \[B'''= \left(
+  \begin{matrix}
+  1 &amp; -2 &amp; -1 &amp; 0 \\
+  0 &amp; 1 &amp; 1 &amp; 3/2 \\
+      0 &amp; 0 &amp; 1 &amp; 1 \\
+      0 &amp; 0 &amp; 0 &amp; 1
+  \end{matrix}
+  \right). \]
+    </p>
+      <p> On obtient que le rang ligne de \(B'''\) est égal à 4, et donc le rang ligne de \(B=A^T\) est égal à 4.
+  Ainsi le rang colonne de \(A\) est égal à 4 et \(\dim {\rm Im}(T)=\dim V=\dim W=4\). L'application \(T\) est donc inversible. </p>
+    </div>
+  </solution>
+</problem>

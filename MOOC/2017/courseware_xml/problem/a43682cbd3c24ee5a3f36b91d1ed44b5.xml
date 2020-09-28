@@ -1,0 +1,29 @@
+<problem display_name="Bases : problème 9" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>  On considère le système d'équations linéaires \(AX=0\) où \(A = \begin{pmatrix}
+    1 &amp; 0 &amp; -1/2 &amp; 0 &amp;0 \\ 0 &amp; 1 &amp; 1/3  &amp; 0 &amp; 0\\ 0 &amp; 0 &amp; 1 &amp; 1&amp;0  
+    \end{pmatrix}\)
+    et \(X=(x_1,x_2,x_3,x_4,x_5).\) Soit \(W\) le \(\mathbb{R}\)-espace vectoriel consistant de l'ensemble des solutions de ce système homogène. Parmi les énoncés suivants, donner <b>tous ceux</b> qui sont corrects.  </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> \(\dim W&lt;2\).</choice>
+      <choice correct="false"> \(\dim W&gt;2\).</choice>
+      <choice correct="false">  \(((-1/2,1/3,-1,1,0))\) est une base de \(W\).</choice>
+      <choice correct="true">  Aucune des trois possibilités ci-dessus n'est correcte.</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false">  \(((0,0,0,0,1))\) est une base de \(W\).</choice>
+      <choice correct="true">  \(((3,-2,6,-6,0),(0,0,0,0,1))\) est une base de \(W\). </choice>
+      <choice correct="false"> \(((3,2,6,-6,0),(0,0,0,0,2))\) est une base de \(W\). </choice>
+      <choice correct="false">  Aucune des trois possibilités ci-dessus n'est correcte.</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>L'ensemble des solutions \(W\) du système \(AX=0\) est \[W=\{(-s/2,s/3,-s,s,t): s,t \in \mathbb{R}\}.\]</p>
+      <p>On déduit que \(((-1/2,1/3,-1,1,0),(0,0,0,0,1))\) est une base de \(W\). Il est maintenant facile de conclure. </p>
+    </div>
+  </solution>
+</problem>

@@ -1,0 +1,36 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soient \(S,T:V\to V\) deux transformations orthogonales d'un espace euclidien \(V\). La composition \(S\circ T\) est-elle orthogonale ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, pour \(v\in V,\) que vaut \(||(S\circ T)(v)||\) ?'
+  elif 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, pour \(v\in V,\) que vaut \(||(S\circ T)(v)||\) ?'
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, il y a plusieurs manières de répondre à cette question. \[\]La première consiste simplement à appliquer la définition : comme \(S\) est orthogonale, on a \(||S(w)||=||w||\) pour tout \(w\in V\), et donc en particulier, ceci est vrai pour \(w=T(v)\). Ainsi, on obtient \[||(S\circ T)(v)||=||S(T(v))||=||T(v)||=||v||,\] ceci pour tout \(v\in V\). (La dernière égalité provient du fait que \(T\) est orthogonale.) Par conséquent, \(S\circ T\) est bien orthogonale. \[\] Une deuxième manière de procéder est de traduire le problème matriciellement, ce qui revient à devoir montrer que si \(A,B\in M_{n\\times n}(\mathbb{R})\) sont orthognales, alors leur produit \(AB\) l\'est aussi. On peut alors utiliser une des caractérisations vues en cours, comme par exemple, le fait qu\'une matrice \(X\in M_{n\\times n}(\mathbb{R})\) est orthogonale si et seulement si \(X^TX=XX^T=I_n\). Dans notre situation, on a \[(AB)(AB)^T=(AB)(B^TA^T)=ABB^TA^T=AI_nA^T=AA^T=I_n\] et de manière similaire, on remarque aisément que \((AB)^T(AB)=I_n.\) Par conséquent \(AB\) est orthogonale.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Non, jamais.</choice>
+      <choice correct="false">Parfois oui, parfois non.</choice>
+      <choice correct="true">Oui, toujours.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

@@ -1,0 +1,100 @@
+<problem display_name="Espace ligne - Espace colonne revisités : problème 4" markdown="null" max_attempts="3" showanswer="closed" weight="4.0">
+  <p> Soit \(A\in M_{4\times 5}(\mathbb{R})\) la matrice de taille \(4\times 5\) définie par
+     \[A=\left(\begin{matrix} 0 &amp;  2  &amp; 4 &amp; 2 &amp; 2
+     \\ 4 &amp;  4 &amp;  4 &amp; 8 &amp; 0\\
+     8 &amp; 2 &amp;0 &amp; 10 &amp; 2\\
+     6 &amp; 3 &amp; 2 &amp; 9 &amp; 1
+     \end{matrix}\right) \in M_{4\times 5}(\mathbb{R})\]
+     et désignons par \(L\) l'espace ligne de cette dernière. 
+  </p>
+  <p> Soient également  \(v_1=(0,2,4,2,2)\), \(v_2=(4,4,4,8,0)\), \(v_3=(8,2,0,10,2)\), \(v_4=(6,3,2,9,1)\).</p>
+  <p>Parmi les énoncés suivants, cochez <b>tous ceux</b> qui sont corrects.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false"> \(L=\mathbb{R}^5\).</choice>
+      <choice correct="true"> \(L={\rm Vect}(\{v_1,v_2,v_3,v_4\})\).</choice>
+      <choice correct="true"> Le rang ligne de \(A\) vaut 3. </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <p> De même, parmi les affirmations suivantes, cochez <b>toutes celles</b> qui sont vérifiées.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true"> \(\dim L \leq 5\).</choice>
+      <choice correct="true"> \(\dim L \leq 4\).</choice>
+      <choice correct="false"> \(\dim L = 4\).</choice>
+      <choice correct="true"> \(\dim L = 3\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <p> De même, parmi les énoncés suivants, cochez <b>tous ceux</b> qui sont corrects.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false"> L'élément \((1,0,0,0,0)\) de \(\mathbb{R}^5\) appartient à \(L\). </choice>
+      <choice correct="true"> L'élément \((0,0,1,0,2)\) de \(\mathbb{R}^5\) appartient à \(L\). </choice>
+      <choice correct="true"> L'élément \((1,0,0,1,1)\) de \(\mathbb{R}^5\) appartient à \(L\). </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <p> Finalement, parmi les affirmations suivantes, cochez <b>toutes celles</b> qui sont vérifiées.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true"> \(((1,0,0,1,1),(0,1,0,1,-3),(0,0,1,0,2))\) est une base de \(L\). </choice>
+      <choice correct="false"> \(((1,0,0,1,1),(0,1,0,1,-3),(0,0,1,0,0))\) est une base de \(L\). </choice>
+      <choice correct="false"> \(((1,0,0,1,1),(0,1,0,1,-3),(0,0,1,0,2), (0,0,0,1,0), (0,0,0,0,1))\) est une base de \(L\). </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication</p>
+      <p> Par définition, l'espace ligne \(L\) d'une matrice \(A \in M_{m\times n}(\mathbb{R})\) est le sous-espace vectoriel de \(\mathbb{R}^n\) engendré par les lignes de \(A\).  </p>
+      <p> Ici \(A \in M_{4\times 5}(\mathbb{R})\) et donc \(L\) est un sous espace vectoriel de \(\mathbb{R}^5\). On déduit en particulier que \(\dim L \leq 5.\) Comme les lignes de \(A\) sont: \(v_1\), \(v_2\), \(v_3\) et \(v_4\), on a \(L={\rm Vect}(S)\) où \(S=\{v_1,v_2,v_3,v_4\}\). Comme \(|S|=4\), on a \(\dim {\rm Vect}(S) \leq 4\), et donc \(\dim L\leq 4\). De plus, \(\dim L=4\) si et seulement si \(v_1\), \(v_2\), \(v_3\) et \(v_4\) sont linéairement indépendants. 
+  </p>
+      <p>Pour étudier \(L\), on effectue des opérations élémentaires sur \(A\). En effet si \(B\) est une matrice obtenue à partir de \(A\) à partir d'opérations élémentaires, alors l'espace ligne de \(A\) est égal à l'espace ligne de \(B\). En échelonnant la matrice \(A\), il est facile de déterminer le rang ligne de \(A\) qui est, par définition, la dimension de l'espace ligne de \(A\). Il est alors aussi  facile de déterminer une base de l'espace ligne de \(A\) et la compléter en une base de \(\mathbb{R}^n\)  </p>
+      <p> Avec les opération élémentaires \(L_1'=L_2/4\), \(L_2'=L_1/2\), \(L_3'=L_3/2\) on obtient 
+\[A'=\begin{pmatrix}
+1&amp; 1&amp;1 &amp; 2&amp;0\\
+0&amp; 1&amp;2 &amp; 1&amp;1\\
+4&amp; 1&amp;0 &amp; 5&amp;1\\
+6&amp; 3&amp;2 &amp; 9&amp;1
+    \end{pmatrix}.
+ \]  
+  </p>
+      <p> Avec les opérations élémentaires \(L_3''=L_3'-4L_1'\) et \(L_4''=L_4-6L_1'\) on obtient
+    \[A''= \begin{pmatrix}
+1&amp; 1&amp;1 &amp; 2&amp;0\\
+0&amp; 1&amp;2 &amp; 1&amp;1\\
+0&amp; -3&amp;-4 &amp; -3&amp;1\\
+0&amp; -3&amp;-4 &amp; -3&amp;1
+    \end{pmatrix}.
+    \]
+  </p>
+      <p> Avec les opérations élémentaires \(L_3'''=(L_3''+3L_2'')/2\) et \(L_4'''=L_4''-L_3''\) on obtient
+    \[A'''= \begin{pmatrix}
+1&amp; 1&amp;1 &amp; 2&amp;0\\
+0&amp; 1&amp;2 &amp; 1&amp;1\\
+0&amp; 0&amp;1 &amp; 0&amp;2\\
+0&amp; 0&amp;0 &amp; 0&amp; 0
+    \end{pmatrix}.
+    \]
+  </p>
+      <p> Avec l'opération élémentaire \(L_1''''=L_1'''-L_2'''\) on obtient
+    \[A''''= \begin{pmatrix}
+1&amp; 0&amp;-1 &amp; 1&amp;-1\\
+0&amp; 1&amp;2 &amp; 1&amp;1\\
+0&amp; 0&amp;1 &amp; 0&amp;2\\
+0&amp; 0&amp;0 &amp; 0&amp; 0
+    \end{pmatrix}.
+    \]
+  </p>
+      <p> Avec les opérations élémentaires \(L_1'''''=L_1''''+L_3''''\) et \(L_2'''''=L_2''''-2L_3''''\) on obtient
+    \[A'''''= \begin{pmatrix}
+1&amp; 0&amp;0 &amp; 1&amp;1\\
+0&amp; 1&amp;0 &amp; 1&amp;-3\\
+0&amp; 0&amp;1 &amp; 0&amp;2\\
+0&amp; 0&amp;0 &amp; 0&amp; 0
+    \end{pmatrix}.
+    \]
+  </p>
+      <p> On déduit que \(L={\rm Vect}(T)\) où \(T=\{(1,0,0,1,1),(0,1,0,1,-3),(0,0,1,0,2)\}.\) Aussi les éléments de \(T\) sont linéairement indépendants et donc \(T\) est une base de \(L\). Ainsi \(\dim L=3\) et le rang ligne de \(A\) vaut 3.   </p>
+      <p> En particulier on peut maintenant déduire que \(L\neq \mathbb{R}^5\), en effet \(\dim L\neq \dim \mathbb{R}^5=5\). Aussi \((1,0,0,0,0) \not \in {\rm Vect}(T)\) et donc \((1,0,0,0,0) \not \in L.\) De même \((0,0,1,0,0)\not \in {\rm Vect}(T)\) et donc \(((1,0,0,1,1),(0,1,0,1,-3),(0,0,1,0,0))\) n'est pas une base de \(L\) </p>
+    </div>
+  </solution>
+</problem>

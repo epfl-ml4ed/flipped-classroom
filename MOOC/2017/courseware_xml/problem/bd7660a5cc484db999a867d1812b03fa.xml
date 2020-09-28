@@ -1,0 +1,82 @@
+<problem display_name="Angles et orthogonalité : problème 8" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(V\) un \(\mathbb{R}\)-espace vectoriel muni d'un produit scalaire.</p>
+  <p>Si \(u,v\) sont deux vecteurs orthonormaux dans \(V\), alors \(u,v\) sont linéairement indépendants.</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Si \(u,v\) sont deux vecteurs orthonormaux dans \(V\), alors \(u,v\) sont linéairement                        indépendants." type="MultipleChoice">
+      <choice correct="true">Vrai</choice>
+      <choice correct="false">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Puisque les vecteurs sont orthonormaux, ils sont de norme \(1\), donc non nuls. Si \(u\) et \(v\) 
+    étaient linéairement dépendants, on devrait donc avoir \(u=\lambda v\) pour un certain \(\lambda \in 
+    \mathbb{R}\) non nul. On aurait donc \(\langle u,v\rangle=\langle u,\lambda u\rangle =\lambda \langle 
+    u,u\rangle =\lambda ||u||^2=\lambda 1^2=\lambda \neq 0\), ce qui contredit le fait que \(u\) et \(v\) 
+    soient orthonormaux donc orthogonaux.</p>
+    </div>
+  </solution>
+  <p>Si \(u,v\) sont deux vecteurs orthogonaux dans \(V\), alors \(u,v\) sont linéairement indépendants.</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Si \(u,v\) sont deux vecteurs orthogonaux dans \(V\), alors \(u,v\) sont linéairement                        indépendants." type="MultipleChoice">
+      <choice correct="false">Vrai</choice>
+      <choice correct="true">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Non, puisqu'on peut prendre \(u=0\) par exemple.</p>
+    </div>
+  </solution>
+  <p>Si \(\{v_1,v_2,v_3\}\) est une famille orthonormale dans \(V\), alors \(\{2v_1,-v_2,3v_3\}\) est une 
+  famille orthonormale.</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Si \(\{v_1,v_2,v_3\}\) est une famille orthonormale dans \(V\), alors                        \(\{2v_1,-v_2,3v_3\}\) est une famille orthonormale." type="MultipleChoice">
+      <choice correct="false">Vrai</choice>
+      <choice correct="true">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Tous les vecteurs d'une famille orthonormale doivent être de norme \(1\). Or si \(||v_1||=1\), on a 
+    \(||2v_1||=2\neq1\) donc la deuxième famille n'est pas orthonormale. (Mais elle est orthogonale!)</p>
+    </div>
+  </solution>
+  <p>Si \(\{v_1,v_2,v_3\}\) est une famille orthonormale dans \(V\), alors \(\{-v_1,-v_2,-v_3\}\) est une 
+  famille orthonormale.</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Si \(\{v_1,v_2,v_3\}\) est une famille orthonormale dans \(V\), alors                        \(\{-v_1,-v_2,-v_3\}\) est une famille orthonormale." type="MultipleChoice">
+      <choice correct="true">Vrai</choice>
+      <choice correct="false">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Pour chaque couple \(i\neq j\), avec \(1\leq i,j\leq 3\), on a \(\langle -v_i,-v_j\rangle=(-1)(-1)
+    \langle v_i,v_j\rangle=\langle v_i,v_j\rangle =0\) puisque \(\{v_1,v_2,v_3\}\) est une famille 
+    orthonormale. De plus, \(||-v_i||=|-1|\cdot ||v_i||=||v_i||=1\), donc la deuxième famille est bien 
+    orthonormale.</p>
+    </div>
+  </solution>
+  <p>Si \(\{v_1,v_2,v_3\}\) est une famille orthogonale de vecteurs non-nuls de \(V\), alors \(\{\frac{v_1}{||v_1||},\frac{v_2}
+  {||v_2||},\frac{v_3}{||v_3||}\}\) est une famille orthonormale.</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Si \(\{v_1,v_2,v_3\}\) est une famille orthogonale dans \(V\), alors \(\{\frac{v_1}                       {||v_1||},\frac{v_2}{||v_2||},\frac{v_3}{||v_3||}\}\) est une famille orthonormale." type="MultipleChoice">
+      <choice correct="true">Vrai</choice>
+      <choice correct="false">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Pour vérifier que la troisième famille est othogonale, soient \(1\leq i,j \leq 3\), \(i\neq j\).
+    On a \[\left \langle \frac{v_i}{||v_i||}, \frac{v_j}{||v_j||} \right \rangle = \frac1{||v_i||||v_j||}\langle v_i,v_j\rangle=0.\] Et pour 
+    tout \(1\leq i\leq3\), on a \(\left|\left|\frac{v_i}{||v_i||}\right|\right|=\frac{1}{||v_i||}||v_i||=1,\) donc la nouvelle 
+    famille est bien orthonormale.</p>
+    </div>
+  </solution>
+</problem>

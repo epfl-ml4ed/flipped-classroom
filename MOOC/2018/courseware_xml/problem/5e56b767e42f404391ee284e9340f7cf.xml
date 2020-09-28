@@ -1,0 +1,46 @@
+<problem display_name="Polynôme caractéristique : problème 1" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Soit \(T: \mathbb{R}^3 \to \mathbb{R}^3\) une application linéaire définie par \(T((x,y,z))=
+  (x+y+2z,2x+4z,-x+y-2z).\)</p>
+  <p>Le polynôme caractéristique de \(T\) est égal à</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Le polynôme caractéristique de \(T\) est égal à" type="MultipleChoice">
+      <choice correct="true">\(-t(t-2)(t+3)\). </choice>
+      <choice correct="false">\(-(t+1)(t-2)(t+3)\).</choice>
+      <choice correct="false">\(t(2-t)(-t-3)\).</choice>
+      <choice correct="false">\(t(t+2)(t+3)\).</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Ici on a \(T: V\rightarrow W\) où \(V=W=\mathbb{R}^3\) et \(T((x,y,z))=(x+y+2z,2x+4z,-x+y-2z).\) On veut calculer le polynome caractéristque de \(T\). On donne dans un premier temps une représentation matricielle de \(T\). Soit \(\mathcal{B}=(u_1,u_2,u_3)\) la base canonique de \(V\). On a \[T(u_1)=T((1,0,0))=(1,2,-1)=u_1+2u_2-u_3,\]
+\[T(u_2)=T((0,1,0))=(1,0,1)=u_1+u_3\] et 
+\[T(u_3)=T((0,0,1))=(2,4,-2)=2u_1+4u_2-2u_3.\]
+On déduit que \[[T]_{\mathcal{B}\mathcal{B}}=
+\begin{pmatrix}
+1 &amp; 1&amp; 2\\
+2 &amp; 0&amp; 4\\
+-1 &amp; 1&amp; -2\\
+\end{pmatrix}
+.\]
+  </p>
+      <p> Soit \(P=[T]_{\mathcal{B}\mathcal{B}}\) et \(p(t)\) le polynôme caractéristique de \(T\). On a \(p(t)=\det(P-tI)\). Ainsi
+\begin{eqnarray*}
+p(t) &amp; = &amp; \det(P-tI)\\
+&amp; = &amp; \det
+\begin{pmatrix}
+1-t &amp; 1&amp; 2\\
+2 &amp; -t&amp; 4\\
+-1 &amp; 1&amp; -2-t\\
+\end{pmatrix} \\
+&amp; = &amp; (1-t)((-t)(-2-t)-4)-(2(-2-t)+4)+2(2-t)\\
+&amp; = &amp; (1-t)(t^2+2t-4)-(-2t)+(4-2t)\\
+&amp;= &amp; (-t^3-t^2+6t-4)+2t+(4-2t)\\
+&amp; =&amp; (-t^3-t^2+6t)\\
+&amp; = &amp; -t(t^2+t-6)\\
+&amp; = &amp; -t(t-2)(t+3).
+\end{eqnarray*}
+</p>
+    </div>
+  </solution>
+</problem>

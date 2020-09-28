@@ -1,0 +1,34 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soient \(V=\mathbb{P}_7(\mathbb{R})\) l'espace vectoriel des polynômes de degré plus petit ou égal à \(7,\) muni du produit scalaire défini par \[\langle p, q \rangle =\int_{-1}^1{p(t)q(t)dt},\] ceci pour tous \(p,q\in V.\) </p>
+  <p>Soit également \(W=\mbox{vect}(x^6-2x^3+x, 2x^7-1, 3x^2+2x+4, x^3+1, 3x-19)\)</p>
+  <p>Quelle est la dimension de \(W^\perp\) ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if '9' in ans:
+    feedback = 'C\'est incorrect. En effet, \(W\) est un sous-espace vectoriel de \(V\) et donc sa dimension ne peut excéder celle de ce dernier (qui vaut \(8\)).  '
+  elif '3' not in ans:
+    feedback = 'C\'est incorrect. En effet, on aimerait utiliser la formule vue en cours, qui dit que \[\\dim V =\\dim W^{\\perp} +\\dim W.\] Or, que valent \(\\dim V\) et \(\\dim W \) dans notre situation ?  '
+  elif '3' in ans:
+    feedback = 'Correct! En effet, commençons par calculer la dimension de \(W\). Comme les vecteurs qui l\'engendrent sont clairement indépendants et sont au nombre de \(5\), on a que \(\\dim W =5\). Ainsi, d\'après la formule vue en cours, on obtient \[\\dim W^{\\perp}= \\dim V-\\dim W = 8-5 =3.\] '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <optionresponse>
+    <optioninput label="Which of the following countries celebrates its independence on August 15?" options="('0','1','2','3','4','5','6','7','8','9')" correct="3"> </optioninput>
+    <hintgroup hintfn="hint_fn"/>
+  </optionresponse>
+</problem>

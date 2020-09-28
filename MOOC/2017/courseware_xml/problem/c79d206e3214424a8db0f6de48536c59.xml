@@ -1,0 +1,33 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p> Soit \(V=\mathbb{R}^3\) et considérons la matrice \[A=\begin{pmatrix} 1&amp; 3 &amp; -1 \cr 2 &amp; 1 &amp; 0 \cr 0 &amp; -5 &amp; 2\end{pmatrix}.\] Alors il existe des bases \(\mathscr{B_1}\) et \(\mathscr{B_2}\) de \(V\) telles que \(A\) soit la matrice de passage de \(\mathscr{B_1}\) à \(\mathscr{B_2}.\)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. Indication: une matrice de passage est de la forme \([id_V]_{\mathscr{B}_2 \mathscr{B}_1}.\) En particulier, une telle matrice est toujours inversible.'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En effet, il est aisé de montrer que la matrice \(A\) présentée ci-dessus n\'est pas inversible, car sa troisième ligne peut être obtenue en additionnant \(-2\) fois la première à la deuxième. Or, une matrice de passage est toujours inversible, étant de la forme \([id_V]_{\mathscr{B}_2 \mathscr{B}_1}.\) Ainsi, \(A\) ne peut être une matrice de passage.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="false">Vrai.</choice>
+      <choice correct="true">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

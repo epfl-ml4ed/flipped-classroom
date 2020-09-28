@@ -1,0 +1,27 @@
+<problem display_name="Meilleure approximation / Moindres carrés : problème 14 " markdown="null" max_attempts="1" showanswer="attempted" weight="4.0">
+  <p>Soit \(V=\mathbb{R}^3\) muni du produit scalaire standard. Soit \(W\) le sous-espace engendré par \(w_1=
+  (2,0,-1),w_2=(1,1,2).\) Soit \(v=(2,1,1)\). Soit \(\alpha w_1+ \beta w_2\) la meilleure approximation de 
+  \(v\) par un vecteur de \(W\).</p>
+  <p>Que vaut \(\alpha\)?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Que vaut \(\alpha\)?" type="MultipleChoice">
+      <choice correct="false">\(\frac{1}{2}\).</choice>
+      <choice correct="false">\(\frac{2}{\sqrt{2}}\).</choice>
+      <choice correct="true">\(\frac{3}{5}\).</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <p>Que vaut \(\beta\)?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Que vaut \(\beta\)?" type="MultipleChoice">
+      <choice correct="true">\(\frac{5}{6}\).</choice>
+      <choice correct="false">\(\frac{4}{3}\).</choice>
+      <choice correct="false">\(\frac{2\sqrt{2}}{\sqrt{3}}\).</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>La meilleure approximation de \(v\) par un vecteur de \(W\) est la projection orthogonale de \(v\) sur \(W\). On vérifie que \((w_1,w_2)\) est déjà une base orthogonale de \(W\), donc il suffit de calculer \(proj_W(v)=\frac{\langle v,w_1\rangle}{\langle w_1,w_1\rangle}w_1+\frac{\langle v,w_2\rangle}{\langle w_2,w_2\rangle}w_2,\) d'où \(\alpha=\frac{\langle v,w_1\rangle}{\langle w_1,w_1\rangle}=\frac{3}{5}\) et \(\beta=\frac{\langle v,w_2\rangle}{\langle w_2,w_2\rangle}=\frac{5}{6}.\) </p>
+    </div>
+  </solution>
+</problem>

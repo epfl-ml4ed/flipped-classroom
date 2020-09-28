@@ -1,0 +1,228 @@
+<problem display_name="Valeurs propres et vecteurs propres : problème 7" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(A=\left(
+  \begin{matrix}
+  -1 &amp; -4 &amp; -4 &amp; 0 \\
+  3 &amp; 6 &amp; 4 &amp; 0 \\
+  -3 &amp; -3 &amp; -1 &amp; 0 \\
+  0 &amp; -1 &amp; -1 &amp; 2
+  \end{matrix}
+  \right)\in M_{4 \times 4}(\mathbb{R}.\)</p>
+  <p>Quelle est la dimension de \(E_2\)?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Quelle est la dimension de \(E_2\)?" type="MultipleChoice">
+      <choice correct="false">0</choice>
+      <choice correct="false">1</choice>
+      <choice correct="true">2</choice>
+      <choice correct="false">3</choice>
+      <choice correct="false">4</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <p>Quelle est la dimension de \(E_3\)?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Quelle est la dimension de \(E_3\)?" type="MultipleChoice">
+      <choice correct="false">0</choice>
+      <choice correct="true">1</choice>
+      <choice correct="false">2</choice>
+      <choice correct="false">3</choice>
+      <choice correct="false">4</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>
+Soient \(A\in M_{n\times n}(\mathbb{R})\) et \(\lambda \in \mathbb{R}\) une valeur propre de 
+\(A\). L'espace propre \(E_{\lambda}\)  de \(A\) associé à \(\lambda\) est par définition:
+\[E_{\lambda}=\{v\in V: (A-\lambda I)v=0 \}\] où \(V=\mathbb{R}^n.\)
+Ici on a 
+\[A= 
+\begin{pmatrix}
+−1 &amp; −4 &amp; -4 &amp; 0\\
+3 &amp; 6 &amp; 4 &amp; 0\\
+-3 &amp; -3 &amp; -1 &amp; 0 \\
+0 &amp; -1 &amp; -1 &amp; 2
+\end{pmatrix},
+\] \(V=\mathbb{R}^4\) et on nous donne que \(\lambda_1=2\) et \(\lambda_2=3\) sont des valeurs propres de \(A\). On veut déterminer les dimensions de \(E_{\lambda_1}\) et \(E_{\lambda_2}\).
+</p>
+      <p>
+Soit \(v\in V\). On a
+\begin{eqnarray*}
+v \in E_{\lambda_1} &amp; \Leftrightarrow &amp; (A-\lambda_1)v=0\\
+&amp; \Leftrightarrow &amp; (A-2I)v=0\\
+&amp; \Leftrightarrow &amp; \begin{pmatrix}
+−3 &amp; −4 &amp; -4 &amp; 0\\
+3 &amp; 4 &amp; 4 &amp; 0\\
+-3 &amp; -3 &amp; -3 &amp; 0 \\
+0 &amp; -1 &amp; -1 &amp; 0
+\end{pmatrix}v=0.
+\end{eqnarray*}</p>
+      <p> Ceci mène au système donnée par la matrice augmentée suivante:
+\[
+B_1=\begin{pmatrix}
+−3 &amp; −4 &amp; -4 &amp; 0 &amp; &amp; 0\\
+3 &amp; 4 &amp; 4 &amp; 0 &amp; &amp; 0\\
+-3 &amp; -3 &amp; -3 &amp; 0  &amp; &amp; 0\\
+0 &amp; -1 &amp; -1 &amp; 0 &amp; &amp; 0
+\end{pmatrix}.
+\]</p>
+      <p> Avec les opérations élémentaires \(L_1'=L_1+L_2\) et \(L_3'=-(L_3-3L_4)/3\), on obtient la matrice augmentée suivante:
+\[
+B_1'=\begin{pmatrix}
+0 &amp; 0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+3 &amp; 4 &amp; 4 &amp; 0 &amp; &amp; 0\\
+1 &amp; 0 &amp; 0 &amp; 0  &amp; &amp; 0\\
+0 &amp; -1 &amp; -1 &amp; 0 &amp; &amp; 0
+\end{pmatrix}.
+\]
+  </p>
+      <p> Avec les opérations élémentaires \(L_1''=L_3'\), \(L_2''=(L_2'-3L_3')/4\), \(L_3''=-L_4'\) et \(L_4''=L_1'\), on obtient la matrice augmentée suivante:
+\[
+B_1''=\begin{pmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0 &amp; &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0  &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+\end{pmatrix}.
+\]
+</p>
+      <p>
+Avec l'opération élémentaire \(L_3'''=L_3''-L_2''\), on obtient la matrice augmentée suivante:
+\[
+B_1'''=\begin{pmatrix}
+1 &amp; 0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0 &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0  &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+\end{pmatrix}.
+\]  
+ </p>
+      <p>On déduit que 
+\begin{eqnarray*}
+E_{\lambda_1}&amp; = &amp; \{(x,y,z,t) \in \mathbb{R}^4: x=y+z=0\}\\
+&amp; = &amp; \{(x,y,z,t) \in \mathbb{R}^4: y=-z, x=0\}\\
+&amp; = &amp; \{(0,-z,z,t): t,z \in \mathbb{R} \}.
+\end{eqnarray*}
+</p>
+      <p>
+Ainsi \(E_{\lambda_1}={\rm Vect}(\{(0,0,0,1),(0,1,-1,0)\})\), \(((0,0,0,1),(0,1,-1,0))\) est une base de \(E_{\lambda_1}\) et \(\dim E_{\lambda_1}=2\). 
+</p>
+      <p>
+Soit \(v\in V\). On a
+\begin{eqnarray*}
+v \in E_{\lambda_2} &amp; \Leftrightarrow &amp; (A-\lambda_2)v=0\\
+&amp; \Leftrightarrow &amp; (A-3I)v=0\\
+&amp; \Leftrightarrow &amp; \begin{pmatrix}
+−4 &amp; −4 &amp; -4 &amp; 0\\
+3 &amp; 3 &amp; 4 &amp; 0\\
+-3 &amp; -3 &amp; -4 &amp; 0 \\
+0 &amp; -1 &amp; -1 &amp; -1
+\end{pmatrix}v=0.\\
+\end{eqnarray*}</p>
+      <p> Ceci mène au système donnée par la matrice augmentée suivante:
+\[
+B_2=\begin{pmatrix}
+−4 &amp; −4 &amp; -4 &amp; 0 &amp; &amp; 0\\
+3 &amp; 3 &amp; 4 &amp; 0 &amp; &amp; 0\\
+-3 &amp; -3 &amp; -4 &amp; 0  &amp; &amp; 0\\
+0 &amp; -1 &amp; -1 &amp; -1 &amp; &amp; 0
+\end{pmatrix}.
+\]</p>
+      <p> Avec les opérations élémentaires \(L_1'=-L_1/4\), \(L_2'=-L_4\), \(L_3'=L_2\) et \(L_4'=L_3+L_2\), on obtient la matrice augmentée suivante:
+\[
+B_2'=\begin{pmatrix}
+1 &amp; 1 &amp; 1 &amp; 0 &amp; &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 1  &amp; &amp; 0\\
+3 &amp; 3 &amp; 4 &amp; 0 &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; &amp; 0
+\end{pmatrix}.
+\]
+</p>
+      <p> Avec l'opération élémentaire \(L_3''=L_3'-3L_1'\), on obtient la matrice augmentée suivante:
+\[
+B_2''=\begin{pmatrix}
+1 &amp; 1 &amp; 1 &amp; 0 &amp; &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 1 &amp; &amp; 0\\
+0 &amp; 0 &amp; 1 &amp; 0  &amp; &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; &amp; 0\\
+\end{pmatrix}.
+\]
+</p>
+      <p>On déduit que 
+\begin{eqnarray*}
+E_{\lambda_2}&amp; = &amp; \{(x,y,z,t) \in \mathbb{R}^4: z=y+z+t=x+y+z=0\}\\
+&amp; = &amp; \{(x,y,z,t) \in \mathbb{R}^4: z=0, y=-t, x=t\}\\
+&amp; = &amp; \{(t,-t,0,t): t \in \mathbb{R} \}.
+\end{eqnarray*}
+</p>
+      <p>
+Ainsi \(E_{\lambda_2}={\rm Vect}(\{(1,-1,0,1)\})\), \(((1,-1,0,1))\) est une base de \(E_{\lambda_2}\) et \(\dim E_{\lambda_2}=1\). 
+</p>
+    </div>
+  </solution>
+  <p>La matrice \(A\) possède-t-elle une autre valeur propre que \(2\) et \(3\)?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="La matrice \(A\) possède-t-elle une autre valeur propre que \(2\) et \(3\)?" type="MultipleChoice">
+      <choice correct="true">Oui</choice>
+      <choice correct="false">Non</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>
+Ici on a 
+\[A= 
+\begin{pmatrix}
+−1 &amp; −4 &amp; -4 &amp; 0\\
+3 &amp; 6 &amp; 4 &amp; 0\\
+-3 &amp; -3 &amp; -1 &amp; 0 \\
+0 &amp; -1 &amp; -1 &amp; 2
+\end{pmatrix}.
+\] On sait que 2 et 3 sont des valeurs propres de \(A\). On veut déterminer si \(A\) possède d'autres valeurs propres. Pour cela on calcule le polynôme caractéristique \(p_A(t)\) de \(A\). Les valeurs propres de \(A\) sont les racines de \(p_A(t)\).</p>
+      <p> On a \(p_a(t)=\det(B)\) où \(B=A-tI\). On a 
+\[B=\begin{pmatrix}
+−1-t &amp; −4 &amp; -4 &amp; 0\\
+3 &amp; 6-t &amp; 4 &amp; 0\\
+-3 &amp; -3 &amp; -1-t &amp; 0 \\
+0 &amp; -1 &amp; -1 &amp; 2-t
+\end{pmatrix}.\] 
+</p>
+      <p> Avec l'opération élémentaire \(L_3'=L_3+L_2\), on obtient
+\[B'=\begin{pmatrix}
+−1-t &amp; −4 &amp; -4 &amp; 0\\
+3 &amp; 6-t &amp; 4 &amp; 0\\
+0 &amp; 3-t &amp; 3-t &amp; 0 \\
+0 &amp; -1 &amp; -1 &amp; 2-t
+\end{pmatrix}\] et \(\det(B)=\det(B').\) 
+</p>
+      <p> Avec l'opération élémentaire \(L_3''=L_3'+(3-t)L_4'\), on obtient
+\[B''=\begin{pmatrix}
+−1-t &amp; −4 &amp; -4 &amp; 0\\
+3 &amp; 6-t &amp; 4 &amp; 0\\
+0 &amp; 0 &amp; 0 &amp; (3-t)(2-t) \\
+0 &amp; -1 &amp; -1 &amp; 2-t
+\end{pmatrix}\] et \(\det(B)=\det(B')=\det(B'')\). 
+</p>
+      <p>On a maintenant 
+\begin{eqnarray*}
+p_A(t)&amp; = &amp; \det(A-tI)\\
+&amp; = &amp; \det(B)\\
+&amp; = &amp;\det(B'')\\
+&amp; = &amp; -(3-t)(2-t)\det
+\begin{pmatrix}
+−1-t &amp; −4 &amp; -4 \\
+3 &amp; 6-t &amp; 4 \\
+0 &amp; -1 &amp; -1 
+\end{pmatrix}\\
+&amp; = &amp; -(3-t)(2-t)[((-1-t)(4) +12)-( (-1-t)(6-t)+12 )]\\
+&amp; = &amp; -(t-3)(t-2)[(-4t+8)-(t^2-5t+6)]\\
+&amp; = &amp; -(t-3)(t-2)(-t^2+t+2)\\
+&amp; = &amp; (t-3)(t-2)(t^2-t-2)\\
+&amp; = &amp; (t-2)(t-3)(t+1)(t-2)\\
+  &amp; = &amp; (t+1)(t-2)^2(t-3).
+\end{eqnarray*}
+</p>
+      <p> Les valeurs propres de \(A\) sont donc: \(-1,2,3\).</p>
+    </div>
+  </solution>
+</problem>

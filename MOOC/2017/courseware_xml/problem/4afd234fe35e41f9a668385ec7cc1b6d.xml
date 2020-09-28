@@ -1,0 +1,37 @@
+<problem display_name="Quiz  1" markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{3\times 2}(\mathbb{R})\) la matrice définie par \[A=\begin{pmatrix} 3 &amp; -6 \cr 4 &amp; -8 \cr 0 &amp; 1\end{pmatrix}.\]</p>
+  <p> Les colonnes de \(A\) étant clairement indépendantes, il est possible de trouver une (unique !) décomposition \(QR\) de cette matrice, en appliquant la méthode introduite en cours.</p>
+  <p> Parmi les affirmations suivantes, cochez celle  qui vous semble correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans or 'choice_1' in ans or 'choice_2' in ans :
+    feedback = 'C\'est incorrect. Désignons par \(c_1,c_2\) les colonnes de \(A\) et posons \(\mathscr{C}=(c_1,c_2)\), qui forme une base ordonnée de l\'espace des colonnes de \(A\).  D\'après la méthode introduite en cours, il faut en premier lieu trouver une base orthonormée \(\mathscr{B}\) de l\'espace des colonnes de \(A\) en appliquant le procédé de Gram-Schmidt à \(\mathscr{C}\), puis ensuite déterminer les vecteurs colonnes \([c_1]_{\mathscr{B}}\) et \([c_2]_{\mathscr{B}}\).\[\] Dans notre situation, \(c_1=(3,4,0)\) et \(c_2=(-6,-8,1)\), d\'où l\'on déduit aisément qu\'une base orthonormée de cet espace-colonne est donnée par \(\mathscr{B}=(v_1,v_2)\), où \[v_1=\\frac{1}{5}(3,4,0),~v_2=(0,0,1).\] Qu\'en est-il alors de la matrice \(R\) ?' 
+  elif 'choice_3' in ans:
+    feedback = 'Correct! En effet, commençons par appliquer le procédé de Gram-Schmidt à la base de l\'espace-colonne de \(A\) donnée par \(\mathscr{C}=(c_1,c_2)\), où \(c_1=(3,4,0)\) et \(c_2=(-6,-8,1)\). On obtient alors aisément qu\'une base orthonormée de cet espace-colonne est donnée par \(\mathscr{B}=(v_1,v_2)\), où \[v_1=\\frac{1}{5}(3,4,0),~v_2=(0,0,1).\] En particulier, cela montre que la matrice \(Q\) dans la décomposition \(QR\) de \(A\) est \[Q=\\frac{1}{5}\\begin{pmatrix}3&amp; 0 \cr 4 &amp; 0 \cr 0 &amp;5\\end{pmatrix}.\] Aussi, il est aisé de montrer que \(c_1=5v_1\) et \(c_2=-10v_1+v_2\). Ainsi, la matrice \(R\) est donnée par \[R=\\begin{pmatrix} 5&amp; -10 \cr 0 &amp; 1\\end{pmatrix}\] comme désiré.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">La matrice \(R\) dans la décomposition \(QR\) de \(A\) est donnée par \(\begin{pmatrix} 5 &amp; -1 \cr 0 &amp; 10\end{pmatrix}.\)</choice>
+      <choice correct="false">La matrice \(R\) dans la décomposition \(QR\) de \(A\) est donnée par \(\begin{pmatrix} 5 &amp; 10 \cr 0 &amp; -1\end{pmatrix}.\)</choice>
+      <choice correct="false">La matrice \(R\) dans la décomposition \(QR\) de \(A\) est donnée par \(\begin{pmatrix} 5 &amp; 1 \cr 0 &amp; -10\end{pmatrix}.\)</choice>
+      <choice correct="true">La matrice \(R\) dans la décomposition \(QR\) de \(A\) est donnée par \(\begin{pmatrix} 5 &amp; -10 \cr 0 &amp; 1\end{pmatrix}.\)</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

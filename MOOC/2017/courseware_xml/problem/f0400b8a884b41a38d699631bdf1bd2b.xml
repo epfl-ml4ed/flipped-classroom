@@ -1,0 +1,36 @@
+<problem display_name="Quiz " markdown="null" weight="0.0">
+  <p>Soient \(A\in M_{3\times 2}(\mathbb{R})\) et \(b\in M_{3\times 1}(\mathbb{R})\) les matrices définies par \[A=\begin{pmatrix}2&amp; 0 \cr 1 &amp; 3\cr 0&amp; 1\end{pmatrix} ,~b=\begin{pmatrix}1\cr 1\cr 1\end{pmatrix}.\]</p>
+  <p> Parmi les possibilités suivantes, cochez celle qui vous semble correcte. (Si vous pensez que plusieurs affirmations sont correctes, choisissez-en simplement une, parmi celles proposées.)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans or 'choice_1' in ans or 'choice_2' in ans :
+    feedback = 'C\'est incorrect. En effet, d\'après le résultat vu en cours, il suffit simplement de vérifier si \(v_1\) \(v_2\) ou \(v_3\) est solution du système \(A^TAX=A^Tb\). Le vecteur choisi est-il solution de ce dernier système ?'
+  elif 'choice_3' in ans:
+    feedback = 'Correct! En effet, d\'après le résultat vu en cours, il suffit simplement de vérifier si \(v_1\) \(v_2\) ou \(v_3\) est solution du système \(A^TAX=A^Tb\). Ici, on a \[A^TA= \\begin{pmatrix}2&amp; 1 &amp; 0\cr 0 &amp; 3 &amp; 1 \\end{pmatrix} \\begin{pmatrix}2&amp; 0 \cr 1 &amp; 3\cr 0&amp; 1\\end{pmatrix} = \\begin{pmatrix}5 &amp; 3 \cr 3 &amp; 10\\end{pmatrix},\] \[A^T b= \\begin{pmatrix}2&amp; 1 &amp; 0\cr 0 &amp; 3 &amp; 1 \\end{pmatrix} \\begin{pmatrix}1\cr 1 \cr 1\\end{pmatrix} = \\begin{pmatrix}3\cr 4\\end{pmatrix}.\] Ainsi, il ne reste qu\'à calculer \(A^TAv_j\) pour \(j=1,2,3\) et voir si l\'un de ces vecteurs est égal à \(A^T b\). Or, on a successivement \[A^tAv_1=  \\begin{pmatrix}5 &amp; 3 \cr 3 &amp; 10\\end{pmatrix} \\begin{pmatrix} 0 \cr 1\\end{pmatrix} = \\begin{pmatrix} 3 \cr 10\\end{pmatrix} \\neq \\begin{pmatrix}3\cr-4\\end{pmatrix} =A^Tb,\] \[A^tAv_2=  \\begin{pmatrix}5 &amp; 3 \cr 3 &amp; 10\\end{pmatrix} \\begin{pmatrix} 2 \cr -7/3\\end{pmatrix} = \\begin{pmatrix} 3 \cr 52/3\\end{pmatrix} \\neq \\begin{pmatrix}3\cr-4\\end{pmatrix} =A^Tb,\] \[A^tAv_3=  \\begin{pmatrix}5 &amp; 3 \cr 3 &amp; 10\\end{pmatrix} \\begin{pmatrix} 3 \cr -4\\end{pmatrix} = \\begin{pmatrix} 3 \cr 4\\end{pmatrix} \\neq \\begin{pmatrix}3\cr-4\\end{pmatrix} =A^Tb.\] Par conséquent, ni \(v_1\) ni \(v_2\) ni \(v_3\) n\'est solution du système \(AX=b\) au sens des moindres carrés et donc c\'est bel et bien la dernière affirmation qui est correcte. \[\]Remarque : on rappelle qu\'il peut y avoir plusieurs solutions du système au sens des moindres carrés.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Le vecteur \(v_1 =\begin{pmatrix} 0 \cr 1 \end{pmatrix}\) est une solution du système \(AX=b\) au sens des moindres carrés.</choice>
+      <choice correct="false">Le vecteur \(v_2=\begin{pmatrix} 2 \cr -7/3 \end{pmatrix}\) est une solution du système \(AX=b\) au sens des moindres carrés.</choice>
+      <choice correct="false">Le vecteur \(v_3=\begin{pmatrix} 3 \cr -4 \end{pmatrix}\) est une solution du système \(AX=b\) au sens des moindres carrés.</choice>
+      <choice correct="true">Aucune des possibilités citées plus haut.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

@@ -1,0 +1,45 @@
+<problem display_name="Quiz " markdown="null" weight="0.0">
+  <p>On considère les deux matrices \(A,B\in M_{3\times 2}(\mathbb{R})\) définies par
+  \[
+  A=\begin{pmatrix}		0	&amp;	-2	\\
+  						4	&amp;	3	\\
+  						1	&amp;	2	\end{pmatrix},
+  ~B=\begin{pmatrix}	1	&amp;	-4	\\
+  						8	&amp;	7	\\
+  						0	&amp;	3	\end{pmatrix}.
+  \]
+Parmi les possibilités suivantes, cochez celle qui vous paraît correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Au moins une des possibilités proposées est solution du système.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans and 'choice_1' not in ans:
+    feedback = 'C\'est incorrect. En effet, on a \[( \\lambda A + B )^T = \\begin{pmatrix} 1 &amp; -2\\lambda -4 \cr 4 \\lambda +8 &amp; 3\\lambda + 7 \cr \\lambda &amp; 2\\lambda +3\\end{pmatrix}^T = \\begin{pmatrix} 1 &amp; 4\\lambda+8 &amp; \\lambda \cr -2\\lambda -4 &amp; 3\\lambda +7 &amp; 2\\lambda +3\\end{pmatrix}.\] Afin d\'obtenir une matrice échelonnée, il faut donc impérativement que \(-2\\lambda-4=0\), ce qui n\'est le cas que si  \(\\lambda=-2\). En remplaçant \(\\lambda\) par \(-2\), qu\'on obtient-on pour la matrice \(( -2 A + B )^T \) ?'
+  elif 'choice_2' in ans:
+     feedback = 'C\'est incorrect. En effet, on a \[( \\lambda A + B )^T = \\begin{pmatrix} 1 &amp; -2\\lambda -4 \cr 4 \\lambda +8 &amp; 3\\lambda + 7 \cr \\lambda &amp; 2\\lambda +3\\end{pmatrix}^T = \\begin{pmatrix} 1 &amp; 4\\lambda+8 &amp; \\lambda \cr -2\\lambda -4 &amp; 3\\lambda +7 &amp; 2\\lambda +3\\end{pmatrix}.\] N\'existe-t-il donc aucun \(\\lambda \in \mathbb{R}\) tel que \(-2\\lambda -4 =0\) ? ' 
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En effet, on a \[( \\lambda A + B )^T = \\begin{pmatrix} 1 &amp; -2\\lambda -4 \cr 4 \\lambda +8 &amp; 3\\lambda + 7 \cr \\lambda &amp; 2\\lambda +3\\end{pmatrix}^T = \\begin{pmatrix} 1 &amp; 4\\lambda+8 &amp; \\lambda \cr -2\\lambda -4 &amp; 3\\lambda +7 &amp; 2\\lambda +3\\end{pmatrix}.\] Afin d\'obtenir une matrice échelonnée, il faut donc impérativement que \(-2\\lambda-4=0\), ce qui n\'est le cas que si  \(\\lambda=-2\). Ainsi, on obtient  \[( \\lambda A + B )^T=( -2 A + B )^T =  \\begin{pmatrix} 1 &amp; 0 &amp; -2 \cr 0 &amp; 1 &amp; -1\\end{pmatrix},\] qui est clairement échelonnée. Aussi, ses pivots valent tous \(1\) et les deux colonnes contenant un pivot ne contiennent aucun autre coefficient non-nul, montrant que \((-2A +B)^T\) est échelonnée réduite.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="false"> Il existe \( \lambda\in \mathbb{R}\) tel que \((\lambda A + B)^T \) soit échelonnée, mais sans être réduite.</choice>
+      <choice correct="true"> Il existe \( \lambda\in \mathbb{R}\) tel que \((\lambda A + B)^T \) soit échelonnée réduite.</choice>
+      <choice correct="false"> Il n'existe aucun \( \lambda\in \mathbb{R}\) tel que \((\lambda A + B)^T \) soit échelonnée.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

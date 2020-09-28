@@ -1,0 +1,34 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soit \(T:\mathbb{P}_5(\mathbb{R})\to \mathbb{P}_5(\mathbb{R})\) une transformation linéaire admettant trois valeurs propres distinctes \(\lambda_1,\lambda_2,\lambda_3.\) Désignons par \(m_1,\) \(m_2\) et \(m_3\) leurs multiplicités géométriques respectives. </p>
+  <p> Si \(m_1 \lt m_2 \lt m_3,\) la transformation \(T\) est-elle forcément diagonalisable ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'D\'après le théorème vu en cours, la transformation \(T\) est diagonalisable si et seulement si son polynôme caractéristique est un produit de facteurs linéaires et la multiplicité géométrique de chaque valeur propre est égale à sa multiplicité algébrique. Par hypothèse, la transformation \(T\) admet au moins trois valeurs propres distinctes \(\\lambda_1,\) \(\\lambda_2\) et \(\lambda_3.\) Etant donné que la multiplicité géométrique d\'une valeur propre est toujours plus grande ou égale à \(1,\) qu\'implique la condition \(m_1 \lt m_2 \lt m_3\) ? '
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, on sait (par hypothèse) que la transformation \(T\) admet au moins trois valeurs propres distinctes \(\\lambda_1,\) \(\\lambda_2\) et \(\lambda_3.\) Ainsi, le polynôme caractéristique de \(T\) est donné par \[c_T(x)=(x-\\lambda_1)^{r_1}(x-\\lambda_2)^{r_2}(x-\\lambda_3)^{r_3} q(x),\] où \(1\\leq r_1,r_2,r_3\) désignent les multiplicités algébriques de \(\\lambda_1,\\lambda_2,\\lambda_3 \) respectivement et \(q(x)\) est un polynôme de degré \(6-r_1-r_2-r_3\). Or, comme \(m_1\lt m_2\lt m_3\) et comme la multiplicité algébrique d\'une valeur propre est toujours plus grande ou égale à sa multiplicité géométrique, on obtient que \[6\\geq r_1+r_2+r_3 \\geq m_1+m_2+m_3\\geq 1 + 2 + 3 =6,\] ce qui force \(q(x)\) à être de degré nul, i.e. \(q(x) =1\) et donc le polynôme caractéristique de \(T\) est scindé. De plus, on a que \(\\lambda_1,\\lambda_2,\\lambda_3\) sont les seules valeurs propres de \(T\) et  \(r_1=m_1=1\), \(r_2=m_2=2\) et \(r_3=m_3=3\).  D\'après le théorème vu en cours, on en déduit que \(T\) est diagonalisable.  '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true"> Oui.</choice>
+      <choice correct="false">Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

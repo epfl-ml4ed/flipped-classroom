@@ -1,0 +1,39 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soit \(S\) le système d'équations linéaires donné par 
+  \[S=
+  \left\{\begin{array}{cccc}	x	&amp;	-2y	&amp;		&amp;	=7	\\
+  								2x	&amp;	-3y	&amp;	+z	&amp;	=6	\\
+  						-		2x	&amp;	+y	&amp;	-3z	&amp;	=10	\end{array}\right.
+   \]
+  et notons \(A\) la matrice des coefficients associée à \(S.\) Alors \(A\) est inversible.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, on peut utiliser le résultat vu dans la vidéo 2.4. Combien de solutions le système \(S\) admet-il ici?'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En échelonnant la matrice augmentée du système, on peut montrer que cette dernière est ligne-équivalente à la matrice \[B=\\begin{pmatrix} 1 &amp; -2 &amp; 0 &amp; 7 \cr 0 &amp; 1 &amp; 1 &amp; -8 \cr 0 &amp; 0 &amp; 0 &amp; 0 \\end{pmatrix}.\] Le système \(S\) admet donc une infinité de solutions et la matrice des coefficients de \(S\) ne peut être inversible, par le résultat vu en cours.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Vrai.</choice>
+      <choice correct="true">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

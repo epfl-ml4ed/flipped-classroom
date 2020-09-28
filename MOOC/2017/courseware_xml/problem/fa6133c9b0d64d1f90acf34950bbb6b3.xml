@@ -1,0 +1,40 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>On considère la matrice \(B\in M_{2\times 3}(\mathbb{R})\) définie par 
+  \[B=\begin{pmatrix}	0	&amp;	0	&amp;	1	\\
+  						0	&amp;	0	&amp;	1	\end{pmatrix}.
+  \]</p>
+  <p> Comme pour la question précédente, cochez l'affirmation correcte, parmi celles proposées ci-dessous. </p>
+  <script type="text/python" system_path="python_lib">
+def hint_function(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Au moins une des possibilités proposées est correcte.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_function called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = '\(~\)Ici, la matrice \(B\) ne contient pas de ligne nulle et donc il suffit de vérifier si le premier coefficient de chaque ligne est à droite du premier coefficient de la ligne précédente. Est-ce le cas ici?'
+  elif 'choice_1' in ans:
+    feedback = '\(~\)Ici, la matrice \(B\) ne contient pas de ligne nulle et donc il suffit de vérifier les affirmations liées aux coefficients non-nuls, qui dans cette situation, valent tous \(1\). Ceci pourrait mener à penser que la matrice est échelonnée réduite, mais est-elle même échelonnée?'
+  elif 'choice_2' in ans:
+    feedback = '\(~\)C\'est correct! En effet, la matrice \(B\) n\'est pas échelonnée (et donc pas échelonnée réduite), car le premier coefficient de la deuxième ligne de \(B\) n\'est pas à droite du premier coefficient de la première ligne de \(B\).'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false" explanation-id="feedback4">La matrice \(B\) est échelonnée, mais elle n'est pas échelonnée réduite.</choice>
+      <choice correct="false" explanation-id="feedback5">La matrice \(B\) est échelonnée réduite.</choice>
+      <choice correct="true" explanation-id="feedback6"> La matrice \(B\) n'est pas échelonnée (et donc ne peut être échelonnée réduite).</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_function"/>
+  </multiplechoiceresponse>
+</problem>

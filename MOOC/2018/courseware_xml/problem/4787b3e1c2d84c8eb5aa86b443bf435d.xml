@@ -1,0 +1,37 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soient \(A\in M_{2\times 3}(\mathbb{R})\) et \(B\in M_{3\times 1}(\mathbb{R})\) les matrices à coefficients réels définies par \[A=\begin{pmatrix} 1 &amp; 13 &amp; 0 \cr -2 &amp; 3 &amp; 4 \end{pmatrix},~ B= \begin{pmatrix} 4 \cr 0 \cr 4 \end{pmatrix}.\]</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans or 'choice_3' in ans:
+    feedback = 'C\'est incorrect. En effet, on a vu en cours qu\'il n\'était possible d\'effectuer un produit de matrices \(XY\) que si le nombre de colonnes de \(X\) était égal au nombre de lignes de \(Y.\) Ainsi, de manière générale, on ne peut former le produit d\'une matrice avec elle-même que si celle-ci est carrée !'
+  elif 'choice_2' in ans :
+    feedback = 'C\'est incorrect. En effet, on a vu en cours qu\'il n\'était possible d\'effectuer un produit de matrices \(XY\) que si le nombre de colonnes de \(X\) était égal au nombre de lignes de \(Y.\) Que peut-on dire du nombre de colonnes de \(B\) et du nombre de lignes de \(A\) ici ?'
+  elif 'choice_1' in ans and 'choice_0' not in ans and 'choice_2' not in ans and 'choice_3' not in ans:
+    feedback = 'Correct! En effet, on a vu en cours qu\'il n\'était possible d\'effectuer un produit de matrices \(XY\) que si le nombre de colonnes de \(X\) était égal au nombre de lignes de \(Y.\) Ici, comme \(A\) est de taille \(2\\times 3\) et \(B\) est de taille \(3\\times 1,\) le seul produit possible à effectuer est le produit \(AB.\)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">Il est possible d'effectuer le produit \(AA.\)</choice>
+      <choice correct="true">Il est possible d'effectuer le produit \(AB.\)</choice>
+      <choice correct="false">Il est possible d'effectuer le produit \(BA.\)</choice>
+      <choice correct="false">Il est possible d'effectuer le produit \(BB.\)</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

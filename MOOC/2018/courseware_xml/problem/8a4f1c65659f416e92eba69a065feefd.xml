@@ -1,0 +1,34 @@
+<problem display_name="Quiz 4" markdown="null" weight="0.0">
+  <p>Soient \(A,B\in M_{n\times n}(\mathbb{R})\) deux matrices ligne-équivalentes. Alors \(A\) est inversible si et seulement si \(B\) est inversible.</p>
+  <p><b>Indication :</b> le produit de matrices inversibles est une matrice inversible.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, comme \(A\) et \(B\) sont ligne-équivalentes, il existe des matrices élémentaires \(E_1,\ldots,E_k\in M_{n\\times n}(\mathbb{R})\) telles que \(B=E_1\cdots E_k A.\) Que peut-on dire sur l\'inversibilité des matrices élémentaires? '
+  elif 'choice_0' in ans:
+    feedback = 'Correct! Comme \(A\) et \(B\) sont ligne-équivalentes, il existe des matrices élémentaires \(E_1,\ldots,E_k\in M_{n\\times n}(\mathbb{R})\) telles que \(B=E_1\cdots E_k A.\) Or, d\'après le cours, chaque \(E_i\) est inversible et comme \(A\) l\'est également par hypothèse, \(B\) est inversible, étant égal à un produit de matrices inversibles. En procédant de façon identique, on montre aisément l\'autre direction.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

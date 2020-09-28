@@ -1,0 +1,36 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soient \(V\) un espace euclidien, \(W\) un sous-espace vectoriel de \(V\) et \(v\in V.\) Est-il possible que la meilleure approximation quadratique de \(v\) soit égale à \(v\) ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, que se passe-t-il dans le cas où \(v\in W\), par exemple ?'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet,  si \(v\\notin W,\) alors \(||v-w||\gt 0\) pour tout \(w\in W\). Peut-on alors avoir \(v\in W\) dans cette situation ?'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En effet, si \(v\in W,\) alors \(v\) satisfait \(||v-v||=0\\leq ||v-w||\) pour tout \(w\in W\). Ainsi, \(v\) est bien la meilleure approximation quadratique de \(v\) dans \(W\) dans cette situation. Réciproquement, si \(v\\notin W,\) alors \(||v-w||\gt 0\) pour tout \(w\in W\) et donc \(v-w\\neq 0\) pour tout \(w\in W.\) Cela montre que bien que \(v\\notin W.\)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Non, jamais.</choice>
+      <choice correct="true">Oui, cela arrive si et seulement si \(v\in W.\)</choice>
+      <choice correct="false">Oui, cela peut être le cas, même si \(v\notin W\).</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

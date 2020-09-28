@@ -1,0 +1,37 @@
+<problem display_name="Quiz 4" markdown="null" weight="0.0">
+  <p> Soient \(Q:\mathbb{R}^n\to \mathbb{R}^n\) une forme quadratique et \(A\in M_{n\times n}(\mathbb{R})\) la matrice symétrique associée. Dans le quiz précédent, nous avons vu (en particulier) que si \(\lambda =0\) était une valeur propre de \(A\), alors il existait un vecteur non-nul \(v\in \mathbb{R}^n\) tel que \(Q(v)=0\). </p>
+  <p> Réciproquement, s'il existe un vecteur non-nul \(v\in \mathbb{R}^n\) tel que \(Q(v)=0\), alors \(\lambda=0\) est-elle obligatoirement une valeur propre de \(A\)?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, qu\'en est-il de la forme quadratique sur \(\mathbb{R}^2\) définie par \(Q(x,y)=x_1^2-x_2^2\), par exemple ?'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, supposons que \(Q\) soit positive et supposons qu\'il existe \(0\\neq v\in \mathbb{R}^n\) tel que \(Q(v)=0\). Par définition de \(A\), on a donc que \(vAv^T=0\). Or, par le théorème spectral, il existe une matrice orthogonale \(P\in M_{n\\times n}(\mathbb{R})\) telle que \[P^TAP=\\begin{pmatrix}\\lambda_1 &amp; &amp;  \cr &amp; \\ddots &amp;  \cr &amp;  &amp; \\lambda_n\\end{pmatrix}=D,\] où \(\\lambda_1,\\ldots,\\lambda_n\in \mathbb{R}\) sont les valeurs propres de \(A\). Aussi, écrivons \(vP=(a_1,\\ldots,a_n)^T\) (où \(a_1,\\ldots,a_n \in \mathbb{R}\)) et remarquons que \(vP\\neq 0,\) étant donné que \(P\) est inversible. N\'est-il pas possible de conclure en s\'aidant du quiz précédent, par exemple ? '
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En effet, supposons que \(Q\) soit positive (l\'argument est identique dans le cas où \(Q\) est négative) et supposons qu\'il existe \(0\\neq v\in \mathbb{R}^n\) tel que \(Q(v)=0\). Par définition de \(A\), on a donc que \(vAv^T=0\). Or, par le théorème spectral, il existe une matrice orthogonale \(P\in M_{n\\times n}(\mathbb{R})\) telle que \[P^TAP=\\begin{pmatrix}\\lambda_1 &amp; &amp;  \cr &amp; \\ddots &amp;  \cr &amp;  &amp; \\lambda_n\\end{pmatrix}=D,\] où \(\\lambda_1,\\ldots,\\lambda_n\in \mathbb{R}\) sont les valeurs propres de \(A\). Aussi, écrivons \(vP=(a_1,\\ldots,a_n)^T\) (où \(a_1,\\ldots,a_n \in \mathbb{R}\)) et remarquons que \(vP\\neq 0,\) étant donné que \(P\) est inversible. Ainsi, on a \[0=Q(v)=vAv^T=vPDP^Tv^T=(vP)D(vP)^T=\\lambda_1 a_1^2 + \\cdots + \\lambda_n a_n^2.\] Or, comme \(Q\) est supposée positive, on a que \(\\lambda_1,\ldots,\\lambda_n \\geq 0\) par le quiz précédent et donc il doit obligatoirement exister \(1\\leq i\\leq n\) tel que \(\\lambda_i=0\), c\'est-à-dire \(\\lambda=0\) est valeur propre de \(A\). '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Oui, toujours.</choice>
+      <choice correct="true">Oui, si \(Q\) est négative ou positive.</choice>
+      <choice correct="false">Aucune des deux possibilités proposées n'est correcte.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

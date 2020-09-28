@@ -1,0 +1,38 @@
+<problem display_name="Quiz " markdown="null" weight="0.0">
+  <p>Soit \(V=M_{2\times 2}(\mathbb{R})\) l'espace vectoriel des matrices de taille \(2\times 2\), muni du produit scalaire \(\langle~,~\rangle :V\times V\to \mathbb{R}\) défini par \[\langle A,B\rangle = \mbox{Tr}(A^TB),\] ceci pour tous \(A,B\in V\). Soit également \(W=\{A\in V: A^T=A\}\) le sous-espace de \(V\) constitué des matrices symétriques.</p>
+  <p>Parmi les affirmations suivantes, cochez celle qui vous semble correcte.  </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, si la distance entre \(X\) et sa meilleure approximation quadratique dans \(W\) est nulle, cela veut dire que \(X\in W\). Or, est-ce vraiment le cas ici ?'
+  elif 'choice_1' in ans or 'choice_3' in ans:
+    feedback = 'C\'est incorrect. Indice : on commence par calculer la meilleure approximation quadratique de \(X\) dans \(W\), qui ici vaut \[\mbox{proj}_W(X)=\\frac{1}{2}\\begin{pmatrix} 2 &amp; 5 \cr 5 &amp; 8 \\end{pmatrix}.\] (Les calculs sont explicités dans la solution.) '
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, commençons par calculer la meilleure approximation quadratique de \(X\) dans \(W\), qui n\'est autre que \(\mbox{proj}_W(X)\), comme vu dans la leçon précédente. Pour cela, il faut tout d\'abord calculer une base orthogonale (ou même orthonormée, si l\'on préfère éviter de devoir diviser par la norme lors du calcul des projections sur chaque vecteur de ladite base). \[\] Considérons la base canonique \((v_1,v_2,v_3)=(E_{11},E_{12}+E_{21},E_{22})\) de \(W\). On obtient alors successivement \[\langle e_1,e_2\\rangle = \mbox{Tr}\\left(\\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}^T \\begin{pmatrix}0 &amp; 1 \cr 1 &amp; 0\\end{pmatrix}\\right) = \mbox{Tr}\\left(\\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}  \\begin{pmatrix}0 &amp; 1 \cr 1 &amp; 0\\end{pmatrix}\\right) = \mbox{Tr}\\begin{pmatrix}0 &amp; 1 \cr 0 &amp; 0\\end{pmatrix}  =0,\] \[\langle e_1,e_3\\rangle = \mbox{Tr}\\left(\\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}^T \\begin{pmatrix}0 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}\\right) = \mbox{Tr}\\left(\\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}  \\begin{pmatrix}0 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}\\right) = \mbox{Tr}\\begin{pmatrix}0 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}  =0,\] \[\langle e_2,e_3\\rangle = \mbox{Tr}\\left(\\begin{pmatrix}0 &amp; 1 \cr 1 &amp; 0\\end{pmatrix}^T \\begin{pmatrix}0 &amp; 0 \cr  0 &amp; 1\\end{pmatrix}\\right) = \mbox{Tr}\\left(\\begin{pmatrix}0 &amp; 1 \cr 1 &amp; 0\\end{pmatrix}  \\begin{pmatrix}0 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}\\right) = \mbox{Tr}\\begin{pmatrix}0 &amp; 1 \cr 0 &amp; 0\\end{pmatrix}  =0,\] ce qui montre que la base canonique \((v_1,v_2,v_3)\) est une base orthogonale de \(W\). \[\] Nous pourrions nous arrêter ici et calculer la projection orthogonale de \(X\) sur \(W\) en se servant de cette base, mais dans le but d\'avoir une formule encore plus simple pour la projection, nous allons nous servir d\'une base orthonormée de \(W\). \[\] Encore une fois, on calcule successivement \[\langle e_1,e_1\\rangle = \mbox{Tr}\\left(\\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}^T \\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}\\right) = \mbox{Tr}\\left(\\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}  \\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}\\right) = \mbox{Tr}\\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}  =1,\] \[\langle e_2,e_2\\rangle = \mbox{Tr}\\left(\\begin{pmatrix}0 &amp;1 \cr 1 &amp; 0\\end{pmatrix}^T \\begin{pmatrix}0 &amp; 1 \cr 1 &amp; 0\\end{pmatrix}\\right) = \mbox{Tr}\\left(\\begin{pmatrix}0 &amp; 1 \cr 1 &amp; 0\\end{pmatrix}  \\begin{pmatrix}0 &amp; 1 \cr 1 &amp; 0\\end{pmatrix}\\right) = \mbox{Tr}\\begin{pmatrix}1 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}  =2,\] \[\langle e_3,e_3\\rangle = \mbox{Tr}\\left(\\begin{pmatrix}0 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}^T \\begin{pmatrix}0 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}\\right) = \mbox{Tr}\\left(\\begin{pmatrix}0 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}  \\begin{pmatrix}0 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}\\right) = \mbox{Tr}\\begin{pmatrix}0 &amp; 0 \cr 0 &amp; 1\\end{pmatrix}  =1,\] ce qui nous donne les normes \(||e_1||=||e_3||=1\), \(||e_2||=\\sqrt{2}\). \[\] Posons alors \(\mathscr{B}=(f_1,f_2,f_3)\), où \(f_1=e_1\), \(f_2=\\tfrac{\\sqrt{2}}{2}e_2\) et \(f_3=e_3\). La formule pour la projection donne alors \[\\begin{array}[ccc] ~\mbox{proj}_W(X) &amp;=&amp; \\langle X,f_1\\rangle f_1  + \\langle X,f_2\\rangle f_2  + \\langle X,f_3\\rangle f_3 \cr &amp;=&amp; \mbox{Tr}\\left(\\begin{pmatrix} 1&amp; 3\cr 2 &amp; 4 \\end{pmatrix} \\begin{pmatrix} 1 &amp; 0 \cr 0 &amp; 0 \\end{pmatrix}\\right) f_1 +  \\frac{\\sqrt{2}}{2}\mbox{Tr}\\left(\\begin{pmatrix} 1&amp; 3\cr 2 &amp; 4 \\end{pmatrix} \\begin{pmatrix} 0 &amp; 1 \cr 1 &amp; 0 \\end{pmatrix}\\right) f_2 + \mbox{Tr}\\left(\\begin{pmatrix} 1&amp; 3\cr 2 &amp; 4 \\end{pmatrix} \\begin{pmatrix} 0 &amp; 0 \cr 0 &amp; 1 \\end{pmatrix}\\right) f_3 \cr &amp;=&amp; \mbox{Tr} \\begin{pmatrix} 1&amp; 0\cr 2 &amp; 0 \\end{pmatrix}   f_1 +  \\frac{\\sqrt{2}}{2}\mbox{Tr} \\begin{pmatrix} 3&amp; 1\cr 4 &amp; 2 \\end{pmatrix}  f_2 + \mbox{Tr} \\begin{pmatrix} 0&amp; 3\cr 0 &amp; 4 \\end{pmatrix}  f_3 \cr &amp;=&amp; f_1+\\frac{5\\sqrt{2}}{2}f_2 + 4f_3 \cr &amp;=&amp; \\frac{1}{2}\\begin{pmatrix} 2 &amp; 5 \cr 5 &amp; 8 \\end{pmatrix}\\end{array}.\] Ainsi, la distance de \(X\) à son approximation quadratique dans \(W\) est la norme du vecteur \[X-\mbox{proj}_W(X)=\\begin{pmatrix} 1&amp; 2 \cr 3 &amp; 4\\end{pmatrix}-\\frac{1}{2}\\begin{pmatrix} 2 &amp; 5 \cr 5 &amp; 8 \\end{pmatrix} = \\frac{1}{2}\\begin{pmatrix} 0 &amp; -1 \cr 1 &amp; 0 \\end{pmatrix}.\] On en conclut le résultat escompté.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">La distance entre  \(X=\begin{pmatrix}1&amp;2\cr 3&amp; 4\end{pmatrix}\) et sa meilleure approximation quadratique dans \(W\) vaut \(0\).</choice>
+      <choice correct="false">La distance entre  \(X=\begin{pmatrix}1&amp;2\cr 3&amp; 4\end{pmatrix}\) et sa meilleure approximation quadratique dans \(W\) vaut \(\tfrac{1}{2}\).</choice>
+      <choice correct="true">La distance entre  \(X=\begin{pmatrix}1&amp;2\cr 3&amp; 4\end{pmatrix}\) et sa meilleure approximation quadratique dans \(W\) vaut \(\tfrac{\sqrt{2}}{2}\).</choice>
+      <choice correct="false">La distance entre  \(X=\begin{pmatrix}1&amp;2\cr 3&amp; 4\end{pmatrix}\) et sa meilleure approximation quadratique dans \(W\) vaut \(1\).</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

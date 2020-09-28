@@ -1,0 +1,35 @@
+<problem display_name="Quiz 4 (#)" markdown="null" weight="0.0">
+  <p> Supposons que \(\mathscr{B}\) soit une base orthonormée d'un espace euclidien \(V\) et supposons que \(\mathscr{C}\) soit une autre base de \(V\).</p>
+  <p> D'après le quiz précédent, si \(\mathscr{C}\) est orthonormée, alors la matrice \([id]_{\mathscr{B}\mathscr{C}}\) est orthogonale.</p>
+  <p> Réciproquement, si \([id]_{\mathscr{B}\mathscr{C}}\) est orthogonale, \(\mathscr{C}\) est-elle obligatoirement orthonormée ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, n\'est-il pas possible de raisonner comme dans le quiz précédent, en utilisant le résultat introduit dans le quiz 3 (#) de la section 9.2 ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, écrivons \(\mathscr{C}=(v_1,\\ldots,v_n)\). Comme \([id]_{\mathscr{B}\mathscr{C}}\) est orthogonale, ses colonnes forment une base orthonormée de \(\mathbb{R}^n\), c\'est-à-dire \([v_i]_{\mathscr{B}} \\cdot [v_j]_{\mathscr{B}}=\\delta_{ij}\) pour tous \(1\\leq i,j\\leq n\). \[\]Comme dans le quiz précédent, on utilisera le résultat présenté dans le quiz 3 (#) de la section 9.2, qui implique que \(\\delta_{ij}=[v_i]_{\mathscr{B}} \\cdot [v_j]_{\mathscr{B}}= \langle v_i,v_j\\rangle\) pour tous \(1\\leq i,j \\leq n\). Ceci force bel et bien \(\mathscr{C}=(v_1,\ldots,v_n)\) à être une base orthonormée de \(V\) comme désiré. '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Oui, toujours.</choice>
+      <choice correct="false">Parfois oui, parfois non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

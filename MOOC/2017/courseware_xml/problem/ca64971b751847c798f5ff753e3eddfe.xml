@@ -1,0 +1,41 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(\mathscr{F}(\mathbb{R})\) l'espace vectoriel des fonctions réelles introduit en cours. Parmi les sous-ensembles suivants, cochez ceux qui sont des sous-espaces vectoriels de \(\mathscr{F}(\mathbb{R}).\) </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Au moins une des possibilités ci-dessus est vérifiée.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, que se passe-t-il lorsque l\'on multiplie une fonction positive \(f\in W_2\) par un scalaire négatif ?'
+  elif 'choice_0' in ans and 'choice_2' not in ans and 'choice_3' not in ans:
+    feedback = '\(~\)En effet, \(W_1\) est un sous-espace vectoriel de \(V.\) Cependant, est-ce le seul parmi les possibilités proposées ?'  
+  elif ('choice_2' in ans and 'choice_3' not in ans) or ('choice_3' in ans and 'choice_2' not in ans) :
+    feedback = '\(~\)Y a-t-il vraiment une différence structurelle entre les fonctions paires et impaires ?'
+  elif 'choice_0' not in ans and 'choice_2' in ans and 'choice_3' in ans :
+    feedback = '\(~\)En effet, \(W_3\) et \(W_4\) sont bel et bien des sous-espaces vectoriels de \(V.\) Cependant, parmi les deux possibilités restantes, au moins une représente un sous-espace vectoriel de \(V.\)'     
+  elif 'choice_0' in ans and 'choice_1' not in ans and 'choice_2' in ans and 'choice_3' in ans:
+    feedback = '\(~\)Correct! En effet, on commence par montrer que \(W_1\) est bel et bien un sous-espace vectoriel de \(V\). Premièrement, la fonction nulle appartient bien à \(W_1\), ce qui montre que ce dernier n\'est pas vide. Aussi, si \(f,g\in W_1,\) et \(x,y\in \mathbb{R}\), alors \[(f+g)(x)=f(x)+g(x)=f(y)+g(y)=(f+g)(y),\] c\'est-à-dire \(f+g\in W_1.\) Finalement, pour \(\\lambda,x,y\in \mathbb{R}\) et \(f\in W_1\), on a \[(\lambda f)(x)=\\lambda f(x) =\\lambda f(y) =(\\lambda f)(y),\] i.e. \(\\lambda f \in W_1.\) Ainsi, \(W_1\) est un sous-espace vectoriel de \(V.\) \[\] En procédant de manière identique, on montre aisément que \(W_3\) et \(W_4\) sont également des sous-espaces vectoriels de \(V.\) Le sous-ensemble \(W_2\) n\'est bien entendu pas un sous-espace vectoriel. Pour s\'en convaincre, il suffit de considérer la multiplication de la fonction \(f(x)=x^2\) par \(\\lambda=-3\), par exemple. '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup label="The following languages are in the Indo-European family:" direction="vertical">
+      <choice correct="true">L'ensemble des fonctions réelles constantes \(W_1=\{f\in \mathscr{F}(\mathbb{R}):f(x)=f(y),~x,y\in \mathbb{R}\}.\)</choice>
+      <choice correct="false">L'ensemble des fonctions réelles positives \(W_2=\{f\in \mathscr{F}(\mathbb{R}):f(x)\geq 0,~x\in \mathbb{R}\}.\)</choice>
+      <choice correct="true">L'ensemble des fonctions réelles paires \(W_3=\{f\in \mathscr{F}(\mathbb{R}):f(-x)=f(x),\mbox{ } x\in \mathbb{R}\}.\)</choice>
+      <choice correct="true">L'ensemble des fonctions réelles impaires \(W_4=\{f\in \mathscr{F}(\mathbb{R}):f(-x)=-f(x),\mbox{ } x\in \mathbb{R}\}.\)</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

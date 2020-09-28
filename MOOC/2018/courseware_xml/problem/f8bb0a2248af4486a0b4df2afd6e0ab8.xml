@@ -1,0 +1,23 @@
+<problem display_name="Valeurs propres et vecteurs propres : problème 4" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(A \in M_{n \times n}(\mathbb{R})\). Soit \(\lambda\) une valeur propre de \(A\).</p>
+  <p>Alors \(\lambda^2\) est une valeur propre de \(A^2\).</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Alors \(\lambda^2\) est une valeur propre de \(A^2\)." type="MultipleChoice">
+      <choice correct="true">Vrai</choice>
+      <choice correct="false">Faux</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> 
+Ici on a \(A \in M_{n \times n}(\mathbb{R})\) et \(\lambda\in \mathbb{R}\) est une valeur propre de \(A\). On doit déterminer si \(\lambda^2\) est une valeur propre de \(A^2\). 
+Soit \(v\) un vecteur propre de \(A\) associé à la valeur propre \(\lambda\). 
+On a 
+\[A^2v=A(Av)=A(\lambda v)= \lambda (Av)=\lambda^2 v\]
+(La deuxième  et dernière égalités viennent du fait que \(v\)  est un vecteur propre de \(A\) associé à la valeur propre \(\lambda\).)
+Ainsi \(v\) est un vecteur propre de \(A^2\) associé à la valeur propre \(\lambda^2\). Ainsi \(\lambda^2\) est une valeur propre de \(A^2\).
+</p>
+    </div>
+  </solution>
+</problem>

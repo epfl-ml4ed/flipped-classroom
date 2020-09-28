@@ -1,0 +1,54 @@
+<problem display_name="Multiplication matricielle : problème 2" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soient \(A\in M_{2\times 3}(\mathbb{R})\), \(B\in M_{3\times 2}(\mathbb{R})\), \(C\in M_{4\times 2}(\mathbb{R})\) et \(D\in M_{2\times 2}(\mathbb{R})\) les mêmes matrices que dans le problème précédent, définies par \[
+A=
+  \begin{pmatrix}
+  1 &amp; 2 &amp; 6 \\
+  4 &amp; 3 &amp; 8 \\
+  \end{pmatrix},
+B= 
+  \begin{pmatrix}
+  3 &amp; 2 \\
+  7 &amp; 1 \\
+  0 &amp; 7 \\
+  \end{pmatrix}
+    ,
+C=
+  \begin{pmatrix}
+  0 &amp; 1 \\
+  1 &amp; 1 \\
+  2 &amp; 5 \\
+  1 &amp; 1 \\
+  \end{pmatrix}
+  ,
+D=
+  \begin{pmatrix}
+  4 &amp; 2 \\
+  3 &amp; 4 \\
+  \end{pmatrix}
+  .\]  
+</p>
+  <p>Parmi les expressions suivantes, lesquelles existent ?</p>
+  <p><b>Attention :</b> veuillez s'il vous plaît cocher <b>toutes</b> les possibilités valables.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">\(CA\)</choice>
+      <choice correct="false">\(CB\)</choice>
+      <choice correct="false">\(C^2\)</choice>
+      <choice correct="true">\(CD\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">\(DA\)</choice>
+      <choice correct="false">\(DB\)</choice>
+      <choice correct="false">\(DC\)</choice>
+      <choice correct="true">\(D^2\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Soient \(A\) une matrice de taille \(m \times n\) et \(B\) une matrice de taille \(p \times q\). Pour que le produit \(AB\) existe, il faut et il suffit que \(n=p\).</p>
+    </div>
+  </solution>
+</problem>

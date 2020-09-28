@@ -1,0 +1,59 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soient \(V=\mathbb{P}_4(\mathbb{R})\), \(W=\mathbb{P}_3(\mathbb{R})\) et \(T:V\to W\) l'application linéaire définie par \(T(p(t))=p'(t),\) ceci pour tout \(p(t)\in V.\) Soient aussi \(\mathscr{B}_V=\{1,t,t^2,t^3,t^4\}\) et \(\mathscr{B}_W=\{t^3,t^2,t,1\}\) des bases de \(V\) et \(W\) respectivement, et désignons par \(A_1,A_2,A_3,A_4 \in M_{ 4 \times 4}(\mathbb{R})\) les matrices
+ \[
+  A_1=\begin{pmatrix}	0	&amp;	1	&amp;	0	&amp;	0	&amp;	0	\\
+  						0	&amp;	0	&amp;	2	&amp;	0	&amp;	0	\\
+  						0	&amp;	0	&amp;	0	&amp;	3	&amp;	0	\\
+  						0	&amp;	0	&amp;	0	&amp;	0	&amp;	4	\end{pmatrix},~
+  A_2=\begin{pmatrix}	0	&amp;	4	&amp;	0	&amp;	0	&amp;	0	\\
+  						0	&amp;	0	&amp;	3	&amp;	0	&amp;	0	\\
+  						0	&amp;	0	&amp;	0	&amp;	2	&amp;	0	\\
+  						0	&amp;	0	&amp;	0	&amp;	0	&amp;	1	\end{pmatrix},
+  \]
+  \[
+   A_3=\begin{pmatrix}	0	&amp;	0	&amp;	0	&amp;	0	&amp;	4	\\
+  						0	&amp;	0	&amp;	0	&amp;	3	&amp;	0	\\
+  						0	&amp;	0	&amp;	2	&amp;	0	&amp;	0	\\
+  						0	&amp;	1	&amp;	0	&amp;	0	&amp;	0	\end{pmatrix},~
+    A_4=\begin{pmatrix}	0	&amp;	0	&amp;	0	&amp;	0	&amp;	1	\\
+  						0	&amp;	0	&amp;	0	&amp;	2	&amp;	0	\\
+  						0	&amp;	0	&amp;	3	&amp;	0	&amp;	0	\\
+  						0	&amp;	4	&amp;	0	&amp;	0	&amp;	0	\end{pmatrix}.
+  \] Parmi les possibilités suivantes, cochez celle qui vous paraît correcte. </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, on a par exemple \(T(t)=1=0\cdot t^3+0\cdot t^2 + 0\cdot t +1\cdot 1.\) Que vaut donc la deuxième colonne de la matrice \([T]_{\mathscr{B}_W \mathscr{B}_V}\) ? '
+  elif 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, on a par exemple \(T(t)=1=0\cdot t^3+0\cdot t^2 + 0\cdot t +1\cdot 1.\) Que vaut donc la deuxième colonne de la matrice \([T]_{\mathscr{B}_W \mathscr{B}_V}\) ? '
+  elif 'choice_3' in ans:
+    feedback = 'C\'est incorrect. En effet, on a par exemple \(T(t)=1=0\cdot t^3+0\cdot t^2 + 0\cdot t +1\cdot 1.\) Que vaut donc la deuxième colonne de la matrice \([T]_{\mathscr{B}_W \mathscr{B}_V}\) ? '
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, d\'après la définition vue en cours, la matrice recherchée a pour colonnes les vecteurs des coordonnées de \(T(1)\),\(T(t)\), \(T(t^2)\), \(T(t^3)\) et \(T(t^4)\) dans la base \(\mathscr{B}_W\). On calcule alors successivement \[[T(1)]_{\mathscr{B}_W}=[0]_{\mathscr{B}_W}=\\begin{pmatrix}  0 \cr 0 \cr 0 \cr 0\\end{pmatrix},~~[T(t)]_{\mathscr{B}_W }=[1]_{\mathscr{B}_W }=\\begin{pmatrix}  0 \cr 0\cr 0 \cr 1\\end{pmatrix},\] \[[T(t^2)]_{\mathscr{B}_W}=[2t]_{\mathscr{B}_W}=\\begin{pmatrix}  0  \cr 0 \cr 2 \cr 0\\end{pmatrix},~~[T(t^3)]_{\mathscr{B}_W }=[3t^2]_{\mathscr{B}_W }=\\begin{pmatrix}  0 \cr 3 \cr 0 \cr 0\\end{pmatrix},\] \[[T(t^4)]_{\mathscr{B}_W }=[4t^3]_{\mathscr{B}_W }=\\begin{pmatrix}  4 \cr 0 \cr 0 \cr 0\\end{pmatrix},\] d\'où le résultat.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">La matrice \([T]_{\mathscr{B}_W \mathscr{B}_V}\) est donnée par \(A_1.\)</choice>
+      <choice correct="false">La matrice \([T]_{\mathscr{B}_W \mathscr{B}_V}\) est donnée par \(A_2.\)</choice>
+      <choice correct="true">La matrice \([T]_{\mathscr{B}_W \mathscr{B}_V}\) est donnée par \(A_3.\)</choice>
+      <choice correct="false">La matrice \([T]_{\mathscr{B}_W \mathscr{B}_V}\) est donnée par \(A_4.\)</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

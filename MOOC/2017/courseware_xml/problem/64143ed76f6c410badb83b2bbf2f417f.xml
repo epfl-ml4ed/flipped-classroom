@@ -1,0 +1,47 @@
+<problem display_name="Résolution de systèmes linéaires : problème 5" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>On considère le système linéaires aux inconnues \(x,y,z,t\) défini par 
+    \[S=
+  \left\{\begin{array}{lllllllll}
+  x &amp;+ &amp;y&amp;-&amp;3z &amp;- &amp;t &amp;=&amp;-2 \\
+  2x &amp;- &amp;y&amp;&amp; &amp;+ &amp;t &amp;=&amp;-7 \\
+   &amp; &amp;y&amp;-&amp;2z &amp;- &amp;t &amp;=&amp;1 \\
+  \end{array}\right.
+  \]
+    Parmi les possibilités suivantes, cochez celle(s) étant vérifiée(s).</p>
+  <p><b>Attention :</b> veuillez s'il vous plaît cocher <b>toutes</b> les possibilités valables.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">Le système \(S\) n'admet aucune solution.</choice>
+      <choice correct="false">Le système \(S\) admet une unique solution.</choice>
+      <choice correct="true"> Le système \(S\) admet une infinité de solutions.</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false"> Le système \(S\) admet une solution donnée par \((1,1,1,1)\).</choice>
+      <choice correct="true"> Le système \(S\) admet une solution donnée par \((-3,1,0,0)\).</choice>
+      <choice correct="true"> Le système \(S\) admet une solution donnée par \((-2,4,1,1)\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Nous présentons ici deux méthodes permettant de résoudre cet exercice.</p>
+      <p>
+        <b> 1ère méthode </b>
+      </p>
+      <p> Avec l'opération élémentaire \(L_2'=L_2-2L_1\), on obtient le système suivant:</p>
+      <p> \(\left\{ \begin{array}{l} x+y-3z-t=-2\\ -3y+6z+3t=-3\\ y-2z-t=1 \end{array} \right.\)</p>
+      <p> Avec l'opération élémentaire \(L_2''=L_2'+3L_3'\) on obtient le système suivant: </p>
+      <p> \(\left\{ \begin{array}{l} x+y-3z-t=-2\\  y-2z-t=1 \end{array} \right.\) </p>
+      <p> On déduit que le système a une infinité de solutions.  En effet, l'ensemble des solutions est:
+    \(\{(-3+z,1+2z+t,z,t): z,t \in \mathbb{R}\}.\)</p>
+      <p>Finalement, prenant \(z=t=0\) on voit que \((-3,1,0,0)\) est une solution du système, et en prenant \(z=t=1\) on voit que \((-2,4,1,1)\) est aussi une solution du système.  </p>
+      <p/>
+      <p>
+        <b> 2ème méthode </b>
+      </p>
+      <p>la deuxième manière de procéder consiste simplement à substituer successivement \((x,y,z,t)\) par \((-3,1,0,0)\) et \((-2,4,1,1).\) On remarque alors que ces quadruplés sont des solutions du système et donc, par le résultat vu en cours, le système possède une infinité de solutions. </p>
+    </div>
+  </solution>
+</problem>

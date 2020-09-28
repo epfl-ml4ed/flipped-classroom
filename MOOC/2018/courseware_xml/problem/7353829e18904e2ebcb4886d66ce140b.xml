@@ -1,0 +1,47 @@
+<problem display_name="Orthogonal à un sous-espace et projection orthogonale : problème 12" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Soit \(V=\mathbb{R}^4\) muni du produit scalaire standard. Soit \(W=\{w=(a,b,c,d) \in V \mid a+2b+c=0, 
+  d=0\}\) un sous-espace de \(V\). Soit \(v=(2,2,4,2)\).</p>
+  <p>Lorsqu'on écrit \(v=w+x\) avec \(w \in W\) et \(x \in W^{\perp}\), on trouve :</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Alors lorsqu'on écrit \(v=w+x\) avec \(w \in W\) et \(x \in W^{\perp}\), on                        trouve:" type="MultipleChoice">
+      <choice correct="false">\(w=(-\frac{2}{\sqrt{2}+\sqrt{3}},-\frac{2}{\sqrt{3}},\frac{2}{\sqrt{2}+
+      \sqrt{3}},0)\)</choice>
+      <choice correct="true">\(w=(\frac{1}{3},-\frac{4}{3},\frac{7}{3},0)\)</choice>
+      <choice correct="false">\(w=(-\frac{2}{\sqrt{2}}+\frac{2}{\sqrt{3}},-\frac{2}{\sqrt{3}},\frac{2}
+      {\sqrt{2}}+\frac{2}{\sqrt{3}},0)\)</choice>
+      <choice correct="false">\(w=(-\frac{2}{\sqrt{6}},-\frac{1}{\sqrt{6}},\frac{4}{\sqrt{6}},0)\)</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>
+Ici on a \(V=\mathbb{R}^4\) et \(W=\{(a,b,c,d)\in V:a+2b+c=d=0\}.\) Bien sur, \(W\) est un sous espace vectoriel de \(V\). 
+On cherche une base de \(W\). Soit \(v=(a,b,c,d)\in V\). On a 
+\begin{eqnarray*}
+v \in W &amp; \Leftrightarrow &amp; a+2b+c=d=0\\
+&amp; \Leftrightarrow &amp; a=-2b-c, \ d=0. 
+\end{eqnarray*}
+On déduit que \(W=\{(-2b-c,b,c,0): b, c\in \mathbb{R}\}\) et \(((-2,1,0,0),(-1,0,1,0))\) est une base de \(W\). 
+Soient \(u_1=(-2,1,0,0)\) et \(u_2=(-1,0,1,0)\). On a donc \((u_1,u_2)\) est une base de \(W\).  On applique le procédé de Gram-Schmidt pour trouver une base orthogonale \((v_1,v_2)\) de \(W\).
+Soient \(v_1=u_1=(-2,1,0,0)\) et \[v_2=u_2-{\rm proj}_{v_1}(u_2)=u_2-\frac{\langle u_2, v_1\rangle}{\langle v_1, v_1\rangle}v_1=(-1,0,1,0)-\frac{2}{5}(-2,1,0,0)=(-1/5,-2/5,1,0).\]
+On déduit que \((v_1,v_2)\) est une base orthogonale de \(W\) et que \((w_1,w_2)\) est aussi une base orthogonale de \(W\)
+ où \(w_1=(-2,1,0,0)\) et \(w_2=(1,2,-5,0)\).
+</p>
+      <p>
+Soit \(v\in V\). On a donc 
+\[{\rm proj}_W(v)=\frac{\langle v,w_1\rangle}{\langle w_1,w_1\rangle}w_1+ 
+\frac{\langle v,w_2\rangle}{\langle w_2,w_2\rangle}w_2= \frac{\langle v,w_1\rangle}{5}w_1+ 
+\frac{\langle v,w_2\rangle}{30}w_2
+.\]
+Si \(v=(2,2,4,2)\) alors 
+\begin{eqnarray*}
+{\rm proj}_W(v)&amp; =&amp; \frac{-2}{5}(-2,1,0,0)+\frac{(-14)}{30}(1,2,-5,0)\\
+&amp; = &amp; \frac{-6}{15}(-2,1,0,0)+\frac{(-7)}{15}(1,2,-5,0)\\
+&amp; = &amp; \frac{1}{15}(5,-20,35,0)\\
+&amp; = &amp; \frac{1}{3}(1,-4,7,0).
+\end{eqnarray*}
+</p>
+    </div>
+  </solution>
+</problem>

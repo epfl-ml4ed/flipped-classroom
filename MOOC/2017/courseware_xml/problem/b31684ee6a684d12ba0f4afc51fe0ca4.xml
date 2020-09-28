@@ -1,0 +1,50 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p> Soient \(V=\mathbb{P}_2(\mathbb{R})\) l'espace vectoriel des polynômes de degré plus petit ou égal à \(2,\) muni du produit scalaire défini par \[\langle p, q \rangle =\int_{-1}^1{p(t)q(t)dt},\] ceci pour tous \(p,q\in V.\) </p>
+  <p>Parmi les affirmations suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_3' in ans and 'choice_2' not in ans:
+    feedback = 'C\'est incorrect. En effet, une base orthonormale est en particulier une base orthogonale.'
+  elif 'choice_3' in ans and 'choice_1' not in ans:
+    feedback = 'C\'est incorrect. En effet, une base orthonormale est en particulier une famille orthonormale.'
+  elif 'choice_3' in ans and 'choice_0' not in ans:
+    feedback = 'C\'est incorrect. En effet, une base orthonormale est en particulier une famille orthogonale.'
+  elif 'choice_2' in ans and 'choice_0' not in ans:
+    feedback = 'C\'est incorrect. En effet, une base orthogonale est orthogonale par définition.'
+  elif 'choice_1' in ans and 'choice_0' not in ans:
+    feedback = 'C\'est incorrect. En effet, une famille orthonormale est toujours orthogonale.'
+  elif 'choice_2' in ans and 'choice_1' not in ans:
+    feedback = 'C\'est incorrect. Il est vrai que la famille \(\mathscr{B}\) est une base orthogonale de \(V\), mais est-ce bien tout ce que l\'on puisse dire ? Que valent les normes des vecteurs de \(\mathscr{B}\) ?'
+  elif 'choice_0' in ans and 'choice_2' not in ans:
+    feedback = 'C\'est incorrect. En effet, \(\mbox{dim}V=3\) et la famille \(\mathscr{B}\) contient \(3\) vecteurs. Ainsi, si cette dernière est orthogonale, alors elle forme obligatoirement une base de \(V\).'
+  elif 'choice_3' not in ans :
+    feedback = 'C\'est incorrect. Si \(\mathscr{B}\) est une base orthogonale de \(V\) et est orthonormale, alors elle est forcément une base orthonormale de \(V\).' 
+  elif 'choice_0' in ans and 'choice_1' in ans and 'choice_2' in ans and 'choice_3' in ans :
+    feedback = 'Correct! En effet, on commence par calculer les normes des vecteurs de \(\mathscr{B}\) : \[\]1) Les vecteurs \(v_1=\\tfrac{\sqrt{2}}{2}\), \(v_2= \\frac{\sqrt{6}}{2}x \) et \(v_3=\\frac{3\sqrt{10}}{4}\\left(x^2-\\frac{1}{3}\\right)\) satisfont \[||v_1||^2= \int_{-1}^1{v_1^2dx} =  \\frac{1}{2}\int_{-1}^1{1dx}=\\frac{1}{2}\cdot 2=1.\]\[||v_2||^2=\int_{-1}^1{v_2^2dx} =  \\frac{3}{2}\int_{-1}^1{x^2dx}=\\frac{3}{2}\cdot \\frac{2}{3}=1.\] \[||v_3||^2=\int_{-1}^1{v_3^2dx} =  \\frac{45}{8}\int_{-1}^1{x^4-\\tfrac{2}{3}x^2+\\tfrac{1}{9}dx}= \\frac{45}{8}\\left(\\tfrac{2}{5} -\\tfrac{4}{9}+\\tfrac{2}{9}\\right)   = \\frac{45}{8} \\frac{8}{45} =1.\] Ainsi, les vecteurs \(v_1,v_2,v_3\) sont bel et bien de norme égale à \(1\) et il ne reste donc plus qu\'à montrer que ceux-ci sont orthogonaux entre eux.\[\] 2) On remarque premièrement que les vecteurs \(v_1,v_2,v_3\) sont orthogonaux entre eux si et seulement si les vecteurs \(w_1=1,w_2=x,w_3=\\left(x^2-\\tfrac{1}{3}\\right)\) le sont. Les produits scalaires \(\\langle w_1,w_2\\rangle\), \(\\langle w_1,w_3\\rangle\) et \(\\langle w_2,w_3\\rangle\) valent \[\\langle w_1,w_2\\rangle=\int_{-1}^1{w_1w_2dx}=\int_{-1}^1{xdx}=\\frac{1}{2}|x^2|^1_{-1}=0,\] \[\\langle w_1,w_3\\rangle=\int_{-1}^1{w_1w_3dx}=\int_{-1}^1{x^2-\\tfrac{1}{3}dx}=\\frac{1}{3}|x^3|^1_{-1} -\\frac{1}{3}|1|^1_{-1}=0,\] \[\\langle w_2,w_3\\rangle=\int_{-1}^1{w_2w_3dx}=\int_{-1}^1{x^3-\\tfrac{1}{3}xdx}=0.\] Par conséquent, la liste \(\mathscr{B}=(v_1,v_2,v_3)\) est orthonormée. Aussi, étant donné qu\'elle contient \(3\) vecteurs et que \(V\) est un espace vectoriel de dimension \(3\), on en déduit que \(\mathscr{B}\) forme une base de \(V\).'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">La famille \(\mathscr{B}=\left\{\frac{\sqrt{2}}{2},\frac{\sqrt{6}}{2}x,\frac{3\sqrt{10}}{4}\left(x^2-\frac{1}{3}\right)\right\}\) est orthogonale.</choice>
+      <choice correct="true">La famille \(\mathscr{B}=\left\{\frac{\sqrt{2}}{2},\frac{\sqrt{6}}{2}x,\frac{3\sqrt{10}}{4}\left(x^2-\frac{1}{3}\right)\right\}\) est orthonormale.</choice>
+      <choice correct="true">La famille \(\mathscr{B}=\left\{\frac{\sqrt{2}}{2},\frac{\sqrt{6}}{2}x,\frac{3\sqrt{10}}{4}\left(x^2-\frac{1}{3}\right)\right\}\) est une base orthogonale de \(V.\)</choice>
+      <choice correct="true">La famille \(\mathscr{B}=\left\{\frac{\sqrt{2}}{2},\frac{\sqrt{6}}{2}x,\frac{3\sqrt{10}}{4}\left(x^2-\frac{1}{3}\right)\right\}\) est une base orthonormale de \(V.\)</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

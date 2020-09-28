@@ -1,0 +1,41 @@
+<problem display_name="Quiz 1" markdown="null" showanswer="never" weight="0.0">
+  <p> Soit \(r\in \mathbb{R}\) un nombre réel non-nul et considérons le système d'équations
+ 	\[
+  	S=
+  	\left\{ \begin{array}{llll} 
+     4x 	&amp;	-	y	&amp;	=2	\\
+   	 x^2	&amp;	+	y^2	&amp;	=r^2
+    \end{array}\right.
+\]  
+Aussi, supposons qu' \(\alpha=(\alpha_1,\alpha_2),\beta=(\beta_1,\beta_2)\) soient deux solutions distinctes de \(S\) (où \(\alpha_1\), \(\alpha_2\), \(\beta_1\), \(\beta_2\) sont des nombres réels). Alors le système \(S\) admet une infinité de solutions.  </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Au moins une des possibilités proposées est solution du système.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans and 'choice_1' not in ans:
+    feedback = 'Au cours, nous avons vu que si un système d\'équations linéaires admettait plus d\'une solution, alors il en admettait une infinité. Cependant, s\'agit-il véritablement d\'un système d\'équations linéaires ici ? Que représentent géométriquement les équations du système \(S\) ?'
+  elif 'choice_1' in ans and 'choice_0' not in ans:
+    feedback = 'C\'est en effet faux. Pour s\'en convaincre, il suffit de remarquer que le système \(S\) consiste en l\'équation d\'une droite ainsi que celle d\'un cercle (de rayon \(|r|\), centré en l\'origine). Ainsi, il s\'agit ici de déterminer en quel(s) point(s) s\'intersectent une droite et un cercle. En faisant un dessin, on voit qu\'il ne peut clairement pas en exister une infinité. Remarquons que ceci ne contredit pas le résultat présenté en cours, car ce dernier ne concerne que les systèmes d\'équations linéaires.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false"> Vrai. </choice>
+      <choice correct="true"> Faux. </choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

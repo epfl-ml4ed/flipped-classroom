@@ -1,0 +1,33 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soient \(R:M_{2\times 4}(\mathbb{R})\to \mathbb{P}_{10}(\mathbb{R}),\) \(S:\mathbb{P}_{10}(\mathbb{R}) \to \mathbb{P}_{7}(\mathbb{R})\) deux applications linéaires et posons \(T=S\circ R.\) Supposons de plus que \(R\) soit injective et que \(\mbox{Im}(R)\cap \mbox{Ker}(S)=\{0\}.\) Alors \(T\) est-elle bijective? </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, si \(v\in \mbox{Ker}(T),\) alors on a que \((S\\circ R)(v)=0\) et donc \(R(v)\in \mbox{Ker}(S).\) Que peut-on dire de \(R(v)\) dans cette situation ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, on a ici que \( \dim M_{2\\times 4}(\mathbb{R}) = 8 = \dim \mathbb{P}_{7}(\mathbb{R})\) et donc il suffit de montrer que la fonction \(T=S\circ R\) est injective, par exemple. Soit donc \(v\in \mbox{Ker}(T).\) Alors on a que \(T(v)=(S\\circ R)(v)=0,\) c\'est-à-dire \(R(v)\in \mbox{Ker}(S).\) Par définition, \(R(v)\in \mbox{Im}(R)\) et donc \(R(v)\in  \mbox{Im}(R) \cap \mbox{Ker}(S)=\{0\}.\) Finalement, comme \(R\) est injective, alors \(v=0,\) ce qui montre que \(\mbox{Ker}(T)=\{0\},\) i.e. \(T\) est injective. Grâce au résultat vu en cours et au fait que \(\dim M_{2\\times 4}(\mathbb{R}) = 8=\dim \mathbb{P}_{7}(\mathbb{R}),\)  on déduit que \(T\) est bijective, comme souhaité.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true">Oui.</choice>
+      <choice correct="false">Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

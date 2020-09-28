@@ -1,0 +1,62 @@
+<problem display_name="Composition d'applications : problème 17" markdown="null" max_attempts="1" showanswer="attempted" weight="1.5">
+  <p>On se donne les applications linéaires suivantes :</p>
+  <p>\[R:\mathbb{R}^2 \to M_{2 \times 2}(\mathbb{R}), (x,y) \mapsto
+  \left(
+  \begin{matrix}
+  x &amp; 4x \\
+  -y &amp; -x-y
+  \end{matrix}
+  \right)\]</p>
+  <p>\[S:M_{2 \times 2}(\mathbb{R}) \to \mathbb{R}^4,
+  \left(
+  \begin{matrix}
+  a &amp; b \\
+  c &amp; d
+  \end{matrix}
+  \right)
+  \mapsto (b+d,2c,a-c,4d+a)\]</p>
+  <p>\[T:M_{2 \times 2}(\mathbb{R}) \to M_{2 \times 2}(\mathbb{R}),  
+  \left(
+  \begin{matrix}
+  e &amp; f \\
+  g &amp; h
+  \end{matrix}
+  \right)
+  \mapsto
+  \left(
+  \begin{matrix}
+  -e &amp; g \\
+  f &amp; -h
+  \end{matrix}
+  \right)
+  .\]</p>
+  <p>Cocher les compositions d'applications linéaires qui existent.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">\(S \circ R .\)</choice>
+      <choice correct="false">\(S \circ S .\)</choice>
+      <choice correct="true">\(S \circ T .\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">\(T \circ R .\)</choice>
+      <choice correct="false">\(T \circ S .\)</choice>
+      <choice correct="true">\(T \circ T .\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">\(R \circ T \circ S .\)</choice>
+      <choice correct="true">\(S \circ T \circ R .\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>La composition \(g\circ f\) de deux  applications \(f: A\rightarrow B\) et \(g: C\rightarrow D\) , si bien définie, est donnée par \((g\circ f)(a)= f(g(a))\) pour tout \(a\in A\). Il faut donc que l'espace 
+  d'arrivée \(B\) de \(f\) soit inclus dans l'espace de départ \(C\) de \(g\) pour que la composition \(f \circ g\) soit bien définie. En d'autres mots, on doit avoir \(B \subset C\).
+  existe.</p>
+    </div>
+  </solution>
+</problem>

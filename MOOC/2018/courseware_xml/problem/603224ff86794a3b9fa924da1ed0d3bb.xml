@@ -1,0 +1,73 @@
+<problem display_name="Matrices inversibles : problème 5" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soient \(
+      A=\left(
+      \begin{matrix}
+      5 &amp; -4 &amp; -2 &amp; -2 \\
+      -\frac{3}{2} &amp; 1 &amp; \frac{1}{2} &amp;1 \\
+      2 &amp; -1 &amp; -1 &amp; -1 \\
+      -\frac{5}{2} &amp; 2 &amp; \frac{3}{2} &amp; 1  \\
+      \end{matrix}
+      \right)
+      \),
+  	\(
+      C=\left(
+      \begin{matrix}
+      1 &amp; 2 &amp; 2 &amp; 2 \\
+      0 &amp; 1 &amp; 2 &amp; 1 \\
+      1 &amp; 0 &amp; 0 &amp; 2 \\
+      1 &amp; 3 &amp; 1 &amp; 1 \\
+      \end{matrix}
+      \right)
+      \)
+  	et 
+  	\(
+      b=\left(
+      \begin{matrix}
+      4 \\
+      3 \\
+      1 \\
+      5 \\
+      \end{matrix}
+      \right)
+      \).
+  </p>
+  <p>On peut vérifier que \(CA=I_4\). Parmi les affirmations suivantes, cochez celle(s) qui est/sont correcte(s).</p>
+  <p><b>Attention :</b> veuillez s'il vous plaît cocher <b>toutes</b> les possibilités valables.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">Le système \(AX=b\) possède une unique solution.</choice>
+      <choice correct="false">Le système \(AX=b\) admet une infinité de solutions.</choice>
+      <choice correct="false">Le système \(AX=b\) n'admet aucune solution.</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">Le système \(AX=b\) a pour solution le vecteur
+      \((\begin{matrix}4 &amp; -\frac{5}{2} &amp; 1 &amp;-\frac{5}{2}\end{matrix})^T\).</choice>
+      <choice correct="false">Le système \(AX=b\) a pour solution le vecteur
+      \((\begin{matrix}-4 &amp; \frac{5}{2} &amp; -1 &amp;\frac{5}{2}\end{matrix})^T\).</choice>
+      <choice correct="true">Le système \(AX=b\) a pour solution le vecteur \((\begin{matrix} 22 &amp; 10 &amp; 14 &amp; 19\end{matrix})^T\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Comme \(CA=I_4\), on a \(A\) est inversible et \(A^{-1}=C\). De plus \(AX=b\Leftrightarrow A^{-1}AX=A^{-1}b \Leftrightarrow X= A^{-1}b \Leftrightarrow X=Cb\).</p>
+      <p> On déduit qu'il y a une unique solution au système \(AX=b\) donnée par: 
+  </p>
+      <p> \(X=Cb=  \left(\begin{matrix}
+      1 &amp; 2 &amp; 2 &amp; 2 \\
+      0 &amp; 1 &amp; 2 &amp; 1 \\
+      1 &amp; 0 &amp; 0 &amp; 2 \\
+      1 &amp; 3 &amp; 1 &amp; 1 \\
+      \end{matrix}\right)\left(
+      \begin{matrix}
+      4 \\
+      3 \\
+      1 \\
+      5 \\
+      \end{matrix}\right)=(22,10,14,19)^T
+        .\)</p>
+    </div>
+  </solution>
+</problem>

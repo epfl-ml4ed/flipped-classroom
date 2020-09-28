@@ -1,0 +1,36 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soient \(V=\mathbb{R}^3\) muni du produit scalaire usuel et \(A\in M_{3\times 3}(\mathbb{R})\) la matrice de taille \(3\times 3\) à coefficients réels définie par \[A=\begin{pmatrix}2 &amp; 1 &amp; 0 \cr 1 &amp; -2 &amp; 0 \cr 0 &amp; 0 &amp; 4\end{pmatrix}.\]</p>
+  <p>Finalement, considérons les vecteurs \(v_1=(2+\sqrt{5},1,0)\) et \(v_2=(2-\sqrt{5},1,0)\).</p>
+  <p>Est-il possible de déterminer si \(v_1\) et \(v_2\) sont orthogonaux sans calculer le produit scalaire \(\langle v_1,v_2\rangle \) ?</p>
+  <p><b>Indication : </b> on pourra s'aider du résultat vu en cours, d'après lequel deux vecteurs propres correspondant à deux valeurs propres discinctes sont toujours orthogonaux.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, on peut utiliser un des résultats vu dans la leçon 10.4. Où sont envoyés les vecteurs \(v_1\) et \(v_2\) par \(A\) dans notre situation ?  '
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, on remarque premièrement que la matrice \(A\) est symétrique. Ainsi, si \(u,v\in V\) sont deux vecteurs propres correspondants à des valeurs propres différentes, alors on a \(\langle u,v \\rangle =0\) par un résultat vu en cours. Or, on observe également que \[Av_1= \\begin{pmatrix}2 &amp; 1 &amp; 0 \cr 1 &amp; -2 &amp; 0 \cr 0 &amp; 0 &amp; 4\\end{pmatrix} \\begin{pmatrix} 2+\sqrt{5} \cr 1 \cr 0\\end{pmatrix}=\\begin{pmatrix} 5+2\sqrt{5} \cr \sqrt{5} \cr 0\\end{pmatrix} = \sqrt{5}v_1,\] et de manière similaire, que \(Av_2=-\sqrt{5}v_2\). Par conséquent, \(v_1\) et \(v_2\) sont bel et bien deux vecteurs propres de \(A\), correspondant à des valeurs propres distinctes. '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Oui.</choice>
+      <choice correct="false">Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

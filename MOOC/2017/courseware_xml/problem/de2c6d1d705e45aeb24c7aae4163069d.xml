@@ -1,0 +1,33 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p> Existe-t-il une application linéaire \(T:\mathbb{P}_2(\mathbb{R})\to \mathbb{R}^2\) telle que \(T(x+1) =(1,1)\) et \(T(x^2-1)=(4,0)?\)  </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, nous avons vu en cours que si \(v_1,\\ldots,v_k\in V\) formaient une base de \(V\) et si \(w_1,\\ldots,w_k\in W\) étaient des vecteurs arbitraires dans un espace vectoriel \(W\), alors il existait une (unique) application linéaire \(T:V \\to W\) telle que \(T(v_j)=w_j\), ceci pour tout \(1\\leq j\\leq k\) . N\'est-il pas possible d\'utiliser ce résultat ici ?'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, on remarque aisément que les vecteurs \(v_1=x+1\) et \(v_2=x^2-1\) sont linéairement indépendants. Ainsi, il est possible de compléter la liste \(S=\{v_1,v_2\}\) en une base \(\mathscr{B}=\{v_1,v_2,v_3\}\) de \(\mathbb{P}_2(\mathbb{R}).\) Finalement, nous avons vu dans la leçon que pour n\'importe quel choix de \(w_1,w_2,w_3\in \mathbb{R}^2\), il était possible de définir une application linéaire \(T : \mathbb{P}_2(\mathbb{R}) \\to \mathbb{R}^2\) telle que \(T(v_j)=w_j\) pour tout \(j=1,2,3.\) En posant \(w_1=(1,1),\) \(w_2=(4,0)\) et \(w_3\) quelconque, on obtient le résultat désiré. \[\]Remarque : il existe donc une infinité d\'applications linéaires \(T\) satisfaisant la condition désirée !'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true"> Oui.</choice>
+      <choice correct="false"> Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

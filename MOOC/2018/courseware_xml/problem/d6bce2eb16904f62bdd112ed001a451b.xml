@@ -1,0 +1,20 @@
+<problem display_name="Listes génératrices : problème 6" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p> Soit \(S=\{(1,1,1,1),(1,0,0,1),(0,1,1,0),(0,0,0,1)\} \subseteq \mathbb{R}^4\). Que vaut \({\rm Vect}(S)\)? Donner toutes les possibilités valables. </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> \({\rm Vect}(S)=\mathbb{R}^4\).</choice>
+      <choice correct="true"> \({\rm Vect}(S)={\rm Vect}(\{(5,5,5,4),(0,-1/2,-1/2,0),(0,0,0,\pi)\})\).</choice>
+      <choice correct="true"> \({\rm Vect}(S)=\{(t,u,u,v): t,u, v \in \mathbb{R}\}\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>  On remarque que \((1,1,1,1),(1,0,0,1),(0,1,1,0)\) et \((0,0,0,1)\) vérifient l'égalité suivante:  \[(1,1,1,1)-(1,0,0,1)-(0,1,1,0)=(0,0,0,0).\] </p>
+      <p> Ainsi \({\rm Vect}(S)={\rm Vect}(T)\) où \(T=\{(1,0,0,1),(0,1,1,0),(0,0,0,1)\}.\)  </p>
+      <p> Il est maintenant facile de voir que \({\rm Vect}(S)\neq \mathbb{R}^4.\) En effet, \((1,0,0,0)\not \in {\rm Vect}(S)\).</p>
+      <p> Aussi \((5,5,5,4)=5(1,0,0,1)+5(0,1,1,0)-(0,0,0,1)\), \((0,-1/2,-1/2,0)=-1/2(0,1,1,0)\) et \((0,0,0,\pi)=\pi(0,0,0,1)\). Donc \({\rm Vect}(\{(5,5,5,4),(0,-1/2,-1/2,0),(0,0,0,\pi)\})\subseteq {\rm Vect}(S).\) Réciproquement on peut montrer que \({\rm Vect}(S)\subseteq {\rm Vect}(\{(5,5,5,4),(0,-1/2,-1/2,0),(0,0,0,\pi)\})\) et donc \({\rm Vect}(S)= {\rm Vect}(\{(5,5,5,4),(0,-1/2,-1/2,0),(0,0,0,\pi)\})\).  </p>
+      <p> Finalement en remarquant que \((t,u,u,v)=(t-v)(1,0,0,1)+u(0,1,1,0)+v(0,0,0,1)\), on en déduit que \({\rm Vect}(S)\supseteq \{(t,u,u,v): t,u, v \in \mathbb{R}\}\). On conclut par montrer l'autre inclusion, de la même manière qu'au point précédent. </p>
+    </div>
+  </solution>
+</problem>

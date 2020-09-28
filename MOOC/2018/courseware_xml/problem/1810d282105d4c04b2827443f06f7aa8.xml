@@ -1,0 +1,47 @@
+<problem display_name="Quiz 3" markdown="null" weight="0.0">
+  <p>Soit \(C=(c_{ij})\in M_{3\times 3}(\mathbb{R})\) la matrice de taille \(3\times 3\) définie par
+  \[
+  C=\begin{pmatrix}	0	&amp;	0	&amp;	1	\\
+  					0	&amp;	1	&amp;	0	\\
+  					1	&amp;	0	&amp;	0	\end{pmatrix}.
+  \]
+  Parmi les affirmations suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_3' in ans and 'choice_2' not in ans:
+    feedback = 'C\'est incorrect. En effet, une matrice diagonale est toujours triangulaire supérieure (et inférieure).'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, si \(C\) était triangulaire supérieure, alors on aurait \(c_{21}=c_{31}=c_{32}=0\). Est-ce le cas ici ? '
+  elif 'choice_1' in ans and 'choice_0' not in ans:
+    feedback = 'C\'est incorrect. En effet, une matrice symétrique est toujours carrée (par définition).'
+  elif 'choice_0' in ans and 'choice_1' not in ans:
+    feedback = 'C\'est incorrect. Bien que la matrice \(C\) soit en effet carrée, elle satisfait au moins à une autre propriété, parmi celles proposées.'
+  elif 'choice_0' in ans and 'choice_1' in ans:
+    feedback = 'Correct! En effet, on commence par remarquer que la matrice \(C\) est bien carrée (possédant 3 lignes et 3 colonnes). Aussi, on voit aisément que \(C\) est symétrique, étant donné que \(c_{21}=c_{12}=0,\) \(c_{31}=c_{13}=1,\) \(c_{23}=c_{32}=0.\) Finalement, comme \(c_{31}\\neq 0,\) on obtient que \(C\) n\'est pas triangulaire supérieure (et donc ne peut être diagonale).'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">La matrice \(C\) est carrée.</choice>
+      <choice correct="true">La matrice \(C\) est symétrique.</choice>
+      <choice correct="false">La matrice \(C\) est triangulaire supérieure.</choice>
+      <choice correct="false">La matrice \(C\) est diagonale.</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

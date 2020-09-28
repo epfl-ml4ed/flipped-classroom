@@ -1,0 +1,37 @@
+<problem display_name="Quiz 3" markdown="null" weight="0.0">
+  <p>Soient \(V\) un espace euclidien   et \(W\subset V\) un sous-espace vectoriel de \(V\). </p>
+  <p>Est-il possible que \(\dim W +\dim W^{\perp} &gt; \dim V\) ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, dans le cas où \(V=\mathbb{R}^3\) (muni du produit scalaire standard) et \(W=\{(x,0,0):x\in \mathbb{R}\}\), par exemple, on obtient que \(W^{\perp}=\{(0,y,z)\in \mathbb{R}\}\). On a donc \(\\dim W + \\dim W^{\\perp} =3 =\\dim V\) dans cette situation.'
+  elif 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, d\'après le cours, \(W^{\\perp}\) est un sous-espace vectoriel de \(V\) et donc \(W+W^{\\perp}\) également. Par conséquent, ce dernier est de dimension plus petite ou égale à la dimension de \(V\). Aussi, quel est le lien entre \(\\dim W + \\dim W^{\\perp}\) et \(\\dim (W+W^{\\perp}) \)? '
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, d\'après le cours, on a que \(W^{\\perp}\) est un sous-espace vectoriel de \(V\) et donc \(W+W^{\\perp}\) également. Par conséquent, ce dernier est de dimension plus petite ou égale à la dimension de \(V\). Aussi, on a que \[\\dim W + \\dim W^{\\perp} = \\dim (W+W^{\\perp})+\\dim (W\\cap W^{\\perp}).\] Or, d\'après le quiz précédent, la somme \(W+W^{\\perp}\) est directe et donc \(\\dim (W\\cap W^{\\perp}) =0\). On conclut donc que \(\\dim W + \\dim W^{\\perp} = \\dim (W+W^{\\perp}) \\leq \\dim V\) comme désiré.  '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="false">Oui, c'est même toujours le cas.</choice>
+      <choice correct="false">Parfois oui, parfois non.</choice>
+      <choice correct="true">Non, ceci ne peut jamais arriver.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

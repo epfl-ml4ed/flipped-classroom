@@ -1,0 +1,33 @@
+<problem display_name="Quiz 2 (#)" markdown="null" weight="0.0">
+  <p>Soient \(V\) un espace euclidien de dimension \(n\) et \(T:V\to V\) une transformation linéaire orthogonalement diagonalisable. Alors \([T]_{\mathscr{C}}\) est orthogonalement diagonalisable pour toute base orthonormée \(\mathscr{C}\) de \(V\).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, n\'est-il pas possible de s\'aider du quiz 3 (#) de la section 9.3 ici ?  '
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, fixons-nous une base orthonormée \(\mathscr{C}\) de \(V\), comme dans l\'énoncé du quiz. Comme \(T\) est orthogonalement diagonalisable, cela veut dire (par définition) qu\'il existe une base \(\mathscr{B}\) orthonormée de \(V\), formée de vecteurs propres pour \(T\). Autrement dit, la base \(\mathscr{B}\) est telle que \([T]_{\mathscr{B}}=D\) est une matrice diagonale. On a donc \[D=[T]_{\mathscr{B}}=[id]_{\mathscr{B} \mathscr{C}} [T]_{\mathscr{C}}[id]_{\mathscr{C} \mathscr{B}}.\] Or, d\'après le quiz 3 (#) de la section 9.3, on a que \([id]_{\mathscr{C} \mathscr{B}}\) (et donc \([id]_{\mathscr{B} \mathscr{C}}\) également) est orthogonale, étant donné que \(\mathscr{C}\) et \(\mathscr{B}\) sont orthonormées. En posant \(P= [id]_{\mathscr{C} \mathscr{B}}\), on a donc bien que \(P^{-1}[T]_{\mathscr{C}} P\) est diagonale et que \([T]_{\mathscr{C}}\) est orthogonalement diagonalisable. '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true">Vrai.</choice>
+      <choice correct="false">Faux</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

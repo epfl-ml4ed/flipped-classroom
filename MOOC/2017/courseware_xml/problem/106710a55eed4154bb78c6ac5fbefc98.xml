@@ -1,0 +1,85 @@
+<problem display_name="Meilleure approximation / Moindres carrés : problème 15" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Soit \(\hat{X}\) une solution au sens des moindres carrés du système suivant :
+  \[
+  \left\{
+  \begin{array}{ccccccc}
+  2x &amp; &amp; &amp; - &amp; z &amp; = &amp; 0 \\
+  x &amp; - &amp; 2y &amp; + &amp; 2z &amp; = &amp; 6 \\
+  2x&amp; - &amp; y &amp; &amp; &amp; = &amp; 0 \\
+  &amp;  &amp; y &amp; - &amp; z &amp; = &amp; 6
+  \end{array}
+  \right.   .\]</p>
+  <p>On admet que dans ce cas, la solution au sens des moindres carrés est unique. </p>
+  <multiplechoiceresponse>
+    <choicegroup label="Alors" type="MultipleChoice">
+      <choice correct="true">\(\hat{X}=(14,30,26)^T\)</choice>
+      <choice correct="false">\(\hat{X}=(12,25,26)^T\)</choice>
+      <choice correct="false">\(\hat{X}=(14,25,20)^T\)</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Sous forme matricielle, le système correspond à l'équation \(AX=b\) où
+  \[A=\begin{pmatrix} 
+    2&amp; 0 &amp; -1\\
+    1&amp; -2&amp; 2\\
+    2&amp; -1 &amp; 0\\
+    0&amp; 1 &amp; -1
+    \end{pmatrix} \quad\textrm{et} \quad b= \begin{pmatrix} 0 \\ 6 \\ 0 \\ 6  \end{pmatrix}.\]
+  </p>
+      <p> Soit \(\hat{X}\) la solution du système au sens des moindres carrés. Alors \(A^TA \hat{X}=A^Tb\). Soient \(B=A^TA\) et \(c=A^{T}b\)
+  On a 
+    \begin{eqnarray*}
+    B &amp; = &amp; A^TA\\
+     &amp; = &amp;  
+    \begin{pmatrix} 
+    2 &amp; 1 &amp; 2 &amp; 0\\ 
+    0 &amp; -2 &amp; -1 &amp; 1\\
+    -1 &amp; 2 &amp; 0 &amp; -1
+    \end{pmatrix}
+    \begin{pmatrix} 
+    2&amp; 0 &amp; -1\\
+    1&amp; -2&amp; 2\\
+    2&amp; -1 &amp; 0\\
+    0&amp; 1 &amp; -1
+    \end{pmatrix}\\
+    &amp; = &amp; 
+    \begin{pmatrix} 
+    9  &amp; -4  &amp; 0\\
+    -4 &amp; 6 &amp; -5\\
+    0  &amp; -5 &amp; 6 
+    \end{pmatrix}
+    \end{eqnarray*}
+  et 
+    \begin{eqnarray*}
+    c &amp; = &amp; A^Tb\\
+    &amp; = &amp;  
+    \begin{pmatrix} 
+    2 &amp; 1 &amp; 2 &amp; 0\\ 
+    0 &amp; -2 &amp; -1 &amp; 1\\
+    -1 &amp; 2 &amp; 0 &amp; -1
+    \end{pmatrix}
+    \begin{pmatrix} 0 \\ 6 \\ 0 \\ 6  \end{pmatrix}\\
+    &amp; &amp;  
+    \begin{pmatrix} 6 \\ -6 \\ 6   \end{pmatrix}.
+    \end{eqnarray*}
+  </p>
+      <p> \(\hat{X}\) est donc une solution du système correspondant à la matrice augmentée suivante
+  \[D = \begin{pmatrix} 
+    9  &amp; -4  &amp; 0 &amp; &amp; 6\\
+    -4 &amp; 6 &amp; -5 &amp; &amp;-6\\
+    0  &amp; -5 &amp; 6 &amp; &amp; 6
+    \end{pmatrix}.\]
+  </p>
+      <p> A l'aide d'opérations élémentaires, on échelonne la matrice \(D\) et obtient la matrice échelonnée réduite suivante: 
+      \[D' = \begin{pmatrix} 
+    1  &amp; 0  &amp; 0 &amp; &amp; 14\\
+    0 &amp;1 &amp; 0 &amp; &amp;30\\
+    0  &amp; 0 &amp; 1 &amp; &amp; 26
+    \end{pmatrix}.\]
+      </p>
+      <p> On déduit que \(\hat{X}=(14,30,26)\).</p>
+    </div>
+  </solution>
+</problem>

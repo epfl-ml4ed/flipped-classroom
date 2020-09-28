@@ -1,0 +1,58 @@
+<problem display_name="Calculs de déterminants : problème 5" markdown="null" max_attempts="1" showanswer="attempted" weight="6.0">
+  <p>Soit \(A=\left(
+  \begin{matrix}
+  a &amp; b &amp; c \\
+  d &amp; e &amp; f \\
+  g &amp; h &amp; i \\
+  \end{matrix}
+  \right)\in M_{3 \times 3}(\mathbb{R}).\) On suppose que \(\det(A)=5\).</p>
+  <p>Calculer les déterminants suivants. (N'entrer que des valeurs exactes. S'il y a des fractions, les 
+    entrer avec un "slash", i.e. "1/2" pour \(\frac{1}{2}\).)</p>
+  <p>Soit \(B=\left(
+    \begin{matrix}
+    -a &amp; -b &amp; -c \\
+  	2d &amp; 2e &amp; 2f \\
+    -g &amp; -h &amp; -i
+    \end{matrix}
+    \right)\).</p>
+  <p>Que vaut \(\det(B)\)? </p>
+  <numericalresponse answer="10">
+    <formulaequationinput label="Que vaut det\((B)\)?"/>
+  </numericalresponse>
+  <p>Soit \(C=\left(
+    \begin{matrix}
+  	d &amp; e &amp; f \\
+ 	a &amp; b &amp; c \\
+  	g &amp; h &amp; i
+    \end{matrix}
+    \right)\).</p>
+  <p>Que vaut \(\det(C)\)? </p>
+  <numericalresponse answer="-5">
+    <formulaequationinput label="Que vaut det\((C)\)?"/>
+  </numericalresponse>
+  <p>Soit \(D=\left(
+    \begin{matrix}
+  	a-d &amp; b-e &amp; c-f \\
+ 	d &amp; e &amp; f \\
+  	g+2d &amp; h+2e &amp; i+2f
+    \end{matrix}
+    \right)\).</p>
+  <p>Que vaut \(\det(D)\)? </p>
+  <numericalresponse answer="5">
+    <formulaequationinput label="Que vaut det\((D)\)?"/>
+  </numericalresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Toutes les matrices sont obtenues à partir de \(A\) par des opérations élémentaires sur les lignes. Il 
+    faut donc les identifier, puis observer comment ces opérations modifient le déterminant : échanger deux 
+    lignes change le signe du déterminant, ajouter un multiple d'une ligne à une autre ne change pas le 
+    déterminant, multiplier une ligne par un scalaire \(\lambda\) multiplie le déterminant par \(\lambda
+    \).
+  </p>
+      <p> 1) Commençons avec \(B\). La matrice \(B\) est obtenue à partir de la matrice \(A\) par les opérations suivantes: \(L_1'=-L_1\), \(L_2'=2L_2\) et \(L_3'=-L_3\). On déduit que \(\det(B)=(-1)\cdot 2 \cdot (-1)\det(A)=2\det(A)=10.\)</p>
+      <p>2) Continuons avec \(C\). La matrice \(C\) est obtenue à partir de la matrice \(A\) par les opérations suivantes: \(L_1'=L_2\) et \(L_2'=L_1\). On déduit que \(\det(C)=-\det(A)=-5.\)</p>
+      <p> 3) Finissons avec \(D\). La matrice \(D\) est obtenue à partir de la matrice \(A\) par les opérations suivantes: \(L_1'=L_1-L_2\),  et \(L_3'=L_3+2L_2\). On déduit que \(\det(D)=\det(A)=5.\) </p>
+    </div>
+  </solution>
+</problem>

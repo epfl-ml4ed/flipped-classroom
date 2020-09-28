@@ -1,0 +1,37 @@
+<problem display_name="Quiz 1" markdown="null" showanswer="never" weight="0.0">
+  <p>On considère la forme quadratique sur \(\mathbb{R}^3\) définie par \(Q(x,y,z)=2x^2-4xz + y^2-z^2,\) ceci pour tout \((x,y,z)\in \mathbb{R}^3\).</p>
+  <p>Parmi les affirmations suivantes, cochez celle qui vous semble correcte.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans :
+    feedback = 'C\'est incorrect. En effet, que vaut \(Q(0,0,1)\), par exemple ?'
+  elif 'choice_1' in ans :
+    feedback = 'C\'est incorrect. En effet, que vaut \(Q(1,0,0)\), par exemple ?'
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, il y a plusieurs manières de résoudre cet exercice. \[\] 1) La première consiste à observer que \(Q(0,0,1)=-1\lt 0\) et que \(Q(1,0,0)=2\gt 0\). Ainsi, la forme \(Q\) n\'est ni définie positive, ni définie négative. \[\] 2) Une autre façon de procéder est d\'utiliser le résultat introduit en cours, qui stipule qu\'une forme quadratique est définie positive (respectivement négative) si et seulement si toutes les valeurs propres de la matrice associée sont positives (respectivement négatives). Or, nous avions déjà montré (voir Quiz 10.7) que les valeurs propres de la matrice \(A\) associée à la forme quadratique \(Q\) sont \(\\lambda_1=-2,\) \(\\lambda_2=1\) et \(\\lambda_3=3\). Ainsi, celles-ci ne sont ni toutes positives, ni toutes négatives et donc la forme n\'est ni définie positive, ni définie négative.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">La forme quadratique \(Q\) est définie positive.</choice>
+      <choice correct="false">La forme quadratique \(Q\) est définie négative.</choice>
+      <choice correct="true">La forme quadratique \(Q\) n'est ni définie positive, ni définie négative.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

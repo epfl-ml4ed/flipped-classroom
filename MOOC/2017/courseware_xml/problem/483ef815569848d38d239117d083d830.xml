@@ -1,0 +1,51 @@
+<problem display_name="Matrices inversibles : problème 8" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p> Soit \(a\in \mathbb{R}\). On considère le système d'équations linéaires suivant: </p>
+  <p>  \[\left\{
+    \begin{array}{l}
+    ax+(a-1)y+z=0\\
+    x+z=0\\
+    4x+2y=0.
+    \end{array}
+    \right.\]</p>
+  <p> On admet que le système a une infinité de solution si et seulement si \(a=1\), autrement le système a une unique solution. Parmi les matrices suivantes, déterminer toutes celles qui sont inversibles.</p>
+  <p><b>Attention :</b> veuillez s'il vous plaît cocher <b>toutes</b> les possibilités valables.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false"> \(A_1=\begin{pmatrix}
+         1 &amp;  0 &amp; 1 \\
+         1 &amp; 0 &amp; 1\\
+         4 &amp; 2  &amp; 0 
+        \end{pmatrix}.\)</choice>
+      <choice correct="true">  
+      \(A_2=\begin{pmatrix}
+         4 &amp;  3 &amp; 1 \\
+         1 &amp; 0 &amp; 1\\
+         4 &amp; 2  &amp; 0  
+        \end{pmatrix}.\)
+      </choice>
+      <choice correct="true"> 
+      \(A_3=\begin{pmatrix}
+         \pi &amp;  \pi-1 &amp; 1 \\
+         1 &amp; 0 &amp; 1\\
+         4 &amp; 2  &amp; 0  
+        \end{pmatrix}.\)
+      </choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Sous forme matricielle, le système correspond à l'équation \(AX=0\) où 
+  \(A= \begin{pmatrix}  a &amp; a-1 &amp; 1\\
+    1&amp; 0 &amp; 1\\
+    4 &amp; 2 &amp; 0
+    \end{pmatrix}.\) 
+  </p>
+      <p> On utilise maintenant le critère d'inversibilité. On a que \(A\) est inversible si et seulement si le système \(AX=0\) a une unique solution. </p>
+      <p> L'énoncé nous donne que le système \(AX=0\) a une unique solution si et seulement si \(a\neq 1\). 
+  </p>
+      <p> On déduit que \(A_1\) n'est pas inversible. En effet, quand \(a=1\) on a \(A=A_1\). </p>
+      <p> Aussi \(A_2\) et \(A_3\) sont inversibles. En effet, quand \(a=4\), on \(A=A_2\). Finalement quand \(a=\pi\) on a \(A=A_3\). </p>
+    </div>
+  </solution>
+</problem>

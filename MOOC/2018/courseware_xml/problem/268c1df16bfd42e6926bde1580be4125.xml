@@ -1,0 +1,30 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soient \(V,W\) deux \(\mathbb{R}\)-espaces vectoriels et \(T:V\to W\) une application linéaire. Supposons que \(\dim \mbox{Ker}(T)=2\) et que la matrice de \(T\) par rapport à des bases \(\mathscr{B}_V,\mathscr{B}_W\) de \(V\) et \(W\) respectivement soit une matrice \(A\) de taille \(12\times 7.\) Que vaut le rang-ligne de \(A?\)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if '5'!=ans:
+    feedback = 'C\'est incorrect. Indication: On sait (d\'après l\'hypothèse sur la taille de \(A\)) que \(\dim V=7\) et \(\dim W =12.\) Aussi, par le Théorème du rang, on a que \(\mbox{rang}(T)= 7-2 =5.\) Que peut-on dire du rang-ligne de \(A\) dans cette situation ?'
+  elif '5'==ans:
+    feedback = 'Correct! En effet, d\'après l\'hypothèse sur la taille de \(A\), on sait que \(\dim V=7\) et \(\dim W =12.\) Aussi, par le Théorème du rang, on a que \(\mbox{rang}(T)= 7-2 =5.\) Finalement, d\'après le résultat vu dans la vidéo 6.6,  on sait que le rang-ligne est égal au rang-colonne de \(A,\) qui est lui-même égal au rang de \(T.\) (On rappelle que le rang d\'une application désigne la dimension de l\'image de celle-ci.)'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <numericalresponse answer="5">
+    <formulaequationinput/>
+    <hintgroup hintfn="hint_fn"/>
+  </numericalresponse>
+</problem>

@@ -1,0 +1,72 @@
+<problem display_name="Image, noyau, rang : problème 8" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Soit \(\mathcal{B}=(x^2,x^3-x,x^2-x-1,2)\) une base de \(\mathbb{P}_3(\mathbb{R})\). Soit \(T: 
+  \mathbb{P}_3(\mathbb{R}) \to \mathbb{R}^3\) une application donnée par \[[T]_{\mathcal{C}\mathcal{B}}=\left(
+  \begin{matrix}
+  1 &amp; 0 &amp;-2 &amp; 1 \\
+  -1 &amp; -3 &amp; 3 &amp; -4 \\
+  0 &amp; 2 &amp; 1 &amp; -8
+  \end{matrix}
+  \right),\] où \(\mathcal{C}\) désigne la base canonique de \(\mathbb{R}^3\).</p>
+  <p>Parmi les expressions suivantes, lesquelles appartiennent au noyau de \(T\)?</p>
+  <choiceresponse>
+    <checkboxgroup label="Parmi les vecteurs suivants, lesquels sont dans le noyau de \(T\)?" direction="vertical">
+      <choice correct="false">\(x^2-1.\)</choice>
+      <choice correct="true">\(x^3+17x^2-7x-4.\)</choice>
+      <choice correct="false">\(11x^3+x^2+6x+1.\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">\([u]_\mathcal{B}=(0,0,0,0)^T.\)</choice>
+      <choice correct="true">\([v]_\mathcal{B}=(-11,-1,-6,-1)^T.\)</choice>
+      <choice correct="false">\([w]_\mathcal{B}=(2,34,-14,-8)^T.\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution"><p>Explication</p><p> Soit \(v=ax^2+b(x^3-x)+c(x^2-x-1)+2d\) un élément de \(V=\mathbb{P}_3(\mathbb{R})\). On a \([v]_{\mathcal{B}}=(a,b,c,d)^T\).</p>
+  On a
+  \begin{eqnarray*} 
+  v \in {\rm Ker}(T) &amp; \Leftrightarrow &amp; T(v)=0\\
+  &amp; \Leftrightarrow &amp; T(ax^2+b(x^3-x)+c(x^2-x-1)+2d)=(0,0,0)\\
+  &amp; \Leftrightarrow &amp; aT(x^2)+bT(x^3-x)+cT(x^2-x-1)+dT(2)=(0,0,0)\\
+  &amp;  \Leftrightarrow &amp; a(1,-1,0)+b(0,-3,2)+c(-2,3,1)+d(1,-4,-8)=(0,0,0)\\
+  &amp;  \Leftrightarrow &amp; \left\{\begin{array}{l}  a-2c+d=0\\ -a-3b+3c-4d=0\\ 2b+c-8d =0.\end{array} \right.
+  \end{eqnarray*}
+  <p> 
+Ce système mène à la matrice augmentée suivante:
+\[A=\begin{pmatrix} -1 &amp; -3 &amp; 3&amp; -4 &amp; &amp;0\\
+1 &amp; 0 &amp;-2&amp; 1 &amp; &amp; 0\\
+0&amp; 2&amp; 1 &amp; -8 &amp; &amp; 0
+\end{pmatrix}.\]
+</p>
+<p> Avec l'opération élémentaire \(L_2'=L_2+L_1\), on obtient la matrice augmentée suivante:
+ \[A'=\begin{pmatrix} -1 &amp; -3 &amp; 3&amp; -4 &amp; &amp;0\\
+0 &amp; -3 &amp; 1&amp; -3 &amp; &amp; 0\\
+0&amp; 2&amp; 1 &amp; -8 &amp; &amp; 0
+\end{pmatrix}.\]
+</p>
+<p> Avec l'opération élémentaire \(L_2''=L_2'+L_3'\), on obtient la matrice augmentée suivante:
+ \[A''=\begin{pmatrix} -1 &amp; -3 &amp; 3&amp; -4 &amp; &amp;0\\
+0 &amp; -1 &amp; 2&amp; -11 &amp; &amp; 0\\
+0&amp; 2&amp; 1 &amp; -8&amp; &amp; 0
+\end{pmatrix}.\]
+</p>
+<p> Avec l'opération élémentaire \(L_3'''=(L_3''+2L_2'')/5\), on obtient la matrice augmentée suivante:
+ \[A'''=\begin{pmatrix} -1 &amp; -3 &amp; 3&amp; -4 &amp; &amp;0\\
+0 &amp; -1 &amp; 2&amp; -11 &amp; &amp; 0\\
+0&amp; 0&amp; 1 &amp; -6&amp; &amp; 0
+\end{pmatrix}.\]
+</p>
+      <p> Comme la solution de l'équation  \(A''X=0\) a une variable libre, on déduit que \(\dim {\rm Ker}(T)=1\)</p>
+<p>
+De plus dans la base \(\mathcal{B}\) de \(V=P_3(\mathbb{R})\),  \(((11,1,6,1))\) est une base de \({\rm Ker}(T)\).
+</p>
+<p>
+Ainsi \[11x^2+(x^3-x)+6(x^2-x-1)+2=x^3+17x^2-7x-4 \in {\rm Ker}(T).\] Aussi \([v]_{\mathcal{B}}^T=(-11,-1,-6,-1) \in {\rm Ker}(T).\) Evidemment, on a \(0\in {\rm Ker}(T)\).
+</p>
+<p> Par contre, \([v]_{\mathcal{B}}^T=(2,34,-14,-8) \not \in {\rm Ker}(T)\). En effet \((2,34,-14,-8)\) n'est pas un multiple réel de \((11,1,6,1)\). Aussi, comme \(11x^3+x^2+6x+1\) n'est pas un multiple réel de \(x^3+17x^2-7x-4\), \( 11x^3+x^2+6x+1 \not \in {\rm Ker}(T)\). En effet on a montré que \({\rm Ker}(T)={\rm Vect}(\{x^3+17x^2-7x-4\})\)</p>
+
+
+</div>
+  </solution>
+</problem>

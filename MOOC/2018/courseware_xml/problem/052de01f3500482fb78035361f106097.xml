@@ -1,0 +1,41 @@
+<problem display_name="Quiz 3" markdown="null" weight="0.0">
+  <p>Soient \(A,B \in M_{n\times n}(\mathbb{R})\) deux matrices ligne-équivalentes. Parmi les affirmations suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, que peut-on dire des matrices \(I_2\) et \(3I_2,\) par exemple ?'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, que peut-on dire des matrices \(I_3\) et \(-3I_3,\) par exemple ?'
+  elif 'choice_1' in ans and 'choice_3' not in ans:
+    feedback = 'En effet, si le déterminant de \(A\) n\'est pas nul, alors on peut dire de même pour le déterminant de \(B.\) Une autre affirmation est cependant vérifiée également, parmi celles proposées ci-dessus.'
+  elif 'choice_3' in ans and 'choice_1' not in ans:
+    feedback = 'En effet, l\'affirmation sur les matrices triangulaires supérieures est correcte. Cependant, est-ce vraiment la seule ?'
+  elif 'choice_1' in ans and 'choice_3' in ans :
+    feedback = 'Correct! En effet, on commence par montrer que la première et la troisième affirmation sont incorrectes. Pour se faire, considérons \(A=I_3\) et \(B=-3I_3,\) par exemple. Clairement \(A\) et \(B\) sont ligne-équivalentes (car \(B=D_{1}(-3)D_{2}(-3)D_{3}(-3)A\) ) et \(\det A=1,\) tandis que \(\det (-3I_3) =(-3)^3=-27.\) Ces deux affirmations ne sont donc pas vérifiées. \[\]Il ne reste plus qu\'à montrer que les deux affirmations restantes sont vérifiées. Commençons par montrer que si \(A\) et \(B\) sont ligne-équivalentes et \(\det A \\neq 0,\) alors \(\det B\\neq 0.\) On a l\'existence de matrices élémentaires \(E_1,\ldots, E_k\) telles que \(B=E_1\cdots E_k A\) et donc \[\det B = \det (E_1 \cdots E_k  A)= (\det E_1)\cdot \mbox{det}(E_2 \cdots E_k  A)=\ldots = (\det E_1) \cdots (\det E_k) \cdot (\det A).\] Comme vu dans la section 7.2, \(\det E_i \\neq 0\) pour tout \(1\leq i \leq n,\) d\'où le résultat. \[\]Finalement, on a vu dans la même section que le déterminant d\'une matrice triangulaire supérieure est égal au produit des éléments de la diagonale de celle-ci. La dernière affirmation est donc correcte.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">Les matrices \(A\) et \(B\) satisfont \(\mbox{det}(A)=\mbox{det}(B).\)</choice>
+      <choice correct="true">Si \(\mbox{det}(A)\neq 0,\) alors \(\mbox{det}(B)\neq 0.\)</choice>
+      <choice correct="false">Si \(\mbox{det}(A) &gt; 0,\) alors \(\mbox{det}(B) &gt; 0.\)</choice>
+      <choice correct="true">Si \(A\) est triangulaire supérieure, alors \(\mbox{det}(A) =0  \) si et seulement s'il existe \(1\leq i\leq n\) tel que \(A_{ii}=0.\)</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

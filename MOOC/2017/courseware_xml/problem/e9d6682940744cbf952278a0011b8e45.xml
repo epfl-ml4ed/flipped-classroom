@@ -1,0 +1,39 @@
+<problem display_name="Injectivité, surjectivité : problème 1" markdown="null" max_attempts="1" showanswer="attempted" weight="1.0">
+  <p>Soient \(\mathcal{B}\) et \(\mathcal{B}'\) des bases de \(\mathbb{R}^3\). Soit \(T : \mathbb{R}^3 \to \mathbb{R}^3\) une 
+  application linéaire dont la matrice dans les bases \(\mathcal{B}\) et \(\mathcal{B}'\) est \[[T]_{\mathcal{B}'\mathcal{B}}=
+  \left(
+  \begin{matrix}
+  3 &amp; -1 &amp; 2 \\
+  -4 &amp; -1 &amp; -5 \\
+  1 &amp; -1 &amp; 0 
+  \end{matrix}
+  \right).\]</p>
+  <p>Alors l'application \(T\) est </p>
+  <multiplechoiceresponse>
+    <choicegroup label="Alors l'application \(T\) est " type="MultipleChoice">
+      <choice correct="false">Injective, non surjective.</choice>
+      <choice correct="false">Surjective, non injective.</choice>
+      <choice correct="false">Bijective.</choice>
+      <choice correct="true">Ni injective, ni surjective.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>  Soit \(T: V\rightarrow W\) une application linéaire entre les  \(\mathbb{R}\)-espaces vectoriels \(V\) et \(W\) de dimension finie. On a \(T\) est injective si et seulement si \({\rm Ker}(T)=0\). On a \(T\) est surjective si et seulement si \(\dim {\rm Im}(T)=\dim W\). Finalement, \(T\) est bijective si et seulement si \(\dim {\rm Im}(T)=\dim W=\dim V.\)</p>
+      <p> Ici \(V=W=\mathbb{R}^3\), et par rapport à des bases \(\mathcal{B}\) et \(\mathcal{B}'\) de \(V\), on a 
+\[[T]_{\mathcal{B'}\mathcal{B}}=A=\begin{pmatrix} 3 &amp; -1 &amp; 2\\ -4 &amp; -1 &amp; -5 \\ 1&amp; -1 &amp; 0 \end{pmatrix}\]
+</p>
+      <p>  Par définition, \(\dim {\rm Im}(T)\) est égal au rang de \(A=[T]_{\mathcal{B}'\mathcal{B}}\).</p>
+      <p>  Avec les opérations élémentaires \(L_1'=(L_1-3L_3)/2\) et \(L_2'=-(L_2+4L_3)/5\), on obtient la matrice:
+\[A'= \begin{pmatrix} 0 &amp; 1 &amp; 1\\ 0 &amp; 1 &amp; 1 \\ 1&amp; -1 &amp; 0 \end{pmatrix}\]
+</p>
+      <p>  Avec l'opération élémentaire \(L_1''=L_1'-L_2'\), on obtient la matrice:
+\[A''= \begin{pmatrix} 0 &amp; 0 &amp; 0\\ 0 &amp; 1 &amp; 1 \\ 1&amp; -1 &amp; 0 \end{pmatrix}\]
+</p>
+      <p>
+Ainsi le rang de \(A''\) est égal à 2. Donc le rang de \(A\) vaut 2 et \(\dim {\rm Im}(T)=2\neq \dim W=3\). Donc \(T\) n'est pas surjective. Par le théorème du rang, on obtient \(\dim{\rm Ker}(T)=\dim V-\dim {\rm Im}(T)=3-2=1.\) Donc \(T\) n'est pas injective. 
+</p>
+    </div>
+  </solution>
+</problem>

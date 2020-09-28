@@ -1,0 +1,57 @@
+<problem display_name="Quiz 4" markdown="null" weight="0.0">
+  <p>Soit \(D=(d)_{ij}\in M_{3\times 3}(\mathbb{R})\) la matrice de taille \(3\times 3\) définie par
+  \[
+  D=\begin{pmatrix}	1	&amp;	0	&amp;	0	\\
+  					0	&amp;	2	&amp;	0	\\
+  					0	&amp;	0	&amp;	0	\end{pmatrix}.
+  \]
+  Parmi les affirmations suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' not in ans and 'choice_1' not in ans and 'choice_2' not in ans and 'choice_3' not in ans :
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  elif 'choice_1' in ans and 'choice_0' not in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle qu\'une matrice symétrique est carrée par définition.'
+  elif 'choice_3' in ans and 'choice_0' not in ans :
+    feedback = 'C\'est incorrect. En effet, on rappelle qu\'une matrice diagonale est carrée par définition.'
+  elif 'choice_3' in ans and 'choice_2' not in ans :
+    feedback = 'C\'est incorrect. En effet, on rappelle qu\'une matrice diagonale est en particulier triangulaire supérieure.'
+  elif 'choice_0' not in ans :
+    feedback = 'C\'est incorrect. En effet, bien que la matrice soit triangulaire supérieure, il ne s\'agit pas de la seule affirmation correcte, parmi celles proposées.  Que peut-on dire du nombre de lignes/colonnes de \(D\), par exemple ? '
+  elif 'choice_1' not in ans and 'choice_2' in ans:
+    feedback = 'C\'est incorrect. Il est vrai que la matrice \(D\) est carrée et triangulaire supérieure. Cependant, ce n\'est pas tout ! En effet, que constate-t-on lorsque l\'on compare \(d_{12}\) avec \(d_{21},\) \(d_{13}\) avec \(d_{31}\) et \(d_{23}\) avec \(d_{32}\), par exemple ?'
+  elif 'choice_1' not in ans :
+    feedback = 'La matrice \(D\) est bien carrée. Cependant, ce n\'est pas tout ! En effet, que constate-t-on lorsque l\'on compare \(d_{12}\) avec \(d_{21},\) \(d_{13}\) avec \(d_{31}\) et \(d_{23}\) avec \(d_{32}\), par exemple ?'
+  elif 'choice_2' not in ans :
+    feedback = 'La matrice \(D\) est bien carrée et symétrique, mais ce n\'est pas tout. Que peut-on déduire des valeurs de \(d_{21},\) \(d_{31}\) et \(d_{32}\), par exemple ?'
+  elif 'choice_3' not in ans :
+    feedback = 'C\'est incorrect. En effet, de manière générale, que peut-on dire d\'une matrice qui est à la fois symétrique et triangulaire supérieure ?'
+  elif 'choice_0' in ans and 'choice_1' in ans and 'choice_2' in ans and 'choice_3' in ans :
+    feedback = 'Correct! En effet, on remarque pour commencer que \(D\) est carrée, comme elle possède trois lignes et trois colonnes. Aussi, on observe successivement que \(d_{12}=0=d_{21},\) \( d_{13}=0=d_{31}\) et \(d_{23}=0=d_{32},\) i.e. \(D\) est symétrique. Aussi, comme \(d_{21}=d_{31}=d_{32}=0,\) on a également que \(D\) est triangulaire supérieure. Finalement, on remarque que les seuls coefficients non-nuls sont \(d_{11}=1\) et \(d_{22}=2,\) ce qui montre bien que \(D\) est diagonale.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">La matrice \(D\) est carrée.</choice>
+      <choice correct="true">La matrice \(D\) est symétrique.</choice>
+      <choice correct="true">La matrice \(D\) est triangulaire supérieure.</choice>
+      <choice correct="true">La matrice \(D\) est diagonale.</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

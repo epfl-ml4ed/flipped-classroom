@@ -1,0 +1,24 @@
+<problem display_name="Diagonalisation d'une matrice par une matrice orthogonale: problème 1" markdown="null" max_attempts="1" showanswer="attempted">
+  <p> Soit \(A \in M_{n \times n}(\mathbb{R})\). On suppose qu'il existe une matrice orthogonale \(P\) telle que \(P^TAP\) soit diagonale. Est ce que \(A\) est nécessairement symétrique?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Select the answer that matches" direction="vertical">
+      <choice correct="true"> Oui.</choice>
+      <choice correct="false"> Non.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> On a \(P^TAP=D\) où \(P\) est une matrice orthogonale et \(D\) est une 
+  matrice diagonale. On a donc \(A= PDP^T\) et 
+        \begin{eqnarray*}
+        A^T &amp; = &amp; (PDP^T)^T\\
+        &amp; = &amp; PD^TP^T\\
+        &amp; = &amp;PDP^T\\
+         &amp; = &amp; A.
+        \end{eqnarray*}
+        On a donc que \(A\) est une matrice symétrique. 
+  </p>
+    </div>
+  </solution>
+</problem>

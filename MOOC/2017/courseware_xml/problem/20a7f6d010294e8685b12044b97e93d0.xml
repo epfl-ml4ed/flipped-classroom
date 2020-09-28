@@ -1,0 +1,44 @@
+<problem display_name="Somme de sous-espaces vectoriels : problème 17" markdown="null" max_attempts="1" showanswer="attempted">
+  <p> Soient \(S=\{x-3, x(x-3), x^2(x-3)\} \subseteq P_3(\mathbb{R})\) et \(T=\{x-5,x(x-5),x^2(x-5)\}\).  Aussi, soient \(U={\rm Vect}(S)\) et \(W={\rm Vect}(T)\). Parmi les affirmations suivantes, veuillez cocher <b>toutes</b> celles qui sont correctes  </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> La somme \(U+W\) est directe.</choice>
+      <choice correct="false"> On a \(U\cap W=\{0\}.\)</choice>
+      <choice correct="true"> On a \(U+W=\mathbb{P}_3(\mathbb{R})\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> On a vu dans un exercice précédent que \(U=\{p \in \mathbb{P}_3(\mathbb{R}): p(3)=0\}.\)
+  De manière similaire, on a \(W=\{q \in \mathbb{P}_3(\mathbb{R}): q(5)=0\}\). </p>
+      <p> On déduit que \(U\cap W=\{p \in \mathbb{P}_3(\mathbb{R}): p(3)=p(5)=0\}\). </p>
+      <p>Soit \(p \in \mathbb{P}(\mathbb{R})\). On a 
+      \begin{eqnarray*}
+      p \in U \cap W &amp; \Leftrightarrow &amp; p(3)=p(5)=0\\
+       &amp; \Leftrightarrow &amp;(x-3)(x-5)\ \textrm{divise} \ p\\
+       &amp; \Leftrightarrow &amp;p=(x-3)(x-5)(ax+b) \ \textrm{où} \ a, b \in \mathbb{R}\\
+      &amp; \Leftrightarrow &amp; p=ax(x-3)(x-5)+b(x-3)(x-5) \ \textrm{où} \ a, b \in \mathbb{R}\\
+      &amp; \Leftrightarrow &amp; p \in {\rm Vect}(\{(x-3)(x-5),x(x-3)(x-5)\})
+      \end{eqnarray*} 
+  </p>
+      <p> On déduit que \(U\cap W = {\rm Vect}(R)\) où \(R=\{(x-3)(x-5), x(x-3)(x-5)\}\). En particulier \(U\cap W \neq 0\), car, par exemple, \((x-3)(x-5)\in U\cap W\). 
+  </p>
+      <p>
+    On montre finalement que \(U+W =\mathbb{P}_3(\mathbb{R}).\)  On remarque que 
+    \[U+W={\rm Vect}(S\cup T)={\rm Vect}(\{x-3, x(x-3), x^2(x-3),x-5, x(x-5),x^2(x-5)\}).\]Comme \(U\) et \(W\) sont des sous espaces vectoriels de \(\mathbb{P}_3(\mathbb{R})\), on a \(U+W\subseteq \mathbb{P}_3(\mathbb{R})\). Il suffit donc de montrer que \(P_3(\mathbb{R})\subset U+W\).
+  </p>
+      <p>
+   On a \[1=\frac12\cdot(x-3)-\frac12\cdot (x-5)\] et donc \(1 \in U+W\) (car \(x-3, x-5 \in U+W\)).
+  </p>
+      <p>Aussi \[x= x-3+3\cdot 1\] et donc \(x \in U+W\) (car \(x-3, 1 \in U+W\)).</p>
+      <p> Aussi \[x^2=x(x-3) +3\cdot x\] et donc \(x^2 \in U+W\) (car \(x(x-3), x \in  U+W\)).</p>
+      <p> Finalement
+  \[x^3=x^2(x-3)+3\cdot x^2\] et donc \(x^3 \in U+W\) (car \(x^2(x-3), x^2 \in  U+W\)).
+  </p>
+      <p> Soit \(p=ax^3+bx^2+cx+d \in \mathbb{P}_3(\mathbb{R})\) où \(a,b,c,d \in \mathbb{R}\). On a \[p=a\cdot x^3+b\cdot x^2+c\cdot x+d\] et donc \(p\in U+W\) (car \(1,x,x^2,x^3 \in U+W\)).
+ On déduit que  \(\mathbb{P}_3(\mathbb{R}) \subset U+W\) et donc \(U+W=\mathbb{P}_3(\mathbb{R})\).
+  </p>
+    </div>
+  </solution>
+</problem>

@@ -1,0 +1,39 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soient \(V=\mathbb{P}_8(\mathbb{R})\) l'espace vectoriel des polynômes de degré plus petit ou égal à \(8.\) Parmi les affirmations suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans or 'choice_3' in ans:
+    feedback = 'C\'est incorrect. En effet, rappelons que pour tout \(\lambda\in \mathbb{R},\) le sous-ensemble \(E_{\lambda}\) est un sous-espace vectoriel de \(V.\)'
+  elif 'choice_2' in ans and 'choice_1' not in ans:
+    feedback = 'C\'est incorrect. En effet, bien que la troisième affirmation soit correcte, il ne s\'agit pas de la seule, parmi celles proposées.'
+  elif 'choice_1' in ans and 'choice_2' not in ans:
+    feedback = 'En effet, on sait (d\'après le cours) que pour \(\lambda\in \mathbb{R},\) le sous-ensemble \(E_{\\lambda}\) est un sous-espace vectoriel de \(V\) et donc doit être de dimension inférieure à \(\dim V=9.\) Cependant, n\'existe-t-il pas une transformation linéaire de \(V\) et \(\\lambda\in \mathbb{R}\) telle que \(\dim E_{\\lambda}=9\)?'
+  elif 'choice_1' in ans and 'choice_2' in ans:
+    feedback = 'Correct! En effet, on a vu dans la vidéo 8.4 que pour tout \(\\lambda\in \mathbb{R},\) le sous-ensemble \(E_{\\lambda}\) est un sous-espace vectoriel de \(V.\) Ainsi, il contient au moins le vecteur nul, si bien que la première et quatrième affirmation ne peuvent être correctes. \[\]Aussi, étant un sous-espace de \(V,\) sa dimension ne peut excéder celle de \(V,\) valant \(9.\) La deuxième affirmation est donc vérifiée. \[\]Finalement, l\'application \(Id_V:V\\to V\) n\'admet que la valeur propre \(\\lambda=1\) et il est aisé de montrer que \(\dim E_{\\lambda}=9\) dans ce cas. Ainsi, la troisième affirmation est bel et bien correcte.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">Il existe \(T \in \mathscr{L}(V)\) et \(\lambda \in \mathbb{R}\) tels que \(E_{\lambda}=\{p(t)\in V:p(0)=1\}.\) </choice>
+      <choice correct="true">Si \(\lambda\in \mathbb{R}\) est une valeur propre de \(T\in \mathscr{L}(V),\) alors \(\dim E_{\lambda} \leq 9.\)</choice>
+      <choice correct="true">Il existe \(T \in \mathscr{L}(V)\) et \(\lambda \in \mathbb{R}\) non-nul tels que \( \dim (E_{\lambda})=9.\) </choice>
+      <choice correct="false">Si \(\lambda\in \mathbb{R}\) n'est pas une valeur propre de \(T\in \mathscr{L}(V),\) alors \(E_{\lambda}=\emptyset.\)</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

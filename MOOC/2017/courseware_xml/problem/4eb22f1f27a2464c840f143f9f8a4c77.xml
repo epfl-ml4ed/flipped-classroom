@@ -1,0 +1,47 @@
+<problem display_name="Multiplication matricielle : problème 3" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p>Soient 
+  \(
+  A=\left(
+  \begin{matrix}
+  1 &amp; 2 \\
+  4 &amp; 3 \\
+  1 &amp; 1 \\
+  \end{matrix}
+  \right)
+  \)
+  et
+  \(
+  B=\left(
+  \begin{matrix}
+  2 &amp; 1 &amp; 2 \\
+  1 &amp; 3 &amp; 1 \\
+  2 &amp; 1 &amp; 1\\
+  \end{matrix}
+  \right)
+  \).
+  </p>
+  <p>Parmi les expressions suivantes, lesquelles existent?</p>
+  <p><b>Attention :</b> veuillez s'il vous plaît cocher <b>toutes</b> les possibilités valables.</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">\(AB\)</choice>
+      <choice correct="false">\((AB)^T\)</choice>
+      <choice correct="false">\(A(B^T)\)</choice>
+      <choice correct="true">\(BA\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true">\((A^T)B\)</choice>
+      <choice correct="true">\((BA)^T\)</choice>
+      <choice correct="true">\(B^2\)</choice>
+      <choice correct="false">\(A^2\)</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Soient \(A\) une matrice de taille \(m \times n\) et \(B\) une matrice de taille \(p \times q\). Pour que le produit \(AB\) existe, il faut et il suffit que \(n=p\). De plus, \(A^T\) est de taille \(n \times m\) dans ce cas, et \(A^2\) existe si et seulement si \(A\) est une matrice carrée.</p>
+    </div>
+  </solution>
+</problem>

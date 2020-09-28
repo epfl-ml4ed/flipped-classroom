@@ -1,0 +1,36 @@
+<problem display_name="Quiz 3" markdown="null" weight="0.0">
+  <p>Soient \(S\) un système linéaire aux inconnues \(x_1,\ldots,x_n,\) \(A\) la matrice augmentée associée au système. Si \(A\) est échelonnée et contient \(n\) pivots, alors le système admet une unique solution.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet,  que peut-on dire du système linéaire dont la matrice augmentée est donnée par \[A=\\begin{pmatrix} 2 &amp; 0 &amp; 1 \cr 0 &amp; 0 &amp; 1 \\end{pmatrix},\] par exemple ? '
+  elif 'choice_2' in ans:
+    feedback = '\(~\)C\'est incorrect. En effet,  que peut-on dire du système linéaire dont la matrice augmentée est donnée par \[A=\\begin{pmatrix} 2 &amp; 0 &amp; 4 \cr 0 &amp; 1 &amp; 6 \\end{pmatrix},\] par exemple ? '
+  elif 'choice_1' in ans:
+    feedback = '\(~\)Correct! En effet, considérons les deux systèmes linéaires \(S,S\'\) dont les matrices augmentées respectives sont données par \[A=\\begin{pmatrix} 2 &amp; 0 &amp; 1 \cr 0 &amp; 0 &amp; 1 \\end{pmatrix},~ A\'=\\begin{pmatrix} 2 &amp; 0 &amp; 4 \cr 0 &amp; 1 &amp; 6 \\end{pmatrix}.\] Bien que ces deux matrices contiennent chacune exactement deux pivots, seul le système \(S\'\) admet une solution. En effet, la dernière colonne de \(A\) contient un pivot et donc le système \(S\) n\'admet aucune solution, alors qu\' il est aisé de vérifier que l\'unique solution de \(S\'\) est donnée par \(\\alpha=(2,6).\) '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false"> En effet, c'est toujours le cas.</choice>
+      <choice correct="true"> Parfois oui, parfois non.</choice>
+      <choice correct="false">Non, ce n'est pas possible.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

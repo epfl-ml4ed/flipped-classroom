@@ -1,0 +1,33 @@
+<problem display_name="Quiz 5" markdown="null" weight="0.0">
+  <p>Soit \(V\) un espace vectoriel muni d'un produit scalaire \(\langle~,~\rangle\). Alors l'application \(T:V\times V  \to \mathbb{R}\) définie par \(T(u,v)=\langle u, v \rangle\) est-elle linéaire ? </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, a-t-on par exemple \(T(\\lambda(u,v))=\\lambda T(u,v)\) pour tout \(\\lambda\in \mathbb{R}\) et tous \(u,v\in V\) ?'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! L\'application \(T:V\\times V \\to \mathbb{R}\) n\'est en général pas linéaire. Par exemple, si \(V=\mathbb{R},\) \(u=2,v=3\in V\) et \(\\lambda=4,\) alors on a \[T(\\lambda(u,v))=T((\\lambda u,\\lambda v))=\langle \\lambda u, \\lambda v\\rangle = \\lambda^2\langle u, v \\rangle = 16 \cdot 6=96\\neq 4\cdot 6= \\lambda \langle u,v\\rangle = \\lambda T(u,v). \]'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Oui, toujours.</choice>
+      <choice correct="true">Non, pas obligatoirement.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

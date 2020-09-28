@@ -1,0 +1,33 @@
+<problem display_name="Espaces vectoriels et sous-espaces vectoriels : problème 4" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p> Soit \(V\) le sous ensemble de \(M_{2\times 2}(\mathbb{R})\) défini par 
+    \[V=\left\{
+ \begin{pmatrix}
+    a&amp; b\\
+    0 &amp; c
+    \end{pmatrix}: a,b,c \in \mathbb{R}
+    \right\}.
+    \] Est ce que \(V\) est un sous espace vectoriel de \(M_{2\times 2}(\mathbb{R})\)?</p>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="true">Oui.</choice>
+      <choice correct="false"> Non. </choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> On montre que \(V\) est un sous espace vectoriel de \(M_{2\times 2}(\mathbb{R})\).</p>
+      <p>On remarque que \(V\neq \emptyset\) car l'élément trivial \(\begin{pmatrix} 0 &amp; 0 \\
+  0 &amp; 0\end{pmatrix}\) de \(M_{2\times 2}(\mathbb{R})\) appartient à \(V\).</p>
+      <p> Soient \(A=\begin{pmatrix} a &amp; b \\ 0 &amp; c \end{pmatrix}\in V\), \(B= \begin{pmatrix} \alpha &amp; \beta \\ 0 &amp; \gamma \end{pmatrix}\in V\) et \(\lambda \in \mathbb{R}\). 
+  </p>
+      <p> On a 
+  \[A+B= \begin{pmatrix} a+\alpha &amp; b+\beta \\ 0 &amp; c+\gamma \end{pmatrix}\in V.\]</p>
+      <p> Aussi 
+  \[\lambda A= \lambda \begin{pmatrix} a &amp; b \\ 0 &amp; c \end{pmatrix}=\begin{pmatrix}\lambda a &amp; \lambda b \\ 0 &amp; \lambda c \end{pmatrix}\in V.\]
+  </p>
+      <p> On déduit que \(V\) est un sous espace vectoriel de \(M_{2\times 2}(\mathbb{R})\).
+  </p>
+    </div>
+  </solution>
+</problem>

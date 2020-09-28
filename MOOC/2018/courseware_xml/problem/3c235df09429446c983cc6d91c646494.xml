@@ -1,0 +1,118 @@
+<problem display_name="Applications et linéarité : problème 3" markdown="null" max_attempts="1" showanswer="attempted" weight="5.0">
+  <p>Pour chacune des applications linéaires suivantes, cochez l'affirmation correcte.</p>
+  <p>\[T_1: \mathbb{R}^2 \to \mathbb{R}^3, (x,y) \mapsto (x,y,x-y).\]</p>
+  <multiplechoiceresponse>
+    <choicegroup label="\[T_1 : \mathbb{R}^2 \to \mathbb{R}^3, (x,y) \mapsto (x,y,x-y).\]" type="MultipleChoice">
+      <choice correct="true">L'application \(T_1\) est injective, mais elle n'est pas surjective.</choice>
+      <choice correct="false">L'application \(T_1\) est surjective, mais elle n'est pas injective.</choice>
+      <choice correct="false">L'application \(T_1\) est bijective.</choice>
+      <choice correct="false">L'application \(T_1\) n'est ni injective, ni surjective.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <p>\[T_2 : \mathbb{R}^2\to \mathbb{R}^2, (x,y) \mapsto (3y,-x).\]</p>
+  <multiplechoiceresponse>
+    <choicegroup label="\[T : \mathbb{R}^2\to \mathbb{R}^2, (x,y) \mapsto (3y,-x).\]" type="MultipleChoice">
+      <choice correct="false">L'application \(T_2\) est injective, mais elle n'est pas surjective.</choice>
+      <choice correct="false">L'application \(T_2\) est surjective, mais elle n'est pas injective.</choice>
+      <choice correct="true">L'application \(T_2\) est bijective.</choice>
+      <choice correct="false">L'application \(T_2\) n'est ni injective, ni surjective.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <p>\[T_3 : \mathbb{P}_3(\mathbb{R})\to \mathbb{P}_3(\mathbb{R}), p \mapsto 2p +p'.\]</p>
+  <multiplechoiceresponse>
+    <choicegroup label="\[T : \mathbb{P}_3(\mathbb{R})\to \mathbb{P}_3(\mathbb{R}), p \mapsto 2p +p'.\]" type="MultipleChoice">
+      <choice correct="false">L'application \(T_3\) est injective, mais elle n'est pas surjective.</choice>
+      <choice correct="false">L'application \(T_3\) est surjective, mais elle n'est pas injective.</choice>
+      <choice correct="true">L'application \(T_3\) est bijective.</choice>
+      <choice correct="false">L'application \(T_3\) n'est ni injective, ni surjective.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <p>\[T_4 : M_{2\times 2}(\mathbb{R}) \to \mathbb{P}_3(\mathbb{R}), \left(
+  \begin{matrix}
+  a &amp; b \\
+  c &amp; d 
+  \end{matrix} 
+  \right)  
+  \mapsto 
+  a+2bx-cx^3.\]</p>
+  <multiplechoiceresponse>
+    <choicegroup label="\[T : M_{2\times 2}(\mathbb{R}) \to \mathbb{P}_3(\mathbb{R}), \left( \begin{matrix }a                        &amp;amp; b \\ c &amp;amp; d \end{matrix} \right)  \mapsto a+2bx-cx^3.\]" type="MultipleChoice">
+      <choice correct="false">L'application \(T_4\) est injective, mais elle n'est pas surjective.</choice>
+      <choice correct="false">L'application \(T_4\) est surjective, mais elle n'est pas injective.</choice>
+      <choice correct="false">L'application \(T_4\) est bijective.</choice>
+      <choice correct="true">L'application \(T_4\) n'est ni injective, ni surjective.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <p>\[T_5 : \mathbb{R}^3 \to \mathbb{R}^2, (x,y,z) \mapsto (x-y,x+z) .\]</p>
+  <multiplechoiceresponse>
+    <choicegroup label="\[T : \mathbb{R}^3 \to \mathbb{R}^2, (x,y,z) \mapsto (x-y,x+z) .\]" type="MultipleChoice">
+      <choice correct="false">L'application \(T_5\) est injective, mais elle n'est pas surjective.</choice>
+      <choice correct="true">L'application \(T_5\) est surjective, mais elle n'est pas injective.</choice>
+      <choice correct="false">L'application \(T_5\) est bijective.</choice>
+      <choice correct="false">L'application \(T_5\) n'est ni injective, ni surjective.</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Dans ces exemples, on considère des applications linéaires \(T: V\rightarrow W\), où les \(\mathbb{R}\)-espaces vectoriels \(V\) et \(W\) sont de dimension finie. De manière générale \(T\) est injective si et seulement si \({\rm Ker}(T)=0.\) Aussi \(T\) est surjective si et seulement si \(\dim {\rm Im}(T)=\dim W.\) Finalement, par le théorème du rang, i.e. \(\dim {\rm Ker}(T)+ \dim {\rm Im}(T)=\dim V\), \l'application (T\) ne peut etre bijective que si \(\dim V =\dim W\). Aussi si \(T\) est injective (ou surjective) et \(\dim V=\dim W\), alors \(T\) est bijective. </p>
+      <p> 1) Commençons avec \[T_1 : \mathbb{R}^2 \to \mathbb{R}^3, (x,y) \mapsto (x,y,x-y).\] 
+  Soit \(u=(x,y)\in V\). Alors
+    \begin{eqnarray*}
+    u \in {\rm Ker}(T_1) &amp; \Leftrightarrow &amp; T_1(u)=0\\
+    &amp; \Leftrightarrow &amp; (x,y,x-y)=(0,0,0)\\
+    &amp; \Leftrightarrow &amp; x=y=0\\
+    &amp; \Leftrightarrow &amp; u=0.
+    \end{eqnarray*} 
+   Ainsi \({\rm Ker}(T_1)=0\) et \(T_1\) est injective. Par le théorème du rang, on a 
+    \(\dim {\rm Ker}(T_1)+\dim {\rm Im}(T_1)=\dim V\). Comme \(\dim V=2\) et \(\dim {\rm Ker}(T_1)=0\), on obtient
+    \(\dim {\rm Im}(T_1)=2 &lt; \dim W=3.\) Ainsi \(T_1\) n'est pas surjective. </p>
+      <p> 2) Continuons avec \[T_2 : \mathbb{R}^2\to \mathbb{R}^2, (x,y) \mapsto (3y,-x).\]
+  Soit \(u=(x,y)\in V\). Alors
+    \begin{eqnarray*}
+    u \in {\rm Ker}(T_2) &amp; \Leftrightarrow &amp; T_2(u)=0\\
+    &amp; \Leftrightarrow &amp; (3y,-x)=(0,0)\\
+    &amp; \Leftrightarrow &amp; x=y=0\\
+    &amp; \Leftrightarrow &amp; u=0.
+    \end{eqnarray*} 
+    Ainsi \({\rm Ker}(T_2)=0\) et \(T_2\) est injective. Comme \(T_2\) est injective et \(\dim V= \dim W\), on obtient que \(T_2\) est surjective et donc bijective.
+  </p>
+      <p> 3) Continuons avec \[T_3 : \mathbb{P}_3(\mathbb{R})\to \mathbb{P}_3(\mathbb{R}), p \mapsto 2p +p'.\] 
+Soit \(p=ax^3+bx^2+cx+d \in V\), où \(a,b,c,d \in \mathbb{R}.\) 
+     Alors
+    \begin{eqnarray*}
+    p \in {\rm Ker}(T_3) &amp; \Leftrightarrow &amp; T_3(p)=0\\
+    &amp; \Leftrightarrow &amp; 2p+p'=0\\
+    &amp; \Leftrightarrow &amp;2(ax^3+bx^2+cx+d)+(3ax^2+2bx+c)=0\\
+    &amp; \Leftrightarrow &amp; 2a x^3 +(2b+3a)x^2+(2c+2b)x+(2d+c)=0\\
+    &amp; \Leftrightarrow &amp; 2a=2b+3a=2c+2b=2d+c=0\\
+    &amp; \Leftrightarrow &amp;a=b=c=d=0\\
+        &amp; \Leftrightarrow &amp; p=0.
+    \end{eqnarray*} 
+    Ainsi \({\rm Ker}(T_3)=0\) et \(T_3\) est injective. Comme \(T_3\) est injective et \(\dim V= \dim W\), on obtient que \(T_3\) est surjective et donc bijective.
+  
+  </p>
+      <p>  4) Continuons avec \[T_4 : M_{2\times 2}(\mathbb{R}) \to \mathbb{P}_3(\mathbb{R}), \left(
+  \begin{matrix}
+  a &amp; b \\
+  c &amp; d 
+  \end{matrix} 
+  \right)  
+  \mapsto 
+  a+2bx-cx^3.\] Il est facile de voir que \(T_4\) n'est pas injective. En effet \[T\left(\left(
+    \begin{matrix} 0&amp; 0\\ 0 &amp; 1 \end{matrix}
+    \right)\right)=0\] et donc \({\rm Ker}(T_4)\neq 0\). Aussi \(T_4\) n'est pas surjective. En effet \(x^2\in W\) mais \(x^2 \not \in {\rm Im}(T_4).\)</p>
+      <p> 5) Finalement considérons \[T_5 : \mathbb{R}^3 \to \mathbb{R}^2, (x,y,z) \mapsto (x-y,x+z) .\]  
+  Soit \(u=(x,y,z) \in V\). 
+     Alors
+    \begin{eqnarray*}
+    u \in {\rm Ker}(T_5) &amp; \Leftrightarrow &amp; T_5(u)=0\\
+    &amp; \Leftrightarrow &amp; (x-y,x+z)=(0,0)\\
+    &amp; \Leftrightarrow &amp; x=y=-z.
+    \end{eqnarray*} 
+    On déduit que \({\rm Ker}(T_5)={\rm Vect}(\{(-1,-1,1)\})\). Ainsi \(\dim {\rm Ker}(T_5)=1\) et \(T_5\) n'est pas injective. Comme \(\dim V=3\), par le théorème du rang, on obtient \(\dim {\rm Im}(T_5)=2=\dim W\) et donc
+    \(T_5\) est surjective. 
+  </p>
+    </div>
+  </solution>
+</problem>

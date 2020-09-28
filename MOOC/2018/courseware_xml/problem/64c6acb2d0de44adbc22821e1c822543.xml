@@ -1,0 +1,40 @@
+<problem display_name="Quiz 1" markdown="null" weight="0.0">
+  <p>Soient \(A,B\in M_{n\times n}(\mathbb{R})\) deux matrices de taille \(n\times n\) à coefficients réels. Si \(A\) et \(B\) sont diagonalisables, alors elles sont semblables.
+ </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, les matrices \(A=I_2\) et \(B=2I_2\) sont diagonalisables (car diagonales), mais sont-elles semblables ?'
+  elif 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, les matrices \(A=\\begin{pmatrix} 1 &amp; 0 &amp; 0 \cr 0 &amp;2 &amp; 0 \cr 0 &amp; 0 &amp; 2\\end{pmatrix}\) et \(B=\\begin{pmatrix} 1 &amp; 0 &amp; 0 \cr 0 &amp;1 &amp; 0 \cr 0 &amp; 0 &amp; 2\\end{pmatrix}\) sont diagonalisables (car diagonales) et possèdent les mêmes valeurs propres (à savoir, \(1\) et \(2\)), mais sont-elles semblables ?'
+  elif 'choice_3' in ans:
+    feedback = 'C\'est incorrect. En effet, si une matrice \(A\) est diagonalisable, quelles informations suffisent-elles à décrire complétement la matrice diagonale à laquelle \(A\) est semblable ?'
+  elif 'choice_2' in ans:
+    feedback = 'Correct! En effet, supposons que \(\\lambda_1,\ldots,\\lambda_r\) (\(1\leq r\leq n\)) soient les valeurs propres de \(A\) et \(B\) et que pour tout \(1\leq i\leq r,\) la multiplicité algébrique de \(\\lambda_i\) vaille \(m_i.\) Comme \(A\) et \(B\) sont diagonalisables, on a que \(m_1+\cdots+m_r=n\) et que \(m_i\) est égal à la multiplicité géométrique de \(\\lambda_i,\) ceci pour tout \(1\leq i\leq r.\) Ainsi, il existe \(P,Q\in M_{n\\times n}(\mathbb{R})\) inversibles telles que \[P^{-1}AP=\mbox{diag}(\\lambda_1,\\lambda_1,\ldots,\\lambda_1,\\lambda_2,\ldots,\\lambda_{r-1},\\lambda_r,\ldots,\\lambda_r) =Q^{-1}BQ.\] Ainsi, on obtient \(B=QP^{-1}APQ^{-1}=(PQ^{-1})^{-1} A (PQ^{-1}),\) c\'est-à-dire \(A\) et \(B\) sont semblables.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">C'est toujours vrai.</choice>
+      <choice correct="false">C'est vrai si \(A\) et \(B\) possèdent les même valeurs propres.</choice>
+      <choice correct="true">C'est vrai si \(A\) et \(B\) possèdent les même valeurs propres avec mêmes multiplicités algébriques.</choice>
+      <choice correct="false">C'est faux, même dans les situations décrites ci-dessus.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

@@ -1,0 +1,68 @@
+<problem display_name="Produits scalaires : problème 1" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(V=\mathbb{R}^4\) muni du produit scalaire standard. Soient \(u=(1,-3,2,0)\), \(v=(1,2,-1,-2)\), 
+  \(w=(4,2,-1,2)\). Calculer les expressions suivantes : (S'il s'agit de fractions, les entrer avec un 
+  "slash", i.e. "\(1\)/\(2\)" pour \(\frac{1}{2}\).)</p>
+  <p>\(\langle u,v\rangle\)</p>
+  <numericalresponse answer="-7">
+    <formulaequationinput label="\(\langle u,v\rangle\)"/>
+  </numericalresponse>
+  <p>\(\langle u,w\rangle\)</p>
+  <numericalresponse answer="-4">
+    <formulaequationinput label="\(\langle u,w\rangle\)"/>
+  </numericalresponse>
+  <p>\(\langle u,2v-w\rangle\)</p>
+  <numericalresponse answer="-10">
+    <formulaequationinput label="\(\langle u,2v-w\rangle\)"/>
+  </numericalresponse>
+  <p>\(||v||^2\)</p>
+  <numericalresponse answer="10">
+    <formulaequationinput label="\(||v||^2\)"/>
+  </numericalresponse>
+  <p>La distance entre \(v\) et \(w\)</p>
+  <numericalresponse answer="5">
+    <formulaequationinput label="La distance entre \(v\) et \(w\)"/>
+  </numericalresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Soit \(V\) un \(\mathbb{R}\)-espace vectoriel. Un produit scalaire sur \(V\)
+est une application \( \langle \ , \ \rangle: V\times V \rightarrow \mathbb{R}\) 
+  vérifiant les propriétés suivantes: </p>
+      <p> 1) Elle est bilinéaire: \begin{eqnarray*}
+        \langle a_1u_1+b_1v_1, a_2u_2+b_2v_2 \rangle\\=a_1a_2\langle  u_1,u_2\rangle+ a_1b_2\langle  u_1,v_2\rangle+b_1a_2\langle  v_1,u_2\rangle+b_1b_2\langle  v_1,v_2\rangle\end{eqnarray*}
+pour tout \(a_1,b_1,a_2,b_2 \in \mathbb{R}\) et pour tout \(u_1,v_1,u_2,v_2\in V\). 
+</p>
+      <p>
+2) Elle est symétrique: \(\langle u,v\rangle=\langle v,u\rangle\) pour tout \(u,v\in V\)
+</p>
+      <p>
+3) Elle  est définie positive: \(\langle v,v\rangle\geq 0\) pour tout \(v\in V\), et 
+\(\langle v,v\rangle= 0\) si et seulement si \(v=0\).
+</p>
+      <p> Si \(u\in V\), on définit la norme \(||u||\) de \(u\) comme étant le réel \(\sqrt{\langle u,u \rangle}\). </p>
+      <p> Finalement si \(u,v \in V\), la distance entre \(u\) et \(v\) est donnée par \(||u-v||\).</p>
+      <p> Soit \(V=\mathbb{R}^n\). Le produit scalaire usuel de \(V\)
+est l'application:\( \langle \ , \ \rangle: V\times V \rightarrow \mathbb{R}\) telle que \(\langle u, v\rangle=u_1v_1+u_2v_2+\dots+u_nv_n\) pour tous \(u=(u_1,\dots,u_n)\in V\) et \(v=(v_1,\dots,v_n)\in V\).</p>
+      <p>
+Ici on a \(V=\mathbb{R}^4\), \(u=(1,-3,2,0)\), \(v=(1,2,-1,-2)\) et \(w=(4,2,-1,2).\) 
+</p>
+      <p>
+On a \[\langle u,v\rangle= 1\cdot 1+(-3)\cdot 2+2\cdot (-1)+0\cdot (-2)=1-6-2+0=-7.\]
+</p>
+      <p>
+On a \[\langle u,w\rangle= 1\cdot 4+(-3)\cdot 2+2\cdot (-1)+0\cdot (2)=4-6-2+0=-4.\]
+</p>
+      <p>
+On a \[\langle u,2v-w\rangle=2\langle u,v\rangle-\langle u,w \rangle=2\cdot(-7)-(-4)=-10.\]
+</p>
+      <p>
+On a \[||v||^2=\langle v,v\rangle = 1\cdot 1 +2\cdot 2+(-1)\cdot (-1)+(-2)\cdot(-2)=1+4+1+4=10.\]
+</p>
+      <p>
+On a \(v-w=(1,2,-1,-2)-(4,2,-1,2)=(-3,0,0,-4)\) et \begin{eqnarray*}
+        ||v-w|| &amp; =&amp; \sqrt{\langle  v-w,v-w\rangle}\\
+        &amp; =&amp; \sqrt{(-3)\cdot(-3)+0\cdot 0+0\cdot 0+(-4)\cdot(-4)}\\&amp; =&amp; \sqrt{9+16}\\ &amp; =&amp; \sqrt{25}\\&amp; =&amp; 5.\end{eqnarray*}
+</p>
+    </div>
+  </solution>
+</problem>

@@ -1,0 +1,34 @@
+<problem display_name="Quiz 4" markdown="null" weight="0.0">
+  <p>Soient \(V=M_{2\times 2}(\mathbb{R})\) le \(\mathbb{R}\)-espace vectoriel des matrices de taille \(2\times 2\) à coefficients réels et \(\langle~,~\rangle:V\times V \to \mathbb{R}\) l'application définie par \[\langle A,B\rangle = \sum_{1\leq i, j\leq 2}{a_{ij}b_{ij}},\] ceci pour tous \(A=(a_{ij}),B=(b_{ij})\in V.\)</p>
+  <p>L'application \(\langle~,~\rangle:V\times V \to \mathbb{R}\) est-elle un produit scalaire sur \(V\) ?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, il suffit de vérifier les conditions vues en cours. Pour voir les calculs en détails, veuillez valider la réponse "Oui.".'
+  elif 'choice_0' in ans:
+    feedback = 'Correct! En effet, on montre que l\'application \(\langle ~,~\\rangle\) satisfait les conditions nécessaires :\[\] 1) Soient \(A=(a_{ij}),B=(b)_{ij}\in V\). Alors \[\langle A,B\\rangle =a_{11}b_{11}+a_{12}b_{12}+a_{21}b_{21}+a_{22}b_{22}= b_{11}a_{11}+b_{12}a_{12}+b_{21}a_{21}+b_{22}a_{22}=\langle B,A\\rangle, \] ce qui montre que l\'application \(\langle~,~\\rangle\) est symétrique, comme désiré. \[\]2) Soient \(A=(a_{ij}),B=(b)_{ij}, C=(c_{ij})\in V\). Alors \[ \\begin{array}[ccc] ~\langle A+B,C\\rangle &amp;=&amp;(a_{11}+b_{21})c_{11}+(a_{12}+b_{12})c_{12}+(a_{21}+b_{21})c_{21}+(a_{22}+b_{22})c_{22} \cr &amp;=&amp; a_{11}c_{11}+a_{12}c_{12}+a_{21}c_{21}+a_{22}c_{22} + b_{11}c_{11}+b_{12}c_{12}+b_{21}c_{21}+b_{22}c_{22} \cr &amp;=&amp; \langle A,C\\rangle + \langle B,C\\rangle,\\end{array}\] ce qui montre que l\'application \(\langle~,~\\rangle\) est additive à gauche. \[\] 3) Soient \(\\lambda \in \mathbb{R}\) et \(A=(a_{ij}),B=(b_{ij})\in V\). Alors \[ \\begin{array}[ccc] ~\langle \\lambda A,B\\rangle &amp;=&amp;  (\\lambda a_{11})b_{11}+(\\lambda a_{12})b_{12}+(\\lambda a_{21})b_{21}+(\\lambda a_{22})b_{22}\cr &amp;=&amp; \\lambda (a_{11}b_{11}+a_{12}b_{12}+a_{21}b_{21}+a_{22}b_{22})\cr &amp;=&amp; \\lambda \langle A,B\\rangle,\\end{array}\] ce qui montre que \(\langle~,~\\rangle\) est linéaire à gauche et donc bilinéaire par 1). \[\] 4) Finalement, considérons \(A=(a_{ij})\in V\). Alors  \[ \\begin{array}[ccc] ~\langle   A,A\\rangle &amp;=&amp; \langle  a_{11}^2+a_{12}^2+a_{21}^2+a_{22}^2\\rangle\cr &amp;\\geq &amp; 0. \\end{array}\] De plus, comme \(a_{11}^2+a_{12}^2+a_{21}^2+a_{22}^2=0\) si et seulement si \(a_{11}=a_{12}=a_{21}=a_{22}=0\), on en déduit que \(\langle~,~\\rangle\) est définie positive. \[\] Conclusion : l\'application \(\langle~,~\\rangle\) est bien un produit scalaire sur \(V\).'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="true">Oui.</choice>
+      <choice correct="false">Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

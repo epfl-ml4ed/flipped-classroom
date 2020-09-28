@@ -1,0 +1,46 @@
+<problem display_name="Matrices de passage et changement de base(s) : problème 14" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soit \(\mathcal{B}=(E_{11},E_{12},E_{21},E_{22})\) la base canonique de \(M_{2 \times 2}(\mathbb{R})\). Soit 
+  \([T]_{\mathcal{B}\mathcal{B}}=\left(
+  \begin{matrix}
+  0 &amp; 0 &amp; 0 &amp; 0 \\
+  0 &amp; 1 &amp; -1 &amp; 0 \\
+  0 &amp; -1 &amp; 1 &amp; 0 \\
+  0 &amp; 0 &amp; 0 &amp; 0
+  \end{matrix}
+  \right)
+ \) la matrice d'une application linéaire \(T : M_{2 \times 2}(\mathbb{R}) \to M_{2 \times 2}(\mathbb{R}) 
+  \).</p>
+  <p>Soit \(A \in M_{2 \times 2}(\mathbb{R})\). Que vaut \(T(A)\)?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Soit \(A \in M_{2 \times 2}(\mathbb{R})\). Que vaut \(T(A)\)?" type="MultipleChoice">
+      <choice correct="false">\(T(A)=A^T.\)</choice>
+      <choice correct="true">\(T(A)=A-A^T.\)</choice>
+      <choice correct="false">\(T(A)=-(A^T).\)</choice>
+      <choice correct="false">\(T(A)=-A.\)</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>Une matrice \(A=\left(
+  \begin{matrix}
+  a &amp; b \\
+  c &amp; d
+  \end{matrix}
+  \right)\) s'écrit \(\left(
+  \begin{matrix}
+  a \\
+  b \\
+  c \\
+  d
+  \end{matrix}
+  \right)\) dans la base canonique \(B\). Lorsqu'on calcule \(T(A)\) on trouve donc 
+  \(T(A)=[T]_{BB}(a,b,c,d)^T=(0,b-c,c-b,0)^T\), ce qui correspond à la matrice \(\left(
+  \begin{matrix}
+  0 &amp; b-c \\
+  c-b &amp; 0
+  \end{matrix}
+  \right),\) et en comparant, on trouve que \(T(A)=A-A^T\).</p>
+    </div>
+  </solution>
+</problem>

@@ -1,0 +1,33 @@
+<problem display_name="Quiz 3" markdown="null" weight="0.0">
+  <p>Soient \(V\) un espace vectoriel de dimension \(n\geq 1\) et \(T:V\to V\) une application linéaire satisfaisant \(T\circ T =0.\) Est-il possible que \(T\) soit bijective?</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, si l\'on fixe une base ordonnée \(\mathscr{B}\) de \(V,\) alors l\'égalité \(T\circ T=0\) se traduit matriciellement par \([T]_{\mathscr{B}}^2=0.\) Or, par le résultat vu en cours, si \(T\) est bijective, alors \([T]_{\mathscr{B}}\) est inversible. Que peut-on alors conclure ?'
+  elif 'choice_1' in ans:
+    feedback = 'Correct!  En effet, supposons par l\'absurde que \(T\) soit bijective et fixons une base ordonnée \(\mathscr{B}\) de \(V.\) L\'égalité  \(T\circ T=0\) se traduit matriciellement par \([T]_{\mathscr{B}}^2=0,\) et par le résultat vu en cours, on a que \([T]_{\mathscr{B}}\) est inversible. Ainsi, en appliquant la matrice inverse de cette dernière à l\'équation \([T]_{\mathscr{B}}^2=0,\) on obtient \([T]_{\mathscr{B}}=0,\) une contradiction.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Oui.</choice>
+      <choice correct="true">Non.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

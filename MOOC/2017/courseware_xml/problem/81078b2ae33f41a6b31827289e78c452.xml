@@ -1,0 +1,70 @@
+<problem display_name="Matrices inversibles : problème 6" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Soit \(A=
+  \left(
+  \begin{matrix}
+  1 &amp; 2 &amp; 4\\
+  5 &amp; 2 &amp; 7 \\
+  3 &amp; 1 &amp; 4 \\
+  \end{matrix}
+  \right)
+  \).</p>
+  <p>Entrer les coefficients suivants : (S'il s'agit de fractions, les entrer avec un "slash", i.e. "\(1\)/\(2\)" pour \(\frac{1}{2}\)).</p>
+  <p>\((A^{-1})_{11}\)  </p>
+  <numericalresponse answer="-1">
+    <formulaequationinput label="\((A^{-1})_{11}\)"/>
+  </numericalresponse>
+  <p>\((A^{-1})_{23}\)</p>
+  <numericalresponse answer="-13">
+    <formulaequationinput label="\((A^{-1})_{23}\)"/>
+  </numericalresponse>
+  <p>\((A^{-1})_{31}\)</p>
+  <numericalresponse answer="1">
+    <formulaequationinput label="\((A^{-1})_{31}\)"/>
+  </numericalresponse>
+  <p>\((A^{-1})_{33}\)</p>
+  <numericalresponse answer="8">
+    <formulaequationinput label="\((A^{-1})_{33}\)"/>
+  </numericalresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>On écrit la matrice augmentée \((A \mid I_3)\) qu'on échelonne jusqu'à obtenir \((I_3 \mid A^{-1})\), 
+  i.e, jusqu'à faire apparaître la matrice identité à gauche. </p>
+      <p>On commence donc avec:</p>
+      <p> \(\left( \begin{matrix}  1 &amp; 2 &amp; 4 &amp; &amp; 1 &amp; 0 &amp; 0\\
+    5 &amp; 2 &amp; 7 &amp; &amp; 0 &amp; 1 &amp; 0\\
+    3 &amp; 1 &amp; 4 &amp; &amp; 0 &amp; 0 &amp; 1\\
+    \end{matrix} \right). \)</p>
+      <p>Avec les opérations élémentaires \(L_2'=L_2-5L_1\) et \(L_3'=L_3-3L_1\) on obtient la matrice augmentée:</p>
+      <p> \(\left( \begin{matrix}  1 &amp; 2 &amp; 4 &amp; &amp; 1 &amp; 0 &amp; 0\\
+    0 &amp; -8 &amp; -13 &amp; &amp; -5 &amp; 1 &amp; 0\\
+    0 &amp; -5 &amp; -8 &amp; &amp; -3 &amp; 0 &amp; 1\\
+    \end{matrix} \right). \)</p>
+      <p>Avec l'opération élémentaire \(L_2''=-5L_2'\), on obtient la matrice augmentée:</p>
+      <p> \(\left( \begin{matrix}  1 &amp; 2 &amp; 4 &amp; &amp; 1 &amp; 0 &amp; 0\\
+    0 &amp; 40 &amp; 65 &amp; &amp; 25 &amp; -5 &amp; 0\\
+    0 &amp; -5 &amp; -8 &amp; &amp; -3 &amp; 0 &amp; 1\\
+    \end{matrix} \right).\) </p>
+      <p>Avec les opérations élémentaires  \(L_2'''=-L_3''/5\) et \(L_3'''=L_2''+8L_3''\), on obtient la matrice augmentée:</p>
+      <p> \(\left( \begin{matrix}  1 &amp; 2 &amp; 4 &amp; &amp; 1 &amp; 0 &amp; 0\\
+    0 &amp; 1 &amp; 8/5 &amp; &amp; 3/5 &amp; 0 &amp; -1/5\\
+    0 &amp; 0 &amp; 1 &amp; &amp; 1 &amp; -5 &amp; 8\\
+    \end{matrix} \right).\) </p>
+      <p>Avec l'opération élémentaire  \(L_1''''=L_1'''-2L_2'''\), on obtient la matrice augmentée:</p>
+      <p> \(\left( \begin{matrix}  1 &amp; 0 &amp; 4/5 &amp; &amp; -1/5 &amp; 0 &amp; 2/5\\
+    0 &amp; 1 &amp; 8/5 &amp; &amp; 3/5 &amp; 0 &amp; -1/5\\
+    0 &amp; 0 &amp; 1 &amp; &amp; 1 &amp; -5 &amp; 8\\
+    \end{matrix} \right).\) </p>
+      <p>Avec les opérations élémentaires  \(L_1'''''=L_1''''-4L_3''''/5\) et \(L_2'''''=L_2''''-8L_3''''/5\), on obtient la matrice augmentée:</p>
+      <p> \(\left( \begin{matrix}  1 &amp; 0 &amp; 0 &amp; &amp; -1 &amp; 4 &amp; -6\\
+    0 &amp; 1 &amp; 0 &amp; &amp; -1 &amp; 8 &amp; -13\\
+    0 &amp; 0 &amp; 1 &amp; &amp; 1 &amp; -5 &amp; 8\\
+    \end{matrix} \right). \)</p>
+      <p> On déduit que:</p>
+      <p> \(A^{-1}= \left( \begin{matrix}   -1 &amp; 4 &amp; -6\\
+     -1 &amp; 8 &amp; -13\\
+    1 &amp; -5 &amp; 8\\
+    \end{matrix} \right).\)</p>
+    </div>
+  </solution>
+</problem>

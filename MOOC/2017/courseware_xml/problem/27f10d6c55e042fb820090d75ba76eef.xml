@@ -1,0 +1,36 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soient \(S\) un système d'équations linéaires à \(n\) inconnues (à coefficients réels), \(\alpha=(\alpha_1,\ldots,\alpha_n)\) une solution de \(S\) et \(c\in \mathbb{R}\) un scalaire non-nul. Parmi les possibilités suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = '\(~\)Au moins une des possibilités proposées est solution du système.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = '\(~\)En général (c\'est-à-dire lorsque \(c \\neq 1\)), est-il vraiment possible pour \(c \\alpha\) d\'être solution du système si ce dernier n\'est pas homogène? Pour répondre à cette question, il suffit de considérer une seule équation à une inconnue \(ax=b,\) où \(a,b\in \mathbb{R}\) sont des nombres réels non-nuls. '
+  elif 'choice_2' in ans and 'choice_0' not in ans:
+    feedback = '\(~\)C\'est incorrect. En effet, avez-vous pensé au cas où \(c=1\) ?'
+  elif 'choice_1' in ans and 'choice_2' not in ans:
+    feedback = '\(~\)Correct! En effet, la première possibilité n\'est pas la bonne. Pour s\'en convaincre, il suffit de considérer un exemple simple, celui où \(c=3\) et le système est réduit à la seule équation linéaire \(2x=4.\) Clairement \(\\alpha=2\) est solution de cette dernière, mais \(3\\alpha=6\) ne l\'est pas! \[\] Si le système \(S\) est homogène et \(\\alpha=(\\alpha_1,\ldots,\\alpha_n)\) est solution de \(S\), alors \(c\\alpha\) est bel est bien solution de \(S\), ceci quelle que soit la valeur de \(c\in \mathbb{R}\). En effet, considérons une équation du système, disons \( a_1x_1+\\cdots+a_nx_n=0\). En remplaçant chaque \(x_i\) par \(c\\alpha_i\), on obtient  \( a_1(c\\alpha_1)+\\cdots+a_n(c\\alpha_n)=  c(a_1\\alpha_1+\\cdots+a_n\\alpha_n) \) et comme \(\\alpha\) est solution de \(S\), on a  \( a_1\\alpha_1+\\cdots+a_n \\alpha_n=0\). Ainsi  \( a_1(c\\alpha_1)+\\cdots+a_n(c\\alpha_n)=0\) et donc \(c\\alpha\) satisfait bien à l\'équation  \( a_1x_1+\\cdots+a_nx_n=0\). Le raisonnement étant valable quelle que soit l\'équation choisie, on en déduit que \(c\\alpha\) est solution du système \(S\) et que la deuxième affirmation est vérifiée. \[\] Finalement, dans le cas précis où \(c=1\), alors \(\\alpha\) est solution de \(S\) si et seulement si \(c\\alpha\) est solution de \(S\), même si ce dernier n\'est pas homogène. La troisième affirmation est donc incorrecte.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">\(c\alpha \) est une solution de \(S\), quelle que soit la nature de ce dernier (homogène ou non).</choice>
+      <choice correct="true">\( c \alpha \) est une solution de \(S\) si ce dernier est homogène.</choice>
+      <choice correct="false">\( c \alpha \) est une solution de \(S\) si et seulement si ce dernier est homogène.</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

@@ -1,0 +1,15 @@
+<course advertised_start="null" catalog_visibility="none" cert_html_view_enabled="true" certificates="{&quot;certificates&quot;: [{&quot;description&quot;: &quot;Description of the certificate&quot;, &quot;is_active&quot;: true, &quot;signatories&quot;: [{&quot;name&quot;: &quot;Donna Testerman&quot;, &quot;certificate&quot;: 1938525464, &quot;title&quot;: &quot;Professeur, d\u00e9partement de math\u00e9matiques&quot;, &quot;organization&quot;: &quot;EPFL&quot;, &quot;signature_image_path&quot;: &quot;/asset-v1:EPFLx+AlgebreLineaireX+1T2017+type@asset+block@dmt02.png&quot;, &quot;id&quot;: 2067987967}], &quot;version&quot;: 1, &quot;id&quot;: 1938525464, &quot;name&quot;: &quot;Name of the certificate&quot;}]}" certificates_display_behavior="early_with_info" course_image="Algebra-v1-Course-Thumbnail-378x225.jpg" days_early_for_beta="90.0" display_coursenumber="MATH-111(pi)" display_name="Algèbre Linéaire" edxnotes="true" enable_subsection_gating="true" enable_timed_exams="false" end="&quot;2019-01-28T00:00:00+00:00&quot;" enrollment_start="&quot;2018-09-06T05:30:00+00:00&quot;" graceperiod="" info_sidebar_name="" instructor_info="{&quot;instructors&quot;: []}" invitation_only="true" language="fr" learning_info="[]" max_attempts="null" minimum_grade_credit="0.8" mobile_available="true" self_paced="false" show_reset_button="true" showanswer="never" start="&quot;2018-09-07T18:00:00+00:00&quot;" use_latex_compiler="true" video_upload_pipeline="{&quot;course_video_upload_token&quot;: &quot;113f53111a8011e5a493406c8fb7d690&quot;}">
+  <chapter url_name="2521e4143d234397a5c60c709eba9736"/>
+  <chapter url_name="45c643874b064522aabbbda2b9ddb9b8"/>
+  <chapter url_name="9ee5b9c723d94cd685a4b73b7de64fc3"/>
+  <chapter url_name="0dc633a25a694efe87f1269398eaee3b"/>
+  <chapter url_name="e27295092cb045a18e426714dd65b1b9"/>
+  <chapter url_name="868b4cbc32ab44edae06b0ee288912bc"/>
+  <chapter url_name="692aaaea38d446239d8dc85eb294bd8d"/>
+  <chapter url_name="3448e8f3e19740ae92f1715f0b379f56"/>
+  <chapter url_name="2d93f7724d89426297f6cbb07c8b6f91"/>
+  <chapter url_name="edb587628cb342d28358f9621ef35b40"/>
+  <chapter url_name="779be650b79842319b236b8b9f2afa4b"/>
+  <chapter url_name="aac778d097c7479da04f0a803b7714c1"/>
+  <wiki slug="EPFL.AlgebreLineaire.2018"/>
+</course>

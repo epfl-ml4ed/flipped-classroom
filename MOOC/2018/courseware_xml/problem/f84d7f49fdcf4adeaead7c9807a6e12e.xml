@@ -1,0 +1,33 @@
+<problem display_name="Quiz" markdown="null" weight="0.0">
+  <p>Soit \(A\in M_{5\times 5}(\mathbb{R})\) la matrice de taille \(5\times 5 \) à coefficients réels définie par \[A= \begin{pmatrix} 1 &amp; -44 &amp; 5 &amp; 17 &amp; 8  \cr 2 &amp; 4 &amp; 55 &amp; 17 &amp; 2 \cr 10 &amp; 0 &amp; 11 &amp; 0 &amp; 11 \cr -13 &amp; 13 &amp; 11 &amp; -2 &amp; 3 \cr -30 &amp; 0 &amp; -33 &amp; 0 &amp; -33 \end{pmatrix}.\] Alors \(A\) est inversible.</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, il n\'est pas nécessaire d\'effectuer de grands calculs ici ! Que constate-t-on après avoir bien observé les lignes de la matrice \(A\) ?'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En effet, considérons la matrice élémentaire \(L_{53}(3)\in M_{5\\times 5}(\mathbb{R})\) et rappelons que \(\det (L_{53}(3) A) = \det A.\) Or, on a \[L_{53}(3) A = \\begin{pmatrix} 1 &amp; -44 &amp; 5 &amp; 17 &amp; 8  \cr 2 &amp; 4 &amp; 55 &amp; 17 &amp; 2 \cr 10 &amp; 0 &amp; 11 &amp; 0 &amp; 11 \cr -13 &amp; 13 &amp; 11 &amp; -2 &amp; 3 \cr 0&amp; 0 &amp; 0 &amp; 0 &amp; 0 \\end{pmatrix},\] donc en développant par rapport à la dernière ligne, on obtient \(\det A = \det L_{54}(3)A=0.\) Ainsi, \(A\) n\'est pas inversible, par le critère introduit en cours.'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Vrai.</choice>
+      <choice correct="true">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

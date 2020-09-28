@@ -1,0 +1,33 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Dans la leçon, nous avons vu que si \(A,B\in M_{n \times n}(\mathbb{R})\) sont telles que \(AB=I_n\), alors \(BA=I_n\) également. De manière similaire, si \(A,B\in M_{n\times n}(\mathbb{R})\) (avec \(n\geq 2\)) sont telles que \(AB=0\), alors \(BA=0.\) (Ici, \(0\in M_{n\times n}(\mathbb{R})\) désigne la matrice nulle.)</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' in ans:
+    feedback = 'C\'est incorrect. Par exemple, que se passe-t-il pour \(A= \\begin{pmatrix} 1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}\) et \(B=\\begin{pmatrix} 0 &amp; 0 \cr 1 &amp; 0\\end{pmatrix}\) ?'
+  elif 'choice_1' in ans:
+    feedback = 'Correct! En effet, considérons les matrices \(A,B\in M_{2\\times 2}(\mathbb{R})\) définies par \(A= \\begin{pmatrix} 1 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}, ~B=\\begin{pmatrix} 0 &amp; 0 \cr 1 &amp; 0\\end{pmatrix}.\) Alors \(AB= \\begin{pmatrix} 0 &amp; 0 \cr 0 &amp; 0\\end{pmatrix}\), tandis que \(BA= \\begin{pmatrix} 0 &amp; 0 \cr 1 &amp; 0\\end{pmatrix}\).'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <multiplechoiceresponse>
+    <choicegroup label="Which of the following countries has the largest population?" type="MultipleChoice">
+      <choice correct="false">Vrai.</choice>
+      <choice correct="true">Faux.</choice>
+    </choicegroup>
+    <hintgroup hintfn="hint_fn"/>
+  </multiplechoiceresponse>
+</problem>

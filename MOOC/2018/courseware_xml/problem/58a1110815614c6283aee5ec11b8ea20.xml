@@ -1,0 +1,94 @@
+<problem display_name="Matrices de passage et changement de base(s) : problème 13" markdown="null" max_attempts="1" showanswer="attempted">
+  <p>Soient \(\mathcal{B}=((1,1,1),(1,0,1),(1,1,0))\) et \(\mathcal{B}'=((-1,0,0),(1,2,0),(1,0,-2))\) deux bases de 
+  \(\mathbb{R}^3\). Calculer la matrice de passage \(P=[{\rm id}]_{\mathcal{B}\mathcal{B}'}\).</p>
+  <p>Entrer les coefficients suivants : (S'il s'agit de fractions, les entrer avec un "slash", i.e. "\(1\)/
+  \(2\)" pour \(\frac{1}{2}\))</p>
+  <p>\(P_{11}\)</p>
+  <numericalresponse answer="1">
+    <formulaequationinput label="\(P_{11}\)"/>
+  </numericalresponse>
+  <p>\(P_{13}\)</p>
+  <numericalresponse answer="-3">
+    <formulaequationinput label="\(P_{13}\)"/>
+  </numericalresponse>
+  <p>\(P_{23}\)</p>
+  <numericalresponse answer="1">
+    <formulaequationinput label="\(P_{23}\)"/>
+  </numericalresponse>
+  <p>\(P_{33}\)</p>
+  <numericalresponse answer="3">
+    <formulaequationinput label="\(P_{33}\)"/>
+  </numericalresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p>  On a \(\mathcal{B}=((1,1,1),(1,0,1), (1,1,0))\) et \(\mathcal{B}'=((-1,0,0),(1,2,0),(1,0,-2))\). On veut déterminer \(P=[{\rm id}]_{\mathcal{B}\mathcal{B}'}.\)
+Ecrivons \(\mathcal{B}=(u_1,u_2,u_3)\) et \(\mathcal{B}'=(v_1,v_2,v_3)\). Afin de déterminer \(P\), on doit exprimer chacun des éléments \(v_1,v_2,v_3\) de \(\mathcal{B}'\) en fonction des éléments \(u_1,u_2,u_3\) de \(\mathcal{B}\). On obtient ainsi les colonnes de \(P\).
+</p>
+      <p> Commençons avec \(v_1\). On cherche \(a_1,a_2,a_3 \in \mathbb{R}\) tels que \(v_1=a_1u_1+a_2u_2+a_3u_3.\)
+On a 
+\begin{eqnarray*}
+ v_1=a_1u_1+a_2u_2+a_3u_3 &amp; \Leftrightarrow &amp;  a_1(1,1,1)+a_2(1,0,1)+a_3(1,1,0)=(-1,0,0)\\
+&amp; \Leftrightarrow &amp;  (a_1+a_2+a_3,a_1+a_3,a_1+a_2)=(-1,0,0)\\
+&amp; \Leftrightarrow &amp;\left\{ \begin{array}{l} a_1+a_2+a_3=-1\\ 
+a_1+a_3=0\\
+a_1+a_2=0\\
+ \end{array} \right.\\
+&amp; \Leftrightarrow &amp; \left\{ \begin{array}{l} a_1+a_2+a_3=-1\\ 
+a_2=-1\\
+a_1=1\\
+ \end{array} \right.\\
+&amp; \Leftrightarrow &amp; a_1=1, a_2=-1, a_3=-1.
+\end{eqnarray*}
+Ainsi \(v_1=u_1-u_2-u_3\)
+</p>
+      <p> Continuons avec \(v_2\). On cherche \(b_1,b_2,b_3 \in \mathbb{R}\) tels que \(v_2=b_1u_1+b_2u_2+b_3u_3.\)
+On a 
+\begin{eqnarray*}
+ v_2=a_1u_1+a_2u_2+a_3u_3 &amp; \Leftrightarrow &amp;  b_1(1,1,1)+b_2(1,0,1)+b_3(1,1,0)=(1,2,0)\\
+&amp; \Leftrightarrow &amp;  (b_1+b_2+b_3,b_1+b_3,b_1+b_2)=(1,2,0)\\
+&amp; \Leftrightarrow &amp;\left\{ \begin{array}{l} b_1+b_2+b_3=1\\ 
+b_1+b_3=2\\
+b_1+b_2=0\\
+ \end{array} \right.\\
+&amp; \Leftrightarrow &amp; \left\{ \begin{array}{l} b_1+b_2+b_3=1\\ 
+b_2=-1\\
+b_1=1\\
+ \end{array} \right.\\
+&amp; \Leftrightarrow &amp; b_1=1, b_2=-1, b_3=1.
+\end{eqnarray*}
+Ainsi \(v_2=u_1-u_2+u_3\)
+</p>
+      <p> Finissons avec \(v_3\). On cherche \(c_1,c_2,c_3 \in \mathbb{R}\) tels que \(v_3=c_1u_1+c_2u_2+c_3u_3.\)
+On a 
+\begin{eqnarray*}
+ v_3=c_1u_1+c_2u_2+c_3u_3 &amp; \Leftrightarrow &amp;  c_1(1,1,1)+c_2(1,0,1)+c_3(1,1,0)=(1,0,-2)\\
+&amp; \Leftrightarrow &amp;  (c_1+c_2+c_3,c_1+c_3,c_1+c_2)=(1,0,-2)\\
+&amp; \Leftrightarrow &amp;\left\{ \begin{array}{l} c_1+c_2+c_3=1\\ 
+c_1+c_3=0\\
+c_1+c_2=-2\\
+ \end{array} \right.\\
+&amp; \Leftrightarrow &amp; \left\{ \begin{array}{l} c_1+c_2+c_3=1\\ 
+c_2=1\\
+c_1=-3\\
+ \end{array} \right.\\
+&amp; \Leftrightarrow &amp; c_1=-3, c_2=1, c_3=3.
+\end{eqnarray*}
+Ainsi \(v_3=-3u_1+u_2+3u_3\)
+</p>
+      <p>  On déduit que 
+
+\[P= [{\rm id}]_{\mathcal{B}\mathcal{B}'}=
+\begin{pmatrix}
+a_1 &amp; b_1 &amp; c_1\\
+a_2 &amp; b_2 &amp; c_2\\
+a_3 &amp; b_3 &amp; c_3\\
+\end{pmatrix} = \begin{pmatrix}
+1 &amp; 1&amp; -3\\
+-1 &amp; -1 &amp; 1\\
+-1 &amp; 1 &amp; 3\\
+\end{pmatrix}
+\]</p>
+    </div>
+  </solution>
+</problem>

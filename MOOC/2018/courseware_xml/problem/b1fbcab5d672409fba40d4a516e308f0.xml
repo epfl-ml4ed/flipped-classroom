@@ -1,0 +1,27 @@
+<problem display_name="Somme et intersection de sous-espaces : problème 9" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p> Soit \(V\) un \(\mathbb{R}\)-espace vectoriel, et soient \(U\) et \(W\) des sous espaces vectoriels de \(V\) tels que \(\dim U=4\), \(\dim W=5\) et \(\dim U+W=5.\)</p>
+  <p>Parmi les énoncés suivants, veuillez cochez tous ceux qui sont corrects.  </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false">  On a obligatoirement \(\dim V=5\).</choice>
+      <choice correct="false">  On a obligatoirement \(\dim V\leq 5\).</choice>
+      <choice correct="true"> On a obligatoirement \(\dim V \geq 5\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <p> De même, parmi les affirmations suivantes, veuillez cocher toutes celles qui sont vérifiées</p>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true"> \(\dim U\cap W \geq 0\).</choice>
+      <choice correct="true"> \(U \subset W\).</choice>
+      <choice correct="false"> \(W\subset U\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p> On sait que \(W\) est un sous espace vectoriel de \(V\) et \(\dim W=5\). On en déduit que \(\dim V\geq 5\). On ne peut en dire plus sur \(\dim V\).</p>
+      <p>Comme \(\dim U+W= \dim U+\dim W - \dim U\cap W,\) on déduit que \(\dim U\cap W= 4.\) Ainsi \(\dim U\cap W=\dim U\). Comme \(U\cap W\) est un sous espace vectoriel de \(U\) et \(\dim U\cap W= \dim U\), on déduit que \(U\cap W=U\). Ceci montre que \(U \subset W\). </p>
+      <p> Comme \(U\) et \(V\) sont des sous espaces vectoriels de \(V\) et \(\dim U &lt; \dim W\), \(W\) n'est pas inclus dans \(U\). En effet, si tel était le cas, on aurait \(\dim W \leq \dim U\), une contradiction. </p>
+    </div>
+  </solution>
+</problem>

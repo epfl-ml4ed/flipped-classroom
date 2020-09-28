@@ -1,0 +1,49 @@
+<problem display_name="Quiz 2" markdown="null" weight="0.0">
+  <p>Soit \(T:\mathbb{R}^3 \to M_{2\times 2}(\mathbb{R})\) l'application (qu'on admettra linéaire) définie par \[T(x,y,z)=\begin{pmatrix}x+y &amp; x+z \cr y-z &amp; 0\end{pmatrix}.\] Parmi les possibilités suivantes, cochez celle(s) qui vous semble(nt) correcte(s).</p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_3' in ans and 'choice_0' not in ans and 'choice_1' not in ans and 'choice_2' not in ans:
+    feedback = 'C\'est incorrect. En effet, l\'image de \(T\) est le sous-espace vectoriel \[\mbox{im}(T)=\\left\{\\begin{pmatrix} x+y &amp; x+z \cr y-z &amp; 0\\end{pmatrix} : x,y,z \in \mathbb{R}\\right\}.\] Qu\'arrive-t-il lorsque l\'on pose successivement \(x=1,\) \(y=1,\) \(z=1\) (avec à chaque fois, les deux autres inconnues égales à zéro), et que l\'on extrait une base de la liste ainsi obtenue ?'
+  elif 'choice_3' in ans and 'choice_0' in ans:
+    feedback = 'C\'est incorrect. En effet, les réponses cochées sont contradictoires.'
+  elif 'choice_3' in ans and 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, les réponses cochées sont contradictoires.'
+  elif 'choice_3' in ans and 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, les réponses cochées sont contradictoires.'
+  elif 'choice_3' in ans and 'choice_1' in ans:
+    feedback = 'C\'est incorrect. En effet, l\'image de \(T\) est le sous-espace vectoriel \[\mbox{im}(T)=\\left\{\\begin{pmatrix} x+y &amp; x+z \cr y-z &amp; 0\\end{pmatrix} : x,y,z \in \mathbb{R}\\right\}.\] Qu\'arrive-t-il lorsque l\'on pose successivement \(x=1,\) \(y=1,\) \(z=1\) (avec à chaque fois, les deux autres inconnues égales à zéro), et que l\'on extrait une base de la liste ainsi obtenue ?'
+  elif 'choice_0' in ans :
+    feedback = 'C\'est incorrect. En effet, il est vrai que l\'image de \(T\) est engendrée par les trois vecteurs constituant la collection \(\mathscr{B}_1.\) Cependant, on rappelle que cette dernière n\'est une base de l\'image de \(T\) que si elle est libre. Est-ce le cas ici ?'
+  elif 'choice_1' in ans and 'choice_2' not in ans:
+    feedback = 'C\'est incorrect. En effet, la collection \(\mathscr{B}_2\) est bel et bien une une base de l\'image de \(T.\) Cependant, est-ce la seule possibilité ? '
+  elif 'choice_2' in ans and 'choice_1' not in ans:
+    feedback = 'C\'est incorrect. En effet, la collection \(\mathscr{B}_3\) est bel et bien une une base de l\'image de \(T.\) Cependant, est-ce la seule possibilité ? '
+  elif 'choice_1' in ans and 'choice_2' in ans:
+    feedback = 'Correct! En effet, l\'image de \(T\) est le sous-espace vectoriel \[\mbox{im}(T)=\\left\{\\begin{pmatrix} x+y &amp; x+z \cr y-z &amp; 0\\end{pmatrix} : x,y,z \in \mathbb{R}\\right\}.\] En posant successivement \(x=1,\) \(y=1,\) \(z=1\) (et les autres inconnues égales à zéro), on obtient \(\mbox{im}(T)=\mbox{Vect}(v_1,v_2,v_3),\) où \[ v_1=\\begin{pmatrix}1 &amp; 1 \cr 0 &amp; 0\\end{pmatrix},v_2=\\begin{pmatrix}1 &amp; 0 \cr 1 &amp; 0\\end{pmatrix},v_3=\\begin{pmatrix}0 &amp; 1 \cr -1 &amp; 0\\end{pmatrix}.\] On remarque cependant que \(v_3=v_1-v_2\) et que \(v_1,v_2\) sont linéairement indépendants. Ainsi, \(\mathscr{B}_2\) est bien une base de l\'image de \(T.\) Aussi, on a également \(v_2=v_1-v_3\) et donc \(\mathscr{B}_3\) est aussi une base de \(\mbox{im}(T).\) '
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="false">Une base de l'image de \(T\) est donnée par \(\mathscr{B}_1=\left(\begin{pmatrix} 1 &amp; 1 \cr 0 &amp; 0\end{pmatrix},\begin{pmatrix} 1 &amp; 0 \cr 1 &amp; 0\end{pmatrix},\begin{pmatrix} 0 &amp; 1 \cr -1 &amp; 0\end{pmatrix}\right).\)</choice>
+      <choice correct="true">Une base de l'image de \(T\) est donnée par \(\mathscr{B}_2=\left(\begin{pmatrix} 1 &amp; 1 \cr 0 &amp; 0\end{pmatrix},\begin{pmatrix} 1 &amp; 0 \cr 1 &amp; 0\end{pmatrix}\right).\)</choice>
+      <choice correct="true">Une base de l'image de \(T\) est donnée par \(\mathscr{B}_3=\left(\begin{pmatrix} 1 &amp; 1 \cr 0 &amp; 0\end{pmatrix}, \begin{pmatrix} 0 &amp; 1 \cr -1 &amp; 0\end{pmatrix}\right).\)</choice>
+      <choice correct="false">Aucune des possibilités citées ci-dessus.</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>

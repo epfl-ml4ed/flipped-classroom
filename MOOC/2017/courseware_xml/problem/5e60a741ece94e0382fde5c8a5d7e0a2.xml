@@ -1,0 +1,18 @@
+<problem display_name="Listes génératrices : problème 7" markdown="null" max_attempts="1" showanswer="attempted" weight="2.0">
+  <p> Soient \(S=\{(2,5,3)\}, T=\{(2,0,5)\} \subseteq \mathbb{R}^3\). Que vaut \({\rm Vect}(S)\cap {\rm Vect} (T)\)?  </p>
+  <choiceresponse>
+    <checkboxgroup label="Select the answer that matches" direction="vertical">
+      <choice correct="false"> \({\rm Vect}(S)\cap {\rm Vect}(T)=\emptyset\).</choice>
+      <choice correct="true"> \({\rm Vect}(S)\cap {\rm Vect}(T)=\{(0,0,0)\}\).</choice>
+      <choice correct="false"> \({\rm Vect}(S)\cap {\rm Vect} (T)={\rm Vect}(\{(4,5,8)\})\).</choice>
+      <choice correct="false"> \({\rm Vect}(S)\cap {\rm Vect} (T)={\rm Vect}(\{(2,5,3), (4,5,8)\})\).</choice>
+    </checkboxgroup>
+  </choiceresponse>
+  <solution>
+    <div class="detailed solution">
+      <p> Explication </p>
+      <p>Pour tous sous-ensembles \(S\) et \(T\) de \(\mathbb{R}^3\), \({\rm Vect}(S)\cap {\rm Vect}(T)\) est un sous-espace vectoriel de \(\mathbb{R}^3\) et donc \(\{0,0,0\} \subseteq {\rm Vect}(S)\cap {\rm Vect}(T).\) Plus généralement tout espace vectoriel contient l'élément trivial 0 et n'est donc jamais un espace vide.</p>
+      <p> Soit \(u\) un élément de \({\rm Vect}(S)\cap {\rm Vect}(T)\). Comme \(u \in {\rm Vect}(S)\), on a \(u=(2a,5a,3a)\) où \(a \in \mathbb{R}\).    Comme \(u \in {\rm Vect}(T)\), on a \(u=(2b,0,5b)\) où \(b \in \mathbb{R}\). Donc \((2a,5a,3a)=(2b,0,5b)\) et \(a=b=0\). Ainsi \(u=0\) et  \({\rm Vect}(S)\cap {\rm Vect}(T)=0\).</p>
+    </div>
+  </solution>
+</problem>

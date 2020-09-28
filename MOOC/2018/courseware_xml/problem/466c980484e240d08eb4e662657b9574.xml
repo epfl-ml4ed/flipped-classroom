@@ -1,0 +1,37 @@
+<problem display_name="Résolution de systèmes linéaires : problème 6" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Soient \(a \in \mathbb{R}\) un paramètre et \(S\) le système linéaire aux inconnues \(x,y,z\) défini par
+\[
+  S=\left\{\begin{array}{lllllll}
+  x &amp;+ &amp;2y&amp;+&amp;3z &amp;=&amp;a \\
+  2x &amp;+ &amp;ay&amp;+&amp;4z &amp;=&amp;-4 \\
+  -x &amp;+ &amp;y&amp;+&amp;az &amp;=&amp;2 \\
+  \end{array}\right. .
+  \]
+    Parmi les possibilités suivantes, cochez l'affirmation correcte.
+</p>
+  <multiplechoiceresponse>
+    <choicegroup type="MultipleChoice">
+      <choice correct="false">Le système \(S\) ne possède aucune solution si et seulement si \(a=-2\) ou \(a=3\).</choice>
+      <choice correct="true">Le système \(S\) ne possède aucune solution si et seulement si \(a=3\).</choice>
+      <choice correct="false">Le système \(S\) ne possède aucune solution si et seulement si \(a=-2\).</choice>
+      <choice correct="false">Le système \(S\) ne possède aucune solution si et seulement si \( a \in \mathbb{R}\backslash \{-2;3\}\).</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> Avec les opérations élémentaires \(L_2'=L_2-2L_1\) et \(L_3'=L_3+L_1\), on obtient le système suivant:</p>
+      <p> \(\left\{\begin{array}{l}  x+2y+3z=a\\ (a-4)y-2z=-2(a+2)\\ 3y+(a+3)z=a+2  \end{array}\right.\)</p>
+      <p> Supposons que \(a=4\). Alors on obtient le système suivant: </p>
+      <p>   \(\left\{\begin{array}{l}  x+2y+3z=a\\ 3y+7z=6\\ -2z=-12  \end{array}\right.\) </p>
+      <p> et on voit que le système a une unique solution. </p>
+      <p> Supposons à présent que \(a \neq 4\). On a donc \(a-4\neq 0\). Avec l'opération élémentaire \(L_3''=L_3'-\frac3{a-4}L_2'\) on obtient le système suivant:</p>
+      <p> \(\left\{\begin{array}{l}  x+2y+3z=a\\ (a-4)y-2z=-2(a+2)\\ \left(a+3+\frac{6}{a-4}\right)z=(a+2)\left( 1+\frac{6}{a-4}\right)  \end{array}\right.\) </p>
+      <p>  Avec l'opération élémentaire \(L_3'''=(a-4)L_3''\), on obtient le système suivant: </p>
+      <p> \(\left\{\begin{array}{l}  x+2y+3z=a\\ (a-4)y-2z=-2(a+2)\\ (a-3)(a+2)z=(a+2)^2 \end{array}\right.\) </p>
+      <p> On déduit que si \(a=3\) alors le système n'a aucune solution (en effet dans ce cas la dernière ligne du système mène à la contradiction: \(0=5^2\)). Aussi si \(a=-2\), alors le système a une infinité de solutions et l'ensemble des solutions est:</p>
+      <p> \(\{(-2-7z/3,-z/3,z):z\in \mathbb{R}\}.\)</p>
+      <p> Finalement si \(a \not \in \{-2,3\}\) alors le système a une unique solution. </p>
+    </div>
+  </solution>
+</problem>

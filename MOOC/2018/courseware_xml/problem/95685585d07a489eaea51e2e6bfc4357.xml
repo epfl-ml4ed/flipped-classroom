@@ -1,0 +1,104 @@
+<problem display_name="Matrices de passage et changement de base(s) : problème 15" markdown="null" max_attempts="1" showanswer="attempted" weight="3.0">
+  <p>Soit \(\mathcal{B}=(E_{11},E_{12},E_{21},E_{22})\) la base canonique de \(M_{2 \times 2}(\mathbb{R})\). Soit 
+  \([T]_{\mathcal{B}\mathcal{B}}=\left(
+  \begin{matrix}
+  0 &amp; 0 &amp; 0 &amp; 0 \\
+  0 &amp; 1 &amp; -1 &amp; 0 \\
+  0 &amp; -1 &amp; 1 &amp; 0 \\
+  0 &amp; 0 &amp; 0 &amp; 0
+  \end{matrix}
+  \right)
+ \) la matrice d'une application linéaire \(T : M_{2 \times 2}(\mathbb{R}) \to M_{2 \times 2}(\mathbb{R}) 
+  \).</p>
+  <p>Soit \(\mathcal{B}'=(E_{11},E_{11}+E_{12},E_{11}+E_{12}+E_{22},E_{11}+E_{12}+E_{21}+E_{22})\) une autre base de \(M_{2 \times 2}(\mathbb{R})\).
+  </p>
+  <p>Que vaut \([T]_{\mathcal{B}'\mathcal{B}'}\)?</p>
+  <multiplechoiceresponse>
+    <choicegroup label="Que vaut \([T]_{B'B'}\)?" type="MultipleChoice">
+      <choice correct="false">\(\left(
+      \begin{matrix}
+      0 &amp; 1 &amp; 0 &amp; 0 \\
+      0 &amp; -2 &amp; 0 &amp; 0 \\
+      0 &amp; 3 &amp; 0 &amp; 0 \\
+      0 &amp; 0 &amp; 0 &amp; 0
+      \end{matrix}
+      \right).\)</choice>
+      <choice correct="false">\(\left(
+      \begin{matrix}
+      0 &amp; 0 &amp; 0 &amp; 0 \\
+      1 &amp; -2 &amp; 3 &amp; 0 \\
+      0 &amp; 0 &amp; 0 &amp; 0 \\
+      0 &amp; 0 &amp; 0 &amp; 0
+      \end{matrix}
+      \right).\)</choice>
+      <choice correct="true">\(
+      \begin{pmatrix} 
+0 &amp; -1 &amp; -1 &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0\\
+0 &amp; -1 &amp; -1 &amp; 0
+\end{pmatrix}
+      .\)</choice>
+    </choicegroup>
+  </multiplechoiceresponse>
+  <solution>
+    <div class="detailed-solution">
+      <p>Explication</p>
+      <p> On a \(\mathcal{B}'=(E_{11},E_{11}+E_{12},E_{11}+E_{12}+E_{22},E_{11}+E_{12}+E_{21}+E_{22})\). Ecrivons \(\mathcal{B}'=(A,B,C,D)\). On veut déterminer \([T]_{\mathcal{B}'\mathcal{B}'}\). Pour cela on doit exprimer \(T(A)\), \(T(B)\), \(T(C)\) et \(T(D)\) en fonction de \(A\), \(B\), \(C\) et \(D\). Cela donne les colonnes de
+\([T]_{\mathcal{B}'\mathcal{B}'}\) </p>
+      <p> Commençons avec \(T(A)\). 
+On a
+\begin{eqnarray*}
+T(A) &amp; = &amp; A-A^T\\
+&amp; = &amp; E_{11}-E_{11}^T\\
+&amp; = &amp; E_{11}-E_{11}\\
+&amp; = &amp; 0\\
+&amp; = &amp; 0A+0B+0C+0D.
+\end{eqnarray*} 
+</p>
+      <p> Continuons avec \(T(B)\). 
+On a
+\begin{eqnarray*}
+T(B) &amp; = &amp; B-B^T\\
+&amp; = &amp; (E_{11}+E_{12})-(E_{11}+E_{12})^T\\
+&amp; = &amp; E_{11}-E_{11}^T+E_{12}-E_{12}^T\\
+&amp; = &amp; E_{11}-E_{11}+E_{12}-E_{21}\\
+&amp; = &amp; E_{12}-E_{21}\\
+&amp; = &amp; -E_{11}+(E_{11}+E_{12})+(E_{11}+E_{12}+E_{22})-(E_{11}+E_{12}+E_{21}+E_{22})
+&amp; = &amp; -A+B+C-D.
+\end{eqnarray*} 
+</p>
+      <p> Continuons avec \(T(C)\). 
+On a
+\begin{eqnarray*}
+T(C) &amp; = &amp; C-C^T\\
+&amp; = &amp; (E_{11}+E_{12}+E_{22})-(E_{11}+E_{12}+E_{22})^T\\
+&amp; = &amp; E_{11}-E_{11}^T+E_{12}-E_{12}^T+ E_{22}-E_{22}^T\\
+&amp; = &amp; E_{11}-E_{11}+E_{12}-E_{21}+E_{22}-E_{22}\\
+&amp; = &amp; E_{12}-E_{21}\\
+&amp; = &amp; -E_{11}+(E_{11}+E_{12})+(E_{11}+E_{12}+E_{22})-(E_{11}+E_{12}+E_{21}+E_{22})\\
+&amp; = &amp; -A+B+C-D.
+\end{eqnarray*} 
+</p>
+      <p> Finissons avec \(T(D)\). 
+On a
+\begin{eqnarray*}
+T(D) &amp; = &amp; D-D^T\\
+&amp; = &amp; (E_{11}+E_{12}+E_{21}+E_{22})-(E_{11}+E_{12}+E_{22})^T\\
+&amp; = &amp; E_{11}-E_{11}^T+E_{12}-E_{12}^T+E_{21}-E_{21}^T + E_{22}-E_{22}^T\\
+&amp; = &amp; E_{11}-E_{11}+E_{12}-E_{21}+E_{21}-E_{12}+E_{22}-E_{22}\\
+&amp; = &amp; 0\\
+&amp; = &amp; 0A+0B+0C+0D.
+\end{eqnarray*} 
+</p>
+      <p>On déduit que 
+\[[T]_{\mathcal{B}'\mathcal{B}'} = \begin{pmatrix} 
+0 &amp; -1 &amp; -1 &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0\\
+0 &amp; 1 &amp; 1 &amp; 0\\
+0 &amp; -1 &amp; -1 &amp; 0
+\end{pmatrix}.\]
+</p>
+    </div>
+  </solution>
+</problem>

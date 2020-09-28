@@ -1,0 +1,54 @@
+<problem display_name="Quiz 1" markdown="null" show_reset_button="true" showanswer="never" weight="0.0">
+  <p> Parmi les équations aux inconnues \(x_1,x_2,x_3\) suivantes, cochez celle(s) qui vous semble(nt) linéaire(s). </p>
+  <script type="text/python" system_path="python_lib">
+def hint_fn(answer_ids, student_answers, new_cmap, old_cmap):
+  aid = answer_ids[0]
+  ans = ''
+  feedback = ''
+  correctness = False
+  if not student_answers:
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  else:
+    ans = str(student_answers[aid]).lower()
+  print 'hint_fn called, ans=', ans
+  if 'choice_0' not in ans and 'choice_1' not in ans and 'choice_2' not in ans and 'choice_3' not in ans and 'choice_4' not in ans and 'choice_5' not in ans and 'choice_6' not in ans :
+  	feedback = 'Veuillez s\'il-vous-plaît cocher une possibilité.'
+  elif 'choice_2' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle que d\'après le cours, une équation linéaire est une équation de la forme \(a_1x_1 + a_2x_2+\cdots + a_n x_n =b,\) où \(a_1,\ldots,a_n,b\in \mathbb{R}\) sont des nombres réels et \(x_1,\ldots,x_n\) des inconnues. Ainsi, elle ne peut contenir d\'élément(s) du type \(\\tfrac{1}{x_i},\) où \(1\leq i\leq n,\) par exemple.'
+  elif 'choice_4' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle que d\'après le cours, une équation linéaire est une équation de la forme \(a_1x_1 + a_2x_2+\cdots + a_n x_n =b,\) où \(a_1,\ldots,a_n,b\in \mathbb{R}\) sont des nombres réels et \(x_1,\ldots,x_n\) des inconnues. Ainsi, elle ne peut contenir de produit(s) du type \(x_i x_j,\) où \(1\leq i,j\leq n,\) par exemple.'
+  elif 'choice_5' in ans:
+    feedback = 'C\'est incorrect. En effet, on rappelle que d\'après le cours, une équation linéaire est une équation de la forme \(a_1x_1 + a_2x_2+\cdots + a_n x_n =b,\) où \(a_1,\ldots,a_n,b\in \mathbb{R}\) sont des nombres réels et \(x_1,\ldots,x_n\) des inconnues. Ainsi, elle ne peut contenir d\'élément(s) de la forme \(x_i^k,\) où \(1\leq i\leq n\) et \(k&gt;1,\) par exemple.'
+  elif 'choice_0' not in ans and 'choice_3' not in ans :
+    feedback= 'C\'est incorrect. En effet, on rappelle que d\'après le cours, une équation linéaire est une équation de la forme \(a_1x_1 + a_2x_2+\cdots + a_n x_n =b,\) où \(a_1,\ldots,a_n,b\in \mathbb{R}\) sont des nombres réels et \(x_1,\ldots,x_n\) des inconnues. La première équation est donc clairement linéaire !' 
+  elif 'choice_0' not in ans and 'choice_3' in ans :
+    feedback= 'C\'est incorrect. En effet, la 4ème équation est bien linéaire. Cependant, qu\'a-t-elle de fondamentalement différent de la 1ère ?' 
+  elif 'choice_3' not in ans and 'choice_0' in ans :
+    feedback= 'C\'est incorrect. En effet, la 1ème équation est bien linéaire. Cependant, qu\'a-t-elle de fondamentalement différent de la 4ème ?' 
+  elif 'choice_0' not in ans and 'choice_6' not in ans:
+    feedback = 'C\'est incorrect. En effet, la 2ème équation est bien linéaire, mais est-ce vraiment la seule ?'
+  elif 'choice_1' not in ans or 'choice_6' not in ans :
+    feedback = 'C\'est incorrect. En effet, les possibilités cochées représentent bien des équations linéaires. Cependant, qu\'en est-il de la 2ème équation et la 7ème ? Une fois \(\\alpha\in \mathbb{R}\) et \(p(t)\) fixés, les expressions \(\\sin(\\alpha)\) (et donc \(\\sin^3(\\alpha)\) également) et \(\int_1^2{p(t)dt}\) ne représentent plus que des nombres réels. '
+  elif 'choice_0' in ans and 'choice_1' in ans and 'choice_2' not in ans and 'choice_3' in ans and 'choice_4' not in ans and 'choice_5' not in ans and 'choice_6' in ans :
+    feedback = 'Correct! En effet, on commence par remarquer que les équations 1 et 4 sont de la forme \(a_1x_1+a_2x_2+a_3x_3=b,\) où \(a_1,a_2,a_3,b\in \mathbb{R}\) et \(x_1,x_2,x_3\) sont des inconnues. (Dans la première équation, on a \(a_1=4,\) \(a_2=2,\) \(a_3=-1\) et \(b=-3\), tandis que dans la 4ème, on a \(a_1=\sqrt{5}/2,\) \(a_2=1,\) \(a_3=-\pi\) et \(b=3.\)) Ces équations sont donc bien linéaires. \[\] Aussi, à partir du moment où \(\\alpha\in \mathbb{R}\) et \(p(t)\) sont fixés, les expressions \(\\sin(\\alpha)\) (et donc \( \\sin^3(\\alpha)\) également) et \(\int_1^2{p(t)dt}\) ne représentent plus que des nombres réels ! Ainsi, les équations 2 et 7 sont également de la forme \(a_1x_1+a_2x_2+a_3x_3=b,\) et sont donc linéaires. (Dans la 2ème équation, on obtient \(a_1=\sin^3(\\alpha),\) \(a_2=-2,\) \(a_3=1\) et \(b=4\), tandis que dans la 7ème, on a \(a_1=\int_1^2{p(t)dt},\) \(a_2=-1,\) \(a_3=0\) et \(b=0.\)) \[\] Finalement, les trois équations restantes ne satisfont pas les conditions requises pour être linéaires, car contiennent des produits d\'inconnues entre elles (comme \(x_2x_3\) dans la 5ème équation ou \(x_1^2\) dans la 6ème) ou des "inverses d\'inconnues" (comme \(1/x_1\) dans la 3ème équation).'
+    correctness = True
+  if feedback:
+    if correctness is True:
+      feedback = "&lt;font color='green'&gt;{0}&lt;/font&gt;".format(feedback)
+    else:
+      feedback = "&lt;font color='red'&gt;{0}&lt;/font&gt;".format(feedback)
+    new_cmap.set_hint_and_mode(aid,feedback,'always')
+</script>
+  <choiceresponse>
+    <checkboxgroup direction="vertical">
+      <choice correct="true"> \(4x_1+2x_2-x_3=-3\),</choice>
+      <choice correct="true"> \(\sin^3(\alpha)x_1-2x_2+x_3=4\), où \(\alpha\in \mathbb{R}\) est arbitraire,</choice>
+      <choice correct="false"> \(\frac{1}{x_1}-x_2+3x_3=-2\),</choice>
+      <choice correct="true">\(\frac{\sqrt{5}}{2}x_1+x_2-\pi x_3=3\),</choice>
+      <choice correct="false">\(-x_1+x_2x_3=-2\).</choice>
+      <choice correct="false">\(x_1^2+x_2^2=1\).</choice>
+      <choice correct="true">\( \left(\int_{1}^2{p(t)dt}\right)x_1-x_2=0\), où \(p(t)\) désigne un polynôme arbitraire.</choice>
+    </checkboxgroup>
+    <hintgroup hintfn="hint_fn"/>
+  </choiceresponse>
+</problem>
