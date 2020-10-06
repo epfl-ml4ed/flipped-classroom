@@ -61,7 +61,7 @@ def read_node(tag, url, subchapter="0"):
 
 def write_csv(videos, problems, year):
     write_path = "../MOOC/" + args.year +"/Data/" 
-    with open(write_path + "video_"+year+".csv", "w", newline="") as f:
+    with open(write_path + "videos_"+year+".csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows([["Chapter", "Subchapter", "VideoID", "Source"]])
         writer.writerows(videos)
