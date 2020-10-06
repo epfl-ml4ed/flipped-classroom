@@ -1,8 +1,0 @@
-<video youtube="1.00:3eVP8ke9dGY" url_name="1d7ce2a765494139815dca79dbfd8f2c" sub="3eVP8ke9dGY" transcripts="{}" display_name="Leçon" download_track="true" download_video="true" edx_video_id="67822234-39dd-4150-946f-012bb6351562" html5_sources="[]" youtube_id_1_0="3eVP8ke9dGY">
-  <video_asset client_video_id="AlgebreX_2015_10.4.mov" duration="603.26" image="">
-    <encoded_video bitrate="161" file_size="12187187" profile="mobile_low" url="https://d2f1egay8yehza.cloudfront.net/EPFALGBX/EPFALGBXT415-V013600_MB2.mp4"/>
-    <encoded_video bitrate="199" file_size="15023272" profile="mobile_high" url="https://d2f1egay8yehza.cloudfront.net/EPFALGBX/EPFALGBXT415-V013600_MB1.mp4"/>
-    <encoded_video bitrate="0" file_size="0" profile="youtube" url="3eVP8ke9dGY"/>
-    <encoded_video bitrate="230" file_size="17346481" profile="desktop_mp4" url="https://d2f1egay8yehza.cloudfront.net/EPFALGBX/EPFALGBXT415-V013600_DTH.mp4"/>
-  </video_asset>
-</video>

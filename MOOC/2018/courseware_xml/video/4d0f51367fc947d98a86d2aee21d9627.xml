@@ -1,8 +1,0 @@
-<video youtube="1.00:BofT64TUMrY" url_name="4d0f51367fc947d98a86d2aee21d9627" transcripts="{}" display_name="Correction vidéo de l'exercice 6" download_track="true" download_video="true" edx_video_id="687236f7-b2c3-4034-a347-95cfa82e5320" html5_sources="[]" youtube_id_1_0="BofT64TUMrY">
-  <video_asset client_video_id="AlgebreX_2015_Ex8.1.mov" duration="1302.98" image="">
-    <encoded_video bitrate="420" file_size="68544916" profile="desktop_mp4" url="https://d2f1egay8yehza.cloudfront.net/EPFALGBX/EPFALGBXT415-V010000_DTH.mp4"/>
-    <encoded_video bitrate="266" file_size="43392887" profile="mobile_high" url="https://d2f1egay8yehza.cloudfront.net/EPFALGBX/EPFALGBXT415-V010000_MB1.mp4"/>
-    <encoded_video bitrate="187" file_size="30500245" profile="mobile_low" url="https://d2f1egay8yehza.cloudfront.net/EPFALGBX/EPFALGBXT415-V010000_MB2.mp4"/>
-    <encoded_video bitrate="0" file_size="0" profile="youtube" url="BofT64TUMrY"/>
-  </video_asset>
-</video>
