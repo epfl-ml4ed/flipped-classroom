@@ -3,6 +3,10 @@ from scipy.spatial.distance import jensenshannon
 import numpy as np
 import scipy
 
+HOUR_TO_SECOND = 60 * 60
+DAY_TO_SECOND = 24 * HOUR_TO_SECOND
+WEEK_TO_SECOND = 7 * DAY_TO_SECOND
+
 def studentActivity(W, T, x):
     T = np.floor_divide(T, W)
     return int(x in T)
@@ -11,7 +15,7 @@ def dailyActivity(Ld, T):
     def activity_at_hour(h):
         res = 0
         for i in range(Ld):
-            res += studentActivity(60*60, T, 24*i + h)
+            res += studentActivity(HOUR_TO_SECOND, T, 24*i + h)
         return res
     hist = list(range(24))
     return list(map(activity_at_hour, hist))
@@ -20,7 +24,7 @@ def weeklyActivity(Lw, T):
     def activity_at_day(d):
         res = 0
         for i in range(Lw):
-            res += studentActivity(24*60*60, T, 7*i + d)
+            res += studentActivity(DAY_TO_SECOND, T, 7*i + d)
         return res
     hist = list(range(7))
     return list(map(activity_at_day, hist))
@@ -29,7 +33,7 @@ def dayActivityByWeek(Lw, T):
     def activity_at_day(w,d):
         res = 0
         for h in range(24):
-            res += studentActivity(60*60, T, w*7*24 + d*24 + h)
+            res += studentActivity(HOUR_TO_SECOND, T, w*7*24 + d*24 + h)
         return res
     days = np.zeros((Lw, 7))
     for w in range(Lw):
@@ -66,11 +70,11 @@ def similarityDays(wi, wj):
     return len(np.intersect1d(m1, m2)) / max(len(m1), len(m2))
 
 def WS1(Lw, T):
-    hist = np.array([studentActivity(24*60*60, T, x_i) for x_i in range((Lw*7*24*60*60)//(24*60*60))]).reshape([Lw, 7])
+    hist = np.array([studentActivity(DAY_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(DAY_TO_SECOND))]).reshape([Lw, 7])
     return np.mean([similarityDays(hist[i], hist[j]) for i in range(Lw) for j in range(i + 1, Lw)])
 
 def activity_profile(Lw, T):
-    X =  np.array([studentActivity(60*60, T, x_i) for x_i in range((Lw*7*24*60*60)//(60*60))]).reshape([Lw, 7*24])
+    X =  np.array([studentActivity(HOUR_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(HOUR_TO_SECOND))]).reshape([Lw, 7*24])
     return [week.reshape([7, 24]).sum(axis=1) for week in X]
 
 def WS2(Lw, T):
@@ -85,7 +89,7 @@ def WS2(Lw, T):
 
 def WS3(Lw, T):
     profile = activity_profile(Lw, T)
-    hist = np.array([studentActivity(24*60*60, T, x_i) for x_i in range((Lw*7*24*60*60)//(24*60*60))]).reshape([Lw, 7])
+    hist = np.array([studentActivity(DAY_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(DAY_TO_SECOND))]).reshape([Lw, 7])
     res = []
     for i in range(Lw):
         for j in range(i + 1, Lw):
@@ -99,17 +103,17 @@ def fourier_transform(Xi, f, n):
     return np.dot(M, Xi)
 
 def FDH(Lw, T, f = 1/24):
-    Xi =  np.array([studentActivity(60*60, T, x_i) for x_i in range((Lw*7*24*60*60)//(60*60))])
+    Xi =  np.array([studentActivity(HOUR_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(HOUR_TO_SECOND))])
     n = np.arange((Lw * 7 * 24 * 60 * 60) // (60 * 60))
     return abs(fourier_transform(Xi, f, n))
 
 def FWH(Lw, T, f=1/(7*24)):
-    Xi =  np.array([studentActivity(60*60, T, x_i) for x_i in range((Lw*7*24*60*60)//(60*60))])
+    Xi =  np.array([studentActivity(HOUR_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(HOUR_TO_SECOND))])
     n = np.arange((Lw * 7 * 24 * 60 * 60) // (60 * 60))
     return abs(fourier_transform(Xi, f, n))
 
 def FWD(Lw, T, f=1/7):
-    Xi =  np.array([studentActivity(24*60*60, T, x_i) for x_i in range((Lw*7*24*60*60)//(24*60*60))])
+    Xi =  np.array([studentActivity(DAY_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(DAY_TO_SECOND))])
     n = np.arange((Lw * 7 * 24 * 60 * 60) // (24 * 60 * 60))
     return abs(fourier_transform(Xi, f, n))
 
