@@ -43,13 +43,13 @@ def dayActivityByWeek(Lw, T):
 
 def PDH(Lw, T):
     activity = np.array(dailyActivity(Lw * 7, T))
-    normalized_activity = activity / np.sum(activity)
+    normalized_activity = activity / np.sum(activity) if np.sum(activity) else activity
     entropy = scipy.special.entr(normalized_activity).sum()
     return (np.log2(24) - entropy) * np.max(activity)
 
 def PWD(Lw, T):
     activity = np.array(weeklyActivity(Lw, T))
-    normalized_activity = activity / np.sum(activity)
+    normalized_activity = activity / np.sum(activity) if np.sum(activity) else activity
     entropy = scipy.special.entr(normalized_activity).sum()
     return (np.log2(7) - entropy) * np.max(activity)
 
