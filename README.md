@@ -23,8 +23,8 @@ students will perform and identify behavioral patterns correlated to success.
 
 Clone this repository:
 ``` 
-git clone https://github.com/mirkomarras/epfl_mooc_interactions.git
-cd ./epfl_mooc_interactions
+git clone https://github.com/mirkomarras/FlippedClassroom.git
+cd ./FlippedClassroom
 ``` 
 
 Create a Python environment:
@@ -38,7 +38,7 @@ pip install -r requirements.txt
 ## Folder Structure
 
 ``` 
-epfl_mooc_interactions
+FlippedClassroom
 ├── config
 ├── data
 │   ├── lin_alg_moodle
