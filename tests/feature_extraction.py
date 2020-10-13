@@ -14,6 +14,9 @@ from helpers.db_query import *
 class Features(unittest.TestCase):
     print("Fetching Video Events...")
     video_df = getVideoEvents()
+    
+    print("Fetching Problem Events...")
+    problem_df = getProblemFirstEvents()
 
     def test_PDH(self):
         # PDH bounded in [0, log(24) * L_d]
@@ -51,7 +54,7 @@ class Features(unittest.TestCase):
 
     def test_WS1(self):
         sid, T, Lw = getStudentTimeStamps(self.video_df, 10118)
-        self.assertAlmostEqual(WS1(Lw, T), 0.57, 1)
+        self.assertAlmostEqual(WS1(Lw, T), 0.575, 2)
 
         sid, T, Lw = getStudentTimeStamps(self.video_df, 46587)
         self.assertAlmostEqual(WS1(Lw, T), 0.12, 2)
@@ -68,9 +71,20 @@ class Features(unittest.TestCase):
         self.assertAlmostEqual(WS3(Lw, T), 0.50, 2)
 
         sid, T, Lw = getStudentTimeStamps(self.video_df, 46587)
-        self.assertAlmostEqual(WS3(Lw, T), 0.19, 0.18)
+        self.assertAlmostEqual(WS3(Lw, T), 0.18, 2)
 
+    def test_IVQ(self):
+        PATH_DATED = '../data/lin_alg_moodle/'
+        PATH_DATED_VIDEOS = PATH_DATED + 'videos.csv'
+        PATH_DATED_PROBLEMS = PATH_DATED + 'problems.csv'
 
+        dated_videos_df = pd.read_csv(PATH_DATED_VIDEOS, index_col=0)
+        dated_problems_df = pd.read_csv(PATH_DATED_PROBLEMS, index_col=0)
+        ivq = IVQ(46497, self.video_df, self.problem_df, dated_videos_df, dated_problems_df)
+        self.assertAlmostEqual(ivq, 32, 0)
 
+    def test_SRQ(self):
+        srq = SRQ(12275, self.problem_df)
+        self.assertAlmostEqual(srq, 33, 0)
 if __name__ == '__main__':
     unittest.main()

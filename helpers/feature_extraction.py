@@ -127,3 +127,65 @@ def PQZ(Pw, id):
         return 0.0
     temp = no_problems_per_year.loc[str(id)].reset_index().iloc[0]
     return temp[1] / getTotalProblemsFlippedPeriod(temp[0])
+
+def get_first_viewings(video_df, sid):
+    """
+    Filter the video events so that the returned dataframe only contains
+    the first play event of each different videos viewed by the student with id studentID.
+    """
+    return video_df.loc[(video_df["AccountUserID"] == str(sid)) & (video_df.EventType == "Video.Play")]\
+            .sort_values(by="TimeStamp").drop_duplicates(subset=["VideoID"], keep="first")\
+            [["AccountUserID", "VideoID", "Year", "TimeStamp"]]
+
+def get_first_completions(problem_df, sid):
+    """
+    Filter the problem (=quiz) events so that the returned dataframe only contains
+    the first completion of each different quizzes done by studentID
+    """
+    return problem_df.loc[(problem_df["AccountUserID"] == str(sid)) & (problem_df.EventType == "Problem.Check")]\
+            .sort_values(by="TimeStamp").drop_duplicates(subset=["ProblemID"], keep="first")\
+            [["ProblemID", "TimeStamp"]]
+
+def merge_on_subchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df):
+    """
+    Merge the video viewings with the quiz completion for a student.
+    """
+    
+    return viewing_df.merge(dated_videos_df[["VideoID", "Subchapter"]])\
+            .merge(dated_problems_df[["ProblemID", "Subchapter"]])\
+            .rename(columns={"TimeStamp":"TimeStamp_Video"})\
+            .merge(completion_df)\
+            .rename(columns={"TimeStamp":"TimeStamp_Quiz"})
+
+def IQR(data):
+    """
+    Compute the Inter-Quartile Range of an array, that is, the difference between 
+    the third quantile and the first quantile. Thus half the values 
+    are located in this range.
+    """
+    q3, q1 = np.percentile(data, [75 ,25])
+    iqr = q3 - q1
+    return iqr
+
+def IVQ(sid, video_df, problem_df, dated_videos_df, dated_problems_df):
+    """
+    For every completed quiz, compute the time intervals (minutes)
+    between the first viewing of the video and the quiz completion
+    and return the interquartile range of the time intervals
+    """
+    viewing_df = get_first_viewings(video_df, sid)
+    completion_df = get_first_completions(problem_df, sid)
+    merged_df = merge_on_subchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df)
+    time_intervals = np.array(merged_df.TimeStamp_Quiz - merged_df.TimeStamp_Video)
+    time_intervals = time_intervals[time_intervals > 0] / 60 #Only keep positive intervals and convert to minutes
+    return IQR(time_intervals)
+
+
+def SRQ(sid, problem_df):
+    """
+    Measures the repartition of the quiz completions. The std (in hours) of the time intervals is computed
+    aswell as the dates of completions. The smaller the std is, the more regular the student is.
+    """
+    completion_df = get_first_completions(problem_df, sid)
+    return np.diff(completion_df.TimeStamp.values).std() / 3600
+
