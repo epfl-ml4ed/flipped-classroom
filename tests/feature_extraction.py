@@ -18,6 +18,7 @@ class Features(unittest.TestCase):
     print("Fetching Problem Events...")
     problem_df = getProblemFirstEvents()
 
+
     def test_PDH(self):
         # PDH bounded in [0, log(24) * L_d]
 
@@ -36,6 +37,7 @@ class Features(unittest.TestCase):
         T = np.arange(Lw) * 3600 * 24
         self.assertAlmostEqual(PDH(Lw, T), np.log2(24) * Lw, 2) 
 
+
     # PWD bounded in [0, log(7) * L_w]
     def test_PWD(self):  
         # Particular sid
@@ -52,12 +54,14 @@ class Features(unittest.TestCase):
         T = np.arange(Lw) * 3600 * 24 * 7
         self.assertAlmostEqual(PWD(Lw, T), np.log2(7) * Lw, 2)
 
+
     def test_WS1(self):
         sid, T, Lw = getStudentTimeStamps(self.video_df, 10118)
         self.assertAlmostEqual(WS1(Lw, T), 0.575, 2)
 
         sid, T, Lw = getStudentTimeStamps(self.video_df, 46587)
         self.assertAlmostEqual(WS1(Lw, T), 0.12, 2)
+
 
     def test_WS2(self):
         sid, T, Lw = getStudentTimeStamps(self.video_df, 10118)
@@ -66,12 +70,48 @@ class Features(unittest.TestCase):
         sid, T, Lw = getStudentTimeStamps(self.video_df, 46587)
         self.assertAlmostEqual(WS2(Lw, T), 0.19, 2)
 
+
     def test_WS3(self):
         sid, T, Lw = getStudentTimeStamps(self.video_df, 10118)
         self.assertAlmostEqual(WS3(Lw, T), 0.50, 2)
 
         sid, T, Lw = getStudentTimeStamps(self.video_df, 46587)
         self.assertAlmostEqual(WS3(Lw, T), 0.18, 2)
+
+
+    def test_FDH(self):
+        sid, T, Lw = getStudentTimeStamps(self.video_df, 44790)
+        self.assertAlmostEqual(FDH(Lw, T), 38.86, 2)
+
+        sid, T, Lw = getStudentTimeStamps(self.video_df, 11609)
+        self.assertAlmostEqual(FDH(Lw, T), 63.17, 2)
+
+
+    def test_FWH(self):
+        sid, T, Lw = getStudentTimeStamps(self.video_df, 44790)
+        self.assertAlmostEqual(FWH(Lw, T), 45.33, 2)
+
+        sid, T, Lw = getStudentTimeStamps(self.video_df, 11609)
+        self.assertAlmostEqual(FWH(Lw, T), 44.47, 2)
+
+
+    def test_FWD(self):
+        sid, T, Lw = getStudentTimeStamps(self.video_df, 44790)
+        self.assertAlmostEqual(FWD(Lw, T), 13.09, 2)
+        
+        sid, T, Lw = getStudentTimeStamps(self.video_df, 11609)
+        self.assertAlmostEqual(FWD(Lw, T), 8.73, 2)
+
+
+    def test_NQZ(self):
+        self.assertEqual(NQZ(self.problem_df, 8438), 193)
+        self.assertEqual(NQZ(self.problem_df, 46953), 213)
+        self.assertEqual(NQZ(self.problem_df, 46968), 55)
+
+    def test_PQZ(self):
+        self.assertAlmostEqual(PQZ(self.problem_df, 46485), 0.16, 2)
+        self.assertAlmostEqual(PQZ(self.problem_df, 12275), 0.88, 2)
+        self.assertAlmostEqual(PQZ(self.problem_df, 18422), 0.89, 2)
 
     def test_IVQ(self):
         PATH_DATED = '../data/lin_alg_moodle/'
@@ -83,8 +123,11 @@ class Features(unittest.TestCase):
         ivq = IVQ(46497, self.video_df, self.problem_df, dated_videos_df, dated_problems_df)
         self.assertAlmostEqual(ivq, 32, 0)
 
+
     def test_SRQ(self):
         srq = SRQ(12275, self.problem_df)
         self.assertAlmostEqual(srq, 33, 0)
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -123,7 +123,7 @@ def NQZ(Pw, id):
 
 def PQZ(Pw, id):
     no_problems_per_year = Pw.groupby(by=["AccountUserID", "Year"]).count()
-    if id not in no_problems_per_year.index:
+    if str(id) not in no_problems_per_year.index:
         return 0.0
     temp = no_problems_per_year.loc[str(id)].reset_index().iloc[0]
     return temp[1] / getTotalProblemsFlippedPeriod(temp[0])
@@ -179,7 +179,6 @@ def IVQ(sid, video_df, problem_df, dated_videos_df, dated_problems_df):
     time_intervals = np.array(merged_df.TimeStamp_Quiz - merged_df.TimeStamp_Video)
     time_intervals = time_intervals[time_intervals > 0] / 60 #Only keep positive intervals and convert to minutes
     return IQR(time_intervals)
-
 
 def SRQ(sid, problem_df):
     """
