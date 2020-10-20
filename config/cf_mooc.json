@@ -4,13 +4,22 @@
         "End":  "2018-01-28",
         "Exam": "2018-01-22",
         "WeeklyVideoCount": [2,3,2,2,4,3,2,3,3,1,2,2,2,3],
-        "FlippedWeeks": 5
+        "FlippedWeeks": 5,
+        "Midterm": "2017-11-14"
 
     },
     "2018": {
         "Start": "2018-10-16",
         "End": "2019-01-28",
         "Exam": "2019-01-21",
-        "FlippedWeeks": 10
+        "FlippedWeeks": 10,
+        "Midterm": "2018-11-13"
+    },
+    "2019": {
+        "Start": "2019-09-16",
+        "End": "2020-01-28",
+        "Exam": "2020-01-21",
+        "FlippedWeeks": 14,
+        "Midterm": "2019-11-12"
     }
 }

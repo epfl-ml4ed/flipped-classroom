@@ -1,5 +1,5 @@
 from helpers.db_connector import MySQLConnector
-from datetime import timedelta
+from datetime import datetime, timedelta, date
 import dateutil.parser
 import pandas as pd
 import time
@@ -11,8 +11,10 @@ def queryDB(query, labels):
     db.close()
     return pd.DataFrame.from_records(out, columns=labels)
 
-def getVideoEvents(mode='base'):
+def getVideoEvents(mode='base', with_2019 = False):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'']
+    if with_2019:
+        course_names.append('\'EPFL-AlgebreLineaire-2019\'')
     columns = ['AccountUserID', 'DataPackageID', 'VideoID', 'TimeStamp', 'EventType']
     columns +=  [] if mode == 'base' else ['SeekType', 'OldTime', 'CurrentTime', 'NewTime', 'OldSpeed', 'NewSpeed']
     query = """ SELECT {} FROM ca_courseware.Video_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
@@ -50,4 +52,22 @@ def getProblemFirstEvents():
     """.format(columns=", ".join(columns), courses=", ".join(course_names))
     df = queryDB(query, columns)
     df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
+    return df
+
+def getTextbookEvents():
+    course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
+    columns = ['AccountUserID', 'DataPackageID', 'TimeStamp', 'EventType']
+    query = """ SELECT {} FROM ca_courseware.TextBook_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
+    df = queryDB(query, columns)
+    df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
+    df['Date'] = df.TimeStamp.apply(lambda x: datetime.fromtimestamp(x))
+    return df
+
+def getForumEvents():
+    course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
+    columns = ['AccountUserID', 'DataPackageID', 'TimeStamp', 'EventType', 'PostType', 'PostID']
+    query = """ SELECT {} FROM ca_courseware.Forum_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
+    df = queryDB(query, columns)
+    df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
+    df['Date'] = df.TimeStamp.apply(lambda x: datetime.fromtimestamp(x))
     return df
