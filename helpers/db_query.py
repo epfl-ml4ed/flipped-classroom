@@ -105,3 +105,18 @@ def getTotalProblemsFlippedPeriod(year):
     end_flipped = start_flipped + timedelta(weeks=config[str(year)]['FlippedWeeks']).total_seconds()
     query = """SELECT COUNT(DISTINCT ProblemID) FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) AND TimeStamp > {}  AND TimeStamp < {} """.format(", ".join(course_names), start_flipped, end_flipped)
     return queryDB(query, ['NbProblems']).loc[0]['NbProblems']
+
+def getProblemFirstEvents():
+    course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'']
+    columns = ['AccountUserID', 'DataPackageID', 'ProblemID', 'TimeStamp', 'EventType', 'ProblemType']
+    query = """SELECT {columns}
+    FROM (
+        SELECT {columns}, ROW_NUMBER() OVER(PARTITION BY AccountUserID, ProblemID 
+                                            ORDER BY AccountUserID, ProblemID, TimeStamp) rn
+        FROM ca_courseware.Problem_Events_with_Info
+        WHERE DataPackageID in ({courses})) t
+    WHERE rn = 1;
+    """.format(columns=", ".join(columns), courses=", ".join(course_names))
+    df = queryDB(query, columns)
+    df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
+    return df

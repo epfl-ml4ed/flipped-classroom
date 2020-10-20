@@ -1,7 +1,6 @@
 .idea/*
 notebooks/.ipynb_checkpoints/*
 .DS_STORE
-courseware_xml
-MOOC_data
 Papers
-Meetings
+/__pycache__/*
+data/
