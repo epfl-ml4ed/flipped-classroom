@@ -2,5 +2,7 @@
 notebooks/.ipynb_checkpoints/*
 .DS_STORE
 Papers
-/__pycache__/*
+__pycache__/
+*.pyc
 data/
+.vscode/
