@@ -19,7 +19,7 @@ def getUserDemo():
     df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
     return df
 
-def getUserInfo():
+def getUserInfo(isa_only=True):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
     columns = ['AccountUserID', 'DataPackageID', 'Timestamp', 'ISOWeekDate']
     query = """ SELECT {} FROM ca_courseware.User_Account_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
@@ -29,6 +29,8 @@ def getUserInfo():
     df['Weekday'] = df['ISOWeekDate'].apply(lambda x: x.split('-')[2])
     del df['DataPackageID']
     del df['ISOWeekDate']
+    if isa_only:
+        df = filterIsaOnly(df)
     return df
 
 def getUserLocation():
@@ -45,25 +47,28 @@ def getVideoInfo():
     df = queryDB(query, columns)
     return df
 
-
-def getVideoEvents(mode='base', isa_only=False):
+def getVideoEvents(mode='base', isa_only=True):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'','\'EPFL-AlgebreLineaire-2019\'']
     columns = [ 'DataPackageID', 'AccountUserID', 'VideoID', 'TimeStamp', 'EventType']
     columns +=  [] if mode == 'base' else ['SeekType', 'OldTime', 'CurrentTime', 'NewTime', 'OldSpeed', 'NewSpeed']
     query = """ SELECT {} FROM ca_courseware.Video_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     df = queryDB(query, columns)
-    df['TimeStamp'] = pd.to_datetime(df['TimeStamp'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
+    df['Date'] = pd.to_datetime(df['TimeStamp'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
     df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
+    if isa_only:
+        df = filterIsaOnly(df)
     return df
 
-def getTextbookEvents():
+def getTextbookEvents(isa_only=True):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
     columns = ['AccountUserID', 'DataPackageID', 'TimeStamp', 'EventType', 'OldPage', 'NewPage', 'CurrentZoom', 'ScrollDirection']
     query = """ SELECT {} FROM ca_courseware.TextBook_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     df = queryDB(query, columns)
     df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
-    df['TimeStamp'] = pd.to_datetime(df['TimeStamp'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
+    df['Date'] = pd.to_datetime(df['TimeStamp'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
     del df['DataPackageID']
+    if isa_only:
+        df = filterIsaOnly(df)
     return df
 
 def getProblemInfo():
@@ -72,17 +77,16 @@ def getProblemInfo():
     query = """ SELECT {} FROM ca_courseware.Problem_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     df = queryDB(query, columns)
     df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
-    if isa_only:
-        isa_id = getFlippedAccountUserID()
-        df = df.merge(isa_id)
     return df
 
-def getProblemEvents(isa_only=False):
+def getProblemEvents(isa_only=True):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'','\'EPFL-AlgebreLineaire-2019\'']
     columns = ['DataPackageID', 'AccountUserID', 'ProblemID', 'TimeStamp', 'EventType']
     query = """ SELECT {} FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     df = queryDB(query, columns)
-    df['TimeStamp'] = pd.to_datetime(df['TimeStamp'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
+    df['Date'] = pd.to_datetime(df['TimeStamp'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
+    if isa_only:
+        df = filterIsaOnly(df)
     return df
 
 def getForumInfo():
@@ -91,17 +95,17 @@ def getForumInfo():
     query = """ SELECT {} FROM ca_courseware.Forum_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     df = queryDB(query, columns)
     df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
-    if isa_only:
-        isa_id = getFlippedAccountUserID()
-        df = df.merge(isa_id)
     return df
 
-def getForumEvents():
+def getForumEvents(isa_only=True):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
     columns = ['DataPackageID', 'AccountUserID', 'TimeStamp', 'EventType', 'PostID']
     query = """ SELECT {} FROM ca_courseware.Forum_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     df = queryDB(query, columns)
-    df['TimeStamp'] = pd.to_datetime(df['TimeStamp'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
+    df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
+    df['Date'] = pd.to_datetime(df['TimeStamp'].apply(lambda x: datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
+    if isa_only:
+        df = filterIsaOnly(df)
     return df
 
 def getTotalProblemsFlippedPeriod(year):
@@ -113,7 +117,7 @@ def getTotalProblemsFlippedPeriod(year):
     query = """SELECT COUNT(DISTINCT ProblemID) FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) AND TimeStamp > {}  AND TimeStamp < {} """.format(", ".join(course_names), start_flipped, end_flipped)
     return queryDB(query, ['NbProblems']).loc[0]['NbProblems']
 
-def getProblemFirstEvents(isa_only=False):
+def getProblemFirstEvents(isa_only=True):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'']
     columns = ['AccountUserID', 'DataPackageID', 'ProblemID', 'TimeStamp', 'EventType', 'ProblemType']
     query = """SELECT {columns}
@@ -127,32 +131,7 @@ def getProblemFirstEvents(isa_only=False):
     df = queryDB(query, columns)
     df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
     if isa_only:
-        isa_id = getFlippedAccountUserID()
-        df = df.merge(isa_id)
-    return df
-
-def getTextbookEvents(isa_only=False):
-    course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
-    columns = ['AccountUserID', 'DataPackageID', 'TimeStamp', 'EventType']
-    query = """ SELECT {} FROM ca_courseware.TextBook_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
-    df = queryDB(query, columns)
-    df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
-    df['Date'] = df.TimeStamp.apply(lambda x: datetime.fromtimestamp(x))
-    if isa_only:
-        isa_id = getFlippedAccountUserID()
-        df = df.merge(isa_id)
-    return df
-
-def getForumEvents(isa_only=False):
-    course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
-    columns = ['AccountUserID', 'DataPackageID', 'TimeStamp', 'EventType', 'PostType', 'PostID']
-    query = """ SELECT {} FROM ca_courseware.Forum_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
-    df = queryDB(query, columns)
-    df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
-    df['Date'] = df.TimeStamp.apply(lambda x: datetime.fromtimestamp(x))
-    if isa_only:
-        isa_id = getFlippedAccountUserID()
-        df = df.merge(isa_id)
+        df = filterIsaOnly(df)
     return df
 
 
@@ -194,6 +173,8 @@ def getFlippedGrades():
     mapping = getMapping()
     # Get the grades by AccountUserID, (1 student dropped here, not in the mapping df)
     userID_df = sciper_df.merge(mapping) 
+    # Label the student taking the course for the second time
+    userID_df = labelRepentants(userID_df)
     userID_df.drop(columns=['StudentSCIPER', 'SCIPER'], inplace=True)    
     return userID_df
 
@@ -203,10 +184,18 @@ def getControlGrades():
     conditions_df = getStudentCondition(flipped=False) # Get the Control group list of SCIPER
     # Keep only Control students
     sciper_df = sciper_df.merge(conditions_df, left_on='StudentSCIPER', right_on="SCIPER")
+    # Label the student taking the course for the second time
+    sciper_df = labelRepentants(sciper_df)
     sciper_df.drop(columns=['StudentSCIPER', 'SCIPER'], inplace=True)
     return sciper_df
 
-
-def getFlippedAccountUserID():
+def filterIsaOnly(df):
     #Drop duplicates due to students retaking the class
-    return getFlippedGrades().AccountUserID.drop_duplicates()
+    isa_id = getFlippedGrades().AccountUserID.drop_duplicates()
+    return df.merge(isa_id)
+
+def labelRepentants(df):
+    df["Repentant"] = 0
+    #Sort by year so that only second year is labeled repentant
+    df.loc[df.sort_values(by="AcademicYear").duplicated("StudentSCIPER"),"Repentant"] = 1
+    return df
