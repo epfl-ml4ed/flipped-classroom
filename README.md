@@ -1,4 +1,4 @@
-## Mining Online Interactions for Student Success Prediction in Flipped Classrooms
+## Mining Interactions for Student Success Prediction in Flipped Classrooms
 [![GitHub version](https://badge.fury.io/gh/boennemann%2Fbadges.svg)](http://badge.fury.io/gh/boennemann%2Fbadges)
 [![Dependency Status](https://david-dm.org/boennemann/badges.svg)](https://david-dm.org/boennemann/badges)
 [![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
