@@ -23,8 +23,8 @@ The contributions coming from this project can shape intelligent learning platfo
 
 Clone this repository:
 ``` 
-git clone https://github.com/mirkomarras/FlippedClassroom.git
-cd ./FlippedClassroom
+git clone https://github.com/d-vet-ml4ed/flipped-classroom.git
+cd ./flipped-classroom
 ``` 
 
 Create a Python environment:
