@@ -73,12 +73,12 @@ def WS1(Lw, T):
     hist = np.array([studentActivity(DAY_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(DAY_TO_SECOND))]).reshape([Lw, 7])
     return np.mean([similarityDays(hist[i], hist[j]) for i in range(Lw) for j in range(i + 1, Lw)])
 
-def activity_profile(Lw, T):
+def activityProfile(Lw, T):
     X =  np.array([studentActivity(HOUR_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(HOUR_TO_SECOND))]).reshape([Lw, 7*24])
     return [week.reshape([7, 24]).sum(axis=1) for week in X]
 
 def WS2(Lw, T):
-    profile = activity_profile(Lw, T)
+    profile = activityProfile(Lw, T)
     res = []
     for i in range(Lw):
         for j in range(i + 1, Lw):
@@ -88,7 +88,7 @@ def WS2(Lw, T):
     return np.mean(res)
 
 def WS3(Lw, T):
-    profile = activity_profile(Lw, T)
+    profile = activityProfile(Lw, T)
     hist = np.array([studentActivity(DAY_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(DAY_TO_SECOND))]).reshape([Lw, 7])
     res = []
     for i in range(Lw):
@@ -98,24 +98,24 @@ def WS3(Lw, T):
     if len(res) == 0: return np.nan
     return np.mean(res)
 
-def fourier_transform(Xi, f, n):
+def fourierTransform(Xi, f, n):
     M = np.exp(-2j * np.pi * f * n)
     return np.dot(M, Xi)
 
 def FDH(Lw, T, f = 1/24):
     Xi =  np.array([studentActivity(HOUR_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(HOUR_TO_SECOND))])
     n = np.arange((Lw * 7 * 24 * 60 * 60) // (60 * 60))
-    return abs(fourier_transform(Xi, f, n))
+    return abs(fourierTransform(Xi, f, n))
 
 def FWH(Lw, T, f=1/(7*24)):
     Xi =  np.array([studentActivity(HOUR_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(HOUR_TO_SECOND))])
     n = np.arange((Lw * 7 * 24 * 60 * 60) // (60 * 60))
-    return abs(fourier_transform(Xi, f, n))
+    return abs(fourierTransform(Xi, f, n))
 
 def FWD(Lw, T, f=1/7):
     Xi =  np.array([studentActivity(DAY_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(DAY_TO_SECOND))])
     n = np.arange((Lw * 7 * 24 * 60 * 60) // (24 * 60 * 60))
-    return abs(fourier_transform(Xi, f, n))
+    return abs(fourierTransform(Xi, f, n))
 
 def NQZ(Pw, id):
     no_problems_per_student = Pw[['AccountUserID','ProblemID']].groupby('AccountUserID').count()
@@ -128,7 +128,7 @@ def PQZ(Pw, id):
     temp = no_problems_per_year.loc[str(id)].reset_index().iloc[0]
     return temp[1] / getTotalProblemsFlippedPeriod(temp[0])
 
-def get_first_viewings(video_df, sid):
+def getFirstViewings(video_df, sid):
     """
     Filter the video events so that the returned dataframe only contains
     the first play event of each different videos viewed by the student with id studentID.
@@ -137,7 +137,7 @@ def get_first_viewings(video_df, sid):
             .sort_values(by="TimeStamp").drop_duplicates(subset=["VideoID"], keep="first")\
             [["AccountUserID", "VideoID", "Year", "TimeStamp"]]
 
-def get_first_completions(problem_df, sid):
+def getFirstCompletions(problem_df, sid):
     """
     Filter the problem (=quiz) events so that the returned dataframe only contains
     the first completion of each different quizzes done by studentID
@@ -146,7 +146,7 @@ def get_first_completions(problem_df, sid):
             .sort_values(by="TimeStamp").drop_duplicates(subset=["ProblemID"], keep="first")\
             [["ProblemID", "TimeStamp"]]
 
-def merge_on_subchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df):
+def mergeOnSubchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df):
     """
     Merge the video viewings with the quiz completion for a student.
     """
@@ -173,9 +173,9 @@ def IVQ(sid, video_df, problem_df, dated_videos_df, dated_problems_df):
     between the first viewing of the video and the quiz completion
     and return the interquartile range of the time intervals
     """
-    viewing_df = get_first_viewings(video_df, sid)
-    completion_df = get_first_completions(problem_df, sid)
-    merged_df = merge_on_subchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df)
+    viewing_df = getFirstViewings(video_df, sid)
+    completion_df = getFirstCompletions(problem_df, sid)
+    merged_df = mergeOnSubchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df)
     time_intervals = np.array(merged_df.TimeStamp_Quiz - merged_df.TimeStamp_Video)
     time_intervals = time_intervals[time_intervals > 0] / 60 #Only keep positive intervals and convert to minutes
     return IQR(time_intervals)
@@ -185,6 +185,6 @@ def SRQ(sid, problem_df):
     Measures the repartition of the quiz completions. The std (in hours) of the time intervals is computed
     aswell as the dates of completions. The smaller the std is, the more regular the student is.
     """
-    completion_df = get_first_completions(problem_df, sid)
+    completion_df = getFirstCompletions(problem_df, sid)
     return np.diff(completion_df.TimeStamp.values).std() / 3600
 

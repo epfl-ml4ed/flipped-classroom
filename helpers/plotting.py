@@ -3,20 +3,20 @@ from helpers.feature_extraction import *
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-def plot_hourly_activity(X, studentID=0):
+def plotHourlyActivity(X, studentID=0):
     sid, T, Lw = getStudentTimeStamps(X, studentID)
     PDHs = "{:.2f}".format(PDH(Lw, T))
     plt.bar(np.arange(1, 25), dailyActivity(Lw * 7, T))
     plt.title("Student " + sid + " Activity per Hour, PDH = " + PDHs)
 
-def plot_weekly_activity(X, studentID=0):
+def plotWeeklyActivity(X, studentID=0):
     sid, T, Lw = getStudentTimeStamps(X, studentID)
     PWDs = "{:.2f}".format(PWD(Lw, T))
     plt.bar(np.arange(1, 8), weeklyActivity(Lw, T))
     plt.ylim(0, 10)
     plt.title("Student " + sid + " Activity per Week, PWD = " + PWDs)
 
-def plot_WS(X, studentID=0):
+def plotWS(X, studentID=0):
     sid, T, Lw = getStudentTimeStamps(X, studentID)
     WS = "{:.2f}, {:.2f}, {:.2f}".format(WS1(Lw, T), WS2(Lw, T), WS3(Lw, T))
     ax = sns.heatmap(dayActivityByWeek(Lw, T), cmap=sns.cubehelix_palette(as_cmap=True))
@@ -25,7 +25,7 @@ def plot_WS(X, studentID=0):
     plt.ylabel('Week')
     plt.xlabel('Day')
 
-def plot_Fourier(X, studentID=0):
+def plotFourier(X, studentID=0):
     sid, T, Lw = getStudentTimeStamps(X, studentID)
     FWD_value = FWD(Lw, T)
     fourier_values = "{:.2f}, {:.2f}, {:.2f}".format(FDH(Lw, T), FWH(Lw, T), FWD_value)

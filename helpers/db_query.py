@@ -110,7 +110,7 @@ def getForumEvents(isa_only=True):
 
 def getTotalProblemsFlippedPeriod(year):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
-    with open('../config/cf_mooc.json') as f:
+    with open('../config/linear_algebra.json') as f:
         config = json.load(f)
     start_flipped = time.mktime(dateutil.parser.parse(config[str(year)]['Start']).timetuple())
     end_flipped = start_flipped + timedelta(weeks=config[str(year)]['FlippedWeeks']).total_seconds()
@@ -133,7 +133,6 @@ def getProblemFirstEvents(isa_only=True):
     if isa_only:
         df = filterIsaOnly(df)
     return df
-
 
 def getGrades(flipped = True):
     columns = ['StudentSCIPER', 'AcademicYear', 'Grade', 'PlanSection', 'PlanCursus']
@@ -162,8 +161,7 @@ def getStudentCondition(flipped=True):
     # Remove useless columns and remove duplicates (since a student can take the course during different years)
     conditions_df = conditions_df.drop(columns=["Course.Year", "Condition"]).drop_duplicates()
     return conditions_df
-    
-        
+
 def getFlippedGrades():
     sciper_df = getGrades() # Get the grades by SCIPER
     conditions_df = getStudentCondition() # Get the flipped group list of SCIPER
@@ -177,7 +175,6 @@ def getFlippedGrades():
     userID_df = labelRepentants(userID_df)
     userID_df.drop(columns=['StudentSCIPER', 'SCIPER'], inplace=True)    
     return userID_df
-
 
 def getControlGrades():
     sciper_df = getGrades(flipped=False) # Get the grades by SCIPER
