@@ -1,15 +1,15 @@
-# Flipped Classroom Project
+## Mining Online Interaction Traces for Student Success Prediction in Flipped Classrooms
 [![GitHub version](https://badge.fury.io/gh/boennemann%2Fbadges.svg)](http://badge.fury.io/gh/boennemann%2Fbadges)
 [![Dependency Status](https://david-dm.org/boennemann/badges.svg)](https://david-dm.org/boennemann/badges)
 [![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 
-Over years at EPFL, first year students volunteered to participate to the Linear Algebra flipped classroom. In this experimental course, 
-teaching alternates between traditional ex cathedra lectures and flipped classroom. During flipped classroom, students start at home by 
-watching videos from a MOOC (Massive Open Online Course) and by practicing on simple exercises. In class, the teacher can therefore focus 
-directly on the more complex exercises.
+Increasingly adopted over the years, **flipped classrooms** represent a learning design that requires students to complete pre-class learning activities before participating in face-to-face sessions. For pre-class activities, this design often makes use of **videos** and **digital content** published in online platforms. The **students’ engagement** in pre-class activities is essential for the success of flipped classrooms, as these activities prepare students for effective participation in face-to-face sessions.
 
-By analyzing the data collected from the MOOC, such as speed change, fast forward or when students watch the videos, we want to predict how 
-students will perform and identify behavioral patterns correlated to success. 
+The widespread adoption of a flipped classroom design has spurred investigations into the issues of how to **anticipate academic performance** by analyzing digital traces, gathered from students’ interactions along pre-class activities. Student success prediction, where a model forecasts future performance of students as they interact online, is a primary while challenging goal. Trustworthy **early predictions** enable effective content personalization and adaptive teaching interventions.
+
+This project aims at exploring behavioral patterns and predicting students’ future performance in flipped-classroom settings. As a case study, we consider a [Linear Algebra](https://www.epfl.ch/education/teaching/fr/soutien-a-lenseignement/recherche-et-developpement/exemples-de-projets/classe-inversee/) course part of the EPFL Bachelor’s Programs, delivered by Prof. [Simone Deparis](https://people.epfl.ch/simone.deparis) under a flipped-classroom approach in the [EPFL Courseware Platform](https://courseware.epfl.ch/courses/course-v1:EPFL+AlgebreLineaire+2019/course/), since 2017. The extent to which success at the end of the course can be anticipated is analyzed by examining **interaction traces left by students** while interacting with content (e.g., videos), peers (e.g., forums), and assessments (e.g., quizzes). With the support of the [Center for Digital Education (CEDE)](https://www.epfl.ch/education/educational-initiatives/cede/), the [Center for Learning Sciences (LEARN)](https://www.epfl.ch/education/educational-initiatives/home/), and the [Teaching Support Center (CAPE)](https://www.epfl.ch/education/teaching/teaching-support/who-are-we/), several indicators of engagement in online pre-class activities are being analyzed as predictors of students’ performance, and the resulting **machine-learning models** with these indicators as features are being developed.
+
+The contributions coming from this project can shape intelligent learning platforms able to provide a **data-driven formative feedback**. These insights are essential to **assist students** in regulating their use of online learning resources and **inform teachers** on when, where and why to intervene.
 
 ## Table of Contents
 - [Installation](#installation)
