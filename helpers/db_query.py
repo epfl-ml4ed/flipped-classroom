@@ -41,9 +41,10 @@ def getUserLocation():
     df = queryDB(query, columns)
     return df
 
-def getVideoInfo():
+def getVideoInfo(mode="base"):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
     columns = ['DataPackageID', 'VideoID', 'Title', 'Source']
+    columns += [] if mode == 'base' else ['Length', 'OpenTime', 'SoftCloseTime','HardCloseTime']
     query = """ SELECT {} FROM ca_courseware.Video_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     df = queryDB(query, columns)
     return df
@@ -193,7 +194,7 @@ def getStudentCondition(flipped=True):
     conditions_df.rename(columns={"Course.Year":"Round"}, inplace=True)
     return conditions_df
 
-def getFlippedGrades():
+def getFlippedGrades(include_repeaters=True):
     sciper_df = getGrades() # Get the grades by SCIPER
     conditions_df = getStudentCondition() # Get the flipped group list of SCIPER
     # Keep only flipped students 
@@ -204,16 +205,20 @@ def getFlippedGrades():
     userID_df = sciper_df.merge(mapping) 
     # Label the student taking the course for the second time
     userID_df = labelRepeaters(userID_df)
+    if not include_repeaters:
+        userID_df = userID_df.loc[userID_df.Repeater == 0]
     userID_df.drop(columns=['StudentSCIPER', 'SCIPER'], inplace=True)
     return userID_df
 
-def getControlGrades():
+def getControlGrades(include_repeaters=True):
     sciper_df = getGrades(flipped=False) # Get the grades by SCIPER
     conditions_df = getStudentCondition(flipped=False) # Get the Control group list of SCIPER
     # Keep only Control students
     sciper_df = sciper_df.merge(conditions_df, left_on='StudentSCIPER', right_on="SCIPER")
     # Label the student taking the course for the second time
     sciper_df = labelRepeaters(sciper_df)
+    if not include_repeaters:
+        sciper_df = sciper_df.loc[sciper_df.Repeater == 0]
     sciper_df.drop(columns=['StudentSCIPER', 'SCIPER'], inplace=True)
     return sciper_df
 
