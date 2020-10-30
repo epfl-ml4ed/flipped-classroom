@@ -121,7 +121,7 @@ class Features(unittest.TestCase):
         dated_videos_df = pd.read_csv(PATH_DATED_VIDEOS, index_col=0)
         dated_problems_df = pd.read_csv(PATH_DATED_PROBLEMS, index_col=0)
         ivq = IVQ(46497, self.video_df, self.problem_df, dated_videos_df, dated_problems_df)
-        self.assertAlmostEqual(ivq, 32, 0)
+        self.assertAlmostEqual(ivq, 1.21, 0)
 
 
     def test_SRQ(self):

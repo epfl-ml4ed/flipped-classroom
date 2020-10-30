@@ -177,7 +177,7 @@ def IVQ(sid, video_df, problem_df, dated_videos_df, dated_problems_df):
     completion_df = getFirstCompletions(problem_df, sid)
     merged_df = mergeOnSubchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df)
     time_intervals = np.array(merged_df.TimeStamp_Quiz - merged_df.TimeStamp_Video)
-    time_intervals = time_intervals[time_intervals > 0] / 60 #Only keep positive intervals and convert to minutes
+    time_intervals = np.log(time_intervals[time_intervals > 0]) #log scale because of extreme values
     return IQR(time_intervals)
 
 def SRQ(sid, problem_df):
@@ -188,3 +188,15 @@ def SRQ(sid, problem_df):
     completion_df = getFirstCompletions(problem_df, sid)
     return np.diff(completion_df.TimeStamp.values).std() / 3600
 
+def compute_feature(feat_func, df, sid = 0):
+    """
+    Compute the given feature (PDH, WS1, FDH, etc.) on the given dataframe for the student with 
+    AccountUserID sid.
+    """
+    sid = str(list(df['AccountUserID'].sample(1))[0] if not sid else str(sid))
+    sdata = df[df['AccountUserID'] == str(sid)]
+    T = sdata['TimeStamp'].sort_values() - sdata['TimeStamp'].min() #Make timestamps start from 0
+    # Compute the length (in weeks) of the period covered by the df 
+    # by converting the max timestamp to week since the first timestamp is 0
+    Lw = T.max() // (3600 * 24 * 7) + 1 
+    return feat_func(Lw, T) #Compute the feature given in argument

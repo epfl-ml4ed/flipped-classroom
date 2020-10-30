@@ -129,8 +129,8 @@ def getTotalProblemsFlippedPeriod(year):
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
     with open('../config/linear_algebra.json') as f:
         config = json.load(f)
-    start_flipped = time.mktime(dateutil.parser.parse(config[str(year)]['Start']).timetuple())
-    end_flipped = start_flipped + timedelta(weeks=config[str(year)]['FlippedWeeks']).total_seconds()
+    start_flipped = time.mktime(dateutil.parser.parse(config[str(year)]['StartFlipped']).timetuple())
+    end_flipped = start_flipped + timedelta(weeks=len(config[str(year)]['FlippedWeeks'])).total_seconds()
     query = """SELECT COUNT(DISTINCT ProblemID) FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) AND TimeStamp > {}  AND TimeStamp < {} """.format(", ".join(course_names), start_flipped, end_flipped)
     return queryDB(query, ['NbProblems']).loc[0]['NbProblems']
 
