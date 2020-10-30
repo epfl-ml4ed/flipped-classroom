@@ -21,6 +21,10 @@ def getUserDemo():
     return df
 
 def getUserInfo():
+    """
+    df with columns AccountUserID	Sciper	Round	Condition
+    already removed repeating students, students with no grades, and students with only a few video interactions
+    """
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
     columns = ['AccountUserID']
     query = """ SELECT {} FROM ca_courseware.User_Account_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
@@ -50,15 +54,18 @@ def getVideoInfo(mode="base"):
     return df
 
 def getVideoEventsInfo():
+    """
+    df with columns AccountUserID	Round	EventType	TimeStamp	Title	Source
+    already with only students present in UserInfo
+    """
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'','\'EPFL-AlgebreLineaire-2019\'']
-    columns = ['AccountUserID', 'EventType', 'TimeStamp', "VideoID"]
+    columns = ['AccountUserID', 'EventType', 'TimeStamp', "VideoID", "DataPackageID"]
     query = """ SELECT {} FROM ca_courseware.Video_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     events_df = queryDB(query, columns) # Raw video events
-    info_df = getVideoInfo() # Video informations
+    info_df = getVideoInfo()
     user_df = getUserInfo() # User in the flipped group
-    
     events_df = events_df.merge(user_df).merge(info_df)
-    events_df.drop(columns=["SCIPER", "VideoID", "DataPackageID"], inplace=True)
+    events_df.drop(columns=["DataPackageID", "SCIPER", "VideoID"], inplace=True)
     return events_df
 
 def getVideoEvents(mode='base', isa_only=True):
@@ -104,6 +111,10 @@ def getProblemEvents(isa_only=True):
     return df
 
 def getProblemEventsInfo():
+    """
+    df with columns AccountUserID	Round	EventType	TimeStamp	ProblemType	MaximumSubmissions
+    already with only students present in UserInfo
+    """
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'','\'EPFL-AlgebreLineaire-2019\'']
     columns = ['AccountUserID', 'EventType', 'TimeStamp', 'ProblemType', "MaximumSubmissions"]
     query = """ SELECT {} FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
@@ -160,9 +171,16 @@ def getForumEvents(isa_only=True):
     return df
 
 def getExamInfo():
+    """
+    df with columns AccountUserID	Round	Grade	GradeDate
+    already with only students present in UserInfo 
+    """
     exam_df = getFlippedGrades()
     exam_df = exam_df.loc[exam_df.Repeater == 0]
     exam_df.drop(columns=["PlanSection", "PlanCursus", "Repeater", "AcademicYear"], inplace=True)
+
+    user_df = getUserInfo() #Remove repeaters and incative users
+    exam_df = exam_df[exam_df['AccountUserID'].isin(user_df['AccountUserID'])]
     return exam_df
 
 def getGrades(flipped = True):
