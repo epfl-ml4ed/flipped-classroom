@@ -20,7 +20,7 @@ def getUserDemo():
     df['Year'] = df['DataPackageID'].apply(lambda x: int(x.split('_')[0][-4:]))
     return df
 
-def getUserInfo():
+def getUserInfo(prior_knowledge=False):
     """
     df with columns AccountUserID	Sciper	Round	Condition
     already removed repeating students, students with no grades, and students with only a few video interactions
@@ -31,11 +31,14 @@ def getUserInfo():
     user_df = queryDB(query, columns) #User info
     video_df = getVideoEvents(isa_only=False) #Video events to filter inactive users
     mapping_df = getMapping() #AccountUserID - Sciper mapping
-    condition_df = getStudentCondition() #Flipped
+    condition_df = getStudentCondition(id_anon=True) #Flipped
     user_df = user_df.merge(mapping_df).merge(condition_df)
     user_df = user_df[~user_df['AccountUserID'].isin(getRepeatingStudentsIDs(video_df))] #Remove repeaters
     user_df = user_df[~user_df['AccountUserID'].isin(getUnactiveStudentsIDs(video_df))] #Remove inactives
     user_df = user_df[user_df['SCIPER'].isin(getGrades().StudentSCIPER)] #Remove students without grade
+    if prior_knowledge:
+        prior_df = getPriorKnowledge()
+        user_df = user_df.merge(prior_df).drop(columns=['ID.Anon'])
     return user_df
 
 def getUserLocation():
@@ -202,13 +205,15 @@ def getMapping():
     mapping = queryDB(query, columns)
     return mapping
 
-def getStudentCondition(flipped=True):
-    CONDITION_MAPPING_PATH = '../data/lin_alg_moodle/Volunteer-Flipped-Proj.csv'
+def getStudentCondition(flipped=True, id_anon=False):
+    CONDITION_MAPPING_PATH = '../data/lin_alg_moodle/student-conditions.csv'
     conditions_df = pd.read_csv(CONDITION_MAPPING_PATH, index_col=0)
     # Return either the flipped or the control group
     conditions_df = conditions_df.loc[conditions_df.Condition == ("Flipped" if flipped else "Control")]
     # Remove useless columns and remove duplicates (since a student can take the course during different years)
     conditions_df = conditions_df.drop(columns=["Condition"]).drop_duplicates()
+    if not id_anon:
+        del condition_df['ID.Anon']
     conditions_df.rename(columns={"Course.Year":"Round"}, inplace=True)
     return conditions_df
 
@@ -250,3 +255,9 @@ def labelRepeaters(df):
     #Sort by year so that only second year is labeled repeater
     df.loc[df.sort_values(by="AcademicYear").duplicated("StudentSCIPER"),"Repeater"] = 1
     return df
+
+def getPriorKnowledge(columns = ['ID.Anon', 'Category', "Gender"]):
+    FOLDER = "../data/lin_alg_moodle/student_info/"
+    PATHS = [FOLDER + "Year{}-Normalized-Score.csv".format(year) for year in range(1,4)]
+    year1, year2, year3 = [pd.read_csv(year, index_col=0)[columns] for year in PATHS]
+    return pd.concat([year1, year2, year3])
