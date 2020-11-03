@@ -85,6 +85,7 @@ def WS2(Lw, T):
             if not profile[i].any() or not profile[j].any(): continue
             res.append(1 - jensenshannon(profile[i], profile[j], 2.0))
     if len(res) == 0: return np.nan
+    res = np.clip(np.nan_to_num(res), 0, 1) #Bound values between 0 and 1
     return np.mean(res)
 
 def WS3(Lw, T):
@@ -96,6 +97,7 @@ def WS3(Lw, T):
             if not profile[i].any() or not profile[j].any(): continue
             res.append(chi2Divergence(profile[i], profile[j], hist[i], hist[j]))
     if len(res) == 0: return np.nan
+    res = np.clip(np.nan_to_num(res), 0, 1) #Bound values between 0 and 1
     return np.mean(res)
 
 def fourierTransform(Xi, f, n):
