@@ -5,12 +5,18 @@ import pandas as pd
 import datetime
 import argparse
 
+
+### Concatenante the videos/problems csv (with the subchapters) with their due dates based on Subchapters
+### given an excel spreadsheet containing the due dates and the videos and problems csv
+
+
 #Script argument
-parser = argparse.ArgumentParser(description='Parse a courseware xml folder.')
+parser = argparse.ArgumentParser(description='Joins video/problems with due dates based on SubCcapters.')
 parser.add_argument('--year', required=True)
+parser.add_argument('--input_folder', required=True) #path to the folder contaniing the 2 csv and xlsx
 args = parser.parse_args()
 
-PATH ='../MOOC/'+args.year+"/Data/"
+PATH = args.input_folder
 dates_url = PATH + 'due_dates_'+args.year+".xlsx"
 problems_url = PATH + 'problems_'+args.year+".csv"
 videos_url = PATH +'videos_'+args.year+".csv"

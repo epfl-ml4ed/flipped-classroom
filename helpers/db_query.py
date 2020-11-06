@@ -213,7 +213,7 @@ def getStudentCondition(flipped=True, id_anon=False):
     # Remove useless columns and remove duplicates (since a student can take the course during different years)
     conditions_df = conditions_df.drop(columns=["Condition"]).drop_duplicates()
     if not id_anon:
-        del condition_df['ID.Anon']
+        del conditions_df['ID.Anon']
     conditions_df.rename(columns={"Course.Year":"Round"}, inplace=True)
     return conditions_df
 

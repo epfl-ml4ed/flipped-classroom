@@ -10,10 +10,11 @@ import argparse
 #Script argument
 parser = argparse.ArgumentParser(description='Parse a courseware xml folder.')
 parser.add_argument('--year', required=True)
+parser.add_argument('--xmlpath', required=True)
 args = parser.parse_args()
 
 #Constants
-PATH = "../MOOC/"+ args.year +"/courseware_xml/"
+PATH = args.xmlpath
 ORIGIN = 'course.xml'
 
 #XML commom attributes
@@ -60,7 +61,7 @@ def read_node(tag, url, subchapter="0"):
 
 
 def write_csv(videos, problems, year):
-    write_path = "../MOOC/" + args.year +"/Data/" 
+    write_path = "./"
     with open(write_path + "videos_"+year+".csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerows([["Chapter", "Subchapter", "VideoID", "Source"]])

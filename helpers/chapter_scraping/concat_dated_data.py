@@ -21,7 +21,7 @@ def concat_files(video=True, output_suffix="concat_"):
     
     for year in years:
         filename = "dated_" + ("videos" if(video) else "problems") + "_" + year +".csv"
-        path = '../MOOC/' + year + '/Data/' + filename
+        path = './' + year + '/Data/' + filename
         if os.path.isfile(path):
             concatenated_files.append(filename)
             curr_df = pd.read_csv(path, index_col=0)
@@ -37,7 +37,7 @@ def concat_files(video=True, output_suffix="concat_"):
 
 
     output = output_suffix + ("videos" if(video) else "problems") + ".csv"
-    concat_df.to_csv("../MOOC/" + output)
+    concat_df.to_csv("./" + output)
 
 def main():
     concat_files(video=True)
