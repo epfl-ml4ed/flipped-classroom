@@ -190,14 +190,9 @@ def SRQ(sid, problem_df):
     completion_df = getFirstCompletions(problem_df, sid)
     return np.diff(completion_df.TimeStamp.values).std() / 3600
 
-def compute_feature(feat_func, df, sid = 0):
-    """
-    Compute the given feature (PDH, WS1, FDH, etc.) on the given dataframe for the student with 
-    AccountUserID sid.
-    """
-    sid = str(list(df['AccountUserID'].sample(1))[0] if not sid else str(sid))
-    sdata = df[df['AccountUserID'] == str(sid)]
-    T = sdata['TimeStamp'].sort_values() - sdata['TimeStamp'].min() #Make timestamps start from 0
+def compute_feature(feat_func, df):
+    """Compute the given feature (PDH, WS1, FDH, etc.) on the given dataframe."""
+    T = df['TimeStamp'].sort_values() - df['TimeStamp'].min() #Make timestamps start from 0
     # Compute the length (in weeks) of the period covered by the df 
     # by converting the max timestamp to week since the first timestamp is 0
     Lw = T.max() // (3600 * 24 * 7) + 1 

@@ -67,7 +67,9 @@ def getVideoEventsInfo():
     events_df = queryDB(query, columns) # Raw video events
     info_df = getVideoInfo()
     user_df = getUserInfo() # User in the flipped group
-    events_df = events_df.merge(user_df).merge(info_df)
+    chapters = getVideoChapters()[['VideoID', 'Subchapter', 'Duration']] #Video chapters
+
+    events_df = events_df.merge(user_df).merge(info_df).merge(chapters, how='left')
     events_df.drop(columns=["DataPackageID", "SCIPER", "VideoID"], inplace=True)
     return events_df
 
@@ -123,8 +125,9 @@ def getProblemEventsInfo():
     query = """ SELECT {} FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     events_df = queryDB(query, columns)
     user_df = getUserInfo()
-    
-    events_df = events_df.merge(user_df)
+    chapters = getProblemChapters()[['ProblemID', 'Subchapter', 'Duration']] #Video chapters
+
+    events_df = events_df.merge(user_df).merge(chapters, how='left')
     events_df.drop(columns=["SCIPER"], inplace=True)
     return events_df
 
@@ -205,6 +208,7 @@ def getMapping():
     mapping = queryDB(query, columns)
     return mapping
 
+
 def getStudentCondition(flipped=True, id_anon=False):
     CONDITION_MAPPING_PATH = '../data/lin_alg_moodle/student-conditions.csv'
     conditions_df = pd.read_csv(CONDITION_MAPPING_PATH, index_col=0)
@@ -261,3 +265,12 @@ def getPriorKnowledge(columns = ['ID.Anon', 'Category', "Gender"]):
     PATHS = [FOLDER + "Year{}-Normalized-Score.csv".format(year) for year in range(1,4)]
     year1, year2, year3 = [pd.read_csv(year, index_col=0)[columns] for year in PATHS]
     return pd.concat([year1, year2, year3])
+
+
+def getVideoChapters():
+    PATH = '../data/lin_alg_moodle/videos_with_durations.csv'
+    return pd.read_csv(PATH, index_col=0)
+
+def getProblemChapters():
+    PATH = '../data/lin_alg_moodle/problems.csv'
+    return pd.read_csv(PATH, index_col=0)
