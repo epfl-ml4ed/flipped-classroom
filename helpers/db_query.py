@@ -69,8 +69,8 @@ def getVideoEventsInfo():
     user_df = getUserInfo() # User in the flipped group
     chapters = getVideoChapters()[['VideoID', 'Subchapter', 'Duration']] #Video chapters
 
-    events_df = events_df.merge(user_df).merge(info_df).merge(chapters, how='left')
-    events_df.drop(columns=["DataPackageID", "SCIPER", "VideoID"], inplace=True)
+    events_df = events_df.merge(user_df).merge(info_df).merge(chapters)
+    events_df.drop(columns=["DataPackageID", "SCIPER"], inplace=True)
     return events_df
 
 def getVideoEvents(mode='base', isa_only=True):
@@ -121,13 +121,13 @@ def getProblemEventsInfo():
     already with only students present in UserInfo
     """
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'','\'EPFL-AlgebreLineaire-2019\'']
-    columns = ['AccountUserID', 'EventType', 'TimeStamp', 'ProblemType', "MaximumSubmissions"]
+    columns = ['AccountUserID', 'ProblemID', 'EventType', 'TimeStamp', 'ProblemType', "MaximumSubmissions"]
     query = """ SELECT {} FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     events_df = queryDB(query, columns)
     user_df = getUserInfo()
-    chapters = getProblemChapters()[['ProblemID', 'Subchapter', 'Duration']] #Video chapters
+    chapters = getProblemChapters()[['ProblemID', 'Subchapter']] #Video chapters
 
-    events_df = events_df.merge(user_df).merge(chapters, how='left')
+    events_df = events_df.merge(user_df).merge(chapters)
     events_df.drop(columns=["SCIPER"], inplace=True)
     return events_df
 
@@ -268,7 +268,7 @@ def getPriorKnowledge(columns = ['ID.Anon', 'Category', "Gender"]):
 
 
 def getVideoChapters():
-    PATH = '../data/lin_alg_moodle/videos_with_durations.csv'
+    PATH = '../data/lin_alg_moodle/video_with_durations.csv'
     return pd.read_csv(PATH, index_col=0)
 
 def getProblemChapters():
