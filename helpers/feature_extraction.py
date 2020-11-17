@@ -2,6 +2,35 @@ from helpers.db_query import getTotalProblemsFlippedPeriod
 from scipy.spatial.distance import jensenshannon
 import numpy as np
 import scipy
+import pandas as pd
+import json
+from datetime import datetime, timedelta
+
+
+""" WRAPPER FUNCTION"""
+
+def compute_feature(feat_func, df):
+    """
+    Compute the given feature on a dataframe containing events from a certain user
+    on a period of time.
+    The list of regularity and AIED features are respectively `regularity_features` and
+    `aied_features`.
+    """
+    if feat_func in regularity_features:
+        #The regularity features takes the week span of the events and the timestamps 
+        #each events as arguments
+        T = df['TimeStamp'].sort_values() - df['TimeStamp'].min() #Make timestamps start from 0
+        # Compute the length (in weeks) of the period covered by the df 
+        # by converting the max timestamp to week since the first timestamp is 0
+        Lw = T.max() // (3600 * 24 * 7) + 1 
+        return feat_func(Lw, T) #Compute the feature given in argument
+    elif feat_func in aied_features:
+        # The AIED features take the whole dataframe in argument
+        return feat_func(df)
+
+
+
+""" REGULARITY FEATURES """
 
 HOUR_TO_SECOND = 60 * 60
 DAY_TO_SECOND = 24 * HOUR_TO_SECOND
@@ -190,10 +219,283 @@ def SRQ(sid, problem_df):
     completion_df = getFirstCompletions(problem_df, sid)
     return np.diff(completion_df.TimeStamp.values).std() / 3600
 
-def compute_feature(feat_func, df):
-    """Compute the given feature (PDH, WS1, FDH, etc.) on the given dataframe."""
-    T = df['TimeStamp'].sort_values() - df['TimeStamp'].min() #Make timestamps start from 0
-    # Compute the length (in weeks) of the period covered by the df 
-    # by converting the max timestamp to week since the first timestamp is 0
-    Lw = T.max() // (3600 * 24 * 7) + 1 
-    return feat_func(Lw, T) #Compute the feature given in argument
+regularity_features = [PDH, PWD, WS1, WS2, WS3, FDH, FWD, FWH, NQZ, PQZ, IVQ, SRQ]
+
+
+""" AIED FEATURES """
+
+
+def total_views(df):
+    """ 
+    Counts the total of videos views (rewatch and interruption included)
+    Assumption: consider that a video is watched at most once per day
+    """
+    copy = df.copy()
+    copy['Day'] = df.Date.dt.date
+    #From the assumption the video view is a unique pair (video id, day)
+    return len(copy.drop_duplicates(subset=['VideoID','Day'])) 
+
+def week_video_total(year):
+    """
+    Returns a Series with week numbers as index and the number of videos to watch per week
+    """
+    with open('../config/linear_algebra.json') as f:
+        config = json.load(f)
+    year = str(year)
+    weekly_count = config[year]["WeeklyVideoCount"]
+    flipped_weeks = len(config[year]["FlippedWeeks"])
+    start_week = int(datetime.strptime(config[year]["StartFlipped"], '%Y-%m-%d').strftime("%V")) #Get the 1st week number
+    weeks = list(range(start_week, start_week + flipped_weeks))
+    return pd.DataFrame(index=weeks, data=weekly_count, columns=["Total"])
+
+def get_dated_videos():
+    PATH = '../data/lin_alg_moodle/video_with_durations.csv'
+    dated_videos = pd.read_csv(PATH, index_col=0)
+    dated_videos['Due_date'] = pd.to_datetime(dated_videos['Due_date']) #Convert String to datetime
+    dated_videos['Year'] = dated_videos.Due_date.dt.year #Add year column
+    return dated_videos
+
+def videos_watched_on_right_week(user_events):
+    dated_videos = get_dated_videos()
+    first_views = user_events.merge(dated_videos, on=['VideoID', 'Year'])
+    first_views['From_date'] = first_views.Due_date - timedelta(weeks=1)
+    return first_views[(first_views.Date >= first_views.From_date) & (first_views.Date <= first_views.Due_date)]
+
+def weekly_prop(user_events):
+    """Compute the ratio of video events in the dataframe over the videos assigned weekly the user_events
+    may only contained only the first viewings, only rewatched videos or only interrupted videos."""
+    first_views = videos_watched_on_right_week(user_events)
+    #Freq Weekly starting on Thursday since the last due date is on Thursday
+    weekly_count = first_views.groupby(pd.Grouper(key="Date", freq="W-THU")).size().to_frame(name="Count")
+    #Convert dates to week number
+    weekly_count.index = [int(week) for week in weekly_count.index.strftime("%V")]
+    #Number of assigned videos per week
+    weekly_total = week_video_total(user_events.Year.iloc[0])
+    #Merge and compute the ratio of watched
+    weekly_prop = weekly_total.merge(weekly_count, left_index=True, right_index=True, how='left')
+    weekly_prop['Count'] = weekly_prop.Count.fillna(0) #Set nan to 0
+    return np.clip((weekly_prop.Count / weekly_prop.Total).values,0,1)
+
+# Average and SD of the proportion of videos watched per week
+def weekly_prop_watched(user_events):
+    """Compute the proportion of videos watched (nb of videos watched / nb of videos assigned)"""
+    first_views = user_events.drop_duplicates(subset=["VideoID"]) #Only keep the first views per video
+    return weekly_prop(first_views)
+
+def avg_weekly_prop_watched(df): 
+    return weekly_prop_watched(df).mean()
+
+def std_weekly_prop_watched(df):
+    return weekly_prop_watched(df).std()
+
+# Average and SD of the proportion of videos replayed per week
+def weekly_prop_replayed(user_events):
+    """Compute the proportion of videos replayed (nb of videos replayed / nb of videos assigned)"""
+    # We assume that a student watches a video at most once per day (cannot have multiple replays in one day)
+    replayed_events = user_events.copy()
+    replayed_events['Day'] = replayed_events.Date.dt.date #Create column with the date but not the time
+    replayed_events.drop_duplicates(subset=['VideoID', 'Day'], inplace=True) #Only keep on event per video per day
+    replayed_events = replayed_events[replayed_events.duplicated(subset=['VideoID'])] # Keep the replayed videos
+    return weekly_prop(replayed_events)
+
+def avg_weekly_prop_replayed(df): 
+    return weekly_prop_replayed(df).mean()
+
+def std_weekly_prop_replayed(df):
+    return weekly_prop_replayed(df).std()
+
+def weekly_prop_interrupted(user_events):
+    STOP_EVENTS = ['Video.Pause', 'Video.Stop', 'Video.Load']
+    df = user_events.copy() #Sort in descreasing order
+    video_durations = get_dated_videos().drop_duplicates(subset=['VideoID'])[['VideoID', 'Duration']]
+    df = df.merge(video_durations)
+    df.sort_values(by="TimeStamp", inplace=True)
+    df['Diff'] = abs(df.TimeStamp.diff(-1))
+    df['NextVideoID'] = df.VideoID.shift(-1)
+    
+    df = df[(df.Duration - df.CurrentTime > 60)] #Remove events in the last minute
+    # Interruption when
+    #   * a break is too long
+    #   * a break (not in the last minute) is followed by an event in another video (the user left the video)
+    #   * an event occurs in another video before the end of the current video
+    break_too_long = (df.EventType.isin(STOP_EVENTS)) & (df.Diff > 3600)
+    break_then_other_video = (df.EventType.isin(STOP_EVENTS)) &  (df.VideoID != df.NextVideoID)
+    event_other_video = (df.VideoID != df.NextVideoID) & ((df.Duration - df.CurrentTime) > (df.Diff))
+    interrup_conditions = break_too_long | break_then_other_video | event_other_video
+    df = df[interrup_conditions]
+    return weekly_prop(df)
+
+def avg_weekly_prop_interrupted(df): 
+    return weekly_prop_interrupted(df).mean()
+
+def std_weekly_prop_interrupted(df):
+    return weekly_prop_interrupted(df).std()
+
+def total_actions(user_events):
+    """Counts the total number of actions performed across every videos"""
+    return len(user_events)
+
+def frequency_all_actions(user_events):
+    """Compute the frequency of actions performed per hour spent watching videos"""
+    user_events = user_events.copy()
+    user_events.loc[:,'Day'] = user_events.loc[:,'Date'].dt.date #Create column with the date but not the time
+    user_events.drop_duplicates(subset=['VideoID', 'Day'], inplace=True) #Only keep on event per video per day
+    durations = get_dated_videos()
+    user_events = user_events.merge(durations, on = ["VideoID", "Year"])
+    watching_time = user_events.Duration.sum() / 3600 # hours
+    return total_actions(user_events) / watching_time if watching_time != 0 else 0
+
+def count_actions(user_events, action):
+    """Count the total number of events with type `action`"""
+    if 'Backward' in action:
+        user_events = user_events[(user_events.EventType == 'Video.Seek') & 
+                                  (user_events.OldTime < user_events.NewTime)]
+    elif 'Forward' in action:
+        user_events = user_events[(user_events.EventType == 'Video.Seek') & 
+                                  (user_events.OldTime > user_events.NewTime)]
+    else:
+        user_events = user_events[user_events.EventType == action]        
+    return len(user_events)
+
+def freq_play(user_events):
+    return count_actions(user_events,'Video.Play') / total_actions(user_events)
+
+def freq_pause(user_events):
+    return count_actions(user_events,'Video.Pause') / total_actions(user_events)
+
+def freq_seek_backward(user_events):
+    return count_actions(user_events,'Video.SeekBackward') / total_actions(user_events)
+
+def freq_seek_forward(user_events):
+    return count_actions(user_events,'Video.SeekForward') / total_actions(user_events)
+
+def freq_speed_change(user_events):
+    return count_actions(user_events,'Video.SpeedChange') / total_actions(user_events)
+
+def freq_stop(user_events):
+    return count_actions(user_events,'Video.Stop') / total_actions(user_events)
+
+def pause_duration(user_events, max_duration=500):
+    """Compute the time interval between each pause event and the next play event`
+    Only pause durataions smaller than `max_duration` are taken into account. 
+    Default threshold to 10 min"""
+    
+    pause_events = user_events[user_events.EventType.isin(["Video.Pause", "Video.Play"])].copy()
+    pause_events = pause_events.sort_values(by="TimeStamp")
+    pause_events['PrevEvent'] = pause_events['EventType'].shift(1)
+    pause_events['Diff'] = pause_events.TimeStamp.diff().dropna()
+    pause_events = pause_events[pause_events.PrevEvent == 'Video.Pause']
+    nb_pause = len(pause_events)
+    pause_events = pause_events[pause_events.Diff < max_duration]
+    return pause_events.Diff.values, len(pause_events.Diff.values) / nb_pause
+
+def avg_pause_duration(user_events):
+    return pause_duration(user_events)[0].mean()
+
+def std_pause_duration(user_events):
+    return pause_duration(user_events)[0].std()
+
+def seek_length(user_events):
+    user_events = user_events[user_events.EventType == 'Video.Seek']
+    return abs(user_events.OldTime - user_events.NewTime).values
+
+def avg_seek_length(user_events):
+    return seek_length(user_events).mean()
+
+def std_seek_length(user_events):
+    return seek_length(user_events).std()
+
+def compute_speedchange_current_time(user_events):
+    """Compute the CurrentTime of the SpeedChange event as it is not logged in the db
+    For that we find the closest event (in the same video and day) with a non null CurrentTime
+    Then we compute the SpeedChange CurrentTime with the delta time between the 2 events"""
+
+    #Keep only SpeedChange events and events with non null CurrentTime
+    df = user_events[(user_events.EventType == 'Video.SpeedChange') | (~user_events.CurrentTime.isna())]
+    #Compute the deltatime between the previous events
+    df = df.sort_values(by="TimeStamp", ascending=True)
+    df['NextDiff'] = abs(df.TimeStamp.diff())
+    df['PrevDiff'] = abs(df.TimeStamp.diff(-1))
+
+    ### Define the closest event information: VideoID, TimeStamp and CurrentTime ###
+    df['NextVideoID'] = df.VideoID.shift()
+    df['NextTimeStamp'] = df.TimeStamp.shift()
+    df['NextCurrentTime'] = df.CurrentTime.shift()
+    df['PrevVideoID'] = df.VideoID.shift(-1)
+    df['PrevTimeStamp'] = df.TimeStamp.shift(-1)
+    df['PrevCurrentTime'] = df.CurrentTime.shift(-1)
+
+    df['ClosestVideoID'] = np.nan
+    df['ClosestTimeStamp'] = np.nan
+    df['ClosestCurrentTime'] = np.nan
+    #If the next event is the closest
+    df.loc[df.NextDiff <= df.PrevDiff, 'ClosestVideoID'] = df[df.NextDiff <= df.PrevDiff].NextVideoID
+    df.loc[df.NextDiff <= df.PrevDiff, 'ClosestTimeStamp'] = df[df.NextDiff <= df.PrevDiff].NextTimeStamp
+    df.loc[df.NextDiff <= df.PrevDiff, 'ClosestCurrentTime'] = df[df.NextDiff <= df.PrevDiff].NextCurrentTime
+    #If the previous event is the closest
+    df.loc[df.NextDiff > df.PrevDiff, 'ClosestVideoID'] = df[df.NextDiff > df.PrevDiff].PrevVideoID
+    df.loc[df.NextDiff > df.PrevDiff, 'ClosestTimeStamp'] = df[df.NextDiff > df.PrevDiff].PrevTimeStamp
+    df.loc[df.NextDiff > df.PrevDiff, 'ClosestCurrentTime'] = df[df.NextDiff > df.PrevDiff].PrevCurrentTime
+
+    #Filter the SpeedChange events
+    df = df[(df.EventType == 'Video.SpeedChange') & (df.VideoID == df.ClosestVideoID) &
+               (~df.ClosestCurrentTime.isna())]
+    df.drop(columns=['NextDiff', 'NextVideoID','NextTimeStamp',"NextCurrentTime",'PrevDiff', "PrevVideoID", 
+                       "PrevTimeStamp", "PrevCurrentTime", "ClosestVideoID", 'SeekType', 'OldTime',
+                       'NewTime', 'AccountUserID', 'Date', 'Year'],inplace=True)
+    df['CurrentTime'] = df.ClosestCurrentTime + abs(df.TimeStamp - df.ClosestTimeStamp)
+
+    #Duration are the same through the year, we can simply keep the first VideoID
+    video_durations = get_dated_videos().drop_duplicates(subset=['VideoID']) 
+    df = df.merge(video_durations, on=['VideoID'])
+    df = df[df.CurrentTime < df.Duration]
+    
+    df.drop(columns=['ClosestTimeStamp', 'ClosestCurrentTime', 'Chapter', 'Subchapter', 'Source', 
+                   'Due_date', 'Year'],inplace=True)
+    return df
+
+def compute_time_speeding_up(user_events):
+    """Compute the time spent with a high spedd (> 1) for each video"""
+    df = user_events.copy()
+    sc = compute_speedchange_current_time(user_events)[['TimeStamp', 'EventType', 'CurrentTime']]
+    df = df.merge(sc, on=['TimeStamp', 'EventType'], how='left')
+    df['CurrentTime'] = np.where(df.CurrentTime_y.isna(), df.CurrentTime_x, df.CurrentTime_y)
+    df.drop(columns=['CurrentTime_x', 'CurrentTime_y'], inplace=True)
+    df = df.sort_values(by='TimeStamp')
+
+    def label_speed(row, speed):
+        newSpeed = speed['value'] if np.isnan(row) else row
+        speed['value'] = newSpeed
+        return newSpeed
+
+    speed = {"value": 1} # Create a mutable object instead of a simple integer in order to modify its value in the label_speed function
+    df['Speed'] = df.NewSpeed.apply(lambda row: label_speed(row, speed))
+    df['NextVideoID'] = df.VideoID.shift(-1)
+
+    video_durations = get_dated_videos().drop_duplicates(subset=['VideoID'])[['VideoID', 'Duration']]
+    df = df.merge(video_durations)
+
+    df['SpeedUpTime'] = abs(df.TimeStamp.diff(-1))
+
+    #If the SpeedUpTime is Nan (last elem of DataFrame) or if the next events is in another video
+    #then the time speeding up is until the end of the video
+    conditions = (df.SpeedUpTime.isna()) | (df.VideoID != df.NextVideoID)
+    df['SpeedUpTime'] = np.where(conditions, df.Duration - df.CurrentTime, df.SpeedUpTime)
+
+    #When the speed is switched back to normal or slower then we stop counting
+    conditions = (df.Speed <= 1) | (df.EventType.isin(['Video.Stop', 'Video.Pause'])) | \
+                (df.SpeedUpTime > 3600)
+    df['SpeedUpTime'] = np.where(conditions, 0, df.SpeedUpTime)
+    return df.groupby('VideoID').SpeedUpTime.sum().values
+
+def avg_time_speeding_up(user_events):
+    return compute_time_speeding_up(user_events).mean()
+
+def std_time_speeding_up(user_events):
+    return compute_time_speeding_up(user_events).std()
+
+aied_features = [total_views, avg_weekly_prop_watched, std_weekly_prop_watched, avg_weekly_prop_replayed,
+    std_weekly_prop_replayed, avg_weekly_prop_interrupted, std_weekly_prop_interrupted, total_actions,
+    frequency_all_actions, freq_play, freq_pause, freq_seek_backward, freq_seek_forward, freq_speed_change,
+    freq_stop, avg_pause_duration, std_pause_duration, avg_seek_length, std_seek_length, avg_time_speeding_up,
+    std_time_speeding_up]

@@ -238,10 +238,10 @@ def getFlippedGrades(include_repeaters=True):
     return userID_df
 
 def getControlGrades(include_repeaters=True):
-    sciper_df = getGrades(flipped=False) # Get the grades by SCIPER
+    grades_df = getGrades(flipped=False) # Get the grades by SCIPER
     conditions_df = getStudentCondition(flipped=False) # Get the Control group list of SCIPER
     # Keep only Control students
-    sciper_df = sciper_df.merge(conditions_df, left_on='StudentSCIPER', right_on="SCIPER")
+    sciper_df = grades_df.merge(conditions_df, left_on='StudentSCIPER', right_on="SCIPER")
     # Label the student taking the course for the second time
     sciper_df = labelRepeaters(sciper_df)
     if not include_repeaters:

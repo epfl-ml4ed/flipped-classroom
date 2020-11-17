@@ -1,4 +1,5 @@
 from datetime import date
+from tqdm import tqdm
 import pandas as pd
 import numpy as np
 import json
@@ -12,9 +13,9 @@ def getRepeatingStudentsIDs(df):
             repentants.append(s)
     return repentants
 
-def getUnactiveStudentsIDs(df):
+def getUnactiveStudentsIDs(df, threshold=60):
     vid_cnt = df[['AccountUserID', 'VideoID']].drop_duplicates().groupby('AccountUserID').count().reset_index().rename(columns={'VideoID': 'Count'})
-    return list(vid_cnt[vid_cnt['Count'] <= 60]['Count'].values)
+    return list(vid_cnt[vid_cnt['Count'] <= threshold]['AccountUserID'].values)
 
 def getStudentTimeStamps(df, id):
     with open('../config/linear_algebra.json') as f:
