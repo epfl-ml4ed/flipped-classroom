@@ -62,7 +62,7 @@ def getVideoEventsInfo():
     already with only students present in UserInfo
     """
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'','\'EPFL-AlgebreLineaire-2019\'']
-    columns = ['AccountUserID', 'EventType', 'TimeStamp', "VideoID", "DataPackageID"]
+    columns = ['AccountUserID', 'EventType', 'TimeStamp', 'VideoID', 'EventID', 'DataPackageID']
     query = """ SELECT {} FROM ca_courseware.Video_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     events_df = queryDB(query, columns) # Raw video events
     info_df = getVideoInfo()
@@ -121,7 +121,7 @@ def getProblemEventsInfo():
     already with only students present in UserInfo
     """
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'','\'EPFL-AlgebreLineaire-2019\'']
-    columns = ['AccountUserID', 'ProblemID', 'EventType', 'TimeStamp', 'ProblemType', "MaximumSubmissions"]
+    columns = ['AccountUserID', 'ProblemID', 'EventID', 'EventType', 'TimeStamp', 'ProblemType', "MaximumSubmissions"]
     query = """ SELECT {} FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     events_df = queryDB(query, columns)
     user_df = getUserInfo()
@@ -210,7 +210,7 @@ def getMapping():
 
 
 def getStudentCondition(flipped=True, id_anon=False):
-    CONDITION_MAPPING_PATH = '../data/lin_alg_moodle/student-conditions.csv'
+    CONDITION_MAPPING_PATH = '../data/lin_alg_moodle/Volunteer-Flipped-Proj-UPD.csv'
     conditions_df = pd.read_csv(CONDITION_MAPPING_PATH, index_col=0)
     # Return either the flipped or the control group
     conditions_df = conditions_df.loc[conditions_df.Condition == ("Flipped" if flipped else "Control")]

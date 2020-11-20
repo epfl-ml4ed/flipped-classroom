@@ -1,6 +1,5 @@
-## Mining Interactions for Student Success Prediction in Flipped Classrooms
+## Mining interactions for early success prediction in flipped classrooms
 [![GitHub version](https://badge.fury.io/gh/boennemann%2Fbadges.svg)](http://badge.fury.io/gh/boennemann%2Fbadges)
-[![Dependency Status](https://david-dm.org/boennemann/badges.svg)](https://david-dm.org/boennemann/badges)
 [![Open Source Love](https://badges.frapsoft.com/os/gpl/gpl.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 
 Increasingly adopted over the years, **flipped classrooms** represent a learning design that requires students to complete pre-class learning activities before participating in face-to-face sessions. For pre-class activities, this design often makes use of **videos** and **digital content** published in online platforms. The **students’ engagement** in pre-class activities is essential for the success of flipped classrooms, as these activities prepare students for effective participation in face-to-face sessions.
@@ -38,7 +37,7 @@ pip install -r requirements.txt
 ## Folder Structure
 
 ``` 
-FlippedClassroom
+flipped-classroom
 ├── config
 ├── data
 │   ├── lin_alg_moodle

@@ -4,6 +4,6 @@ notebooks/.ipynb_checkpoints/*
 Papers
 __pycache__/
 *.pyc
-data/
+data/*
 .vscode/
 Ethics/
