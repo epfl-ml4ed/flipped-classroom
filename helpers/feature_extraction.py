@@ -9,29 +9,41 @@ from datetime import datetime, timedelta
 
 """ WRAPPER FUNCTION"""
 
-def compute_feature(feat_func, df):
-    """
-    Compute the given feature on a dataframe containing events from a certain user
-    on a period of time.
-    The list of regularity and AIED features are respectively `regularity_features` and
-    `aied_features`.
-    """
-    if feat_func in regularity_features:
-        #The regularity features takes the week span of the events and the timestamps 
-        #each events as arguments
-        T = df['TimeStamp'].sort_values() - df['TimeStamp'].min() #Make timestamps start from 0
-        # Compute the length (in weeks) of the period covered by the df 
-        # by converting the max timestamp to week since the first timestamp is 0
-        Lw = T.max() // (3600 * 24 * 7) + 1 
-        return feat_func(Lw, T) #Compute the feature given in argument
-    elif feat_func in aied_features:
-        # The AIED features take the whole dataframe in argument
-        return feat_func(df)
-    else:
-        raise ValueError('Unknow feature function:', feat_func)
+# def compute_feature(feat_func, df):
+#     """
+#     Compute the given feature on a dataframe containing events from a certain user
+#     on a period of time.
+#     The list of regularity and AIED features are respectively `regularity_features` and
+#     `aied_features`.
+#     """ 
+#     if feat_func in regularity_features:
+#         if feat_func in [NQZ, PQZ]:
+#             return feat_func(df)
+#         else:
+#             #The regularity features takes the week span of the events and the timestamps 
+#             #each events as arguments
+#             T = df['TimeStamp'].sort_values() - df['TimeStamp'].min() #Make timestamps start from 0
+#             # Compute the length (in weeks) of the period covered by the df 
+#             # by converting the max timestamp to week since the first timestamp is 0
+#             Lw = T.max() // (3600 * 24 * 7) + 1 
+#             return feat_func(Lw, T) #Compute the feature given in argument
+#     elif feat_func in aied_features:
+#         # The AIED features take the whole dataframe in argument
+#         return feat_func(df)
+#     else:
+#         raise ValueError('Unknow feature function:', feat_func)
 
 
 """ REGULARITY FEATURES """
+
+def df_to_params(df):
+    #The regularity features takes the week span of the events and the timestamps 
+    #each events as arguments
+    T = df['TimeStamp'].sort_values().values - df['TimeStamp'].min() #Make timestamps start from 0
+    # Compute the length (in weeks) of the period covered by the df 
+    # by converting the max timestamp to week since the first timestamp is 0
+    Lw = T.max() // (3600 * 24 * 7) + 1 
+    return Lw, T
 
 HOUR_TO_SECOND = 60 * 60
 DAY_TO_SECOND = 24 * HOUR_TO_SECOND
@@ -71,13 +83,16 @@ def dayActivityByWeek(Lw, T):
              days[w,d] = activity_at_day(w,d)
     return days
 
-def PDH(Lw, T):
+def PDH(df):
+    Lw, T = df_to_params(df)
     activity = np.array(dailyActivity(Lw * 7, T))
     normalized_activity = activity / np.sum(activity) if np.sum(activity) else activity
     entropy = scipy.special.entr(normalized_activity).sum()
+    # print(T)
     return (np.log2(24) - entropy) * np.max(activity)
 
-def PWD(Lw, T):
+def PWD(df):
+    Lw, T = df_to_params(df)
     activity = np.array(weeklyActivity(Lw, T))
     normalized_activity = activity / np.sum(activity) if np.sum(activity) else activity
     entropy = scipy.special.entr(normalized_activity).sum()
@@ -99,7 +114,8 @@ def similarityDays(wi, wj):
         return 0
     return len(np.intersect1d(m1, m2)) / max(len(m1), len(m2))
 
-def WS1(Lw, T):
+def WS1(df):
+    Lw, T = df_to_params(df)
     hist = np.array([studentActivity(DAY_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(DAY_TO_SECOND))]).reshape([Lw, 7])
     return np.mean([similarityDays(hist[i], hist[j]) for i in range(Lw) for j in range(i + 1, Lw)])
 
@@ -107,7 +123,8 @@ def activityProfile(Lw, T):
     X =  np.array([studentActivity(HOUR_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(HOUR_TO_SECOND))]).reshape([Lw, 7*24])
     return [week.reshape([7, 24]).sum(axis=1) for week in X]
 
-def WS2(Lw, T):
+def WS2(df):
+    Lw, T = df_to_params(df)
     profile = activityProfile(Lw, T)
     res = []
     for i in range(Lw):
@@ -118,7 +135,8 @@ def WS2(Lw, T):
     res = np.clip(np.nan_to_num(res), 0, 1) #Bound values between 0 and 1
     return np.mean(res)
 
-def WS3(Lw, T):
+def WS3(df):
+    Lw, T = df_to_params(df)
     profile = activityProfile(Lw, T)
     hist = np.array([studentActivity(DAY_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(DAY_TO_SECOND))]).reshape([Lw, 7])
     res = []
@@ -134,59 +152,61 @@ def fourierTransform(Xi, f, n):
     M = np.exp(-2j * np.pi * f * n)
     return np.dot(M, Xi)
 
-def FDH(Lw, T, f = 1/24):
+def FDH(df, f=1/24):
+    Lw, T = df_to_params(df)
     Xi =  np.array([studentActivity(HOUR_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(HOUR_TO_SECOND))])
     n = np.arange((Lw * 7 * 24 * 60 * 60) // (60 * 60))
     return abs(fourierTransform(Xi, f, n))
 
-def FWH(Lw, T, f=1/(7*24)):
+def FWH(df, f=1/(7*24)):
+    Lw, T = df_to_params(df)
     Xi =  np.array([studentActivity(HOUR_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(HOUR_TO_SECOND))])
     n = np.arange((Lw * 7 * 24 * 60 * 60) // (60 * 60))
     return abs(fourierTransform(Xi, f, n))
 
-def FWD(Lw, T, f=1/7):
+def FWD(df, f=1/7):
+    Lw, T = df_to_params(df)
     Xi =  np.array([studentActivity(DAY_TO_SECOND, T, x_i) for x_i in range((Lw*WEEK_TO_SECOND)//(DAY_TO_SECOND))])
     n = np.arange((Lw * 7 * 24 * 60 * 60) // (24 * 60 * 60))
     return abs(fourierTransform(Xi, f, n))
 
-def NQZ(df, id):
+def NQZ(df):
     """
-    Number of quiz completed over the flipped period
-    Columns required: AccountUserID, ProblemID
+    Number of quiz completed over the semester
+    Columns required: ProblemID
     """
-    no_problems_per_student = df[['AccountUserID','ProblemID']].groupby('AccountUserID').count()
-    return no_problems_per_student.loc[str(id)][0] if str(id) in no_problems_per_student.index else 0.0
+    return df.ProblemID.nunique()
 
-def PQZ(df, id):
+def PQZ(df):
     """
     Proportion of quiz completed over the flipped period
-    Columns required: AccountUserID, Year
+    Column required: ProblemID, Year
     """
-    no_problems_per_year = df.groupby(by=["AccountUserID", "Year"]).count()
-    if str(id) not in no_problems_per_year.index:
+    if len(df) == 0:
         return 0.0
-    temp = no_problems_per_year.loc[str(id)].reset_index().iloc[0]
+    no_problems_per_year = df.groupby(by=["Year"]).count()
+    temp = no_problems_per_year.reset_index()[['Year','ProblemID']].iloc[0]
     return temp[1] / getTotalProblemsFlippedPeriod(temp[0])
 
-def getFirstViewings(video_df, sid):
+def getFirstViewings(video_df):
     """
     Filter the video events so that the returned dataframe only contains
     the first play event of each different videos viewed by the student with id studentID.
     Columns required: AccountUserID, VideoID, EventType, TimeStamp, Year
     """
-    return video_df.loc[(video_df["AccountUserID"] == str(sid)) & (video_df.EventType == "Video.Play")]\
+    return video_df.loc[video_df.EventType == "Video.Play"]\
             .sort_values(by="TimeStamp").drop_duplicates(subset=["VideoID"], keep="first")\
-            [["AccountUserID", "VideoID", "Year", "TimeStamp"]]
+            [["AccountUserID", "VideoID", "Year", "TimeStamp", "Subchapter"]]
 
-def getFirstCompletions(problem_df, sid):
+def getFirstCompletions(problem_df):
     """
     Filter the problem (=quiz) events so that the returned dataframe only contains
     the first completion of each different quizzes done by studentID
     Columns required: AccountUserID, ProblemID, EventType, TimeStamp
     """
-    return problem_df.loc[(problem_df["AccountUserID"] == str(sid)) & (problem_df.EventType == "Problem.Check")]\
+    return problem_df.loc[problem_df.EventType == "Problem.Check"]\
             .sort_values(by="TimeStamp").drop_duplicates(subset=["ProblemID"], keep="first")\
-            [["ProblemID", "TimeStamp"]]
+            [["ProblemID", "TimeStamp", "Subchapter"]]
 
 def mergeOnSubchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df):
     """
@@ -213,7 +233,7 @@ def IQR(data):
     iqr = q3 - q1
     return iqr
 
-def IVQ(sid, video_df, problem_df, dated_videos_df, dated_problems_df):
+def IVQ(video_df, problem_df):
     """
     For every completed quiz, compute the time intervals (minutes)
     between the first viewing of the video and the quiz completion
@@ -221,25 +241,28 @@ def IVQ(sid, video_df, problem_df, dated_videos_df, dated_problems_df):
     video_df columns required: AccountUserID, VideoID, EventType, TimeStamp, Year
     problem_df columns required: AccountUserID, ProblemID, EventType, TimeStamp
     dated_videos_df columns required: VideoID, Subchapter
-    dated_problem_df columns required: ProblemID, Subchapter
+    dated_problem_df columns required: ProblemID, Subchapter 
     """
-    viewing_df = getFirstViewings(video_df, sid)
-    completion_df = getFirstCompletions(problem_df, sid)
-    merged_df = mergeOnSubchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df)
+    viewing_df = getFirstViewings(video_df).rename(columns={'TimeStamp':'TimeStamp_Video'})
+    completion_df = getFirstCompletions(problem_df).rename(columns={'TimeStamp':'TimeStamp_Quiz'})
+    print("View",len(viewing_df))
+    merged_df = viewing_df.merge(completion_df, on=['Subchapter'])
+    print("Merge", len(merged_df))
+    # merged_df = mergeOnSubchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df)
     time_intervals = np.array(merged_df.TimeStamp_Quiz - merged_df.TimeStamp_Video)
     time_intervals = np.log(time_intervals[time_intervals > 0]) #log scale because of extreme values
     return IQR(time_intervals)
 
-def SRQ(sid, problem_df):
+def SRQ(problem_df):
     """
     Measures the repartition of the quiz completions. The std (in hours) of the time intervals is computed
     aswell as the dates of completions. The smaller the std is, the more regular the student is.
     Columns required: AccountUserID, ProblemID, EventType, TimeStamp
     """
-    completion_df = getFirstCompletions(problem_df, sid)
+    completion_df = getFirstCompletions(problem_df)
     return np.diff(completion_df.TimeStamp.values).std() / 3600
 
-regularity_features = [PDH, PWD, WS1, WS2, WS3, FDH, FWD, FWH]#], NQZ, PQZ, IVQ, SRQ]
+regularity_features = [PDH, PWD, WS1, WS2, WS3, FDH, FWD, FWH, NQZ, PQZ] #, IVQ, SRQ]
 
 
 """ AIED FEATURES """
@@ -332,9 +355,6 @@ def std_weekly_prop_replayed(df):
 def weekly_prop_interrupted(user_events):
     STOP_EVENTS = ['Video.Pause', 'Video.Stop', 'Video.Load']
     df = user_events.copy() #Sort in descreasing order
-    # Not useful while using getVideoEventsWithInfo
-    # video_durations = get_dated_videos().drop_duplicates(subset=['VideoID'])[['VideoID', 'Duration']]
-    # df = df.merge(video_durations)
     df.sort_values(by="TimeStamp", inplace=True)
     df['Diff'] = abs(df.TimeStamp.diff(-1))
     df['NextVideoID'] = df.VideoID.shift(-1)
@@ -366,9 +386,6 @@ def frequency_all_actions(user_events):
     user_events = user_events.copy()
     user_events.loc[:,'Day'] = user_events.loc[:,'Date'].dt.date #Create column with the date but not the time
     user_events.drop_duplicates(subset=['VideoID', 'Day'], inplace=True) #Only keep on event per video per day
-    # Not useful while using getVideoEventsWithInfo
-    # durations = get_dated_videos()
-    # user_events = user_events.merge(durations, on = ["VideoID", "Year"])
     watching_time = user_events.Duration.sum() / 3600 # hours
     return total_actions(user_events) / watching_time if watching_time != 0 else 0
 
@@ -439,7 +456,6 @@ def compute_speedchange_current_time(user_events):
     Then we compute the SpeedChange CurrentTime with the delta time between the 2 events
     Columns required: VideoID, Timestamp, EventType, CurrentTime, Duration
     """
-
     #Keep only SpeedChange events and events with non null CurrentTime
     df = user_events[(user_events.EventType == 'Video.SpeedChange') | (~user_events.CurrentTime.isna())]
     #Compute the deltatime between the previous events
@@ -470,20 +486,9 @@ def compute_speedchange_current_time(user_events):
     #Filter the SpeedChange events
     df = df[(df.EventType == 'Video.SpeedChange') & (df.VideoID == df.ClosestVideoID) &
                (~df.ClosestCurrentTime.isna())]
-    # df.drop(columns=['NextDiff', 'NextVideoID','NextTimeStamp',"NextCurrentTime",'PrevDiff', "PrevVideoID", 
-    #                    "PrevTimeStamp", "PrevCurrentTime", "ClosestVideoID", 'SeekType', 'OldTime',
-    #                    'NewTime', 'AccountUserID', 'Date', 'Year'],inplace=True)
     df['CurrentTime'] = df.ClosestCurrentTime + abs(df.TimeStamp - df.ClosestTimeStamp)
 
-    #Not useful while using getVideoEventsWithInfo
-    #Duration are the same through the year, we can simply keep the first VideoID
-    # video_durations = get_dated_videos().drop_duplicates(subset=['VideoID']) 
-    # df = df.merge(video_durations, on=['VideoID'])
     df = df[df.CurrentTime < df.Duration]
-    
-    # df.drop(columns=['ClosestTimeStamp', 'ClosestCurrentTime', 'Subchapter', 'Source'],inplace=True)
-    # df.drop(columns=['ClosestTimeStamp', 'ClosestCurrentTime', 'Chapter', 'Subchapter', 'Source', 
-    #                'Due_date', 'Year'],inplace=True)
     return df
 
 def compute_time_speeding_up(user_events):
@@ -503,14 +508,11 @@ def compute_time_speeding_up(user_events):
         speed['value'] = newSpeed
         return newSpeed
 
-    speed = {"value": 1} # Create a mutable object instead of a simple integer in order to modify its value in the label_speed function
+    # Create a mutable object instead of a simple integer in order to modify 
+    # its value in the label_speed function
+    speed = {"value": 1}
     df['Speed'] = df.NewSpeed.apply(lambda row: label_speed(row, speed))
     df['NextVideoID'] = df.VideoID.shift(-1)
-
-    # Not useful while using getVideoEventsWithInfo
-    # video_durations = get_dated_videos().drop_duplicates(subset=['VideoID'])[['VideoID', 'Duration']]
-    # df = df.merge(video_durations)
-
     df['SpeedUpTime'] = abs(df.TimeStamp.diff(-1))
 
     #If the SpeedUpTime is Nan (last elem of DataFrame) or if the next events is in another video

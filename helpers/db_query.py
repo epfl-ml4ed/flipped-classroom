@@ -138,7 +138,8 @@ def getTotalProblemsFlippedPeriod(year):
         config = json.load(f)
     start_flipped = time.mktime(dateutil.parser.parse(config[str(year)]['StartFlipped']).timetuple())
     end_flipped = start_flipped + timedelta(weeks=len(config[str(year)]['FlippedWeeks'])).total_seconds()
-    query = """SELECT COUNT(DISTINCT ProblemID) FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) AND TimeStamp > {}  AND TimeStamp < {} """.format(", ".join(course_names), start_flipped, end_flipped)
+    query = """SELECT COUNT(DISTINCT ProblemID) FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID 
+    in ({}) AND TimeStamp > {}  AND TimeStamp < {} """.format(", ".join(course_names), start_flipped, end_flipped)
     return queryDB(query, ['NbProblems']).loc[0]['NbProblems']
 
 def getProblemFirstEvents(isa_only=True):
@@ -266,7 +267,6 @@ def getPriorKnowledge(columns = ['ID.Anon', 'Category', "Gender"]):
     PATHS = [FOLDER + "Year{}-Normalized-Score.csv".format(year) for year in range(1,4)]
     year1, year2, year3 = [pd.read_csv(year, index_col=0)[columns] for year in PATHS]
     return pd.concat([year1, year2, year3])
-
 
 def getVideoChapters():
     PATH = '../data/lin_alg_moodle/video_with_durations.csv'
