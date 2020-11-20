@@ -1,5 +1,5 @@
 from extractors.extractor import Extractor
-
+import numpy as np
 '''
 Lallé, S., & Conati, C. (2020, July). A Data-Driven Student Model to Provide Adaptive Support During Video Watching Across MOOCs.
 In International Conference on Artificial Intelligence in Education (pp. 282-295). Springer, Cham.
@@ -14,7 +14,7 @@ class LalleConati(Extractor):
         return 21
     
     def getUserFeatures(self, udata):
-        return [self.totalViews(udata),
+        features = [self.totalViews(udata),
                 self.avgWeeklyPropWatched(udata),
                 self.stdWeeklyPropWatched(udata),
                 self.avgWeeklyPropReplayed(udata),
@@ -35,3 +35,7 @@ class LalleConati(Extractor):
                 self.stdSeekLength(udata),
                 self.avgTimeSpeeding_up(udata),
                 self.stdTimeSpeedingUp(udata)]
+
+        if len(features) != self.getNbFeatures():
+            raise Exception(f"getNbFeatures is not up-to-date: {len(features)} != {self.getNbFeatures()}")
+        return list(np.nan_to_num(features)) #Set nan to 0

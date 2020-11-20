@@ -11,7 +11,8 @@ class Extractor():
     #### Lemay Doleck ####
     def totalEvents(self, udata, event_type, unique=False):
         """
-        Counts the 
+        Counts the number of events of the specified type.
+        Columns required: EventType, VideoID
         """
         edata = udata[udata['EventType'] == event_type]
         return len(edata) if not unique else len(edata.drop_duplicates(subset=['VideoID'], keep='first'))
@@ -276,10 +277,8 @@ class Extractor():
         For every completed quiz, compute the time intervals (minutes)
         between the first viewing of the video and the quiz completion
         and return the interquartile range of the time intervals
-        video_events columns required: AccountUserID, VideoID, EventType, TimeStamp, 
-                                       Year, Subchapter
-        problem_events columns required: AccountUserID, ProblemID, EventType, TimeStamp, 
-                                       Year, Subchapter
+        video_events columns required: VideoID, EventType, TimeStamp, Subchapter
+        problem_events columns required: ProblemID, EventType, TimeStamp, Subchapter
         """
         return IVQ(video_events, problem_events)
 

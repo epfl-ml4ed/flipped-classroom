@@ -6,34 +6,6 @@ import pandas as pd
 import json
 from datetime import datetime, timedelta
 
-
-""" WRAPPER FUNCTION"""
-
-# def compute_feature(feat_func, df):
-#     """
-#     Compute the given feature on a dataframe containing events from a certain user
-#     on a period of time.
-#     The list of regularity and AIED features are respectively `regularity_features` and
-#     `aied_features`.
-#     """ 
-#     if feat_func in regularity_features:
-#         if feat_func in [NQZ, PQZ]:
-#             return feat_func(df)
-#         else:
-#             #The regularity features takes the week span of the events and the timestamps 
-#             #each events as arguments
-#             T = df['TimeStamp'].sort_values() - df['TimeStamp'].min() #Make timestamps start from 0
-#             # Compute the length (in weeks) of the period covered by the df 
-#             # by converting the max timestamp to week since the first timestamp is 0
-#             Lw = T.max() // (3600 * 24 * 7) + 1 
-#             return feat_func(Lw, T) #Compute the feature given in argument
-#     elif feat_func in aied_features:
-#         # The AIED features take the whole dataframe in argument
-#         return feat_func(df)
-#     else:
-#         raise ValueError('Unknow feature function:', feat_func)
-
-
 """ REGULARITY FEATURES """
 
 def df_to_params(df):
@@ -192,11 +164,11 @@ def getFirstViewings(video_df):
     """
     Filter the video events so that the returned dataframe only contains
     the first play event of each different videos viewed by the student with id studentID.
-    Columns required: AccountUserID, VideoID, EventType, TimeStamp, Year
+    Columns required: AccountUserID, VideoID, EventType, TimeStamp
     """
     return video_df.loc[video_df.EventType == "Video.Play"]\
             .sort_values(by="TimeStamp").drop_duplicates(subset=["VideoID"], keep="first")\
-            [["AccountUserID", "VideoID", "Year", "TimeStamp", "Subchapter"]]
+            [["AccountUserID", "VideoID", "TimeStamp", "Subchapter"]]
 
 def getFirstCompletions(problem_df):
     """
@@ -207,21 +179,6 @@ def getFirstCompletions(problem_df):
     return problem_df.loc[problem_df.EventType == "Problem.Check"]\
             .sort_values(by="TimeStamp").drop_duplicates(subset=["ProblemID"], keep="first")\
             [["ProblemID", "TimeStamp", "Subchapter"]]
-
-def mergeOnSubchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df):
-    """
-    Merge the video viewings with the quiz completion for a student.
-    viewing_df columns required: VideoID, TimeStamp
-    completion_df columns required: ProblemID, TimeStamp
-    dated_videos_df columns required: VideoID, Subchapter
-    dated_problem_df columns required: ProblemID, Subchapter
-    """
-    
-    return viewing_df.merge(dated_videos_df[["VideoID", "Subchapter"]])\
-            .merge(dated_problems_df[["ProblemID", "Subchapter"]])\
-            .rename(columns={"TimeStamp":"TimeStamp_Video"})\
-            .merge(completion_df)\
-            .rename(columns={"TimeStamp":"TimeStamp_Quiz"})
 
 def IQR(data):
     """
@@ -238,19 +195,16 @@ def IVQ(video_df, problem_df):
     For every completed quiz, compute the time intervals (minutes)
     between the first viewing of the video and the quiz completion
     and return the interquartile range of the time intervals.
-    video_df columns required: AccountUserID, VideoID, EventType, TimeStamp, Year
-    problem_df columns required: AccountUserID, ProblemID, EventType, TimeStamp
-    dated_videos_df columns required: VideoID, Subchapter
-    dated_problem_df columns required: ProblemID, Subchapter 
+    video_df columns required: AccountUserID, VideoID, EventType, TimeStamp, Subchapter
+    problem_df columns required: AccountUserID, ProblemID, EventType, TimeStamp, Subchapter
     """
     viewing_df = getFirstViewings(video_df).rename(columns={'TimeStamp':'TimeStamp_Video'})
     completion_df = getFirstCompletions(problem_df).rename(columns={'TimeStamp':'TimeStamp_Quiz'})
-    print("View",len(viewing_df))
     merged_df = viewing_df.merge(completion_df, on=['Subchapter'])
-    print("Merge", len(merged_df))
-    # merged_df = mergeOnSubchapter(viewing_df, completion_df, dated_videos_df, dated_problems_df)
     time_intervals = np.array(merged_df.TimeStamp_Quiz - merged_df.TimeStamp_Video)
     time_intervals = np.log(time_intervals[time_intervals > 0]) #log scale because of extreme values
+    if len(time_intervals) == 0:
+        return 0
     return IQR(time_intervals)
 
 def SRQ(problem_df):
@@ -260,9 +214,9 @@ def SRQ(problem_df):
     Columns required: AccountUserID, ProblemID, EventType, TimeStamp
     """
     completion_df = getFirstCompletions(problem_df)
-    return np.diff(completion_df.TimeStamp.values).std() / 3600
+    return np.nan_to_num(np.diff(completion_df.TimeStamp.values).std() / 3600)
 
-regularity_features = [PDH, PWD, WS1, WS2, WS3, FDH, FWD, FWH, NQZ, PQZ] #, IVQ, SRQ]
+regularity_features = [PDH, PWD, WS1, WS2, WS3, FDH, FWD, FWH, NQZ, PQZ, IVQ, SRQ]
 
 
 """ AIED FEATURES """
