@@ -56,13 +56,14 @@ def getVideoInfo(mode="base"):
     df = queryDB(query, columns)
     return df
 
-def getVideoEventsInfo():
+def getVideoEventsInfo(mode='base'): 
     """
     df with columns AccountUserID	Round	EventType	TimeStamp	Title	Source
     already with only students present in UserInfo
     """
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'','\'EPFL-AlgebreLineaire-2019\'']
     columns = ['AccountUserID', 'EventType', 'TimeStamp', 'VideoID', 'EventID', 'DataPackageID']
+    columns +=  [] if mode == 'base' else ['SeekType', 'OldTime', 'CurrentTime', 'NewTime', 'OldSpeed', 'NewSpeed']
     query = """ SELECT {} FROM ca_courseware.Video_Events WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     events_df = queryDB(query, columns) # Raw video events
     info_df = getVideoInfo()

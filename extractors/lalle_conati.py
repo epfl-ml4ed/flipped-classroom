@@ -9,6 +9,10 @@ class LalleConati(Extractor):
     def __init__(self):
         super().__init__('lalle_conati')
 
+    def getNbFeatures(self):
+        """Returns the number of features"""
+        return 21
+    
     def getUserFeatures(self, udata):
         return [self.totalViews(udata),
                 self.avgWeeklyPropWatched(udata),

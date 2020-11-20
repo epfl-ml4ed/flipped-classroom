@@ -9,6 +9,10 @@ class LemayDoleck(Extractor):
     def __init__(self):
         super().__init__('lemay_doleck')
 
+    def getNbFeatures(self):
+        """Returns the number of features"""
+        return 4
+
     def getUserFeatures(self, udata):
         return [
             self.totalEvents(udata, 'Video.Play', unique=True),

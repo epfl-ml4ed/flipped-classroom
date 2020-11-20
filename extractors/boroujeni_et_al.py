@@ -9,5 +9,17 @@ class BoroujeniEtAl(Extractor):
     def __init__(self):
         super().__init__('boroujeni_et_al')
 
+    def getNbFeatures(self):
+        """Returns the number of features"""
+        return 8
+
     def getUserFeatures(self, udata):
-        return []
+        return [self.peakDayHour(udata),
+                self.peakWeekDay(udata),
+                self.weeklySimilarity1(udata),
+                self.weeklySimilarity2(udata),
+                self.weeklySimilarity3(udata),
+                self.freqDayHour(udata),
+                self.freqWeekDay(udata),
+                self.freqWeekHour(udata)]
+    
