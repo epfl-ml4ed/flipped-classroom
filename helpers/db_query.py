@@ -39,7 +39,7 @@ def getUserInfo(prior_knowledge=False):
     if prior_knowledge:
         prior_df = getPriorKnowledge()
         user_df = user_df.merge(prior_df).drop(columns=['ID.Anon'])
-    return user_df
+    return user_df.drop_duplicates(keep='first')
 
 def getUserLocation():
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'', '\'EPFL-AlgebreLineaire-2019\'']
@@ -189,7 +189,7 @@ def getExamInfo():
 
     user_df = getUserInfo() #Remove repeaters and incative users
     exam_df = exam_df[exam_df['AccountUserID'].isin(user_df['AccountUserID'])]
-    return exam_df
+    return exam_df.reset_index()
 
 def getGrades(flipped = True):
     columns = ['StudentSCIPER', 'AcademicYear', 'Grade', 'GradeDate', 'PlanSection', 'PlanCursus']
