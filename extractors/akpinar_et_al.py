@@ -36,6 +36,7 @@ class AkpinarEtAl(Extractor):
 
         udata = udata.copy()
         udata['TimeStamp'] = udata['Date']
+        udata = udata.sort_values(by='TimeStamp')
 
         features = [self.numberSessions(udata), self.totalClicks(udata), self.attendanceVideos(udata), self.attendanceProblems(udata)] + self.countNGrams(udata, ngram)
 
@@ -56,33 +57,28 @@ class AkpinarEtAl(Extractor):
         @description: The number of online sessions
         @requirement: VideoID, Date (datetime object), EventType
         """
-        tmpudata = udata.copy()
-        tmpudata['TimeStamp'] = tmpudata['Date']
-        return len(getSessions(tmpudata, maxSessionLength=120, minNoActions=3).index)
+        return len(getSessions(udata, maxSessionLength=120, minNoActions=3).index)
 
     def attendanceVideos(self, udata):
         """
         @description: The time spent in watching videos.
         @requirement: VideoID, Date (datetime object), EventType
         """
-        tmpudata = udata.sort_values(by='TimeStamp')
-        tmpudata['PrevEvent'] = tmpudata['EventType'].shift(1)
-        tmpudata['PrevVideoID'] = tmpudata['VideoID'].shift(1)
-        tmpudata['TimeDiff'] = tmpudata.TimeStamp.diff().dropna()
-        tmpudata = tmpudata[(tmpudata['PrevEvent'].str.contains('Video.')) & (tmpudata['VideoID'] == tmpudata['PrevVideoID'])]
-        return np.sum(tmpudata['TimeDiff'])
+        udata['PrevEvent'] = udata['EventType'].shift(1)
+        udata['PrevVideoID'] = udata['VideoID'].shift(1)
+        udata['TimeDiff'] = udata.TimeStamp.diff().dropna()
+        udata = udata[(udata['PrevEvent'].str.contains('Video.')) & (udata['VideoID'] == udata['PrevVideoID'])]
+        return np.sum(udata['TimeDiff'])
 
     def attendanceProblems(self, udata):
         """
         @description: The time spent in playing with problems.
         @requirement: VideoID, Date (datetime object), EventType
         """
-        tmpudata = udata.sort_values(by='TimeStamp')
-        tmpudata['PrevEvent'] = tmpudata['EventType'].shift(1)
-        tmpudata['PrevProblemID'] = tmpudata['ProblemID'].shift(1)
-        tmpudata['TimeDiff'] = tmpudata.TimeStamp.diff().dropna()
-        tmpudata = tmpudata[(tmpudata['PrevEvent'].str.contains('Problem.')) & (tmpudata['ProblemID'] == tmpudata['PrevProblemID'])]
-        return np.sum(tmpudata['TimeDiff'])
+        udata['PrevProblemID'] = udata['ProblemID'].shift(1)
+        udata['TimeDiff'] = udata.TimeStamp.diff().dropna()
+        udata = udata[(udata['PrevEvent'].str.contains('Problem.')) & (udata['ProblemID'] == udata['PrevProblemID'])]
+        return np.sum(udata['TimeDiff'])
 
     def countNGrams(self, udata, ngram=3):
         """

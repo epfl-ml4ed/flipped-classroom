@@ -63,7 +63,7 @@ class HeEtAl(Extractor):
         tmpudata = udata[udata.EventType.isin(['Video.Play', 'Video.Pause', 'Video.Stop'])].copy().sort_values(by='TimeStamp')
         tmpudata['PrevEvent'] = tmpudata['EventType'].shift(1)
         tmpudata['PrevVideoID'] = tmpudata['VideoID'].shift(1)
-        tmpudata['TimeDiff'] = tmpudata.TimeStamp.diff().dropna()
+        tmpudata['TimeDiff'] = tmpudata.TimeStamp.diff()
         tmpudata = tmpudata[(tmpudata['PrevEvent'] == 'Video.Play') & (tmpudata['VideoID'] == tmpudata['PrevVideoID'])]
 
         return np.sum(tmpudata['TimeDiff']) / np.sum(taught_schedule['Duration'])

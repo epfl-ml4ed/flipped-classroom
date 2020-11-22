@@ -34,6 +34,7 @@ class ChenCui(Extractor):
 
         udata = udata.copy()
         udata['TimeStamp'] = udata['Date']
+        udata = udata.sort_values(by='TimeStamp')
         udata['Weekday'] = udata['Date'].apply(lambda x: 1 if x.weekday() < 5 else 0)
 
         features = [
@@ -126,21 +127,19 @@ class ChenCui(Extractor):
         @description: the total time on module “Quiz”.
         @requirement: VideoID, Date (datetime object), EventType
         """
-        tmpudata = udata.sort_values(by='TimeStamp')
-        tmpudata['PrevEvent'] = tmpudata['EventType'].shift(1)
-        tmpudata['PrevProblemID'] = tmpudata['ProblemID'].shift(1)
-        tmpudata['TimeDiff'] = tmpudata.TimeStamp.diff().dropna()
-        tmpudata = tmpudata[(tmpudata['PrevEvent'].str.contains('Problem.')) & (tmpudata['ProblemID'] == tmpudata['PrevProblemID'])]
-        return np.sum(tmpudata['TimeDiff'])
+        udata['PrevEvent'] = udata['EventType'].shift(1)
+        udata['PrevProblemID'] = udata['ProblemID'].shift(1)
+        udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata = udata[(udata['PrevEvent'].str.contains('Problem.')) & (udata['ProblemID'] == udata['PrevProblemID'])]
+        return np.sum(udata['TimeDiff'])
 
     def stdTimeOnProblems(self, udata):
         """
         @description: The standard deviation of time on module “Quiz”.
         @requirement: VideoID, Date (datetime object), EventType
         """
-        tmpudata = udata.sort_values(by='TimeStamp')
-        tmpudata['PrevEvent'] = tmpudata['EventType'].shift(1)
-        tmpudata['PrevProblemID'] = tmpudata['ProblemID'].shift(1)
-        tmpudata['TimeDiff'] = tmpudata.TimeStamp.diff().dropna()
-        tmpudata = tmpudata[(tmpudata['PrevEvent'].str.contains('Problem.')) & (tmpudata['ProblemID'] == tmpudata['PrevProblemID'])]
-        return np.std(tmpudata['TimeDiff'])
+        udata['PrevEvent'] = udata['EventType'].shift(1)
+        udata['PrevProblemID'] = udata['ProblemID'].shift(1)
+        udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata = udata[(udata['PrevEvent'].str.contains('Problem.')) & (udata['ProblemID'] == udata['PrevProblemID'])]
+        return np.std(udata['TimeDiff'])
