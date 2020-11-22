@@ -11,14 +11,14 @@ In Journal of Learning Analytics, 7(2), 1-17.
 
 class ChenCui(Extractor):
 
-    def __init__(self):
+    def __init__(self, name='base'):
         super().__init__('chen_cui')
 
     def getNbFeatures(self):
         """Returns the number of features"""
         return 11
 
-    def getUserFeatures(self, udata):
+    def getUserFeatures(self, udata, wid, year):
 
         features = [
             self.totalClicks(udata),

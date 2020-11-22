@@ -11,14 +11,14 @@ In Education and Information Technologies, 1-22.
 
 class MubarakEtAl(Extractor):
 
-    def __init__(self):
+    def __init__(self, name='base'):
         super().__init__('mubarak_et_al')
 
     def getNbFeatures(self):
         """Returns the number of features"""
         return 13
 
-    def getUserFeatures(self, udata):
+    def getUserFeatures(self, udata, wid, year):
 
         features = [
             self.fracComp(udata),

@@ -11,14 +11,14 @@ In IEEE Transactions on Learning Technologies, 12(2), 278-289.
 
 class WanEtAl(Extractor):
 
-    def __init__(self):
+    def __init__(self, name='base'):
         super().__init__('wan_et_al')
 
     def getNbFeatures(self):
         """Returns the number of features"""
         return 22
 
-    def getUserFeatures(self, udata):
+    def getUserFeatures(self, udata, wid, year):
 
         features = [
             self.totalDuration(udata),

@@ -346,11 +346,9 @@ def frequency_all_actions(user_events):
 def count_actions(user_events, action):
     """Count the total number of events with type `action`"""
     if 'Backward' in action:
-        user_events = user_events[(user_events.EventType == 'Video.Seek') & 
-                                  (user_events.OldTime < user_events.NewTime)]
+        user_events = user_events[(user_events.EventType == 'Video.Seek') & (user_events.OldTime < user_events.NewTime)]
     elif 'Forward' in action:
-        user_events = user_events[(user_events.EventType == 'Video.Seek') & 
-                                  (user_events.OldTime > user_events.NewTime)]
+        user_events = user_events[(user_events.EventType == 'Video.Seek') & (user_events.OldTime > user_events.NewTime)]
     else:
         user_events = user_events[user_events.EventType == action]        
     return len(user_events)
@@ -438,8 +436,7 @@ def compute_speedchange_current_time(user_events):
     df.loc[df.NextDiff > df.PrevDiff, 'ClosestCurrentTime'] = df[df.NextDiff > df.PrevDiff].PrevCurrentTime
 
     #Filter the SpeedChange events
-    df = df[(df.EventType == 'Video.SpeedChange') & (df.VideoID == df.ClosestVideoID) &
-               (~df.ClosestCurrentTime.isna())]
+    df = df[(df.EventType == 'Video.SpeedChange') & (df.VideoID == df.ClosestVideoID) & (~df.ClosestCurrentTime.isna())]
     df['CurrentTime'] = df.ClosestCurrentTime + abs(df.TimeStamp - df.ClosestTimeStamp)
 
     df = df[df.CurrentTime < df.Duration]
@@ -475,8 +472,7 @@ def compute_time_speeding_up(user_events):
     df['SpeedUpTime'] = np.where(conditions, df.Duration - df.CurrentTime, df.SpeedUpTime)
 
     #When the speed is switched back to normal or slower then we stop counting
-    conditions = (df.Speed <= 1) | (df.EventType.isin(['Video.Stop', 'Video.Pause'])) | \
-                (df.SpeedUpTime > 3600)
+    conditions = (df.Speed <= 1) | (df.EventType.isin(['Video.Stop', 'Video.Pause'])) | (df.SpeedUpTime > 3600)
     df['SpeedUpTime'] = np.where(conditions, 0, df.SpeedUpTime)
     return df.groupby('VideoID').SpeedUpTime.sum().values
 

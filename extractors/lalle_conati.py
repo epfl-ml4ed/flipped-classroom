@@ -13,14 +13,22 @@ In International Conference on Artificial Intelligence in Education (pp. 282-295
 
 class LalleConati(Extractor):
 
-    def __init__(self):
+    def __init__(self, name='base'):
+        """
+        @description: Returns the identifier associated with this feature set.
+        """
         super().__init__('lalle_conati')
 
     def getNbFeatures(self):
-        """Returns the number of features"""
+        """
+        @description: Returns the number of expected features.
+        """
         return 21
     
-    def getUserFeatures(self, udata):
+    def getUserFeatures(self, udata, wid, year):
+        """
+        @description: Returns the user features computed from the udata
+        """
 
         features = [
             self.totalViews(udata),

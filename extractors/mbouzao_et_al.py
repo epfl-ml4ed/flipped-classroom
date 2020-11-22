@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from extractors.extractor import Extractor
+from extractors.he_et_al import HeEtAl
 import numpy as np
 
 '''
@@ -9,21 +9,29 @@ Mbouzao, B., Desmarais, M. C., & Shrier, I. (2020). Early Prediction of Success 
 In International Conference on Artificial Intelligence in Education (pp. 191-196). Springer, Cham.
 '''
 
-class MbouzaoEtAl(Extractor):
+class MbouzaoEtAl(HeEtAl):
 
-    def __init__(self):
+    def __init__(self, name='base'):
+        """
+        @description: Returns the identifier associated with this feature set.
+        """
         super().__init__('mbouzao_et_al')
 
     def getNbFeatures(self):
-        """Returns the number of features"""
+        """
+        @description: Returns the number of expected features.
+        """
         return 3
 
-    def getUserFeatures(self, udata):
+    def getUserFeatures(self, udata, wid, year):
+        """
+        @description: Returns the user features computed from the udata
+        """
 
-        features =  [
-            self.attendanceRate(udata),
-            self.utilizationRate(udata),
-            self.watchingIndex(udata),
+        features = [
+            self.attendanceRate(udata, wid, year),
+            self.utilizationRate(udata, wid, year),
+            self.watchingIndex(udata, wid, year),
         ]
 
         if len(features) != self.getNbFeatures():
@@ -31,23 +39,9 @@ class MbouzaoEtAl(Extractor):
 
         return list(np.nan_to_num(features))
 
-    def attendanceRate(self, udata):
-        """
-        @description: The attendance rate ARs,c of a student s on a given week c since the beginning of the course, is the number of videos that the student played over to the total number of videos up to that period in time of the course schedule.
-        @requirement:
-        """
-        return
-
-    def utilizationRate(self, udata):
-        """
-        @description: The utilization rate URs,c of a student s on a given week c since the beginning of the course is the proportion of video play time activity of the student over the sum of video lengths for all videos up to week c.
-        @requirement:
-        """
-        return
-
-    def watchingIndex(self, udata):
+    def watchingIndex(self, udata, wid, year):
         """
         @description: The watch index (WI) is defined as: WI s,c = URs,c × ARs,c
         @requirement:
         """
-        return
+        return self.utilizationRate(udata, wid, year) * self.attendanceRate(udata, wid, year)

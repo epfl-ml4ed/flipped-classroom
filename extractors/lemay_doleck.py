@@ -13,14 +13,14 @@ Education and Information Technologies, 25(2), 1333-1342.
 
 class LemayDoleck(Extractor):
 
-    def __init__(self):
+    def __init__(self, name='base'):
         super().__init__('lemay_doleck')
 
     def getNbFeatures(self):
         """Returns the number of features"""
         return 10
 
-    def getUserFeatures(self, udata):
+    def getUserFeatures(self, udata, wid, year):
 
         features = [
             self.fracSpent(udata),

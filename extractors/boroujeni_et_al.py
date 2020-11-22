@@ -13,14 +13,22 @@ In European Conference on Technology Enhanced Learning (pp. 277-291). Springer, 
 
 class BoroujeniEtAl(Extractor):
 
-    def __init__(self):
+    def __init__(self, name='base'):
+        """
+        @description: Returns the identifier associated with this feature set.
+        """
         super().__init__('boroujeni_et_al')
 
     def getNbFeatures(self):
-        """Returns the number of features"""
+        """
+        @description: Returns the number of expected features.
+        """
         return 12
 
-    def getUserFeatures(self, udata):
+    def getUserFeatures(self, udata, wid, year):
+        """
+        @description: Returns the user features computed from the udata
+        """
 
         videoEvents = udata[udata.EventType.str.contains('Video')]
         problemEvents = udata[udata.EventType.str.contains('Problem')]
