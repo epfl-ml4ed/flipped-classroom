@@ -34,6 +34,9 @@ class AkpinarEtAl(Extractor):
         @description: Returns the user features computed from the udata
         """
 
+        udata = udata.copy()
+        udata['TimeStamp'] = udata['Date']
+
         features = [self.numberSessions(udata), self.totalClicks(udata), self.attendanceVideos(udata), self.attendanceProblems(udata)] + self.countNGrams(udata, ngram)
 
         if len(features) != self.getNbFeatures():
@@ -54,7 +57,7 @@ class AkpinarEtAl(Extractor):
         @requirement: VideoID, Date (datetime object), EventType
         """
         tmpudata = udata.copy()
-        tmpudata['TimeStamp'] = tmpudata['TimeStamp'].apply(lambda x: string2Datetime(dt.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
+        tmpudata['TimeStamp'] = tmpudata['Date']
         return len(getSessions(tmpudata, maxSessionLength=120, minNoActions=3).index)
 
     def attendanceVideos(self, udata):
@@ -62,7 +65,7 @@ class AkpinarEtAl(Extractor):
         @description: The time spent in watching videos.
         @requirement: VideoID, Date (datetime object), EventType
         """
-        tmpudata = udata.copy().sort_values(by='TimeStamp')
+        tmpudata = udata.sort_values(by='TimeStamp')
         tmpudata['PrevEvent'] = tmpudata['EventType'].shift(1)
         tmpudata['PrevVideoID'] = tmpudata['VideoID'].shift(1)
         tmpudata['TimeDiff'] = tmpudata.TimeStamp.diff().dropna()
@@ -74,7 +77,7 @@ class AkpinarEtAl(Extractor):
         @description: The time spent in playing with problems.
         @requirement: VideoID, Date (datetime object), EventType
         """
-        tmpudata = udata.copy().sort_values(by='TimeStamp')
+        tmpudata = udata.sort_values(by='TimeStamp')
         tmpudata['PrevEvent'] = tmpudata['EventType'].shift(1)
         tmpudata['PrevProblemID'] = tmpudata['ProblemID'].shift(1)
         tmpudata['TimeDiff'] = tmpudata.TimeStamp.diff().dropna()
@@ -86,9 +89,7 @@ class AkpinarEtAl(Extractor):
         @description: The time spent in playing with problems.
         @requirement: VideoID, Date (datetime object), EventType
         """
-        tmpudata = udata.copy()
-        tmpudata['TimeStamp'] = tmpudata['TimeStamp'].apply(lambda x: string2Datetime(dt.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
-        sessions = getSessions(tmpudata, maxSessionLength=120, minNoActions=3)
+        sessions = getSessions(udata, maxSessionLength=120, minNoActions=3)
 
         combs = [comb for comb in combinations(self.utypes, ngram)]
         maps = {c : i for i, c in enumerate(combs)}

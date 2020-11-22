@@ -5,6 +5,7 @@ from extractors.extractor import Extractor
 from helpers.feature_extraction import *
 
 import numpy as np
+import sys
 
 '''
 He, H., Zheng, Q., Dong, B., & Yu, H. (2018). Measuring Student's Utilization of Video Resources and Its Effect on Academic Performance.
@@ -72,4 +73,4 @@ class HeEtAl(Extractor):
         @description: The student’s overall specialty WR is defined as the ratio between utilization rate and attendance rate. For instance, 1 means that the student s completely watches the video since he/she opened it.
         @requirement: VideoID
         """
-        return self.utilizationRate(udata, wid, year) / self.attendanceRate(udata, wid, year)
+        return self.utilizationRate(udata, wid, year) / (self.attendanceRate(udata, wid, year) + sys.float_info.epsilon)
