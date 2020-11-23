@@ -122,7 +122,7 @@ def getProblemEventsInfo():
     already with only students present in UserInfo
     """
     course_names = ['\'EPFL-AlgebreLineaire-2017_T3\'', '\'EPFL-AlgebreLineaire-2018\'','\'EPFL-AlgebreLineaire-2019\'']
-    columns = ['AccountUserID', 'ProblemID', 'EventID', 'EventType', 'TimeStamp', 'ProblemType', "MaximumSubmissions"]
+    columns = ['AccountUserID', 'ProblemID', 'EventID', 'EventType', 'TimeStamp', 'ProblemType', 'Grade', 'SubmissionNumber', 'MaximumSubmissions']
     query = """ SELECT {} FROM ca_courseware.Problem_Events_with_Info WHERE DataPackageID in ({}) """.format(", ".join(columns), ", ".join(course_names))
     events_df = queryDB(query, columns)
     user_df = getUserInfo()

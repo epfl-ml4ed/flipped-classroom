@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 from extractors.extractor import Extractor
-from helpers.time import string2Datetime
 from helpers.db_query import *
 
 import numpy as np
