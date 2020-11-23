@@ -14,13 +14,21 @@ Education and Information Technologies, 25(2), 1333-1342.
 class LemayDoleck(Extractor):
 
     def __init__(self, name='base'):
+        """
+        @description: Returns the identifier associated with this feature set.
+        """
         super().__init__('lemay_doleck')
 
     def getNbFeatures(self):
-        """Returns the number of features"""
+        """
+        @description: Returns the number of expected features.
+        """
         return 10
 
     def getUserFeatures(self, udata, wid, year):
+        """
+        @description: Returns the user features computed from the udata
+        """
 
         udata = udata.copy()
         udata['TimeStamp'] = udata['Date']

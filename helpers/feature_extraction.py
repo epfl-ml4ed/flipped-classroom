@@ -346,9 +346,9 @@ def frequency_all_actions(user_events):
 def count_actions(user_events, action):
     """Count the total number of events with type `action`"""
     if 'Backward' in action:
-        user_events = user_events[(user_events.EventType == 'Video.Seek') & (user_events.OldTime < user_events.NewTime)]
-    elif 'Forward' in action:
         user_events = user_events[(user_events.EventType == 'Video.Seek') & (user_events.OldTime > user_events.NewTime)]
+    elif 'Forward' in action:
+        user_events = user_events[(user_events.EventType == 'Video.Seek') & (user_events.OldTime < user_events.NewTime)]
     else:
         user_events = user_events[user_events.EventType == action]        
     return len(user_events)
