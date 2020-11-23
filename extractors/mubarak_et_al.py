@@ -35,19 +35,19 @@ class MubarakEtAl(Extractor):
         udata = udata.sort_values(by='TimeStamp')
 
         features = [
-            self.fracComp(udata, wid, year),
-            self.fracSpent(udata, wid, year),
-            self.fracPL(udata, wid, year),
+            self.fracComp(udata, wid, year) if len(udata) > 1 else 0,
+            self.fracSpent(udata, wid, year) if len(udata) > 1 else 0,
+            self.fracPL(udata, wid, year) if len(udata) > 1 else 0,
             self.numPL(udata),
             self.numPa(udata),
-            self.fracPa(udata, wid, year),
+            self.fracPa(udata, wid, year) if len(udata) > 1 else 0,
             self.fracFrwd(udata),
             self.fracBkwd(udata),
             self.numSBW(udata),
             self.numFFW(udata),
             self.avChR(udata),
             self.numLD(udata),
-            self.numCompt(udata, wid, year),
+            self.numCompt(udata, wid, year) if len(udata) > 1 else 0,
         ]
 
         if len(features) != self.getNbFeatures():
@@ -64,6 +64,7 @@ class MubarakEtAl(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevVideoID'] = udata['VideoID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[(udata['PrevEvent'].str.contains('Video.Play')) & (udata['VideoID'] == udata['PrevVideoID'])]
         udata = udata.drop_duplicates(subset=['VideoID'], keep='last')
 
@@ -86,6 +87,7 @@ class MubarakEtAl(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevVideoID'] = udata['VideoID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[(udata['PrevEvent'].str.contains('Video.')) & (udata['VideoID'] == udata['PrevVideoID'])]
 
         course_schedule = get_dated_videos()
@@ -107,6 +109,7 @@ class MubarakEtAl(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevVideoID'] = udata['VideoID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[(udata['PrevEvent'].str.contains('Video.Play')) & (udata['VideoID'] == udata['PrevVideoID'])]
 
         course_schedule = get_dated_videos()
@@ -142,6 +145,7 @@ class MubarakEtAl(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevVideoID'] = udata['VideoID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[(udata['PrevEvent'].str.contains('Video.Pause')) & (udata['VideoID'] == udata['PrevVideoID'])]
 
         course_schedule = get_dated_videos()
@@ -194,6 +198,7 @@ class MubarakEtAl(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevVideoID'] = udata['VideoID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[udata['VideoID'] == udata['PrevVideoID']]
         return np.mean(udata['TimeDiff'])
 
@@ -213,6 +218,8 @@ class MubarakEtAl(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevVideoID'] = udata['VideoID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
+
         udata = udata[(udata['PrevEvent'].str.contains('Video.Play')) & (udata['VideoID'] == udata['PrevVideoID'])]
         udata = udata.drop_duplicates(subset=['VideoID'], keep='last')
 

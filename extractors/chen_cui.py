@@ -129,6 +129,7 @@ class ChenCui(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevProblemID'] = udata['ProblemID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[(udata['PrevEvent'].str.contains('Problem.')) & (udata['ProblemID'] == udata['PrevProblemID'])]
         return np.sum(udata['TimeDiff'])
 
@@ -140,5 +141,6 @@ class ChenCui(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevProblemID'] = udata['ProblemID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[(udata['PrevEvent'].str.contains('Problem.')) & (udata['ProblemID'] == udata['PrevProblemID'])]
         return np.std(udata['TimeDiff'])

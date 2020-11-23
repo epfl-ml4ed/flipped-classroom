@@ -35,10 +35,10 @@ class LemayDoleck(Extractor):
         udata = udata.sort_values(by='TimeStamp')
 
         features = [
-            self.fracSpent(udata, wid, year),
-            self.fracComp(udata, wid, year),
-            self.fracPlayed(udata, wid, year),
-            self.fracPaused(udata, wid, year),
+            self.fracSpent(udata, wid, year) if len(udata) > 1 else 0,
+            self.fracComp(udata, wid, year) if len(udata) > 1 else 0,
+            self.fracPlayed(udata, wid, year) if len(udata) > 1 else 0,
+            self.fracPaused(udata, wid, year) if len(udata) > 1 else 0,
             self.avgPlayBackRate(udata),
             self.stdPlayBackRate(udata),
             self.totalPause(udata),
@@ -60,6 +60,7 @@ class LemayDoleck(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevVideoID'] = udata['VideoID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[(udata['PrevEvent'].str.contains('Video.')) & (udata['VideoID'] == udata['PrevVideoID'])]
 
         course_schedule = get_dated_videos()
@@ -104,6 +105,7 @@ class LemayDoleck(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevVideoID'] = udata['VideoID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[(udata['PrevEvent'].str.contains('Video.Play')) & (udata['VideoID'] == udata['PrevVideoID'])]
 
         course_schedule = get_dated_videos()
@@ -125,6 +127,7 @@ class LemayDoleck(Extractor):
         udata['PrevEvent'] = udata['EventType'].shift(1)
         udata['PrevVideoID'] = udata['VideoID'].shift(1)
         udata['TimeDiff'] = udata.TimeStamp.diff()
+        udata['TimeDiff'] = udata['TimeDiff'].apply(lambda x : x.total_seconds())
         udata = udata[(udata['PrevEvent'].str.contains('Video.Pause')) & (udata['VideoID'] == udata['PrevVideoID'])]
 
         course_schedule = get_dated_videos()

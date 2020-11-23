@@ -12,8 +12,8 @@ He, H., Zheng, Q., Dong, B., & Yu, H. (2018). Measuring Student's Utilization of
 In 2018 IEEE 18th International Conference on Advanced Learning Technologies (ICALT) (pp. 196-198). IEEE.
 '''
 
-class HeEtAl(Extractor):
 
+class HeEtAl(Extractor):
     def __init__(self, name='base'):
         """
         @description: Returns the identifier associated with this feature set.
@@ -32,9 +32,9 @@ class HeEtAl(Extractor):
         """
 
         features = [
-            self.attendanceRate(udata, wid, year),
-            self.utilizationRate(udata, wid, year),
-            self.watchingRatio(udata, wid, year),
+            self.attendanceRate(udata, wid, year) if len(udata) > 1 else 0,
+            self.utilizationRate(udata, wid, year) if len(udata) > 1 else 0,
+            self.watchingRatio(udata, wid, year) if len(udata) > 1 else 0,
         ]
 
         if len(features) != self.getNbFeatures():
@@ -50,6 +50,10 @@ class HeEtAl(Extractor):
         course_schedule = get_dated_videos()
         taught_schedule = course_schedule[(course_schedule['Year'] == year) & (course_schedule['Week'] <= wid)]
         learnt_schedule = udata.drop_duplicates(subset=['VideoID'], keep='first')
+
+        if len(taught_schedule) == 0:
+            return 0
+
         return len(set(learnt_schedule['VideoID']) & set(taught_schedule['VideoID'])) / len(taught_schedule)
 
     def utilizationRate(self, udata, wid, year):
@@ -65,6 +69,9 @@ class HeEtAl(Extractor):
         tmpudata['PrevVideoID'] = tmpudata['VideoID'].shift(1)
         tmpudata['TimeDiff'] = tmpudata.TimeStamp.diff()
         tmpudata = tmpudata[(tmpudata['PrevEvent'] == 'Video.Play') & (tmpudata['VideoID'] == tmpudata['PrevVideoID'])]
+
+        if np.sum(taught_schedule['Duration']) == 0:
+            return 0
 
         return np.sum(tmpudata['TimeDiff']) / np.sum(taught_schedule['Duration'])
 
