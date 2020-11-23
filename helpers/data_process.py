@@ -5,6 +5,8 @@ import numpy as np
 import json
 import time
 
+from helpers.time import *
+
 def getRepeatingStudentsIDs(df):
     repentants = []
     for s in set(df['AccountUserID']):
@@ -47,7 +49,7 @@ def transitionIntervals(sessions, eventMap):
 
 def getSessions(df, maxSessionLength=120, minNoActions=3):
     sessions = []
-    for index, group in tqdm(df.groupby(['AccountUserID'])):
+    for index, group in df.groupby(['AccountUserID']):
         group = group[~group['EventType'].str.contains('Transcript')][['TimeStamp', 'EventType', 'Round']].sort_values('TimeStamp')
         group['Interval'] = (group['TimeStamp'] - group['TimeStamp'].shift(1))
         group['Interval'] = group['Interval'].apply(lambda x: x.total_seconds())

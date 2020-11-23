@@ -50,7 +50,7 @@ class HeEtAl(Extractor):
         course_schedule = get_dated_videos()
         taught_schedule = course_schedule[(course_schedule['Year'] == year) & (course_schedule['Week'] <= wid)]
         learnt_schedule = udata.drop_duplicates(subset=['VideoID'], keep='first')
-        return len(set(learnt_schedule['VideoID']) & set(taught_schedule['VideoId'])) / len(taught_schedule)
+        return len(set(learnt_schedule['VideoID']) & set(taught_schedule['VideoID'])) / len(taught_schedule)
 
     def utilizationRate(self, udata, wid, year):
         """
