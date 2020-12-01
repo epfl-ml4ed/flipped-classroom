@@ -9,6 +9,7 @@ if module_path not in sys.path:
     sys.path.append(module_path)
 from helpers.feature_extraction import *
 from helpers.db_query import *
+from extractors.lalle_conati import LalleConati
 
 class Features(unittest.TestCase):
     print("Fetching Video Events...")
@@ -140,28 +141,33 @@ class Features(unittest.TestCase):
         self.assertAlmostEqual(std_time_speeding_up(user_events1),  424.287219725475,2)
         self.assertAlmostEqual(std_time_speeding_up(user_events2),  229.1368767069532,2)
 
+    def extractor_features(self):
+        extractor = LalleConati()
+        user_events1 = self.video_events[self.video_events.AccountUserID == '18422']
+        effective_1 = extractor.getUserFeatures(user_events1, 20, year)
+        expected_1 = [131, 0.6972405372405373, 0.37290747472253855, 0.08987484737484737, 0.09161292670783444,
+         0.1345848595848596, 0.13206607167995404, 4065, 4.6784199298727405, 0.43739237392373925, 
+         0.4150061500615006, 0.012054120541205412, 0.009102091020910209, 0.005412054120541206, 0.02779827798277983, 
+         47.85451197053407, 80.07571048872693, 173.77237999999997, 230.00152378749962, 500.79916326315794, 
+         424.287219725475]
+         
+        for effective, expected in zip(effective_1, expected_1):
+            self.assertAlmostEqual(effective, expected, 2)
 
+        user_events2 = self.video_events[self.video_events.AccountUserID == '100402']
+        effective_2 = extractor.getUserFeatures(user_events2, 20, year)
+        expected_2 = [99, 0.8102564102564103, 0.3562349688859857, 0.01952662721893491, 0.04699580982642552, 
+        0.044378698224852076, 0.10752962548260876, 1405, 4.6219963780847095, 0.3302491103202847, 0.07473309608540925,
+        0.22633451957295372, 0.022775800711743774, 0.12740213523131672, 0.04412811387900356, 82.98936170212765,
+        89.54785891221961, 44.90929303977273, 49.21778945794014, 334.5920517934782, 229.1368767069532]
 
-    # total_views
-    # avg_weekly_prop_watched
-    # std_weekly_prop_watched
-    # avg_weekly_prop_replayed
-    # std_weekly_prop_replayed
-    # avg_weekly_prop_interrupted
-    # std_weekly_prop_interrupted
-    # total_actions
-    # frequency_all_actions
-    # freq_play
-    # freq_pause
-    # freq_seek_backward
-    # freq_seek_forward
-    # freq_speed_change
-    # freq_stop
-    # avg_pause_duration
-    # std_pause_duration
-    # avg_seek_length
-    # std_seek_length
-    # avg_time_speeding_up
-    # std_time_speeding_up
+        for effective, expected in zip(effective_2, expected_2):
+            self.assertAlmostEqual(effective, expected, 2)
+
 if __name__ == '__main__':
     unittest.main()
+
+
+
+
+

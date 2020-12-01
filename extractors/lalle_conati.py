@@ -19,6 +19,16 @@ class LalleConati(Extractor):
         """
         super().__init__('lalle_conati')
 
+    def getFeatureNames(self):
+        """
+        @description: Returns the names of the feature in the same order as getUserFeatures
+        """
+        return ["totalViews", "avgWeeklyPropWatched", "stdWeeklyPropWatched", "avgWeeklyPropReplayed", 
+                "stdWeeklyPropReplayed", "avgWeeklyPropInterrupted", "stdWeeklyPropInterrupted", 
+                "totalActions", "freqAllActions", "freqPlay", "freqPause", "freqSeekBackward",
+                "freqSeekForward", "freqSpeedChange", "freqStop", "avgPauseDuration", "stdPauseDuration",
+                "avgSeekLength", "stdSeekLength", "avgTimeSpeedingUp", "stdTimeSpeedingUp"]
+
     def getNbFeatures(self):
         """
         @description: Returns the number of expected features.
@@ -29,7 +39,6 @@ class LalleConati(Extractor):
         """
         @description: Returns the user features computed from the udata
         """
-
         features = [
             self.totalViews(udata),
             self.avgWeeklyPropWatched(udata),
@@ -55,7 +64,7 @@ class LalleConati(Extractor):
         ]
 
         if len(features) != self.getNbFeatures():
-            raise Exception("getNbFeatures is not up-to-date: {len(features)} != {self.getNbFeatures()}")
+            raise Exception(f"getNbFeatures is not up-to-date: {len(features)} != {self.getNbFeatures()}")
 
         return list(np.nan_to_num(features))
 

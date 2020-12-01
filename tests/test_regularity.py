@@ -10,6 +10,7 @@ if module_path not in sys.path:
 from helpers.feature_extraction import *
 from helpers.data_process import getStudentTimeStamps
 from helpers.db_query import *
+from extractors.boroujeni_et_al import BoroujeniEtAl
 
 class Features(unittest.TestCase):
     print("Fetching Video Events...")

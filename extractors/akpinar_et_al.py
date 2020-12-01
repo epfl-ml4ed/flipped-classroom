@@ -38,7 +38,7 @@ class AkpinarEtAl(Extractor):
         features = [self.numberSessions(udata), self.totalClicks(udata), self.attendanceVideos(udata), self.attendanceProblems(udata)] + self.countNGrams(udata)
 
         if len(features) != self.getNbFeatures():
-            raise Exception("getNbFeatures is not up-to-date: {len(features)} != {self.getNbFeatures()}")
+            raise Exception(f"getNbFeatures is not up-to-date: {len(features)} != {self.getNbFeatures()}")
 
         return list(np.nan_to_num(features))
 
