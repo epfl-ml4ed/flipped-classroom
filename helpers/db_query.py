@@ -189,7 +189,7 @@ def getExamInfo():
 
     user_df = getUserInfo() #Remove repeaters and incative users
     exam_df = exam_df[exam_df['AccountUserID'].isin(user_df['AccountUserID'])]
-    return exam_df.reset_index()
+    return exam_df.reset_index().set_index('index') #Reset index numbers
 
 def getGrades(flipped = True):
     columns = ['StudentSCIPER', 'AcademicYear', 'Grade', 'GradeDate', 'PlanSection', 'PlanCursus']
@@ -275,3 +275,30 @@ def getVideoChapters():
 def getProblemChapters():
     PATH = '../data/lin_alg_moodle/problems.csv'
     return pd.read_csv(PATH, index_col=0)
+
+def getExamAnswers(year=None):
+    """
+    Return the exam answers for the specified year(s).
+    :param year: `2017`, `2018` or `2019`. Set to `None` to get the answers for all years
+    """
+    FOLDER = '../data/lin_alg_moodle/student_info/'
+    #the csv on contains ID.Anon, merge with ids to have AccountUserID and SCIPER
+    ids = getAllIDs()
+    if year == None:
+        paths = [FOLDER + "Year{}-Normalized-Score.csv".format(y) for y in range(1,4)]
+        year1, year2, year3 = [pd.read_csv(path, index_col=0).merge(ids, how='left') for path in paths]
+        return year1, year2, year3
+    elif year in [2017, 2018, 2019]:
+        year_mapping = {2017: 1, 2018:2, 2019:3}
+        path =  "Year{}-Normalized-Score.csv".format(year_mapping[year])
+        return pd.read_csv(path, index_col=0).merge(ids, how='left')
+    else:
+        raise ValueError(f"Year argument not recognized: {year}")
+
+def getAllIDs():
+    mapping = getMapping() # SCIPER - AccountUserID
+    #Concatenate flipped and non-flipped students
+    condition = pd.concat([getStudentCondition(False, True), getStudentCondition(True, True)]) #SCIPER - ID.Anon
+    del condition['Round']
+    condition.drop_duplicates(inplace=True)
+    return mapping.merge(condition, on="SCIPER")
