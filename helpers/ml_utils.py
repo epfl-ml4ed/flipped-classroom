@@ -12,7 +12,7 @@ import os
 def getTrainTestData(data, mode, task, ratio=0.9, thr=4.0):
     if task == 'binary':
         print('> Binarizing student grades:', end=' ')
-        y = [(1 if grade >= thr else 0) for grade in data['Grade']]
+        y = [(0 if grade >= thr else 1) for grade in data['Grade']] # 1 for students that failed (grade < 4)
     elif task == 'multi-class':
         print('> Rounding student grades:', end=' ')
         y = [round(grade) for grade in data['Grade']]
@@ -22,10 +22,10 @@ def getTrainTestData(data, mode, task, ratio=0.9, thr=4.0):
     print([(c, y.count(c)) for c in np.unique(y)])
 
     if mode == 'random':
-        print('> Spitting the whole student population randomly:', end=' ')
+        print('> Splitting the whole student population randomly:', end=' ')
         x_train, x_test, y_train, y_test = train_test_split(np.arange(len(data)), y, stratify=y, test_size=1 - ratio)
     elif mode == 'per-year':
-        print('> Spitting the whole student population per year:', end=' ')
+        print('> Splitting the whole student population per year:', end=' ')
         x_train = data[data['Round'] != sorted(data['Round'])[-1]].index
         x_test = data[data['Round'] == sorted(data['Round'])[-1]].index
         y_train = list(np.array(y)[np.array(data[data['Round'] != sorted(data['Round'])[-1]].index)])
@@ -61,8 +61,11 @@ def saveFeatureSets(feature_sets, mode, task, ratio, start, end, step):
         print('> Saved features for this experimental setting in', filename)
         pickle.dump(feature_sets, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-def computeFeatures(event_data, exam_data, feature_labels, feature_sets, start, weeks):
-
+def computeFeatures(event_data, exam_data, feature_labels, feature_sets, start, weeks, weekly=False):
+    """
+    :param weekly: if set to True, compute the features for each week independantly, if False compute the
+    features from the start until each week.
+    """
     for findex, ffunc in enumerate(feature_labels):
         flabel = ffunc.getName()
 
@@ -74,8 +77,10 @@ def computeFeatures(event_data, exam_data, feature_labels, feature_sets, start, 
 
                 unactiveTrain = 0
                 for uindex, uid in enumerate(exam_data['AccountUserID']):
-
-                    udata = event_data[(event_data['AccountUserID'] == uid) & (event_data['Week'] >= start) & (event_data['Week'] < wid)]
+                    if not weekly:
+                        udata = event_data[(event_data['AccountUserID'] == uid) & (event_data['Week'] >= start) & (event_data['Week'] < wid)]
+                    else:
+                        udata = event_data[(event_data['AccountUserID'] == uid) & (event_data['Week'] == wid - 1)]
                     year = int(exam_data[exam_data['AccountUserID'] == uid]['Round'].values[0].split('-')[-2])
 
                     if len(udata) > 0:
@@ -92,7 +97,6 @@ def computeFeatures(event_data, exam_data, feature_labels, feature_sets, start, 
                 feature_sets[flabel][wid] = np.array(feature_sets[flabel][wid])
 
     print()
-
     return feature_sets
 
 
@@ -109,11 +113,11 @@ def loadTrainedModels(mode, task, ratio, start, end, step):
 
     return trained_models
 
-def trainModels(feature_sets, x_train, y_train, weeks, classifiers_types, classifiers_params, trained_models, isScaled=True):
+def trainModels(feature_sets, x_train, y_train, weeks, classifiers_types, classifiers_params, trained_models, isScaled=True, lasso=False):
     scaler = [StandardScaler() if isScaled else None for _ in range(len(feature_sets))]
-
+    lasso_params = []
+    lasso_coefs = []
     for findex, flabel in enumerate(feature_sets.keys()):
-
         if not flabel in trained_models:
             trained_models[flabel] = {}
 
@@ -132,17 +136,23 @@ def trainModels(feature_sets, x_train, y_train, weeks, classifiers_types, classi
                 print('Algorithm:', mid.ljust(3), '(', '{:03d}'.format(mindex + 1), '{:03d}'.format(len(classifiers_types)), ')', end='')
 
                 clf = GridSearchCV(classifiers_types[mid], classifiers_params[mid])
-
                 if isScaled:
                     clf.fit(scaler[findex].fit_transform(feature_sets[flabel][wid][x_train]), y_train)
                 else:
                     clf.fit(feature_sets[flabel][wid][x_train], y_train)
-
+                if lasso and mid == 'las':
+                    params = clf.best_params_
+                    params['week'] = wid
+                    lasso_params.append(params)
+                    print((np.array(list(clf.best_estimator_.coef_[0])) != 0).sum())
+                    lasso_coefs.append(wid + list(clf.best_estimator_.coef_[0]))
                 trained_models[flabel][wid][mid].append(clf)
 
     print()
-
-    return trained_models, scaler
+    if lasso:
+        return trained_models, scaler, lasso_params, lasso_coefs
+    else:
+        return trained_models, scaler
 
 def showBestParams(trained_models):
     for flabel, fvalue in trained_models.items():

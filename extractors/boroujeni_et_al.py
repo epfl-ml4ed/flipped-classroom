@@ -19,6 +19,14 @@ class BoroujeniEtAl(Extractor):
         """
         super().__init__('boroujeni_et_al')
 
+    def getFeatureNames(self):
+        """
+        @description: Returns the names of the feature in the same order as getUserFeatures
+        """
+        return ["peakDayHour", "peakWeekDay", "weeklySimilarity1", "weeklySimilarity2", 
+                "weeklySimilarity3", "freqDayHour", "freqWeekDay", "freqWeekHour", "nbQuiz", 
+                "propQuiz", "intervalVideoQuiz", "semesterRepartitionQuiz"]
+                
     def getNbFeatures(self):
         """
         @description: Returns the number of expected features.
