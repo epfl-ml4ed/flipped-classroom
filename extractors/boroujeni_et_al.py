@@ -31,7 +31,7 @@ class BoroujeniEtAl(Extractor):
         """
         @description: Returns the number of expected features.
         """
-        return 12
+        return len(self.getFeatureNames())
 
     def getUserFeatures(self, udata, wid, year):
         """

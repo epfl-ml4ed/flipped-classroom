@@ -23,7 +23,14 @@ class LemayDoleck(Extractor):
         """
         @description: Returns the number of expected features.
         """
-        return 10
+        return len(self.getFeatureNames())
+
+    def getFeatureNames(self):
+        """
+        @description: Returns the names of the feature in the same order as getUserFeatures
+        """
+        return ["fracSpent", "fracComp", "fracPlayed", "fracPaused", "avgPlayBackRate", "stdPlayBackRate", 
+                "totalPause", "totalSeekBackward", "totalSeekBackward", "totalVideoWatcherPerWeek"]
 
     def getUserFeatures(self, udata, wid, year):
         """

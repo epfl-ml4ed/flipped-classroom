@@ -24,7 +24,14 @@ class ChenCui(Extractor):
         """
         @description: Returns the number of expected features.
         """
-        return 11
+        return len(self.getFeatureNames())
+
+    def getFeatureNames(self):
+        """
+        @description: Returns the names of the feature in the same order as getUserFeatures
+        """
+        return ["totalClicks", "numberSessions", "totalTimeAllSessions", "avgSessionTime", "stdSessionTime", "totalClicksWeekdays", 
+                "totalClicksWeekends", "ratioClicksWeekdaysWeekends", "totalClicksOnProblems", "totalTimeOnProblems", "stdTimeOnProblems"]
 
     def getUserFeatures(self, udata, wid, year):
         """

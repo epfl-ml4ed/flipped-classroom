@@ -30,6 +30,13 @@ class AkpinarEtAl(Extractor):
         """
         return 4 + len(self.perms)
 
+    def getFeatureNames(self):
+        """
+        @description: Returns the names of the feature in the same order as getUserFeatures
+        """
+        perms_names = list(map(lambda perm: '(' + ", ".join(perm) + ')', self.perms))
+        return ["numberSessions", "totalClicks", "attendanceVideos", "attendanceProblems"] + perms_names
+
     def getUserFeatures(self, udata, wid, year):
         """
         @description: Returns the user features computed from the udata

@@ -33,7 +33,7 @@ class LalleConati(Extractor):
         """
         @description: Returns the number of expected features.
         """
-        return 21
+        return len(self.getFeatureNames())
     
     def getUserFeatures(self, udata, wid, year):
         """

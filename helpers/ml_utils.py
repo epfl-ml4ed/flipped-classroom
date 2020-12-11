@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
@@ -9,7 +9,7 @@ import numpy as np
 import pickle
 import os
 
-def getTrainTestData(data, mode, task, ratio=0.9, thr=4.0):
+def getTrainTestData(data, mode, task, ratio=0.9, thr=4.0, random_state=None):
     if task == 'binary':
         print('> Binarizing student grades:', end=' ')
         y = [(0 if grade >= thr else 1) for grade in data['Grade']] # 1 for students that failed (grade < 4)
@@ -23,7 +23,7 @@ def getTrainTestData(data, mode, task, ratio=0.9, thr=4.0):
 
     if mode == 'random':
         print('> Splitting the whole student population randomly:', end=' ')
-        x_train, x_test, y_train, y_test = train_test_split(np.arange(len(data)), y, stratify=y, test_size=1 - ratio)
+        x_train, x_test, y_train, y_test = train_test_split(np.arange(len(data)), y, stratify=y, test_size=1 - ratio, random_state=random_state)
     elif mode == 'per-year':
         print('> Splitting the whole student population per year:', end=' ')
         x_train = data[data['Round'] != sorted(data['Round'])[-1]].index
@@ -100,59 +100,77 @@ def computeFeatures(event_data, exam_data, feature_labels, feature_sets, start, 
     return feature_sets
 
 
-def loadTrainedModels(mode, task, ratio, start, end, step):
-    filename = '../data/trained_models/trained_models_' + mode + '_' + task + '_' + str(ratio) + '_' + str(start) + '-' + str(end) + '-' + str(step) + '.pkl'
+def loadTrainedModels(name, mode, task, ratio, start, end, step):
+    filename = '../data/trained_models/trained_models_'+ name + '_' + mode + '_' + task + '_' + str(ratio) + '_' + str(start) + '-' + str(end) + '-' + str(step) + '.pkl'
 
     if os.path.exists(filename):
         print('> Found models for this experimental setting in', filename)
         with open(filename, 'rb') as f:
-            trained_models = pickle.load(f)
+            trained_models, scaler, random_state = pickle.load(f)
     else:
         print('> Initialized models for this experimental setting in', filename)
-        trained_models = {}
+        trained_models, scaler, random_state = {}, {}, np.random.randint(0,1e5)
 
-    return trained_models
+    return trained_models, scaler, random_state
 
-def trainModels(feature_sets, x_train, y_train, weeks, classifiers_types, classifiers_params, trained_models, isScaled=True, lasso=False):
-    scaler = [StandardScaler() if isScaled else None for _ in range(len(feature_sets))]
-    lasso_params = []
-    lasso_coefs = []
+
+def saveTrainedModels(trained_models, name, mode, task, ratio, start, end, step, scaler, random_state):
+    filename = '../data/trained_models/trained_models_'+ name + '_' + mode + '_' + task + '_' + str(ratio) + '_' + str(start) + '-' + str(end) + '-' + str(step) + '.pkl'
+
+    if not os.path.exists(os.path.dirname(filename)):
+        os.makedirs(os.path.dirname(filename))
+
+    with open(filename, 'wb') as f:
+        print('> Saved models for this experimental setting in', filename)
+        pickle.dump((trained_models, scaler, random_state), f, protocol=pickle.HIGHEST_PROTOCOL)
+
+    
+
+def trainModels(feature_sets, x_train, y_train, weeks, classifiers_types, classifiers_params, trained_models, isScaled=True, x_test=None, y_test=None):
+    scaler = {} #[[StandardScaler() for _ in weeks] if isScaled else None for _ in range(len(feature_sets))]
+
     for findex, flabel in enumerate(feature_sets.keys()):
+        scaler[flabel] = {}
         if not flabel in trained_models:
             trained_models[flabel] = {}
 
         for windex, wid in enumerate(weeks):
-
+            scaler[flabel][wid] = StandardScaler()
             if not wid in trained_models[flabel]:
                 trained_models[flabel][wid] = {}
 
+            if isScaled:
+                data_train = scaler[flabel][wid].fit_transform(feature_sets[flabel][wid][x_train])
+                if x_test!= None and y_test != None:
+                    data_test = scaler[flabel][wid].transform(feature_sets[flabel][wid][x_test])
+            else:
+                data_train = feature_sets[flabel][wid][x_train]
+                if x_test!= None and y_test != None:
+                    data_test = feature_sets[flabel][wid][x_test]
+                
             for mindex, mid in enumerate(classifiers_types.keys()):
 
                 if not mid in trained_models[flabel][wid]:
                     trained_models[flabel][wid][mid] = []
-
-                print('\r> Training on Set:', flabel, '(', '{:03d}'.format(findex + 1), '{:03d}'.format(len(feature_sets)), ')', end=' - ')
-                print('Week:', '{:03d}'.format(wid), '(', '{:03d}'.format(windex + 1), '{:03d}'.format(len(weeks)), ')', end=' - ')
-                print('Algorithm:', mid.ljust(3), '(', '{:03d}'.format(mindex + 1), '{:03d}'.format(len(classifiers_types)), ')', end='')
-
-                clf = GridSearchCV(classifiers_types[mid], classifiers_params[mid])
-                if isScaled:
-                    clf.fit(scaler[findex].fit_transform(feature_sets[flabel][wid][x_train]), y_train)
-                else:
-                    clf.fit(feature_sets[flabel][wid][x_train], y_train)
-                if lasso and mid == 'las':
-                    params = clf.best_params_
-                    params['week'] = wid
-                    lasso_params.append(params)
-                    print((np.array(list(clf.best_estimator_.coef_[0])) != 0).sum())
-                    lasso_coefs.append(wid + list(clf.best_estimator_.coef_[0]))
+                
+                print('Week:', '{:03d}'.format(wid), end=' - ')
+                print('Algorithm:', mid.ljust(3), end=' ')
+                
+                clf = GridSearchCV(classifiers_types[mid], classifiers_params[mid], scoring='f1')
+                clf.fit(data_train, y_train)
                 trained_models[flabel][wid][mid].append(clf)
 
+                print('Training: {:.2f}'.format(accuracy_score(y_train, np.around(clf.predict(data_train)))), end=' ')
+                if x_test!= None and y_test != None:
+                    print('Test: {:.2f}'.format(accuracy_score(y_test, np.around(clf.predict(data_test)))), end=' ')
+                print(f'CV best: {clf.best_score_:.2f}', end=' ')
+                
+                if mid == 'las':    #If the model is lasso then print the number of non zero coefficients
+                    print((np.array(list(clf.best_estimator_.coef_[0])) != 0).sum())
+                else:
+                    print()
     print()
-    if lasso:
-        return trained_models, scaler, lasso_params, lasso_coefs
-    else:
-        return trained_models, scaler
+    return trained_models, scaler
 
 def showBestParams(trained_models):
     for flabel, fvalue in trained_models.items():
@@ -160,17 +178,8 @@ def showBestParams(trained_models):
         for wid, wvalue in fvalue.items():
             print('> Week:', wid)
             for mid, mvalue in wvalue.items():
-                print('>> Model:', mid, '-', trained_models[flabel][wid][mid].best_params_)
+                print('>> Model:', mid, '-', trained_models[flabel][wid][mid][0].best_params_)
 
-def saveTrainedModels(trained_models, mode, task, ratio, start, end, step):
-    filename = '../data/trained_models/trained_models_' + mode + '_' + task + '_' + str(ratio) + '_' + str(start) + '-' + str(end) + '-' + str(step) + '.pkl'
-
-    if not os.path.exists(os.path.dirname(filename)):
-        os.makedirs(os.path.dirname(filename))
-
-    with open(filename, 'wb') as f:
-        print('> Saved models for this experimental setting in', filename)
-        pickle.dump(trained_models, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 def tn(y_true, y_pred):
     return confusion_matrix(y_true, y_pred).ravel()[0]
@@ -211,7 +220,7 @@ def computeMetrics(scaler, feature_sets, trained_models, x_test, y_test, evaluat
             if not wid in evaluation_scores[flabel]:
                 evaluation_scores[flabel][wid] = {}
 
-            test_data = scaler[findex].transform(feature_sets[flabel][wid][x_test])
+            test_data = scaler[flabel][wid].transform(feature_sets[flabel][wid][x_test])
 
             for mindex, (mid, mvalue) in enumerate(trained_models[flabel][wid].items()):
 
@@ -223,9 +232,47 @@ def computeMetrics(scaler, feature_sets, trained_models, x_test, y_test, evaluat
                     if not emid in evaluation_scores[flabel][wid][mid]:
                         evaluation_scores[flabel][wid][mid][emid] = []
 
-                    clf = trained_models[flabel][wid][mid][-1]
+                    clf = trained_models[flabel][wid][mid]
                     evaluation_scores[flabel][wid][mid][emid].append(mfunc(y_test, np.around(clf.predict(test_data))))
 
     print('> Evaluated last iteration models')
 
     return evaluation_scores
+
+
+def fitWithBestHyperparamters(trainedModels, scaler, featureSets, x_train, y_train):
+    """
+    Compare scores over different training-test splits in order to 
+    select the right hyperparamter combination for each week.
+    Then train the models on the training set with the chosen hyperparameters.
+    """
+    bestModels = {}
+    for flabel in trainedModels.keys():
+        bestModels[flabel] = {}
+        
+        for windex, wid in enumerate(trainedModels[flabel].keys()):
+            bestModels[flabel][wid] = {}
+            
+            for mindex, mid in enumerate(trainedModels[flabel][wid].keys()):
+                #List of different models trained with different splits
+                models = trainedModels[flabel][wid][mid] 
+
+                #Sum the scores for each hyperparameter combinations (mean_test_score is the list 
+                #of average split scores during the trainModel cross validation)
+                #I.e., the CV performed in trainModel is not used to select the best hyperparamters 
+                #but to compute scores for each hyperparamters combinations that are then averaged
+                #over different train/test split
+
+                scores = models[0].cv_results_['mean_test_score'] 
+                for model in models[1:]: #Each model has been fitted on a different train/test split
+                    scores += model.cv_results_['mean_test_score'] 
+                
+                #Select the best hyperparameter combination in average
+                hyperparameters = model.cv_results_['params'][np.nanargmax(scores)]
+                
+                #Initialize and fit a new model with the selected hyperparameters
+                clf = model.estimator.__class__().set_params(**hyperparameters)
+                
+                data_train = scaler[flabel][wid].transform(featureSets[flabel][wid][x_train])
+                bestModels[flabel][wid][mid] = clf.fit(data_train, y_train)
+    return bestModels

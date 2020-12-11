@@ -24,7 +24,13 @@ class HeEtAl(Extractor):
         """
         @description: Returns the number of expected features.
         """
-        return 3
+        return len(self.getFeatureNames())
+
+    def getFeatureNames(self):
+        """
+        @description: Returns the names of the feature in the same order as getUserFeatures
+        """
+        return ["attendanceRate", "utilizationRate", "watchingRatio"]
 
     def getUserFeatures(self, udata, wid, year):
         """
