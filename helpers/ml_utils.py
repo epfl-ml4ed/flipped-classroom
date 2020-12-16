@@ -153,22 +153,23 @@ def trainModels(feature_sets, x_train, y_train, weeks, classifiers_types, classi
                 if not mid in trained_models[flabel][wid]:
                     trained_models[flabel][wid][mid] = []
                 
-                print('Week:', '{:03d}'.format(wid), end=' - ')
-                print('Algorithm:', mid.ljust(3), end=' ')
+                print(f'Paper: {flabel:<20}', end=' - ')
+                print(f'Week: {wid:03d}', end=' - ')
+                print(f'Algorithm: {mid.ljust(3):<20}', end='\r')
                 
                 clf = GridSearchCV(classifiers_types[mid], classifiers_params[mid], scoring='f1')
                 clf.fit(data_train, y_train)
                 trained_models[flabel][wid][mid].append(clf)
 
-                print('Training: {:.2f}'.format(accuracy_score(y_train, np.around(clf.predict(data_train)))), end=' ')
-                if x_test!= None and y_test != None:
-                    print('Test: {:.2f}'.format(accuracy_score(y_test, np.around(clf.predict(data_test)))), end=' ')
-                print(f'CV best: {clf.best_score_:.2f}', end=' ')
+                # print('Training: {:.2f}'.format(accuracy_score(y_train, np.around(clf.predict(data_train)))), end=' ')
+                # if x_test!= None and y_test != None:
+                #     print('Test: {:.2f}'.format(accuracy_score(y_test, np.around(clf.predict(data_test)))), end=' ')
+                # print(f'CV best: {clf.best_score_:.2f}', end=' ')
                 
-                if mid == 'las':    #If the model is lasso then print the number of non zero coefficients
-                    print((np.array(list(clf.best_estimator_.coef_[0])) != 0).sum())
-                else:
-                    print()
+                # if mid == 'las':    #If the model is lasso then print the number of non zero coefficients
+                #     print((np.array(list(clf.best_estimator_.coef_[0])) != 0).sum())
+                # else:
+            # print()
     print()
     return trained_models, scaler
 
