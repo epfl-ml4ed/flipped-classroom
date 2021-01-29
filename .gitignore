@@ -1,9 +1,7 @@
+.credentials
 .idea/*
 notebooks/.ipynb_checkpoints/*
 .DS_STORE
-Papers
 __pycache__/
 *.pyc
 data/*
-.vscode/
-Ethics/
