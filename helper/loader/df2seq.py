@@ -190,15 +190,15 @@ def getSessions(config, metadata):
         videos = pd.read_csv(os.path.join('video_events', 'video_events_' + course + '.csv'))
         videos['ElementID'] = videos['VideoID']
         df = videos[['AccountUserID', 'ElementID', 'TimeStamp', 'EventType']]
-        print('> loading', len(df), 'video events from', len(videos['AccountUserID'].unique()),'students for', course, '...')
+        print('loading', len(df), 'video events from', len(videos['AccountUserID'].unique()),'students for', course, '...')
 
         if os.path.exists(os.path.join('problem_events', 'problem_events_' + course + '.csv')):
             problems = pd.read_csv(os.path.join('problem_events', 'problem_events_' + course + '.csv'))
             problems['ElementID'] = problems['ProblemID']
             df = df.append(problems[['AccountUserID', 'ElementID', 'TimeStamp', 'EventType']])
-            print('> loading', len(problems), 'problem events from', len(problems['AccountUserID'].unique()),'students for', course, '...')
+            print('loading', len(problems), 'problem events from', len(problems['AccountUserID'].unique()),'students for', course, '...')
         else:
-            print('> no problem events found for', course)
+            print('no problem events found for', course)
 
         df['TimeStamp'] = df['TimeStamp'].apply(lambda x: string2Datetime(datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S')))
         processWeek(df, 'TimeStamp', metadata[metadata['DataPackageID'] == '_'.join(course.split('.')[0].split('_')[2:])]['StartDate'].values[0])
@@ -245,7 +245,7 @@ def getSessions(config, metadata):
             else:
                 raise NotImplementedError('The output type ' + config['outputType'] + ' is not implemented.')
         else:
-            print('> no sessions for course', course)
+            print('no sessions for course', course)
 
     return sessionDict
 
@@ -253,7 +253,7 @@ def computeFeatures(event_data, feature_labels, weeks, weekly=False):
     feature_sets = {}
 
     for findex, ffunc in enumerate(feature_labels):
-        print('> processing', ffunc.getName(), 'features ...')
+        print('processing', ffunc.getName(), 'features ...')
         flabel = ffunc.getName()
         feature_sets[flabel] = {}
 

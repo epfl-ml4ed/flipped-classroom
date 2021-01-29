@@ -19,29 +19,29 @@ def downloadLabelsFromISA(config, metadata):
     db = MySQLConnector()
 
     for course in config['courses']:
-        print('> retrieving labels for', course, '...')
+        print('retrieving labels for', course, '...')
         title = metadata[metadata['DataPackageID'] == '_'.join(course.split('.')[0].split('_')[2:])]['OfficialTitle'].values[0]
 
         labels = pd.DataFrame.from_records(db.execute("""SELECT StudentPersonHash, Grade, GradeDate FROM project_himanshu.Request_2021Jan26_Bachelor_Master_Results WHERE SubjectName LIKE \'%{}%\'""".format(title)), columns=['StudentSCIPER', 'Grade', 'GradeDate']).drop_duplicates()
         labels = labels[~labels['Grade'].isin(['STATUT_NOTE_NA', 'STATUT_NOTE_M'])]
-        print('> found labels for', len(labels), 'students in the course across years')
+        print('found labels for', len(labels), 'students in the course across years')
 
         data_package = course.split('.')[0].split('_')[2:][0]
         videosEventsNew = pd.DataFrame.from_records(db.execute("""SELECT AccountUserHash, TimeStamp FROM project_himanshu.Request_2021Jan26_Video_Events WHERE DataPackageID LIKE \'%{}%\' ORDER BY TimeStamp""".format(data_package)), columns=['AccountUserID', 'TimeStamp']).drop_duplicates(subset=['AccountUserID'], keep='first')
         videosEventsOld = pd.DataFrame.from_records(db.execute("""SELECT AccountUserID, TimeStamp FROM ca_courseware.Video_Events WHERE DataPackageID LIKE \'%{}%\' ORDER BY TimeStamp""".format(data_package)), columns=['OldAccountUserID', 'TimeStamp']).drop_duplicates(subset=['OldAccountUserID'], keep='first')
         videosEvents = videosEventsNew.merge(videosEventsOld, on='TimeStamp')
         oldMapping = {i:v for i, v in zip(videosEvents['AccountUserID'].values, videosEvents['OldAccountUserID'].values)}
-        print('> found', len(videosEvents['AccountUserID'].unique()), 'students with video events in this year course')
+        print('found', len(videosEvents['AccountUserID'].unique()), 'students with video events in this year course')
 
         mapping = pd.DataFrame.from_records(db.execute("""SELECT AccountUserHash, StudentPersonHash FROM project_himanshu.Request_2021Jan26_ISA_MOOCs_Mapping"""), columns=['AccountUserID', 'StudentSCIPER'])
         course_mapping = mapping[mapping['AccountUserID'].isin(videosEvents['AccountUserID'].astype(str))].copy()
         course_mapping['OldAccountUserID'] = course_mapping['AccountUserID'].apply(lambda x: oldMapping[x])
-        print('> found a mooc-isa map for', len(course_mapping), 'students in this year course')
+        print('found a mooc-isa map for', len(course_mapping), 'students in this year course')
 
         courseLabels = course_mapping.merge(labels, how='left', on='StudentSCIPER').dropna(subset=['Grade'])[['AccountUserID', 'OldAccountUserID', 'Grade', 'GradeDate']]
         courseLabels['GradeMax'] = 6.0
-        print('> retrieved labels for', len(courseLabels), 'students in this year course')
-        print('> found counts of labels as', courseLabels['Grade'].value_counts().sort_index().to_dict())
+        print('retrieved labels for', len(courseLabels), 'students in this year course')
+        print('found counts of labels as', courseLabels['Grade'].value_counts().sort_index().to_dict())
 
         courseLabels[['AccountUserID', 'OldAccountUserID', 'Grade', 'GradeMax', 'GradeDate']].to_csv(os.path.join('request_2021jan26_labels', 'request_2021jan26_final_grades_' + course + '.csv'), index=False)
 
@@ -85,7 +85,7 @@ def downloadQuizLabelsFromCoursera(config, base_folder='./problem_events'):
             y.to_csv(os.path.join('labels', 'labels_' + course), index=False)
             print(course, len(y['AccountUserID'].unique()))
         else:
-            print('> skipped', course)
+            print('skipped', course)
 
     db.close()
 
@@ -134,7 +134,7 @@ def downloadAssignmentsLabelsFromCoursera(config, base_folder='./problem_events'
                 y.to_csv(os.path.join('labels', 'labels_' + course), index=False)
             print(course, len(problems), len(y['AccountUserID'].unique()))
         else:
-            print('> skipped', course)
+            print('skipped', course)
 
     db.close()
 
@@ -174,9 +174,9 @@ def downloadAssignmentsLabelsFromEdx(config, base_folder='./problem_events'):
                     y.to_csv(os.path.join('labels', 'labels_' + course), index=False)
                 print(course, len(problems), maxproblems, len(y['AccountUserID'].unique()))
             else:
-                print('> skipped1', course)
+                print('skipped1', course)
         else:
-            print('> skipped2', course)
+            print('skipped2', course)
 
     db.close()
 
@@ -216,9 +216,9 @@ def downloadQuizLabelsFromEdx(config, base_folder='./problem_events'):
                     y.to_csv(os.path.join('labels', 'labels_' + course), index=False)
                 print(course, len(problems), maxproblems, len(y['AccountUserID'].unique()))
             else:
-                print('> skipped1', course)
+                print('skipped1', course)
         else:
-            print('> skipped2', course)
+            print('skipped2', course)
 
     db.close()
 
@@ -258,9 +258,9 @@ def downloadAssignmentsLabelsFromCourseware(config, base_folder='./problem_event
                     y.to_csv(os.path.join('labels', 'labels_' + course), index=False)
                 print(course, len(problems), maxproblems, len(y['AccountUserID'].unique()))
             else:
-                print('> skipped1', course)
+                print('skipped1', course)
         else:
-            print('> skipped2', course)
+            print('skipped2', course)
 
     db.close()
 

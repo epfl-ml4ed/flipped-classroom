@@ -26,7 +26,7 @@ def init_courses(settings, filepath=os.path.join(os.path.abspath(os.path.dirname
                 if settings['label']:
                     course.label()
                 courses.append(course)
-    logging.info('> loaded {} courses'.format(len(courses)))
+    logging.info('loaded {} courses'.format(len(courses)))
     return courses
 
 def find_course_by_id(course_id, course_lst):

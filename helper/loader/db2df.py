@@ -12,7 +12,7 @@ from helper.database.db_connector import MySQLConnector
 def downloadEvents(config):
     db = MySQLConnector()
     for platform in config['platforms']:
-        print('> loading', config['table'].lower(), 'from', platform)
+        print('loading', config['table'].lower(), 'from', platform)
         courses = pd.DataFrame.from_records(db.execute("""SELECT DISTINCT DataPackageID FROM {}.{}""".format(platform, config['table'])), columns=['DataPackageID'])['DataPackageID'].tolist()
         print('>', platform, 'includes', len(courses), 'courses with', config['table'].lower())
         for course in tqdm(set(courses) & config(['courses']) if config['courses'] is not None else set(courses)):
@@ -23,7 +23,7 @@ def downloadEvents(config):
                     courseEventsDf['AccountUserID'] = courseEventsDf['SessionUserID']
                     del courseEventsDf['SessionUserID']
                 courseEventsDf.to_csv(os.path.join(config['table'].lower(), config['table'].lower() + '_' + platform + '_' + course + '.csv'), index=False)
-        print('> ended parsing from', platform)
+        print('ended parsing from', platform)
     db.close()
 
 def main():

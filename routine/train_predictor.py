@@ -37,33 +37,33 @@ def main():
     assert settings['model'] is not None and settings['feature_set'] is not None
 
     # Load feature set
-    logging.info('> loading feature set {}'.format(settings['feature_set']))
+    logging.info('loading feature set {}'.format(settings['feature_set']))
     extractor = Extractor()
     extractor.load(settings)
 
     # Load associated course
-    logging.info('> loading course data from {}'.format(settings['feature_set']))
+    logging.info('loading course data from {}'.format(settings['feature_set']))
     extractor_settings = extractor.get_settings()
     course = Course(extractor_settings['course_id'], extractor_settings['type'], extractor_settings['platform'])
     course.load()
     course.label()
 
     # Arrange data
-    logging.info('> arranging data from {}'.format(course.course_id))
+    logging.info('arranging data from {}'.format(course.course_id))
     U = extractor.get_features_values()[0]
     X = extractor.get_features_values()[1]
     y = course.get_clickstream_grade().set_index('user_id').reindex(U)[settings['target']].values
 
-    logging.info('> initializing {}'.format(settings['model']))
+    logging.info('initializing {}'.format(settings['model']))
     predictor = import_class(settings['model'])()
 
-    logging.info('> building {}'.format(settings['model']))
+    logging.info('building {}'.format(settings['model']))
     predictor.build({**settings, **{'input_shape': X.shape[1:]}})
 
-    logging.info('> compiling {}'.format(settings['model']))
+    logging.info('compiling {}'.format(settings['model']))
     predictor.compile({**settings, **{'metrics': settings['metrics'].split(',')}})
 
-    logging.info('> training and saving {}'.format(settings['model']))
+    logging.info('training and saving {}'.format(settings['model']))
     predictor.train(X, y, settings)
 
 if __name__ == "__main__":

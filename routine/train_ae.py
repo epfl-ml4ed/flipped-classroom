@@ -43,33 +43,33 @@ def main():
     settings = vars(parser.parse_args())
 
     # Load feature set
-    logging.info('> loading feature set {}'.format(settings['feature_set']))
+    logging.info('loading feature set {}'.format(settings['feature_set']))
     extractor = Extractor()
     extractor.load(settings)
 
     # Load associated course
-    logging.info('> loading course data from {}'.format(settings['feature_set']))
+    logging.info('loading course data from {}'.format(settings['feature_set']))
     extractor_settings = extractor.get_settings()
     course = Course(extractor_settings['course_id'], extractor_settings['type'], extractor_settings['platform'])
     course.load()
 
     # Arrange data
-    logging.info('> arranging data from {}'.format(course.course_id))
+    logging.info('arranging data from {}'.format(course.course_id))
     X = extractor.get_features_values()[1]
 
     users, timesteps, obs_per_timestep = X.shape
     features = timesteps * obs_per_timestep
 
-    logging.info('> initializing model {}'.format(settings['model']))
+    logging.info('initializing model {}'.format(settings['model']))
     ae = import_class(settings['model'])()
 
-    logging.info('> building model {}'.format(settings['model']))
+    logging.info('building model {}'.format(settings['model']))
     ae.build(features=features, obs_per_timestep=obs_per_timestep, settings=settings)
 
-    logging.info('> compiling model {}'.format(settings['model']))
+    logging.info('compiling model {}'.format(settings['model']))
     ae.compile(settings=settings)
 
-    logging.info('> training model {}'.format(settings['model']))
+    logging.info('training model {}'.format(settings['model']))
     ae.train(X=np.reshape(X, (users, -1)), settings=settings)
 
 if __name__ == "__main__":

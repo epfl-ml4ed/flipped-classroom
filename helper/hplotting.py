@@ -64,10 +64,10 @@ def plot_dropout_distribution(course):
     plt.ylim([0, 1])
     plt.grid(axis='y')
 
-def plot_stopout_distribution(course, week_thr=7):
+def plot_stopout_distribution(course, extra_weeks=8):
     x = course.get_clickstream_grade()['stopout'].to_list()
 
-    w = np.arange(course.get_weeks() + 1)
+    w = np.arange(course.get_weeks() + extra_weeks + 1)
     d = np.array([x.count(el) for el in w])
 
     # Histogram
@@ -75,17 +75,17 @@ def plot_stopout_distribution(course, week_thr=7):
     plt.xticks(w, w, rotation=45)
 
     # Line vertical
-    plt.axvline(x=week_thr, color='#818D92', linestyle='--')
+    plt.axvline(x=course.get_weeks() - 1, color='#818D92', linestyle='--')
 
     # Decoration
     plt.title(r'$\bf{Stopout}$ $\bf{Distribution}$')
     plt.ylabel('Percentage')
     plt.xlabel('Stopout Week')
-    plt.xlim([0, course.get_weeks() + .5])
+    plt.xlim([0, course.get_weeks() + extra_weeks + .5])
     plt.ylim([0.0, 1.0])
     plt.grid(axis='y')
 
-def plor_feature(feature, feature_values, groups):
+def plot_feature(feature, feature_values, groups):
     for label, idxs, color in groups:
         plt.plot(np.arange(feature_values.shape[1]), np.mean(feature_values[idxs, :], axis=0), label=label, color=color)
     plt.title(feature.get_name())
