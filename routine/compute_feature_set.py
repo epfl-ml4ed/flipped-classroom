@@ -20,6 +20,7 @@ def main():
     parser.add_argument('--model', dest='model', default='extractor.set.lalle_conati.LalleConati', type=str, action='store')
     parser.add_argument('--workdir', dest='workdir', default='../data/result/edm21/', type=str, action='store')
     parser.add_argument('--course', dest='course', default='flipped-classroom/EPFL-AlgebreLineaire-2019', type=str, action='store')
+    parser.add_argument('--timeframe', dest='timeframe', default='eq-week', type=str, action='store')
     parser.add_argument('--max_session_length', dest='max_session_length', default=120, type=int, action='store')
     parser.add_argument('--min_actions', dest='min_actions', default=10, type=int, action='store')
     parser.add_argument('--filepath', dest='filepath', default='../data/result/edm21/feature/', type=str, action='store')
