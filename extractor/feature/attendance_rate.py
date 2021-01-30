@@ -2,18 +2,30 @@
 # -*- coding: utf-8 -*-
 
 from extractor.feature.feature import Feature
-from helper.dataset.data_preparation import get_sessions
 
+import logging
+
+'''
+The attendance rate of a student s on a given week c since the beginning of the course, is the number of videos
+that the student played over to the total number of videos up to that period in time of the course schedule.
+'''
 class AttendanceRate(Feature):
 
     def __init__(self, data, settings):
-        super().__init__('number_sessions')
-        self.data = data if 'week' not in settings else (data[data['week'] == settings['week']] if settings['timeframe'] == 'week' else data[data['week'] <= settings['week']])
-        self.settings = settings
+        super().__init__('attendance_rate', data, settings)
 
     def compute(self):
+
         if len(self.data.index) == 0:
-            return 0.0
-        taught_schedule = self.settings['course'].get_schedule()
-        learnt_schedule = self.data.drop_duplicates(subset=['video_id'], keep='first')
-        return len(set(learnt_schedule['video_id']) & set(taught_schedule['id'])) / len(taught_schedule) if len(taught_schedule) > 0 else 0
+            logging.info('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
+
+        assert 'course' in self.settings and self.settings['course'].has_schedule()
+        taught_videos = set(self.schedule[self.schedule['type'] == 'video']['id'].unique())
+        learnt_videos = set(self.data['video_id'].unique())
+
+        if len(taught_videos) == 0:
+            logging.info('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
+
+        return len(learnt_videos & taught_videos) / len(taught_videos)

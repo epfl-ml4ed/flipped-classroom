@@ -104,6 +104,9 @@ class Course():
     def is_complete(self):
         return self.metadata is not None and self.schedule is not None and self.clickstream_grade is not None and self.clickstream_video is not None
 
+    def has_schedule(self):
+        return self.schedule is not None
+
     def __str__(self):
         return 'ID: {} Type: {} Title: {} Students: {}'.format(self.course_id, self.type, self.title, self.__len__())
 

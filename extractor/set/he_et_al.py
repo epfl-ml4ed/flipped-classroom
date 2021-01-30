@@ -24,6 +24,7 @@ class HeEtAl(Extractor):
         self.features = [AttendanceRate(data, settings),
                          UtilizationRate(data, settings),
                          WatchingRatio(data, settings)]
+
         features = [f.compute() for f in self.features]
         assert len(features) == self.__len__()
-        return np.nan_to_num(features)
+        return features

@@ -9,7 +9,7 @@ from extractor.extractor import Extractor
 from extractor.feature.total_clicks import TotalClicks
 from extractor.feature.number_sessions import NumberSessions
 from extractor.feature.count_ngrams import CountNGrams
-from extractor.feature.sum_time import SumTime
+from extractor.feature.time import Time
 
 '''
 Akpinar, N. J., Ramdas, A., & Acar, U. (2020). Analyzing Student Strategies In Blended Courses Using Clickstream Data.
@@ -35,9 +35,9 @@ class AkpinarEtAl(Extractor):
     def extract_features(self, data, settings):
         self.features = [TotalClicks(data, settings),
                          NumberSessions(data, settings),
-                         SumTime(data, {**settings, **{'mode':'video'}}),
-                         SumTime(data, {**settings, **{'mode':'problem'}})]
+                         Time(data, {**settings, **{'type':'video', 'ffunc': np.sum}}),
+                         Time(data, {**settings, **{'type':'problem', 'ffunc': np.sum}})]
+
         features = [f.compute() for f in self.features] + CountNGrams(data, {**settings, **{'perms': self.perms, 'ngram': self.ngram}}).compute()
-        print(features)
         assert len(features) == self.__len__()
-        return np.nan_to_num(features)
+        return features

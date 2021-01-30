@@ -7,18 +7,20 @@ from extractor.feature.feature import Feature
 from helper.dataset.data_preparation import get_sessions
 
 '''
-The number of different online sessions the student has taken in the period of interest
+The (statistics) on the time between sessions
 '''
-class NumberSessions(Feature):
+class TimeBetweenSessions(Feature):
 
     def __init__(self, data, settings):
-        super().__init__('number_sessions', data, settings)
+        super().__init__('time_between_sessions', data, settings)
 
     def compute(self):
+        assert 'ffunc' in self.settings
 
         if len(self.data.index) == 0:
             logging.info('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         sessions = get_sessions(self.data, self.schedule['duration'].max())
-        return len(sessions.index)
+        time_between_session = (sessions['end_date'] - sessions['start_date'].shift(1)).dropna().total_seconds()
+        return self.settings['ffunc'](time_between_session.values)

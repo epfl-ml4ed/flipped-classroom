@@ -1,24 +1,36 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import logging
+
 from extractor.feature.feature import Feature
 
+'''
+The total number of clicks provided by a student (on a given set of days) (on a given type of events)
+'''
 class TotalClicks(Feature):
 
     def __init__(self, data, settings):
-        super().__init__('total_clicks' + ('_' + settings['mode'] if 'mode' in settings else '') + ('_' + settings['type'] if 'type' in settings else ''))
-        self.data = data if 'week' not in settings else (data[data['week'] == settings['week']] if settings['timeframe'] == 'week' else data[data['week'] <= settings['week']])
-        self.settings = settings
+        super().__init__('total_clicks', data, settings)
 
     def compute(self):
+
         if len(self.data.index) == 0:
-            return 0.0
+            logging.info('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
+
         data = self.data
+
         if 'mode' in self.settings:
             if self.settings['mode'] == 'weekend':
-                data = self.data[self.data['weekday'].isin([5, 6])]
+                logging.info('filtering by weekend')
+                data = data[data['weekday'].isin(Feature.WEEKEND)]
             if self.settings['mode'] == 'weekday':
-                data = self.data[self.data['weekday'] < 5]
-            if 'type' in self.settings:
-                data = self.data[self.data['event_type'].str.contains(self.settings['type'].title())]
+                logging.info('filtering by weekday')
+                data = data[data['weekday'].isin(Feature.WEEKDAY)]
+
+        if 'type' in self.settings:
+            logging.info('filtering by event type')
+            data = data[self.data['event_type'].str.contains(self.settings['type'].title())]
+
         return len(data.index)

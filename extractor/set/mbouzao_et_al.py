@@ -21,7 +21,10 @@ class MbouzaoEtAl(Extractor):
         self.name = 'mbouzao_et_al'
 
     def extract_features(self, data, settings):
-        self.features = [AttendanceRate(data, settings), UtilizationRate(data, settings), WatchingIndex(data, settings)]
+        self.features = [AttendanceRate(data, settings),
+                         UtilizationRate(data, settings),
+                         WatchingIndex(data, settings)]
+
         features = [f.compute() for f in self.features]
         assert len(features) == self.__len__()
-        return np.nan_to_num(features)
+        return features

@@ -1,28 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import numpy as np
 import logging
 
 from extractor.feature.feature import Feature
 
+from helper.dataset.data_preparation import count_events
+
 '''
-The average time to solve a problem
+The (statistics) on the pause lenghts
 '''
-class TimeSolveProblem(Feature):
+class PauseDuration(Feature):
 
     def __init__(self, data, settings):
-        super().__init__('time_solve_problem', data, settings)
+        super().__init__('pause_duration', data, settings)
 
     def compute(self):
+        assert 'ffunc' in self.settings
 
         if len(self.data.index) == 0:
             logging.info('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.data['prev_event'] = self.data['event_type'].shift(1)
-        self.data['prev_problem_id'] = self.data['problem_id'].shift(1)
+        self.data['prev_video_id'] = self.data['video_id'].shift(1)
         self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
         self.data = self.data.dropna(subset=['time_diff'])
 
-        return np.mean(self.data.groupby(by='problem_id').sum()['time_diff'].values)
+        pause_durations = self.data[(self.data['prev_event'] == 'Video.Pause') & (self.data['video_id'] == self.data['prev_video_id'])]['time_diff'].values
+        return self.settings['ffunc'](pause_durations)

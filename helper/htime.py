@@ -5,11 +5,6 @@ from datetime import datetime
 import pandas as pd
 import numpy as np
 
-def get_seconds(row):
-    if 'start' in row and 'end' in row:
-        return (row['end'] - row['start']).total_seconds()
-    return 0.0
-
 def tmp2dt(x):
     return str2dt(datetime.utcfromtimestamp(x).strftime('%Y-%m-%d %H:%M:%S'))
 
