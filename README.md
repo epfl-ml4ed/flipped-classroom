@@ -8,50 +8,6 @@ This project aims at exploring behavioral patterns and predicting students’ fu
 
 The contributions coming from this project can shape intelligent learning platforms able to provide a **data-driven formative feedback**. These insights are essential to **assist students** in regulating their use of online learning resources and **inform teachers** on when, where and why to intervene.
 
-## Table of Contents
-- [Installation](#installation)
-- [Folder Structure](#folder-structure) 
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [Citations](#citations)
-- [License](#license)
-
-## Installation
-
-Clone this repository:
-``` 
-git clone https://github.com/d-vet-ml4ed/flipped-classroom.git
-cd ./flipped-classroom
-``` 
-
-Create a Python environment:
-``` 
-module load python3/intel/3.6.3
-python3 -m virtualenv venv
-source venv/bin/activate
-pip install -r requirements.txt
-``` 
-
-## Folder Structure
-
-``` 
-flipped-classroom
-├── config
-├── data
-│   ├── lin_alg_moodle
-│       ├── 2017
-│       ├── 2018
-│       ├── problems.csv
-│       ├── videos.csv
-├── helpers
-├── notebooks
-├── tests
-``` 
-
-## Usage
-
-...
-
 ## Contributing 
 
 This code is provided for educational purposes and aims to facilitate reproduction of our results, and further research 
