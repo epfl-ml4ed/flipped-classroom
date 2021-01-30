@@ -25,6 +25,7 @@ class Time(Feature):
         self.data['prev' + self.settings['type'] + '_id'] = self.data[self.settings['type'] + '_id'].shift(1)
         self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
         self.data = self.data.dropna(subset=['time_diff'])
+        self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= self.schedule['duration'].max())]
 
         time_intervals = self.data[(self.data['event_type'].str.contains(self.settings['type'].title())) & (self.data['prev_event'].str.contains(self.settings['type'].title()))]['time_diff'].values
 

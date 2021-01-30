@@ -27,6 +27,7 @@ class ObsDurationProblem(Feature):
             self.data['prev_problem_id'] = self.data['problem_id'].shift(1)
             self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
             self.data = self.data.dropna(subset=['time_diff'])
+            self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= self.schedule['duration'].max())]
             return self.settings['ffunc'](self.data['time_diff'].values)
 
         return TimeSessions(self.data, {**self.settings, **{'ffunc': np.sum}}).compute() / NumberSubmissions(self.data, {**self.settings, **{'mode': 'distinct_correct'}}).compute()

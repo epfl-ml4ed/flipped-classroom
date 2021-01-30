@@ -24,5 +24,6 @@ class TimeSolveProblem(Feature):
         self.data['prev_problem_id'] = self.data['problem_id'].shift(1)
         self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
         self.data = self.data.dropna(subset=['time_diff'])
+        self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= self.schedule['duration'].max())]
 
         return np.mean(self.data.groupby(by='problem_id').sum()['time_diff'].values)

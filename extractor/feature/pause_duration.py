@@ -26,6 +26,7 @@ class PauseDuration(Feature):
         self.data['prev_video_id'] = self.data['video_id'].shift(1)
         self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
         self.data = self.data.dropna(subset=['time_diff'])
+        self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= self.schedule['duration'].max())]
 
         pause_durations = self.data[(self.data['prev_event'] == 'Video.Pause') & (self.data['video_id'] == self.data['prev_video_id'])]['time_diff'].values
         return self.settings['ffunc'](pause_durations)

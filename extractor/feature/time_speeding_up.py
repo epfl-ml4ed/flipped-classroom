@@ -21,4 +21,6 @@ class TimeSpeedingUp(Feature):
             return Feature.INVALID_VALUE
 
         speed_up_timings = get_time_speeding_up(self.data)
+        speed_up_timings = speed_up_timings[(speed_up_timings >= Feature.TIME_MIN) & (speed_up_timings <= self.schedule['duration'].max())]
+
         return self.settings['ffunc'](speed_up_timings)

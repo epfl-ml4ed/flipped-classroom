@@ -41,6 +41,7 @@ class NumberSubmissions(Feature):
                 self.data['prev_problem_id'] = self.data['problem_id'].shift(1)
                 self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
                 self.data = self.data.dropna(subset=['time_diff'])
+                self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= self.schedule['duration'].max())]
                 self.data = self.data[(self.data['time_diff'] > 0.0) & (self.data['problem_id'] == self.data['prev_problem_id'])]
                 return np.mean(self.data['time_diff'].values)
 

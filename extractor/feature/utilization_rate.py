@@ -25,6 +25,7 @@ class UtilizationRate(Feature):
         self.data['prev_video_id'] = self.data['video_id'].shift(1)
         self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
         self.data = self.data.dropna(subset=['time_diff'])
+        self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= self.schedule['duration'].max())]
 
         time_intervals = self.data[(self.data['prev_event'] == 'Video.Play') & (self.data['video_id'] == self.data['prev_video_id'])]['time_diff'].values
         sum_time_intervals = np.sum(time_intervals[(time_intervals >= Feature.TIME_MIN) & (time_intervals <= self.schedule['duration'].max())])
