@@ -9,7 +9,7 @@ def get_sessions(data, max_session_length=120, min_session_action=3):
 
     for index, group in data.groupby(['user_id']):
 
-        group = group[['date', 'event_type']].sort_values('date')
+        group = group.sort_values('date')
         group['interval'] = (group['date'] - group['date'].shift(1)).total_seconds()
         group['session_id'] = (group['date'] - group['date'].shift(1) > pd.Timedelta(max_session_length, 'm')).cumsum() + 1
 
@@ -17,6 +17,8 @@ def get_sessions(data, max_session_length=120, min_session_action=3):
         session['user_id'] = index
         session['start_time'] = group.drop_duplicates(subset=['session_id'], keep='first')['date'].values
         session['end_time'] = group.drop_duplicates(subset=['session_id'], keep='last')['date'].values
+        session['week'] = group.drop_duplicates(subset=['session_id'], keep='first')['week'].values
+        session['weekday'] = group.drop_duplicates(subset=['session_id'], keep='first')['weekday'].values
         session['duration'] = session.apply(lambda row: (row['end_time'] - row['start_time']).total_seconds(), axis=1)
         session['event'] = group.groupby('session_id')['event_type'].apply(','.join).values
         session['interval'] = group.groupby('session_id')['interval'].apply(lambda x: list(x)[1:]).values
@@ -93,6 +95,25 @@ def get_time_speeding_up(data):
     data = data.dropna(subset=['prev_speed'])
     return data[data['prev_speed'] > 1.0]['time_diff'].values
 
+def similarity_days(wi, wj):
+    m1, m2 = np.where(wi == 1)[0], np.where(wj == 1)[0]
+    if len(m1) == 0 or len(m2) == 0:
+        return 0
+    return len(np.intersect1d(m1, m2)) / max(len(m1), len(m2))
+
+def chi2_divergence(p1, p2, a1, a2):
+    a = p1 - p2
+    b = p1 + p2
+    frac = np.divide(a, b, out=np.zeros(a.shape, dtype=float), where=b != 0)
+    m1 = np.where(a1 == 1)[0]
+    m2 = np.where(a2 == 1)[0]
+    union = np.union1d(m1, m2)
+    if (len(union) == 0): return np.nan
+    return 1 - (1 / len(union)) * np.sum(np.square(frac))
+
+def fourier_transform(Xi, f, n):
+    return np.dot(np.exp(-2j * np.pi * f * n), Xi)
+
 def get_sequence_from_course(course, seq_length=300):
     data = course.get_clickstream()
 
@@ -113,8 +134,5 @@ def get_sequence_from_course(course, seq_length=300):
                 tims[sid, wid] = data_week['timestamp'].values[:seq_length] if len(data_week) > seq_length else np.pad(data_week['timestamp'].values, (0, seq_length - len(data_week)), 'constant')
 
     return acts, tims, maps
-
-
-
 
 
