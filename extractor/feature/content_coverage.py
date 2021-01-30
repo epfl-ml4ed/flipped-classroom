@@ -18,7 +18,7 @@ class ContentCoverage(Feature):
         assert 'week' in self.settings
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.schedule = self.schedule[(self.schedule['week'] <= self.settings['week']) & (self.schedule['type'] == 'video')]
@@ -28,7 +28,7 @@ class ContentCoverage(Feature):
         videos_so_far = self.data['video_id'].unique()
 
         if len(videos_to_cover) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return len(set(videos_so_far) & set(videos_to_cover)) / len(videos_to_cover)

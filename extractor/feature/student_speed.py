@@ -17,20 +17,20 @@ class StudentSpeed(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.data = self.data[self.data['event_type'].str.contains('Problem.Check') & (self.data['grade'].notnull())].sort_values(by=['problem_id', 'date'])
 
         if len(self.data) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.data['prev_event'] = self.data['event_type'].shift(1)
         self.data['prev_problem_id'] = self.data['problem_id'].shift(1)
         self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
         self.data = self.data.dropna(subset=['time_diff'])
-        self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= self.schedule['duration'].max())]
+        self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= Feature.TIME_MAX)]
 
         self.data = self.data[self.data['problem_id'] == self.data['prev_problem_id']]
         return np.mean(self.data.groupby(by='problem_id')['time_diff'].sum().values) if len(self.data) > 0 else 0

@@ -17,7 +17,7 @@ class CompetencyAlignment(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.data = self.data[self.data['event_type'].str.contains('Problem.Check') & (self.data['grade'].notnull())]
@@ -26,7 +26,7 @@ class CompetencyAlignment(Feature):
         taught_problems = self.schedule[self.schedule['type'] == 'problem']['id'].unique()
 
         if len(taught_problems) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return len(set(learnt_problems) & set(learnt_problems)) / len(taught_problems)

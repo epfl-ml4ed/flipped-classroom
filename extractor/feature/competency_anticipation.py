@@ -18,7 +18,7 @@ class CompetencyAnticipation(Feature):
         assert 'week' in self.settings
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.schedule = self.schedule[(self.schedule['week'] > self.settings['week']) & (self.schedule['type'] == 'problem')]
@@ -28,7 +28,7 @@ class CompetencyAnticipation(Feature):
         problems_in_future_so_far = self.data['problem_id'].unique()
 
         if len(problems_in_future) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return len(set(problems_in_future_so_far) & set(problems_in_future)) / len(problems_in_future)

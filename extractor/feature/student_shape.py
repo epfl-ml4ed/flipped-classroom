@@ -18,14 +18,14 @@ class StudentShape(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.data = self.data[self.data['event_type'].str.contains('Problem.Check') & (self.data['grade'].notnull())].sort_values(by=['problem_id', 'date'])
         self.data = self.data.merge(self.schedule, left_on='problem_id', right_on='id')
 
         if len(self.data) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         first_tentative = self.data.drop_duplicates(subset=['problem_id'], keep='first')

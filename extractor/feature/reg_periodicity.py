@@ -19,37 +19,36 @@ class RegPeriodicity(Feature):
         super().__init__('regularity_periodicity', data, settings)
 
     def compute(self):
-        assert 'mode' in self.settings and self.settings['timeframe'] is not 'eq-week' and self.settings['week'] > 0
+        assert 'mode' in self.settings
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         sessions = get_sessions(self.data, self.schedule['duration'].max())
-        workload = np.zeros((len(self.settings['week']), 7))
+        weeks = self.settings['week'] + 1
+        workload = np.zeros((weeks, 7))
         workload[sessions['week'], sessions['weekday']] += sessions['duration']
 
         if self.settings['mode'] == 'm1':
             hours = self.data['date'].dt.hour.astype(int).to_list()
-            n = np.arange((len(self.settings['week']) * 7 * 24 * 60 * 60) // (60 * 60))
             activity = np.array([hours.count(h) for h in np.arange(23)])
             if np.sum(activity) == 0:
-                logging.info('feature {} is invalid'.format(self.name))
+                logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
-            return abs(fourier_transform(activity, 1 / 24, n))
+            return np.sum(abs(fourier_transform(activity, 1 / 24, 24)))
 
         elif self.settings['mode'] == 'm2':
-            n = np.arange((len(self.settings['week']) * 7 * 24 * 60 * 60) // (60 * 60))
+            n = np.arange((weeks * 7 * 24 * 60 * 60) // (60 * 60))
             self.data['hours'] = self.data['date'].dt.hour.astype(int).to_list()
-            activity = np.zeros((len(self.settings['week']), 24))
+            activity = np.zeros((weeks, 24))
             activity[self.data['week'], self.data['hours']] += 1
-            return abs(fourier_transform(activity.flatten(), 1 / (7 * 24), n))
+            return np.sum(abs(fourier_transform(activity.flatten(), 1 / (7 * 24), 7 * 24)))
 
         elif self.settings['mode'] == 'm3':
-            assert self.settings['timeframe'] is not 'eq-week' and self.settings['week'] > 0
-            n = np.arange((len(self.settings['week']) * 7 * 24 * 60 * 60) // (24 * 60 * 60))
+            assert self.settings['timeframe'] is not 'eq-week' and weeks > 0
             weekdays = self.data['date'].dt.weekday.astype(int).to_list()
             activity = np.array([weekdays.count(h) for h in np.arange(6)])
-            return abs(fourier_transform(activity, 1 / 7, n))
+            return np.sum(abs(fourier_transform(activity, 1 / 7, 7)))
         else:
             raise NotImplementedError()

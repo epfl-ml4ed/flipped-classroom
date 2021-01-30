@@ -18,7 +18,7 @@ class CompetencyCoverage(Feature):
         assert 'week' in self.settings
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.schedule = self.schedule[(self.schedule['week'] <= self.settings['week']) & (self.schedule['type'] == 'problem')]
@@ -28,7 +28,7 @@ class CompetencyCoverage(Feature):
         problems_so_far = self.data['problem_id'].unique()
 
         if len(problems_to_cover) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return len(set(problems_so_far) & set(problems_to_cover)) / len(problems_to_cover)

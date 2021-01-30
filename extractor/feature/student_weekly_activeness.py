@@ -17,7 +17,7 @@ class StudentWeeklyActiveness(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        return len(self.data['Weekday'].unique()) / 7.0
+        return len(self.data['weekday'].unique()) / 7.0

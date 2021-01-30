@@ -3,6 +3,7 @@
 
 import logging
 
+from extractor.feature.feature import Feature
 from extractor.extractor import Extractor
 
 from extractor.feature.reg_peak_time import RegPeakTime
@@ -16,24 +17,33 @@ In European Conference on Technology Enhanced Learning (pp. 277-291). Springer, 
 '''
 
 class BoroujeniEtAl(Extractor):
+
     def __init__(self, name='base'):
         super().__init__(name)
         self.name = 'boroujeni_et_al'
 
     def extract_features(self, data, settings):
-        self.features = [RegPeakTime(data, {**settings, **{'mode': 'dayhour'}}),
-                         RegPeriodicity(data, {**settings, **{'mode': 'm1'}}),
-                         DelayLecture(data, settings)]
+        if settings['timeframe'] == 'eq-week' or settings['timeframe'] != 'eq-week' and settings['week'] > 0:
+            self.features = [RegPeakTime(data, {**settings, **{'mode': 'dayhour'}}),
+                             RegPeriodicity(data, {**settings, **{'mode': 'm1'}}),
+                             DelayLecture(data, settings)]
+            features = [f.compute() for f in self.features]
+        else:
+            self.features = [Feature('empty', data, settings)] * 3
+            features = [Feature.INVALID_VALUE] * 3
 
-        if self.settings['timeframe'] is not 'eq-week' and self.settings['week'] > 0:
-            logging.info('computing also inter-week features for {}'.format(self.name))
-            self.features += [RegPeakTime(data, {**settings, **{'mode': 'weekday'}}),
-                              RegWeeklySim(data, {**settings, **{'mode': 'm1'}}),
-                              RegWeeklySim(data, {**settings, **{'mode': 'm2'}}),
-                              RegWeeklySim(data, {**settings, **{'mode': 'm3'}}),
-                              RegPeriodicity(data, {**settings, **{'mode': 'm2'}}),
-                              RegPeriodicity(data, {**settings, **{'mode': 'm3'}})]
+        if settings['timeframe'] != 'eq-week':
+            if settings['week'] > 0:
+                self.features += [RegPeakTime(data, {**settings, **{'mode': 'weekday'}}),
+                                  RegWeeklySim(data, {**settings, **{'mode': 'm1'}}),
+                                  RegWeeklySim(data, {**settings, **{'mode': 'm2'}}),
+                                  RegWeeklySim(data, {**settings, **{'mode': 'm3'}}),
+                                  RegPeriodicity(data, {**settings, **{'mode': 'm2'}}),
+                                  RegPeriodicity(data, {**settings, **{'mode': 'm3'}})]
+                features += [f.compute() for f in self.features[3:]]
+            else:
+                self.features += [Feature('empty', data, settings)] * 6
+                features += [Feature.INVALID_VALUE] * 6
 
-        features = [f.compute() for f in self.features]
         assert len(features) == self.__len__()
         return features

@@ -19,16 +19,28 @@ class WeeklyProp(Feature):
         assert 'type' in self.settings and 'ffunc' in self.settings and 'course' in self.settings and self.settings['course'].has_schedule()
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         if self.settings['type'] == 'replayed':
-            return self.settings['ffunc'](get_weekly_prop_replayed(self.data, self.settings))
+            weekly_prop_data = get_weekly_prop_replayed(self.data, self.settings)
+            if len(weekly_prop_data) == 0:
+                logging.debug('feature {} is invalid'.format(self.name))
+                return Feature.INVALID_VALUE
+            return self.settings['ffunc'](weekly_prop_data)
 
         if self.settings['type'] == 'watched':
-            return self.settings['ffunc'](get_weekly_prop_watched(self.data, self.settings))
+            weekly_prop_data = get_weekly_prop_watched(self.data, self.settings)
+            if len(weekly_prop_data) == 0:
+                logging.debug('feature {} is invalid'.format(self.name))
+                return Feature.INVALID_VALUE
+            return self.settings['ffunc'](weekly_prop_data)
 
         if self.settings['type'] == 'interrupted':
-            return self.settings['ffunc'](get_weekly_prop_interrupted(self.data, self.settings))
+            weekly_prop_data = get_weekly_prop_interrupted(self.data, self.settings)
+            if len(weekly_prop_data) == 0:
+                logging.debug('feature {} is invalid'.format(self.name))
+                return Feature.INVALID_VALUE
+            return self.settings['ffunc'](weekly_prop_data)
 
         raise NotImplementedError()

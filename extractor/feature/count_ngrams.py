@@ -19,7 +19,7 @@ class CountNGrams(Feature):
         assert 'ngram' in self.settings and 'perms' in self.settings
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return (np.zeros(len(self.settings['perms'])) + Feature.INVALID_VALUE).tolist()
 
         sessions = get_sessions(self.data.sort_values(by='date'), self.schedule['duration'].max())

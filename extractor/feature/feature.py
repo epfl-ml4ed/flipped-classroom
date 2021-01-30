@@ -21,13 +21,12 @@ class Feature():
         self.schedule = self.filter(settings['course'].get_schedule())
 
     def rename(self, name):
-        assert self.name is not None and self.name is not ''
         if 'mode' in self.settings:
             name += '_' + self.settings['mode']
         if 'type' in self.settings:
             name += '_' + self.settings['type']
         if 'ffunc' in self.settings:
-            name += '_' + self.settings['ffunc']
+            name += '_' + str(self.settings['ffunc'])
         return name
 
     def filter(self, data):
@@ -36,15 +35,15 @@ class Feature():
 
         if self.settings['timeframe'] == 'eq-week':
             assert 'week' in self.settings
-            logging.info('framing data on a {} timeframe'.format(self.settings['timeframe']))
+            logging.debug('framing data on a {} timeframe'.format(self.settings['timeframe']))
             return data[data['week'] == self.settings['week']]
 
         if self.settings['timeframe'] == 'lq-week':
             assert 'week' in self.settings
-            logging.info('framing data on a {} timeframe'.format(self.settings['timeframe']))
+            logging.debug('framing data on a {} timeframe'.format(self.settings['timeframe']))
             return data[data['week'] <= self.settings['week']]
 
-        logging.info('no framing is applied')
+        logging.debug('no framing is applied')
         return data
 
     def compute(self):

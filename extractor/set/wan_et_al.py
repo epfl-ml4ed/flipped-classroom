@@ -41,7 +41,7 @@ class WanEtAl(Extractor):
                          TimeSolveProblem(data, settings),
                          ObsDurationProblem(data, {**settings, **{'ffunc': np.var}}),
                          ObsDurationProblem(data, {**settings, **{'ffunc': np.max}}),
-                         Time(data, {**settings, **{'mode': 'video'}}),
+                         Time(data, {**settings, **{'type': 'video', 'ffunc': np.sum}}),
                          TimeSessions(data, {**settings, **{'mode': 'length'}}),
                          NumberSubmissions(data, {**settings, **{'mode': 'correct'}})]
 

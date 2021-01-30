@@ -17,7 +17,7 @@ class AttendanceRate(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         assert 'course' in self.settings and self.settings['course'].has_schedule()
@@ -25,7 +25,7 @@ class AttendanceRate(Feature):
         learnt_videos = set(self.data['video_id'].unique())
 
         if len(taught_videos) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return len(learnt_videos & taught_videos) / len(taught_videos)

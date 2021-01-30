@@ -17,7 +17,7 @@ class NumberSessions(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         sessions = get_sessions(self.data, self.schedule['duration'].max())

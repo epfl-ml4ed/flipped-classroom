@@ -21,13 +21,13 @@ class WatchingRatio(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         a = AttendanceRate(self.data, self.settings).compute()
         u = UtilizationRate(self.data, self.settings).compute()
         if a == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return a / u

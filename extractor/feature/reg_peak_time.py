@@ -21,14 +21,14 @@ class RegPeakTime(Feature):
         assert 'mode' in self.settings
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         if self.settings['mode'] == 'dayhour':
             hours = self.data['date'].dt.hour.astype(int).to_list()
             activity = np.array([hours.count(h) for h in np.arange(23)])
             if np.sum(activity) == 0:
-                logging.info('feature {} is invalid'.format(self.name))
+                logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             entropy = stats.entropy(activity / np.sum(activity))
             return (np.log2(24) - entropy) * np.max(activity)
@@ -37,7 +37,7 @@ class RegPeakTime(Feature):
             weekdays = self.data['date'].dt.weekday.astype(int).to_list()
             activity = np.array([weekdays.count(h) for h in np.arange(6)])
             if np.sum(activity) == 0:
-                logging.info('feature {} is invalid'.format(self.name))
+                logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             entropy = stats.entropy(activity / np.sum(activity))
             return (np.log2(7) - entropy) * np.max(activity)

@@ -16,10 +16,17 @@ class SpeedPlayback(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.data = self.data[self.data['event_type'].str.contains('Video.SpeedChange')]
         self.data['new_speed'] = self.data['new_speed'].fillna(method='ffill')
         self.data = self.data.dropna(subset=['new_speed'])
-        return self.settings['ffunc'](self.data['new_speed'].values)
+
+        new_speeds = self.data['new_speed'].values
+
+        if len(new_speeds) == 0:
+            logging.debug('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
+
+        return self.settings['ffunc'](new_speeds)

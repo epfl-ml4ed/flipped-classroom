@@ -17,7 +17,7 @@ class StudentActiveness(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         videos_loaded_so_far = self.data['video_id'].unique()
@@ -26,7 +26,7 @@ class StudentActiveness(Feature):
         videos_finished_so_far = self.data[(self.data['prev_event'] == 'Video.Play') & (self.data['event_type'] == 'Video.Stop') & (self.data['prev_video'] == self.data['video_id'])]['video_id'].unique()
 
         if len(videos_loaded_so_far) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return len(set(videos_finished_so_far) & set(videos_loaded_so_far)) / len(videos_loaded_so_far)

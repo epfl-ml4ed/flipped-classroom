@@ -42,8 +42,8 @@ class ChenCui(Extractor):
                          RatioClicksWeekendDay(data, settings),
                          TotalClicks(data, {**settings, **{'type':' video'}}),
                          TotalClicks(data, {**settings, **{'type':' problem'}}),
-                         Time(data, {**settings, **{'mode': 'problem', 'ffunc': np.sum}}),
-                         Time(data, {**settings, **{'mode': 'video', 'ffunc': np.sum}})]
+                         Time(data, {**settings, **{'type': 'problem', 'ffunc': np.sum}}),
+                         Time(data, {**settings, **{'type': 'video', 'ffunc': np.sum}})]
         features = [f.compute() for f in self.features]
         assert len(features) == self.__len__()
         return features

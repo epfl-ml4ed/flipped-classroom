@@ -41,10 +41,10 @@ def add_week(df, start_date, type, min_actions=10, min_week=4, max_week=20):
 
 def filter_range_dates(df, start_date, end_date):
     df = df[df['date'] >= str2dt(start_date)]
-    df = df[df['date'] <= str2dt(end_date)] if not end_date is not 'nan' else df
+    df = df[df['date'] <= str2dt(end_date)] if end_date is not np.nan else df
     return df
 
-def filter_events(df, type=np.array(['Video.Pause', 'Video.Load', 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange'])):
+def filter_events(df, type=np.array(['Video.Pause', 'Video.Load', 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange', 'Problem.Check'])):
     df = df[df['event_type'].isin(type.tolist())].sort_values(by='date')
     if 'problem_id' in df.columns:
         df = df.drop_duplicates(subset=['problem_id', 'event_type', 'timestamp'], keep='first')

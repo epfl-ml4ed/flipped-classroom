@@ -17,10 +17,14 @@ class TimeSpeedingUp(Feature):
         assert 'ffunc' in self.settings and self.settings['course'].has_schedule()
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         speed_up_timings = get_time_speeding_up(self.data)
-        speed_up_timings = speed_up_timings[(speed_up_timings >= Feature.TIME_MIN) & (speed_up_timings <= self.schedule['duration'].max())]
+        speed_up_timings = speed_up_timings[(speed_up_timings >= Feature.TIME_MIN) & (speed_up_timings <= Feature.TIME_MAX)]
+
+        if len(speed_up_timings) == 0:
+            logging.debug('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
 
         return self.settings['ffunc'](speed_up_timings)

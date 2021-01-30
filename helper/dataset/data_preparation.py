@@ -10,7 +10,7 @@ def get_sessions(data, max_session_length=120, min_session_action=3):
     for index, group in data.groupby(['user_id']):
 
         group = group.sort_values('date')
-        group['interval'] = (group['date'] - group['date'].shift(1)).total_seconds()
+        group['interval'] = (group['date'] - group['date'].shift(1)).dt.total_seconds()
         group['session_id'] = (group['date'] - group['date'].shift(1) > pd.Timedelta(max_session_length, 'm')).cumsum() + 1
 
         session = group.groupby('session_id').count()
@@ -105,9 +105,9 @@ def chi2_divergence(p1, p2, a1, a2):
     a = p1 - p2
     b = p1 + p2
     frac = np.divide(a, b, out=np.zeros(a.shape, dtype=float), where=b != 0)
-    m1 = np.where(a1 == 1)[0]
-    m2 = np.where(a2 == 1)[0]
-    union = np.union1d(m1, m2)
+    m1 = np.where(a1 >= 0)[0]
+    m2 = np.where(a2 >= 0)[0]
+    union = set(m1) & set(m2)
     if (len(union) == 0): return np.nan
     return 1 - (1 / len(union)) * np.sum(np.square(frac))
 

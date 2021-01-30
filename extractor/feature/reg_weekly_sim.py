@@ -20,13 +20,14 @@ class RegWeeklySim(Feature):
         super().__init__('regularity_weekly_similarity', data, settings)
 
     def compute(self):
-        assert 'mode' in self.settings and self.settings['timeframe'] is not 'eq-week' and self.settings['week'] > 0
+        assert 'mode' in self.settings
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        workload = np.zeros((len(self.settings['week']), 7))
+        weeks = self.settings['week'] + 1
+        workload = np.zeros((weeks, 7))
         workload[self.data['week'], self.data['weekday']] += 1
         hist = workload / np.sum(workload)
 
@@ -40,7 +41,7 @@ class RegWeeklySim(Feature):
                         continue
                     res.append(1 - jensenshannon(workload[i], workload[j], 2.0))
             if len(res) == 0:
-                logging.info('feature {} is invalid'.format(self.name))
+                logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             return np.mean(np.clip(np.nan_to_num(res), 0, 1))
         elif self.settings['mode'] == 'm3':
@@ -52,6 +53,6 @@ class RegWeeklySim(Feature):
                     res.append(chi2_divergence(workload[i], workload[j], hist[i], hist[j]))
             if len(res) == 0:
                 return np.nan
-            return np.mean(np.clip(np.nan_to_num(res), 0, 1))
+            return np.mean(np.nan_to_num(res))
         else:
             raise NotImplementedError()

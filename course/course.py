@@ -68,13 +68,13 @@ class Course():
 
         if labels is None or 'label-pass-fail' in labels:
             self.clickstream_grade['label-pass-fail'] = self.clickstream_grade['grade'].apply(lambda x: 1 if x < self.grade_thr * self.grade_max else 0)
-            logging.info('assigned {} pass and {} fail'.format(self.clickstream_grade['pass-fail'].to_list().count(0), self.clickstream_grade['pass-fail'].to_list().count(1), 'drop'))
+            logging.info('assigned {} pass and {} fail'.format(self.clickstream_grade['label-pass-fail'].to_list().count(0), self.clickstream_grade['label-pass-fail'].to_list().count(1), 'drop'))
 
         if labels is None or 'label-dropout' in labels:
             week_thr = week_thr if week_thr is not None else self.weeks
             max_week = self.get_clickstream_video().groupby(by='user_id')['week'].max()
             self.clickstream_grade['label-dropout'] = np.array([(1 if row['user_id'] in max_week and max_week[row['user_id']] < week_thr - 1 else 0) for index, row in self.clickstream_grade.iterrows()])
-            logging.info('assigned {} no-drop and {} drop'.format(self.clickstream_grade['dropout'].to_list().count(0), self.clickstream_grade['dropout'].to_list().count(1), 'drop'))
+            logging.info('assigned {} no-drop and {} drop'.format(self.clickstream_grade['label-dropout'].to_list().count(0), self.clickstream_grade['label-dropout'].to_list().count(1), 'drop'))
 
         if labels is None or 'label-stopout' in labels:
             max_week = self.get_clickstream_video().groupby(by='user_id')['week'].max()
@@ -115,10 +115,11 @@ class Course():
         return 'ID: {} Type: {} Title: {} Students: {}'.format(self.course_id, self.type, self.title, self.__len__())
 
     def __add__(self, x):
-        self.clickstream_grade = self.clickstream_grade.append(x.clickstream_grade)
-        self.clickstream_video = self.clickstream_grade.append(x.clickstream_video)
-        self.clickstream_problem = self.clickstream_grade.append(x.clickstream_problem)
-        self.schedule = self.clickstream_grade.append(x.schedule)
+        self.course_id = '-'.join(self.course_id.split('-')[:-1])
+        self.clickstream_grade = self.clickstream_grade.append(x.clickstream_grade, ignore_index=True)
+        self.clickstream_video = self.clickstream_video.append(x.clickstream_video, ignore_index=True)
+        self.clickstream_problem = self.clickstream_problem.append(x.clickstream_problem, ignore_index=True)
+        self.schedule = self.schedule.append(x.schedule, ignore_index=True)
         return self
 
     def __len__(self):

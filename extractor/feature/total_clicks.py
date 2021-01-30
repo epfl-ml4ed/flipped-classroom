@@ -16,21 +16,21 @@ class TotalClicks(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         data = self.data
 
         if 'mode' in self.settings:
             if self.settings['mode'] == 'weekend':
-                logging.info('filtering by weekend')
+                logging.debug('filtering by weekend')
                 data = data[data['weekday'].isin(Feature.WEEKEND)]
             if self.settings['mode'] == 'weekday':
-                logging.info('filtering by weekday')
+                logging.debug('filtering by weekday')
                 data = data[data['weekday'].isin(Feature.WEEKDAY)]
 
         if 'type' in self.settings:
-            logging.info('filtering by event type')
+            logging.debug('filtering by event type')
             data = data[self.data['event_type'].str.contains(self.settings['type'].title())]
 
         return len(data.index)

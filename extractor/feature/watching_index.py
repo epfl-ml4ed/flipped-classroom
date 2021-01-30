@@ -19,7 +19,7 @@ class WatchingIndex(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return UtilizationRate(self.data, self.settings).compute() * AttendanceRate(self.data, self.settings).compute()

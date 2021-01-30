@@ -18,9 +18,14 @@ class TimeBetweenSessions(Feature):
         assert 'ffunc' in self.settings
 
         if len(self.data.index) == 0:
-            logging.info('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         sessions = get_sessions(self.data, self.schedule['duration'].max())
-        time_between_session = (sessions['end_date'] - sessions['start_date'].shift(1)).dropna().total_seconds()
+        time_between_session = (sessions['end_time'] - sessions['start_time'].shift(1)).dropna().dt.total_seconds()
+
+        if len(time_between_session) == 0:
+            logging.debug('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
+
         return self.settings['ffunc'](time_between_session.values)
