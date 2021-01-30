@@ -26,12 +26,11 @@ class DelayLecture(Feature):
             logging.info('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        schedule = self.settings['course'].get_schedule()
-        schedule = schedule[schedule['type'] == 'video']
-        maps_schedule_date = {k:v for k,v in zip(schedule['id'].index, schedule['date'].values)}
+        self.schedule = self.schedule[self.schedule['type'] == 'video']
+        maps_schedule_date = {k:v for k,v in zip(self.schedule['id'].index, self.schedule['date'].values)}
 
         self.data = self.data.drop_duplicates(subset=['id'])
-        maps_student_date = {k:v for k,v in zip(schedule['id'].index, self.data['date'].values)}
+        maps_student_date = {k:v for k,v in zip(self.schedule['id'].index, self.data['date'].values)}
         return np.mean([(maps_student_date[key] - maps_schedule_date[key]).dt.total_seconds() for key in maps_student_date.keys()])
 
 

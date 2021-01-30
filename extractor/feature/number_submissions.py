@@ -20,23 +20,25 @@ class NumberSubmissions(Feature):
             logging.info('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
+        self.data = self.data[self.data['event_type'].str.contains('Problem.Check') & (self.data['grade'].notnull())]
+        self.data = self.data.merge(self.schedule, left_on='problem_id', right_on='id')
+
         if 'mode' in self.settings:
 
             if self.settings['mode'] == 'avg':
-                return np.mean(self.data[self.data['event_type'].str.contains('Problem.Check')].groupby(by='problem_id').size().values)
+                return np.mean(self.data.groupby(by='problem_id').size().values)
 
             elif self.settings['mode'] == 'distinct':
-                return len(self.data[self.data['event_type'].str.contains('Problem.Check')]['problem_id'].unique())
+                return len(self.data['problem_id'].unique())
 
             elif self.settings['mode'] == 'correct':
-                correct = self.data[(self.data['event_type'].str.contains('Problem.Check')) & (self.data['grade'] == self.settings['grade_max'])]['problem_id'].unique()
-                return len(self.data[(self.data['event_type'].str.contains('Problem.Check')) & (self.data['problem_id'].isin(correct))]) / len(correct) if len(correct) > 0 else 0
+                correct = self.data[self.data['grade'] == self.data['grade_max']]['problem_id'].unique()
+                return len(self.data[self.data['problem_id'].isin(correct)]) / len(correct) if len(correct) > 0 else 0
 
             elif self.settings['mode'] == 'perc_correct':
-                return len(self.data[(self.data['event_type'].str.contains('Problem.Check')) & (self.data['grade'] == self.settings['grade_max'])]) / len(self.data['grade'][(self.data['grade']['event_type'].str.contains('Problem.Check')) & (self.data['grade']['grade'].notnull())])
+                return len(self.data[self.data['grade'] == self.data['grade_max']]) / len(self.data['grade'][self.data['grade'].notnull()])
 
             elif self.settings['mode'] == 'avg_time':
-                self.data = self.data[self.data['event_type'].str.contains('Problem.Check') & (self.data['grade'].notnull())]
                 self.data['prev_event'] = self.data['event_type'].shift(1)
                 self.data['prev_problem_id'] = self.data['problem_id'].shift(1)
                 self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
@@ -46,6 +48,6 @@ class NumberSubmissions(Feature):
                 return np.mean(self.data['time_diff'].values)
 
             elif self.settings['mode'] == 'distinct_correct':
-                return len(self.data[(self.data['event_type'].str.contains('Problem.Check')) & (self.data['grade'] == self.settings['grade_max'])]['problem_id'].unique())
+                return len(self.data[self.data['grade'] == self.data['grade_max']]['problem_id'].unique())
 
-        return len(self.data[(self.data['event_type'].str.contains('Problem.Check')) & (self.data['grade'].notnull())])
+        return len(self.data[self.data['grade'].notnull()])

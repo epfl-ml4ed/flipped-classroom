@@ -50,8 +50,7 @@ class FractionSpent(Feature):
         self.data = self.data.dropna(subset=['time_diff'])
         self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= self.schedule['duration'].max())]
 
-        schedule = self.settings['course'].get_schedule()
-        maps_duration = {v:d for v, d in zip(schedule['id'].values, schedule['duration'].values)}
+        maps_duration = {v:d for v, d in zip(self.schedule['id'].values, self.schedule['duration'].values)}
 
         if 'mode' in self.settings:
 

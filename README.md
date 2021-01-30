@@ -1,4 +1,4 @@
-## Early Prediction in Flipped Classrooms
+## Success Prediction in Flipped Classrooms
 
 Increasingly adopted over the years, **flipped classrooms** require students to complete pre-class activities before participating in face-to-face sessions. For pre-class activities, this design often makes use of **digital content** published in online platforms. The **students’ engagement** in pre-class activities is essential for the success of flipped classrooms, as these activities prepare students for effective participation in face-to-face sessions.
 

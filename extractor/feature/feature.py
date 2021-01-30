@@ -31,6 +31,8 @@ class Feature():
         return name
 
     def filter(self, data):
+        if self.settings['timeframe'] == 'full':
+            return data
 
         if self.settings['timeframe'] == 'eq-week':
             assert 'week' in self.settings
