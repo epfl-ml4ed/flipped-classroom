@@ -1,6 +1,6 @@
 ## Early Prediction in Flipped Classrooms
 
-Increasingly adopted over the years, **flipped classrooms** represent a learning design that requires students to complete pre-class activities before participating in face-to-face sessions. For pre-class activities, this design often makes use of **digital content** published in online platforms. The **students’ engagement** in pre-class activities is essential for the success of flipped classrooms, as these activities prepare students for effective participation in face-to-face sessions.
+Increasingly adopted over the years, **flipped classrooms** require students to complete pre-class activities before participating in face-to-face sessions. For pre-class activities, this design often makes use of **digital content** published in online platforms. The **students’ engagement** in pre-class activities is essential for the success of flipped classrooms, as these activities prepare students for effective participation in face-to-face sessions.
 
 The widespread adoption of a flipped classroom design has spurred investigations into the issues of how to **anticipate academic performance** by analyzing digital traces, gathered from students in pre-class activities. Student success prediction, where a model forecasts future performance of students as they interact online, is a primary goal. Trustworthy **early predictions** enable effective content personalization and adaptive teaching interventions.
 
