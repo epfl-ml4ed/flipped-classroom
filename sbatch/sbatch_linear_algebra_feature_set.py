@@ -14,7 +14,7 @@ if __name__ == "__main__":
     for t in timeframes:
         for c in course_ids:
             for m in models:
-                if m == '__pycache__':
+                if m == 'extractor.set.__pycache__.Pycache':
                     continue
                 logging.info('{} {} {}'.format(t, c, m))
                 main({'model': m, 'courses': c, 'timeframe': t, 'workdir': '../data/result/edm21/feature/'})
