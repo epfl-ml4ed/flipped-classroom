@@ -23,7 +23,7 @@ class BoroujeniEtAl(Extractor):
         self.name = 'boroujeni_et_al'
 
     def extract_features(self, data, settings):
-        if settings['timeframe'] == 'eq-week' or settings['timeframe'] != 'eq-week' and settings['week'] > 0:
+        if settings['timeframe'] == 'eq_week' or settings['timeframe'] != 'eq_week' and settings['week'] > 0:
             self.features = [RegPeakTime(data, {**settings, **{'mode': 'dayhour'}}),
                              RegPeriodicity(data, {**settings, **{'mode': 'm1'}}),
                              DelayLecture(data, settings)]
@@ -32,7 +32,7 @@ class BoroujeniEtAl(Extractor):
             self.features = [Feature('empty', data, settings)] * 3
             features = [Feature.INVALID_VALUE] * 3
 
-        if settings['timeframe'] != 'eq-week':
+        if settings['timeframe'] != 'eq_week':
             if settings['week'] > 0:
                 self.features += [RegPeakTime(data, {**settings, **{'mode': 'weekday'}}),
                                   RegWeeklySim(data, {**settings, **{'mode': 'm1'}}),

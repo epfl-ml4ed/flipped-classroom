@@ -46,7 +46,7 @@ class RegPeriodicity(Feature):
             return np.sum(abs(fourier_transform(activity.flatten(), 1 / (7 * 24), 7 * 24)))
 
         elif self.settings['mode'] == 'm3':
-            assert self.settings['timeframe'] is not 'eq-week' and weeks > 0
+            assert self.settings['timeframe'] is not 'eq_week' and weeks > 0
             weekdays = self.data['date'].dt.weekday.astype(int).to_list()
             activity = np.array([weekdays.count(h) for h in np.arange(6)])
             return np.sum(abs(fourier_transform(activity, 1 / 7, 7)))

@@ -33,7 +33,7 @@ class RegPeakTime(Feature):
             entropy = stats.entropy(activity / np.sum(activity))
             return (np.log2(24) - entropy) * np.max(activity)
         elif self.settings['mode'] == 'weekday':
-            assert self.settings['timeframe'] is not 'eq-week' and self.settings['week'] > 0
+            assert self.settings['timeframe'] is not 'eq_week' and self.settings['week'] > 0
             weekdays = self.data['date'].dt.weekday.astype(int).to_list()
             activity = np.array([weekdays.count(h) for h in np.arange(6)])
             if np.sum(activity) == 0:

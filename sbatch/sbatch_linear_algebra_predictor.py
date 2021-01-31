@@ -50,7 +50,7 @@ if __name__ == "__main__":
     base_settings = {'batch': 512, 'folds': 10, 'hidden_units': 8, 'projection_units': 16, 'temperature': .2,
                      'epochs': 100, 'lr': .001, 'weight_init': 'he_normal', 'shuffle': True, 'verbose': 0, 'depth': 'shallow'}
 
-    timeframes = ['eq-week', 'lq-week']
+    timeframes = ['eq_week', 'lq_week']
     course_ids = ['epfl_algebrelineaire']
     predictors = ['predictor.' + fs.split('.')[0] + '.' + fs.split('.')[0].replace('_', '.').title().replace('.', '') for fs in os.listdir('../predictor') if os.path.isfile(os.path.join('../predictor', fs)) and not 'pycache' in fs and not 'predictor' in fs]
 

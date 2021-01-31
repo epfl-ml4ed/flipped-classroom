@@ -33,12 +33,12 @@ class Feature():
         if self.settings['timeframe'] == 'full':
             return data
 
-        if self.settings['timeframe'] == 'eq-week':
+        if self.settings['timeframe'] == 'eq_week':
             assert 'week' in self.settings
             logging.debug('framing data on a {} timeframe'.format(self.settings['timeframe']))
             return data[data['week'] == self.settings['week']]
 
-        if self.settings['timeframe'] == 'lq-week':
+        if self.settings['timeframe'] == 'lq_week':
             assert 'week' in self.settings
             logging.debug('framing data on a {} timeframe'.format(self.settings['timeframe']))
             return data[data['week'] <= self.settings['week']]

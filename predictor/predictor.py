@@ -29,7 +29,7 @@ class Predictor():
         assert self.predictor is not None and self.predictor is not None and 'target_type' in settings
 
         # Set metric to show in the folder name
-        filename = settings['timeframe'] + '-' + settings['course_id'].replace('-', '_') + '-' + settings['target'].replace('-', '_') + '-' + settings['model'].split('.')[-2] + '-' + settings['feature_set'].split('_')[1] + '-' + self.time
+        filename = settings['timeframe'] + '-' + settings['course_id'].replace('-', '_') + '-' + settings['target'].replace('-', '_') + '-' + settings['model'].split('.')[-2] + '-' + settings['feature_set'].split('-')[1] + '-' + self.time
 
         # Create the predictor main directory
         if not os.path.exists(os.path.join(settings['workdir'], 'predictor', filename)):
@@ -63,8 +63,9 @@ class Predictor():
         assert self.predictor is not None and 'target_type' in settings and len(X.shape) == 3
 
         self.stats = []
+        logging.info('training {}'.format(self.predictor))
         for week in np.arange(4, X.shape[1] - 1):
-            logging.info('training the predictor on data till the week with id {}'.format(week))
+            logging.info('training on data till the week with id {}'.format(week))
 
             X_w = X[:, :week, :]
 

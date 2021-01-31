@@ -7,7 +7,7 @@ import os
 from routine.compute_feature_set import main
 
 if __name__ == "__main__":
-    timeframes = ['eq-week', 'lq-week']
+    timeframes = ['eq_week', 'lq_week']
     course_ids = 'flipped-classroom/EPFL-AlgebreLineaire-2018,flipped-classroom/EPFL-AlgebreLineaire-2019'
     models = ['extractor.set.' + fs.split('.')[0] + '.'+ fs.split('.')[0].replace('_', '.').title().replace('.','') for fs in os.listdir('../extractor/set') if not 'pycache' in fs]
 
