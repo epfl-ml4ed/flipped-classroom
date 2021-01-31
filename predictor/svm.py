@@ -5,10 +5,12 @@ from sklearn.svm import SVC, SVR
 
 from predictor.predictor import Predictor
 
-class SVM(Predictor):
+class Svm(Predictor):
 
     def __init__(self):
         super().__init__('svm')
+        self.type = 'sklearn'
+        self.depth = 'shallow'
 
     def build(self, settings):
         assert 'target_type' in settings

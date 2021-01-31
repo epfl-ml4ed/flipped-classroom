@@ -8,16 +8,19 @@ from predictor.layers.attention import Attention
 from predictor.loss.supervised_contrastive_loss import SupervisedContrastiveLoss
 from predictor.predictor import Predictor
 
-class LSTMWithContrastive(Predictor):
+class LstmWithContrastive(Predictor):
 
     def __init__(self):
         super().__init__('lstm_with_contrastive')
+        self.type = 'tf'
+        self.depth = 'deep'
 
     def build_encoder(self, settings):
         assert 'classes' in settings
 
         inp = tf.keras.layers.Input(shape=settings['input_shape'])
-        x = tf.keras.layers.LSTM(settings['hidden_units'], return_sequences=True, implementation=1)(inp)
+        x = tf.keras.layers.Masking(mask_value=-1)(inp)
+        x = tf.keras.layers.LSTM(settings['hidden_units'], return_sequences=True, implementation=1)(x)
         x = Attention()(x)
 
         if settings['classes'] > 1:
@@ -47,12 +50,12 @@ class LSTMWithContrastive(Predictor):
         else:
             x = tf.keras.layers.Dense(settings['classes'], activation='sigmoid')(self.encoder(inp))
 
-        self.model = tf.keras.Model(inputs=[inp], outputs=[x])
+        self.predictor = tf.keras.Model(inputs=[inp], outputs=[x])
 
     def build(self, settings):
         self.build_encoder(settings)
         self.build_encoder_with_projection_head(settings)
-        self.build_predictor({'trainable': False})
+        self.build_predictor({**settings, **{'trainable': False}})
 
     def compile(self, settings):
         assert 'target_type' in settings

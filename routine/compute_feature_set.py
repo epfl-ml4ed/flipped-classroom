@@ -25,13 +25,20 @@ def main(settings):
 
     if len(courses) <= 0:
         raise FileNotFoundError('the courses {} do not exist'.format(settings['courses']))
+    elif len(courses) == 1:
+        course = courses[0]
+        logging.info('only one course have been retrieved - {}'.format(settings['courses']))
+    else:
+        course = courses[0]
+        for c in courses[1:]:
+            course = course + c
+        logging.info('merged multiple courses - {}'.format(settings['courses']))
 
-    for course in courses:
-        logging.info('feature extraction for {}'.format(course.course_id))
-        # Initialize extractor
-        extractor = import_class(settings['model'])()
-        # Extract features
-        extractor.extract_features_bunch(course, settings)
+    logging.info('feature extraction for {}'.format(course.course_id))
+    # Initialize extractor
+    extractor = import_class(settings['model'])()
+    # Extract features
+    extractor.extract_features_bunch(course, settings)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Extract feature')

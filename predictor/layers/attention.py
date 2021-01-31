@@ -20,6 +20,21 @@ class Attention(tf.keras.layers.Layer):
         self.bias = bias
         super(Attention, self).__init__(**kwargs)
 
+    def get_config(self):
+
+        config = super().get_config().copy()
+        config.update({
+            'supports_masking': self.supports_masking,
+            'return_attention': self.return_attention,
+            'init': self.init,
+            'W_regularizer': self.W_regularizer,
+            'b_regularizer': self.b_regularizer,
+            'W_constraint': self.W_constraint,
+            'b_constraint': self.b_constraint,
+            'bias': self.bias
+        })
+        return config
+
     def build(self, input_shape):
         assert len(input_shape) == 3
 

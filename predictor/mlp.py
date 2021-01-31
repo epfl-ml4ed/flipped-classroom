@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.neural_network import MLPClassifier, MLPRegressor
 
 from predictor.predictor import Predictor
 
-class RandomForest(Predictor):
+class Mlp(Predictor):
 
     def __init__(self):
-        super().__init__('random_forest')
+        super().__init__('svm')
         self.type = 'sklearn'
         self.depth = 'shallow'
 
@@ -16,7 +16,8 @@ class RandomForest(Predictor):
         assert 'target_type' in settings
 
         if settings['target_type'] == 'classification':
-            self.predictor = RandomForestClassifier()
+            self.predictor = MLPClassifier()
         else:
-            self.predictor = RandomForestRegressor()
+            self.predictor = MLPRegressor(gamma='auto')
+
 

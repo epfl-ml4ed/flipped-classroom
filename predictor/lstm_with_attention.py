@@ -7,16 +7,19 @@ import tensorflow as tf
 from predictor.layers.attention import Attention
 from predictor.predictor import Predictor
 
-class LSTMWithAttention(Predictor):
+class LstmWithAttention(Predictor):
 
     def __init__(self):
         super().__init__('lstm_with_attention')
+        self.type = 'tf'
+        self.depth = 'deep'
 
     def build(self, settings):
         assert 'classes' in settings
 
         inp = tf.keras.layers.Input(shape=settings['input_shape'])
-        x = tf.keras.layers.LSTM(settings['hidden_units'], return_sequences=True, implementation=1)(inp)
+        x = tf.keras.layers.Masking(mask_value=-1)(inp)
+        x = tf.keras.layers.LSTM(settings['hidden_units'], return_sequences=True, implementation=1)(x)
         x = Attention()(x)
 
         if settings['classes'] > 1:
@@ -35,7 +38,7 @@ class LSTMWithAttention(Predictor):
             self.predictor.compile(optimizer=tf.keras.optimizers.Adam(settings['lr']), loss='mean_squared_error', metrics=['mse'])
 
     def fit(self, X, y, settings):
-        self.predictor.fit(X, y, batch_size=settings['batch'], epochs=settings['epochs'], shuffle=settings['shuffle'], verbose=settings['verbose'])
+        self.predictor.fit(X, y.astype(np.float), batch_size=settings['batch'], epochs=settings['epochs'], shuffle=settings['shuffle'], verbose=settings['verbose'])
 
     def predict(self, X, settings, proba=False):
         assert self.predictor is not None
