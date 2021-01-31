@@ -64,7 +64,7 @@ class Predictor():
 
         self.stats = []
         logging.info('training {}'.format(self.predictor))
-        for week in np.arange(4, X.shape[1] - 1):
+        for week in np.arange(2, X.shape[1] - 1):
             logging.info('training on data till the week with id {}'.format(week))
 
             X_w = X[:, :week, :]
