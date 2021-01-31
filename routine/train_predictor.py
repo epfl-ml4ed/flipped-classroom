@@ -28,7 +28,7 @@ def main(settings):
     feature_labels = extractor.get_features_values()[0][settings['target']].values
     feature_values = extractor.get_features_values()[1]
 
-    X = np.nan_to_num(feature_values, nan=-1)
+    X = feature_values
     y = feature_labels if settings['target_type'] == 'regression' else feature_labels.astype(int)
 
     predictor = import_class(settings['model'])()

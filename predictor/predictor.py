@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from sklearn.model_selection import StratifiedKFold, KFold
-from sklearn.model_selection import GridSearchCV
-from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import StratifiedKFold, KFold, GridSearchCV
 from sklearn import metrics
 import pandas as pd
 import numpy as np
@@ -12,6 +10,8 @@ import pickle
 import time
 import json
 import os
+
+from helper.himputer import NanImputeScaler
 
 class Predictor():
 
@@ -78,7 +78,7 @@ class Predictor():
                 X_train, X_test = X_w[train_index], X_w[test_index]
                 y_train, y_test = y[train_index], y[test_index]
 
-                scaler = StandardScaler()
+                scaler = NanImputeScaler(nan_level=-1)
                 for i in range(X_train.shape[2]):
                     X_train_scaled = scaler.fit_transform(X_train[:, :, i])
                     X_train[:, :, i] = X_train_scaled
