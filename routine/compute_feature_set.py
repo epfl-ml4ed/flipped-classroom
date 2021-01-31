@@ -32,13 +32,11 @@ def main(settings):
         extractor = import_class(settings['model'])()
         # Extract features
         extractor.extract_features_bunch(course, settings)
-        # Show final feature shape
-        logging.info('extracted features with shape', extractor.get_features_values()[1].shape)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Extract feature')
 
-    parser.add_argument('--model', dest='model', default='extractor.set.lemay_doleck.LemayDoleck', type=str, action='store')
+    parser.add_argument('--model', dest='model', default='extractor.set.akpinar_et_al.AkpinarEtAl', type=str, action='store')
     parser.add_argument('--courses', dest='courses', default='flipped-classroom/EPFL-AlgebreLineaire-2019', type=str, action='store')
     parser.add_argument('--timeframe', dest='timeframe', default='eq-week', type=str, action='store')
     parser.add_argument('--workdir', dest='workdir', default='../data/result/edm21/feature/', type=str, action='store')

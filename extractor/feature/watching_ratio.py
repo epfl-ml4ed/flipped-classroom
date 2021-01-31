@@ -26,7 +26,8 @@ class WatchingRatio(Feature):
 
         a = AttendanceRate(self.data, self.settings).compute()
         u = UtilizationRate(self.data, self.settings).compute()
-        if a == 0:
+
+        if u == 0:
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 

@@ -56,7 +56,8 @@ def get_weekly_prop_watched(data, settings):
 def get_weekly_prop_replayed(data, settings):
     data['only_date'] = data['date'].dt.date
     data = data.drop_duplicates(subset=['video_id', 'only_date'])
-    replayed_data = data[data.groupby('video_id')['video_id'].transform(len) > 1]
+    repeated_ids = [i for i, g in data.groupby('video_id') if len(g) > 1]
+    replayed_data = data[data['video_id'].isin(repeated_ids)]
     return get_weekly_prop(replayed_data, settings)
 
 def get_weekly_prop_interrupted(data, settings, end_period=60, stop_events=np.array(['Video.Pause', 'Video.Stop', 'Video.Load'])):
@@ -86,7 +87,7 @@ def count_events(data, event):
     return len(data.index)
 
 def get_time_speeding_up(data):
-    data = data[(data['event_type'].str.contains('Video.'))]
+    data = data[(data['event_type'].str.contains('Video.'))].copy()
     data['new_speed'] = data['new_speed'].fillna(method='ffill')
     data = data.dropna(subset=['new_speed'])
     data['time_diff'] = data['date'].diff().dt.total_seconds()

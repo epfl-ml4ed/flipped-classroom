@@ -19,7 +19,7 @@ class SpeedPlayback(Feature):
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        self.data = self.data[self.data['event_type'].str.contains('Video.SpeedChange')]
+        self.data = self.data[self.data['event_type'].str.contains('Video.SpeedChange')].copy()
         self.data['new_speed'] = self.data['new_speed'].fillna(method='ffill')
         self.data = self.data.dropna(subset=['new_speed'])
 

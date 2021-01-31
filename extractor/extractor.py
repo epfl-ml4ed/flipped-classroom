@@ -36,8 +36,8 @@ class Extractor():
     def save(self, course, settings):
         assert self.feature_values is not None and settings['workdir'].endswith('/')
 
-        if not os.path.exists(os.path.join(settings['workdir'], self.time + '-' + self.name + '-' + course.course_id)):
-            os.makedirs(os.path.join(settings['workdir'], self.time + '-' + self.name + '-' + course.course_id))
+        if not os.path.exists(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower() + '-' + self.time)):
+            os.makedirs(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower() + '-' + self.time))
 
         # Save the feature values
         np.savez(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower() + '-' + self.time, 'feature_values.npz'), feature_values=self.feature_values[1])

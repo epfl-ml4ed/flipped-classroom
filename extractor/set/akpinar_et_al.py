@@ -18,7 +18,7 @@ In Thirteenth International Conference on Educational Data Mining (EDM 2020).
 
 class AkpinarEtAl(Extractor):
 
-    def __init__(self, name='base', vocab=None, ngram=3):
+    def __init__(self, name='base', vocab=np.array(['Video.Pause', 'Video.Load', 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange', 'Problem.Check']), ngram=3):
         super().__init__(name)
         self.name = 'akpinar_et_al'
         self.ngram = ngram
