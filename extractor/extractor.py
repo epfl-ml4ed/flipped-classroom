@@ -15,7 +15,7 @@ class Extractor():
         self.name = name
         self.features = None
         self.feature_values = None
-        self.time = time.strftime('%Y%m%d_%H%M%S')
+        self.time = time.strftime('%Y%m%d-%H%M%S')
 
     def get_name(self):
         assert self.name is not None
@@ -33,32 +33,34 @@ class Extractor():
         assert self.settings is not None
         return self.settings
 
+    def get_features_values(self):
+        assert self.feature_values is not None
+        return self.feature_values
+
     def save(self, course, settings):
         assert self.feature_values is not None and settings['workdir'].endswith('/')
 
-        if not os.path.exists(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower() + '-' + self.time)):
-            os.makedirs(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower() + '-' + self.time))
+        course_id_pseudo = course.course_id.lower().replace('-', '_')
+
+        if not os.path.exists(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course_id_pseudo + '-' + self.time)):
+            os.makedirs(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course_id_pseudo + '-' + self.time))
 
         # Save the feature values
-        np.savez(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower() + '-' + self.time, 'feature_values.npz'), feature_values=self.feature_values[1])
+        np.savez(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course_id_pseudo + '-' + self.time, 'feature_values.npz'), feature_values=self.feature_values[1])
         # Save the feature labels
-        self.feature_values[0].to_csv(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower() + '-' + self.time, 'feature_labels.csv'), index=False)
+        self.feature_values[0].to_csv(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course_id_pseudo + '-' + self.time, 'feature_labels.csv'), index=False)
         # Save the current settings
-        with open(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower() + '-' + self.time, 'settings.txt'), 'w') as file:
+        with open(os.path.join(settings['workdir'], self.settings['timeframe'] + '-' + self.name + '-' + course_id_pseudo + '-' + self.time, 'settings.txt'), 'w') as file:
             file.write(json.dumps({**settings, **{'course_id': course.course_id, 'type': course.type, 'platform': course.platform}}))
 
         logging.info('saved features {} of shape {}'.format(self.name, self.feature_values[1].shape))
 
     def load(self, settings):
-        assert os.path.join(settings['feature_set']) is not None
+        assert settings['feature_set'] is not None
         feature_values = np.load(os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'feature_values.npz'))['feature_values']
         feature_labels = pd.read_csv(os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'feature_labels.csv'))
         self.feature_values = (feature_labels, feature_values)
         self.settings = json.load(open(os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'settings.txt'), 'rb'))
-
-    def get_features_values(self):
-        assert self.feature_values is not None
-        return self.feature_values
 
     def extract_features(self, data, settings):
         return np.empty()

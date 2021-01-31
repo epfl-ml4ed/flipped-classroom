@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import tensorflow as tf
+import numpy as np
 
+from predictor.layers.attention import Attention
 from predictor.loss.supervised_contrastive_loss import SupervisedContrastiveLoss
-from predictor.attention import Attention
 from predictor.predictor import Predictor
 
 class LSTMWithContrastive(Predictor):
@@ -13,10 +14,17 @@ class LSTMWithContrastive(Predictor):
         super().__init__('lstm_with_contrastive')
 
     def build_encoder(self, settings):
+        assert 'classes' in settings
+
         inp = tf.keras.layers.Input(shape=settings['input_shape'])
         x = tf.keras.layers.LSTM(settings['hidden_units'], return_sequences=True, implementation=1)(inp)
         x = Attention()(x)
-        x = tf.keras.layers.Dense(settings['classes'], activation=settings['classes_activation'])(x)
+
+        if settings['classes'] > 1:
+            x = tf.keras.layers.Dense(settings['classes'], activation='softmax')(x)
+        else:
+            x = tf.keras.layers.Dense(settings['classes'], activation='sigmoid')(x)
+
         self.encoder = tf.keras.Model(inputs=[inp], outputs=[x])
 
     def build_encoder_with_projection_head(self, settings):
@@ -27,11 +35,18 @@ class LSTMWithContrastive(Predictor):
         self.encoder_with_proj = tf.keras.Model(inputs=inputs, outputs=outputs)
 
     def build_predictor(self, settings):
+        assert 'classes' in settings
+
         for layer in self.encoder.layers:
             layer.trainable = settings['trainable']
 
         inp = tf.keras.Input(shape=self.encoder.input_shape[1:])
-        x = tf.keras.layers.Dense(settings['classes'], activation=settings['activation'])(self.encoder(inp))
+
+        if settings['classes'] > 1:
+            x = tf.keras.layers.Dense(settings['classes'], activation='softmax')(self.encoder(inp))
+        else:
+            x = tf.keras.layers.Dense(settings['classes'], activation='sigmoid')(self.encoder(inp))
+
         self.model = tf.keras.Model(inputs=[inp], outputs=[x])
 
     def build(self, settings):
@@ -40,14 +55,21 @@ class LSTMWithContrastive(Predictor):
         self.build_predictor({'trainable': False})
 
     def compile(self, settings):
+        assert 'target_type' in settings
+
         self.encoder_with_proj.compile(optimizer=tf.keras.optimizers.Adam(settings['lr']), loss=SupervisedContrastiveLoss(settings['temperature']))
-        self.predictor.compile(optimizer=tf.keras.optimizers.Adam(settings['lr']), loss=settings['loss'], metrics=settings['metrics'])
+
+        if settings['target_type'] == 'classification':
+            self.predictor.compile(optimizer=tf.keras.optimizers.Adam(settings['lr']), loss='categorical_crossentropy', metrics=['accuracy'])
+        else:
+            self.predictor.compile(optimizer=tf.keras.optimizers.Adam(settings['lr']), loss='mean_squared_error', metrics=['mse'])
 
     def train(self, X, y, settings):
         self.encoder_with_proj.fit(x=X, y=y, batch_size=settings['batch'], epochs=settings['epochs'], shuffle=settings['shuffle'], verbose=settings['verbose'])
-        es_predictor = tf.keras.callbacks.EarlyStopping(monitor='binary_accuracy', verbose=0, patience=settings['patience'], min_delta=settings['min_delta'], mode=settings['mode'], restore_best_weights=True)
-        self.predictor.fit(x=X, y=y, batch_size=settings['batch'], epochs=settings['epochs'], shuffle=settings['shuffle'], callbacks=[es_predictor], verbose=settings['verbose'])
+        self.predictor.fit(x=X, y=y, batch_size=settings['batch'], epochs=settings['epochs'], shuffle=settings['shuffle'], verbose=settings['verbose'])
 
-    def predict(self, X, settings):
+    def predict(self, X, settings, proba=False):
         assert self.predictor is not None
-        return self.predictor.predict(X, batch_size=settings['batch']).flatten()
+        if proba:
+            return self.predictor.predict(X, batch_size=settings['batch']).flatten()
+        return np.round(self.predictor.predict(X, batch_size=settings['batch']).flatten())

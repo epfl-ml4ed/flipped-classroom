@@ -7,52 +7,33 @@ import logging
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
-from extractor.extractor import Extractor
+from extractor.extractor_loader import ExtractorLoader
 from helper.hutils import import_class
 from course.course import Course
 
-def main():
-
-    parser = argparse.ArgumentParser(description='Train predictor')
-
-    parser.add_argument('--model', dest='model', default='predictor.random_forest.RandomForest', type=str, action='store')
-    parser.add_argument('--workdir', dest='workdir', default='../data/result/edm21/', type=str, action='store')
-    parser.add_argument('--target', dest='target', default='pass-fail', type=str, action='store')
-    parser.add_argument('--feature_set', dest='feature_set', default='20210129_024743-lalle_conati-EPFL-AlgebreLineaire-2019', type=str, action='store')
-    parser.add_argument('--batch', dest='batch', default=512, type=int, action='store')
-    parser.add_argument('--folds', dest='folds', default=5, type=int, action='store')
-    parser.add_argument('--hidden_units', dest='hidden_units', default=10, type=int, action='store')
-    parser.add_argument('--epochs', dest='epochs', default=5, type=int, action='store')
-    parser.add_argument('--classes', dest='classes', default=1, type=int, action='store')
-    parser.add_argument('--lr', dest='lr', default=.001, type=float, action='store')
-    parser.add_argument('--activation', dest='activation', default='sigmoid', type=str, action='store')
-    parser.add_argument('--verbose', dest='verbose', default=1, type=int, action='store')
-    parser.add_argument('--shuffle', dest='shuffle', default=True, type=bool, action='store')
-    parser.add_argument('--weight_init', dest='weight_init', default='he_normal', type=str, action='store')
-    parser.add_argument('--metrics', dest='metrics', default='accuracy', type=str, action='store')
-    parser.add_argument('--loss', dest='loss', default='binary_crossentropy', type=str, action='store')
-
-    settings = vars(parser.parse_args())
-
+def main(settings):
     assert settings['model'] is not None and settings['feature_set'] is not None
 
     # Load feature set
     logging.info('loading feature set {}'.format(settings['feature_set']))
-    extractor = Extractor()
+    extractor = ExtractorLoader()
     extractor.load(settings)
 
     # Load associated course
-    logging.info('loading course data from {}'.format(settings['feature_set']))
     extractor_settings = extractor.get_settings()
+    logging.info('loading course data from {} {} {}'.format(extractor_settings['course_id'], extractor_settings['type'], extractor_settings['platform']))
+
     course = Course(extractor_settings['course_id'], extractor_settings['type'], extractor_settings['platform'])
     course.load()
     course.label()
 
     # Arrange data
     logging.info('arranging data from {}'.format(course.course_id))
-    U = extractor.get_features_values()[0]
-    X = extractor.get_features_values()[1]
-    y = course.get_clickstream_grade().set_index('user_id').reindex(U)[settings['target']].values
+    feature_labels = extractor.get_features_values()[0][settings['target']].values
+    feature_values = extractor.get_features_values()[1]
+
+    X = feature_values
+    y = feature_labels
 
     logging.info('initializing {}'.format(settings['model']))
     predictor = import_class(settings['model'])()
@@ -67,4 +48,24 @@ def main():
     predictor.train(X, y, settings)
 
 if __name__ == "__main__":
-    main()
+
+    parser = argparse.ArgumentParser(description='Train predictor')
+
+    parser.add_argument('--model', dest='model', default=None, type=str, action='store')
+    parser.add_argument('--target', dest='target', default='label-pass-fail', type=str, action='store')
+    parser.add_argument('--target_type', dest='target_type', default='classification', type=str, action='store')
+    parser.add_argument('--classes', dest='classes', default=1, type=int, action='store')
+    parser.add_argument('--feature_set', dest='feature_set', default=None, type=str, action='store')
+    parser.add_argument('--workdir', dest='workdir', default='../data/result/edm21/', type=str, action='store')
+    parser.add_argument('--batch', dest='batch', default=512, type=int, action='store')
+    parser.add_argument('--folds', dest='folds', default=10, type=int, action='store')
+    parser.add_argument('--hidden_units', dest='hidden_units', default=10, type=int, action='store')
+    parser.add_argument('--epochs', dest='epochs', default=5, type=int, action='store')
+    parser.add_argument('--lr', dest='lr', default=.001, type=float, action='store')
+    parser.add_argument('--weight_init', dest='weight_init', default='he_normal', type=str, action='store')
+    parser.add_argument('--shuffle', dest='shuffle', default=True, type=bool, action='store')
+    parser.add_argument('--verbose', dest='verbose', default=1, type=int, action='store')
+
+    settings = vars(parser.parse_args())
+
+    main(settings)

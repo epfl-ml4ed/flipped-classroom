@@ -4,6 +4,7 @@
 from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import GridSearchCV
 from sklearn import metrics
+import pandas as pd
 import numpy as np
 import pickle
 import time
@@ -14,19 +15,24 @@ class Predictor():
 
     def __init__(self, name=None):
         self.name = name
-        self.time = time.strftime('%Y%m%d_%H%M%S')
+        self.time = time.strftime('%Y%m%d-%H%M%S')
 
     def save(self, settings):
         assert self.predictor is not None and self.predictor is not None and settings['workdir'].endswith('/')
         str_f1 = str(np.round(np.mean([v[settings['scoring'] if 'scoring' in settings else 'f1'] for v in self.stats]), 2)).replace('.', '')
-        if not os.path.exists(os.path.join(settings['workdir'], 'predictor', self.time + '-' + self.name + '-' + str_f1)):
-            os.makedirs(os.path.join(settings['workdir'], 'predictor', self.time + '-' + self.name + '-' + str_f1))
-        with open(os.path.join(settings['workdir'], 'predictor', self.time + '-' + self.name + '-' + str_f1, 'model.h5'), 'wb') as file:
+        # Create the predictor main directory
+        if not os.path.exists(os.path.join(settings['workdir'], 'predictor', self.name + '-' + self.time + '-' + str_f1)):
+            os.makedirs(os.path.join(settings['workdir'], 'predictor', self.name + '-' + self.time + '-' + str_f1))
+        # Save tehe trained model
+        with open(os.path.join(settings['workdir'], 'predictor', self.name + '-' + self.time + '-' + str_f1, 'model.h5'), 'wb') as file:
             pickle.dump(self.predictor, file)
-        with open(os.path.join(settings['workdir'], 'predictor', self.time + '-' + self.name + '-' + str_f1, 'params.txt'), 'w') as file:
+        # Save trai and test parameters
+        with open(os.path.join(settings['workdir'], 'predictor', self.name + '-' + self.time + '-' + str_f1, 'params.txt'), 'w') as file:
             file.write(json.dumps(settings))
-        with open(os.path.join(settings['workdir'], 'predictor', self.time + '-' + self.name + '-' + str_f1, 'stats.txt'), 'w') as file:
-            file.write(json.dumps(self.stats))
+        # Save evaluation metrics
+        stats = pd.DataFrame(self.stats)
+        stats.index.name = 'fold'
+        stats.to_csv(os.path.join(settings['workdir'], 'predictor', self.name + '-' + self.time + '-' + str_f1, 'stats.csv'))
 
     def load(self, settings):
         assert os.path.join(settings['workdir']) is not None
@@ -36,7 +42,7 @@ class Predictor():
         self.predictor = None
 
     def compile(self, settings):
-        pass
+        return None
 
     def fit(self, X, y, settings):
         self.predictor.fit(X if len(X.shape) <=2 else np.average(X, axis=1), y)
@@ -69,6 +75,14 @@ class Predictor():
         self.predictor = GridSearchCV(self.predictor, settings['grid'], cv=settings['cv'], scoring=settings['scoring'])
 
     def evaluate(self, X, y, settings):
+        assert 'target_type' in settings
+
+        if settings['target_type'] == 'classification':
+            return self.evaluate_classification(X, y, settings)
+        else:
+            return self.evaluate_regression(X, y, settings)
+
+    def evaluate_classification(self, X, y, settings):
         y_pred = self.predict(X, settings)
         stats = {}
         stats['bacc'] = metrics.balanced_accuracy_score(y, y_pred)
@@ -78,4 +92,10 @@ class Predictor():
             stats['rpass'] = 1 - np.sum(y_pred[settings['pass_ix']]) / len(y[settings['pass_ix']])
         fpr, tpr, thresholds = metrics.roc_curve(y, y_pred, pos_label=1)
         stats['auc'] = metrics.auc(fpr, tpr)
+        return stats
+
+    def evaluate_regression(self, X, y, settings):
+        y_pred = self.predict(X, settings)
+        stats = {}
+        stats['mse'] = metrics.mean_squared_error(y, y_pred)
         return stats

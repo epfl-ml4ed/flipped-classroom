@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from sklearn.dummy import DummyClassifier
+from sklearn.dummy import DummyClassifier, DummyRegressor
 
 from predictor.predictor import Predictor
 
@@ -11,5 +11,10 @@ class Dummy(Predictor):
         super().__init__('dummy')
 
     def build(self, settings):
-        self.predictor = DummyClassifier(strategy=settings['strategy'] if 'strategy' in settings else 'uniform')
+        assert 'target_type' in settings
+
+        if settings['target_type'] == 'classification':
+            self.predictor = DummyClassifier(strategy=settings['strategy'] if 'strategy' in settings else 'uniform')
+        else:
+            self.predictor = DummyRegressor(strategy=settings['strategy'] if 'strategy' in settings else 'mean')
 
