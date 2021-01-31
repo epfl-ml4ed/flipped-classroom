@@ -11,6 +11,7 @@ class RandomForest(Predictor):
         super().__init__('random_forest')
         self.type = 'sklearn'
         self.depth = 'shallow'
+        self.hasproba = True
 
     def build(self, settings):
         assert 'target_type' in settings
@@ -19,4 +20,7 @@ class RandomForest(Predictor):
             self.predictor = RandomForestClassifier()
         else:
             self.predictor = RandomForestRegressor()
+
+        if 'grid' in settings:
+            self.add_grid(settings)
 

@@ -9,6 +9,9 @@ class Dummy(Predictor):
 
     def __init__(self):
         super().__init__('dummy')
+        self.type = 'sklearn'
+        self.depth = 'shallow'
+        self.hasproba = False
 
     def build(self, settings):
         assert 'target_type' in settings

@@ -4,7 +4,6 @@
 import numpy as np
 import argparse
 import logging
-import math
 import os
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -38,7 +37,6 @@ def main(settings):
 
         logging.info('building {}'.format(settings['model']))
         predictor.build({**settings, **{'input_shape': X.shape[1:]}})
-        predictor.add_grid(settings)
 
         logging.info('compiling {}'.format(settings['model']))
         predictor.compile(settings)

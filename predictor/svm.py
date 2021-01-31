@@ -11,6 +11,7 @@ class Svm(Predictor):
         super().__init__('svm')
         self.type = 'sklearn'
         self.depth = 'shallow'
+        self.hasproba = True
 
     def build(self, settings):
         assert 'target_type' in settings
@@ -19,5 +20,8 @@ class Svm(Predictor):
             self.predictor = SVC(gamma='auto')
         else:
             self.predictor = SVR(gamma='auto')
+
+        if 'grid' in settings:
+            self.add_grid(settings)
 
 

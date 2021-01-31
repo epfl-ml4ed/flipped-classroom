@@ -3,6 +3,7 @@
 
 from sklearn.model_selection import StratifiedKFold, KFold
 from sklearn.model_selection import GridSearchCV
+from sklearn.preprocessing import StandardScaler
 from sklearn import metrics
 import pandas as pd
 import numpy as np
@@ -19,6 +20,7 @@ class Predictor():
         self.time = time.strftime('%Y%m%d_%H%M%S')
         self.type = 'sklearn'
         self.depth = 'shallow'
+        self.hasproba = False
 
     def isdepth(self, depth):
         return depth == 'all' or self.depth == depth
@@ -27,29 +29,22 @@ class Predictor():
         assert self.predictor is not None and self.predictor is not None and 'target_type' in settings
 
         # Set metric to show in the folder name
-        if settings['target_type'] == 'classification':
-            str_metric = str(np.round(np.mean([v[settings['scoring'] if 'scoring' in settings else 'f1'] for v in self.stats]), 2)).replace('.', '')
-        else:
-            str_metric = str(np.round(np.mean([v[settings['scoring'] if 'scoring' in settings else 'mse'] for v in self.stats]), 2)).replace('.', '')
-
-        filename = settings['timeframe'] + '-' + settings['course_id'].replace('-', '_') + '-' + settings['target'].replace('-', '_') + '-' + settings['model'].split('.')[-2] + '-' + settings['feature_set'].split('-')[1] + '-' + self.time + '-' + str_metric
+        filename = settings['timeframe'] + '-' + settings['course_id'].replace('-', '_') + '-' + settings['target'].replace('-', '_') + '-' + settings['model'].split('.')[-2] + '-' + settings['feature_set'].split('_')[1] + '-' + self.time
 
         # Create the predictor main directory
-        if not os.path.exists(os.path.join(settings['workdir'], filename)):
-            os.makedirs(os.path.join(settings['workdir'], filename))
+        if not os.path.exists(os.path.join(settings['workdir'], 'predictor', filename)):
+            os.makedirs(os.path.join(settings['workdir'], 'predictor', filename))
         # Save tehe trained model
         if self.type == 'sklearn':
-            with open(os.path.join(settings['workdir'], filename, 'model.h5'), 'wb') as file:
+            with open(os.path.join(settings['workdir'], 'predictor', filename, 'model.h5'), 'wb') as file:
                 pickle.dump(self.predictor, file)
         else:
-            self.predictor.save(os.path.join(settings['workdir'], filename, 'model.h5'))
+            self.predictor.save(os.path.join(settings['workdir'], 'predictor', filename, 'model.h5'))
         # Save train and test parameters
-        with open(os.path.join(settings['workdir'], filename, 'params.txt'), 'w') as file:
+        with open(os.path.join(settings['workdir'], 'predictor', filename, 'params.txt'), 'w') as file:
             file.write(json.dumps(settings))
         # Save evaluation metrics
-        stats = pd.DataFrame(self.stats)
-        stats.index.name = 'fold'
-        stats.to_csv(os.path.join(settings['workdir'], filename, 'stats.csv'))
+        pd.DataFrame(self.stats).to_csv(os.path.join(settings['workdir'], 'predictor', filename, 'stats.csv'), index=False)
 
     def load(self, settings):
         assert os.path.join(settings['workdir']) is not None
@@ -68,19 +63,26 @@ class Predictor():
         assert self.predictor is not None and 'target_type' in settings and len(X.shape) == 3
 
         self.stats = []
-        for week in np.arange(2, X.shape[1] - 1):
+        for week in np.arange(4, X.shape[1] - 1):
             logging.info('training the predictor on data till the week with id {}'.format(week))
 
             X_w = X[:, :week, :]
 
             if settings['target_type'] == 'classification':
-                folds = StratifiedKFold(n_splits=settings['folds']).split(X_w, y.astype(int))
+                folds = StratifiedKFold(n_splits=settings['folds'], shuffle=True).split(X_w, y.astype(int))
             else:
-                folds = KFold(n_splits=settings['folds']).split(X_w)
+                folds = KFold(n_splits=settings['folds'], shuffle=True).split(X_w)
 
             for fold, (train_index, test_index) in enumerate(folds):
-                X_train, X_test = X[train_index], X[test_index]
+                X_train, X_test = X_w[train_index], X_w[test_index]
                 y_train, y_test = y[train_index], y[test_index]
+
+                scaler = StandardScaler()
+                for i in range(X_train.shape[2]):
+                    X_train_scaled = scaler.fit_transform(X_train[:, :, i])
+                    X_train[:, :, i] = X_train_scaled
+                    X_test[:, :, i] = scaler.transform(X_test[:, :, i])
+
                 self.fit(X_train, y_train, settings)
                 test_stats = self.evaluate(X_test, y_test, settings)
                 self.stats.append({**{'week': week, 'fold': fold, 'y_train_idx': train_index, 'y_test_idx': test_index}, **test_stats})
@@ -96,7 +98,11 @@ class Predictor():
 
     def add_grid(self, settings):
         assert self.predictor is not None
-        self.predictor = GridSearchCV(self.predictor, settings['grid'], cv=settings['cv'], scoring=settings['scoring'])
+
+        if settings['target_type'] == 'classification':
+            self.predictor = GridSearchCV(self.predictor, settings['grid'], cv=settings['cv'], scoring='f1')
+        else:
+            self.predictor = GridSearchCV(self.predictor, settings['grid'], cv=settings['cv'], scoring='neg_mean_squared_error')
 
     def evaluate(self, X, y, settings):
         assert 'target_type' in settings
@@ -119,12 +125,12 @@ class Predictor():
         stats['acc_fail'] = np.sum(y_pred[fail_ix]) / len(y_pred[fail_ix])
         stats['acc_pass'] = 1 - np.sum(y_pred[pass_ix]) / len(y_pred[pass_ix])
 
-        stats['ypred_proba'] = self.predict(X, settings, proba=True)
-        stats['ypred'] = y_pred
-        stats['ytrue'] = y
-
         fpr, tpr, thresholds = metrics.roc_curve(y, y_pred, pos_label=1)
         stats['auc'] = metrics.auc(fpr, tpr)
+
+        stats['ypred_proba'] = self.predict(X, settings, proba=True) if self.hasproba else np.empty([])
+        stats['ypred'] = y_pred
+        stats['ytrue'] = y
 
         return stats
 
@@ -134,7 +140,6 @@ class Predictor():
 
         stats['mse'] = metrics.mean_squared_error(y, y_pred)
 
-        stats['ypred_proba'] = self.predict(X, settings, proba=True)
         stats['ypred'] = y_pred
         stats['ytrue'] = y
 
