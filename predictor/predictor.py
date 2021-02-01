@@ -80,8 +80,8 @@ class Predictor():
 
                 scaler = NanImputeScaler(nan_level=-1)
                 for i in range(X_train.shape[2]):
-                    X_train_scaled = scaler.fit_transform(X_train[:, :, i])
-                    X_train[:, :, i] = X_train_scaled
+                    scaler.fit(X_train[:, :, i])
+                    X_train[:, :, i] = scaler.transform(X_train[:, :, i])
                     X_test[:, :, i] = scaler.transform(X_test[:, :, i])
 
                 self.fit(X_train, y_train, settings)
