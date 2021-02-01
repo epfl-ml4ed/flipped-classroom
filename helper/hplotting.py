@@ -3,7 +3,9 @@
 
 from scipy.stats import gaussian_kde
 import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
+import os
 
 def plot_grade_distribution(course, mingrade=1, maxgrade=6, depgrade=.25, thrgrade=4.0):
 
@@ -94,3 +96,36 @@ def plot_feature(feature, feature_values, groups):
     plt.xlim(0, len(np.arange(feature_values.shape[1])) - 1)
     plt.grid()
     plt.legend()
+
+
+def plot_feature_per_model(timeframe, target, course_id, metric='f1', ylim=[0.0, 1.0], filepath='../data/result/edm21/predictor'):
+    predictors = set([p.split('-')[3] for p in os.listdir(filepath) if target in p and timeframe in p and course_id in p])
+    results = [p for p in os.listdir('../data/result/edm21/predictor') if target in p]
+
+    assert 'dummy' in predictors
+    dummy_base = []
+    for predictor_result in [predictor_result for predictor_result in results if 'dummy' in predictor_result]:
+        data_with_folds = pd.read_csv(os.path.join(filepath, predictor_result, 'stats.csv'))[['week', 'fold', metric]]
+        data_per_fold = data_with_folds.groupby(by='week').mean(metric)
+        dummy_base.append(data_per_fold[metric])
+    dummy_values = np.mean(dummy_base, axis=0)
+    predictors.remove('dummy')
+
+    plt.figure(figsize=(30, 8), dpi=300)
+    plt.rcParams.update({'font.size': 16})
+    plt.suptitle('Best Feature Set per Shallow Model', size=16)
+    for p_idx, predictor in enumerate(predictors):
+        plt.subplot(1, len(predictors), p_idx + 1)
+        plt.title(predictor)
+        for predictor_result in [predictor_result for predictor_result in results if predictor in predictor_result]:
+            data_with_folds = pd.read_csv(os.path.join(filepath, predictor_result, 'stats.csv'))[['week', 'fold', metric]]
+            data_per_fold = data_with_folds.groupby(by='week').mean(metric)
+            plt.plot(data_per_fold.index, data_per_fold[metric], label=predictor_result.split('-')[4])
+            plt.plot(data_per_fold.index, dummy_values, color='#000000', linestyle='--')
+            plt.xlim([data_per_fold.index.min(), data_per_fold.index.max()])
+            plt.ylabel(metric)
+            plt.xlabel('week')
+            plt.ylim(ylim)
+            plt.grid(linewidth=1)
+        plt.legend(loc='upper left', ncol=2)
+    plt.show()

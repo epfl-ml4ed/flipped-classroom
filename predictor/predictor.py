@@ -94,7 +94,7 @@ class Predictor():
     def predict(self, X, settings, proba=False):
         assert self.predictor is not None
         if proba:
-            return self.predictor.predict_proba(X if len(X.shape) <= 2 else np.average(X, axis=1))
+            return self.predictor.predict_proba(X if len(X.shape) <= 2 else np.average(X, axis=1),)
         return np.round(self.predictor.predict(X if len(X.shape) <= 2 else np.average(X, axis=1)))
 
     def add_grid(self, settings):

@@ -17,7 +17,7 @@ class Svm(Predictor):
         assert 'target_type' in settings
 
         if settings['target_type'] == 'classification':
-            self.predictor = SVC(gamma='auto')
+            self.predictor = SVC(gamma='auto', probability=True)
         else:
             self.predictor = SVR(gamma='auto')
 
