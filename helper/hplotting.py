@@ -88,19 +88,20 @@ def plot_stopout_distribution(course, extra_weeks=8):
     plt.grid(axis='y')
 
 def plot_feature(feature, feature_values, groups):
+    plt.figure(figsize=(30, 8), dpi=300)
     for label, idxs, color in groups:
-        plt.plot(np.arange(feature_values.shape[1]), np.mean(feature_values[idxs, :], axis=0), label=label, color=color)
-    plt.title(feature.get_name())
-    plt.ylabel(feature.get_name())
+        plt.plot(np.arange(feature_values.shape[1]), np.nanmean(feature_values[idxs, :], axis=0), label=label, color=color)
+    plt.title(feature)
+    plt.ylabel(feature)
     plt.xlabel('week')
-    plt.xlim(0, len(np.arange(feature_values.shape[1])) - 1)
+    plt.xlim(0, len(np.arange(feature_values.shape[1])[:-2]))
+    plt.ylim([0, 1])
     plt.grid()
     plt.legend()
 
-
-def plot_feature_per_model(timeframe, target, course_id, metric='f1', ylim=[0.0, 1.0], filepath='../data/result/edm21/predictor'):
+def plot_feature_per_model(timeframe, target, course_id, metric='f1', ylim=np.array([0.0, 1.0]), filepath='../data/result/edm21/predictor'):
     predictors = set([p.split('-')[3] for p in os.listdir(filepath) if target in p and timeframe in p and course_id in p])
-    results = [p for p in os.listdir('../data/result/edm21/predictor') if target in p]
+    results = [p for p in os.listdir('../data/result/edm21/predictor') if target in p and timeframe in p]
 
     assert 'dummy' in predictors
     dummy_base = []
@@ -113,7 +114,6 @@ def plot_feature_per_model(timeframe, target, course_id, metric='f1', ylim=[0.0,
 
     plt.figure(figsize=(30, 8), dpi=300)
     plt.rcParams.update({'font.size': 16})
-    plt.suptitle('Best Feature Set per Shallow Model', size=16)
     for p_idx, predictor in enumerate(predictors):
         plt.subplot(1, len(predictors), p_idx + 1)
         plt.title(predictor)
@@ -129,3 +129,35 @@ def plot_feature_per_model(timeframe, target, course_id, metric='f1', ylim=[0.0,
             plt.grid(linewidth=1)
         plt.legend(loc='upper left', ncol=2)
     plt.show()
+
+def plot_feature_per_model_at_timeframe(predictor, target, course_id, metric='f1', ylim=np.array([0.0, 1.0]), filepath='../data/result/edm21/predictor'):
+    features = set([p.split('-')[4] for p in os.listdir(filepath) if target in p and predictor in p and course_id in p])
+    results = [p for p in os.listdir('../data/result/edm21/predictor') if target in p and predictor in p and course_id in p and 'eq_week' in p]
+
+    plt.figure(figsize=(30, int(np.round(len(features) // 2, 0)) * 8), dpi=300)
+    plt.rcParams.update({'font.size': 16})
+    for f_idx, result in enumerate(results):
+        lq_week = [p for p in os.listdir('../data/result/edm21/predictor') if result.split('-')[4] in p and target in p and predictor in p and course_id in p and 'lq_week' in p]
+
+        if not len(lq_week) == 1:
+            continue
+
+        plt.subplot(int(np.round(len(features) // 2, 0)), 2, f_idx + 1)
+        plt.title(result.split('-')[4])
+
+        data_with_folds = pd.read_csv(os.path.join(filepath, result, 'stats.csv'))[['week', 'fold', metric]]
+        data_per_fold = data_with_folds.groupby(by='week').mean(metric)
+        plt.plot(data_per_fold.index, data_per_fold[metric], label='eq_week')
+
+        data_with_folds = pd.read_csv(os.path.join(filepath, lq_week[0], 'stats.csv'))[['week', 'fold', metric]]
+        data_per_fold = data_with_folds.groupby(by='week').mean(metric)
+        plt.plot(data_per_fold.index, data_per_fold[metric], label='lq_week')
+
+        plt.xlim([data_per_fold.index.min(), data_per_fold.index.max()])
+        plt.ylabel(metric)
+        plt.xlabel('week')
+        plt.ylim(ylim)
+        plt.grid(linewidth=1)
+        plt.legend(loc='upper left', ncol=2)
+    plt.show()
+
