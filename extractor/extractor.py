@@ -62,7 +62,8 @@ class Extractor():
         feature_values = np.load(os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'feature_values.npz'))['feature_values']
         feature_labels = pd.read_csv(os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'feature_labels.csv'))
         self.feature_values = (feature_labels, feature_values)
-        self.settings = json.load(open(os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'settings.txt'), 'rb'))
+        with open(os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'settings.txt'), 'rb') as file:
+            self.settings = json.load(file)
 
     def extract_features(self, data, settings):
         return np.empty()

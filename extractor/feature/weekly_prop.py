@@ -23,21 +23,21 @@ class WeeklyProp(Feature):
             return Feature.INVALID_VALUE
 
         if self.settings['type'] == 'replayed':
-            weekly_prop_data = get_weekly_prop_replayed(self.data, self.settings)
+            weekly_prop_data = self.filter(get_weekly_prop_replayed(self.data, self.settings))[0].values
             if len(weekly_prop_data) == 0:
                 logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             return self.settings['ffunc'](weekly_prop_data)
 
         if self.settings['type'] == 'watched':
-            weekly_prop_data = get_weekly_prop_watched(self.data, self.settings)
+            weekly_prop_data = self.filter(get_weekly_prop_watched(self.data, self.settings))[0].values
             if len(weekly_prop_data) == 0:
                 logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             return self.settings['ffunc'](weekly_prop_data)
 
         if self.settings['type'] == 'interrupted':
-            weekly_prop_data = get_weekly_prop_interrupted(self.data, self.settings)
+            weekly_prop_data = self.filter(get_weekly_prop_interrupted(self.data, self.settings))[0].values
             if len(weekly_prop_data) == 0:
                 logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE

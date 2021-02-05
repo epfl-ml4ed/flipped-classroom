@@ -40,9 +40,9 @@ def main(settings):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Extract feature')
 
-    parser.add_argument('--model', dest='model', default='extractor.set.akpinar_et_al.AkpinarEtAl', type=str, action='store')
+    parser.add_argument('--model', dest='model', default='extractor.set.lalle_conati.LalleConati', type=str, action='store')
     parser.add_argument('--courses', dest='courses', default='toy-course/toy_course-20210202_000840', type=str, action='store')
-    parser.add_argument('--timeframe', dest='timeframe', default='eq_week', type=str, action='store')
+    parser.add_argument('--timeframe', dest='timeframe', default='lq_week', type=str, action='store')
     parser.add_argument('--workdir', dest='workdir', default='../data/result/test/feature/', type=str, action='store')
 
     settings = vars(parser.parse_args())

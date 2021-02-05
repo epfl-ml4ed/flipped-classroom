@@ -16,7 +16,6 @@ class UtilizationRate(Feature):
         super().__init__('utilization_rate', data, settings)
 
     def compute(self):
-
         if len(self.data.index) == 0:
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
@@ -32,7 +31,6 @@ class UtilizationRate(Feature):
 
         self.schedule = self.schedule[self.schedule['type'] == 'video']
         sum_video_lengths = np.sum(self.schedule['duration'].values)
-
         if sum_video_lengths == 0:
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE

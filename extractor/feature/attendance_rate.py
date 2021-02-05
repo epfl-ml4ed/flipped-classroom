@@ -23,7 +23,6 @@ class AttendanceRate(Feature):
         assert 'course' in self.settings and self.settings['course'].has_schedule()
         taught_videos = set(self.schedule[self.schedule['type'] == 'video']['id'].unique())
         learnt_videos = set(self.data['video_id'].unique())
-
         if len(taught_videos) == 0:
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE

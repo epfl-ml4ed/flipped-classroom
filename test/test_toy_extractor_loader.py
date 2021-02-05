@@ -9,6 +9,7 @@ from helper.hutils import import_class
 
 logging.getLogger().setLevel(logging.INFO)
 
+
 def main(settings):
     assert settings['feature_set'] is not None
 
@@ -19,7 +20,8 @@ def main(settings):
 
     # Load associated course
     extractor_settings = extractor.get_settings()
-    logging.info('loading course data from {} {} {}'.format(extractor_settings['course_id'], extractor_settings['type'], extractor_settings['platform']))
+    logging.info('loading course data from {} {} {}'.format(extractor_settings['course_id'], extractor_settings['type'],
+                                                            extractor_settings['platform']))
 
     # Arrange data
     logging.info('arranging data from {}'.format(extractor_settings['course_id']))
@@ -32,11 +34,13 @@ def main(settings):
     logging.info(X.shape)
     logging.info(y.shape)
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Load features')
 
-    parser.add_argument('--feature_set', dest='feature_set', default='eq_week-akpinar_et_al-toy_course_20210202_000840-20210202_112417', type=str, action='store') # Find the folder in data/result/test/feature
+    parser.add_argument('--feature_set', dest='feature_set',
+                        default='eq_week-akpinar_et_al-toy_course_20210202_000840-20210202_134548', type=str,
+                        action='store')  # Find the folder in data/result/test/feature
     parser.add_argument('--target', dest='target', default='label-pass-fail', type=str, action='store')
     parser.add_argument('--target_type', dest='target_type', default='classification', type=str, action='store')
     parser.add_argument('--classes', dest='classes', default=1, type=int, action='store')

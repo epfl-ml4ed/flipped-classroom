@@ -4,6 +4,7 @@
 from helper.dataset.data_preparation import get_sessions, fourier_transform
 from extractor.feature.feature import Feature
 
+import time
 import numpy as np
 import logging
 
@@ -31,24 +32,34 @@ class RegPeriodicity(Feature):
         workload[sessions['week'], sessions['weekday']] += sessions['duration']
 
         if self.settings['mode'] == 'm1':
-            hours = self.data['date'].dt.hour.astype(int).to_list()
-            activity = np.array([hours.count(h) for h in np.arange(23)])
+            # Convert date to hours starting from 0
+            hours = self.data['date'].values.astype(np.int64) // 10 ** 9 // 3600
+            hours -= min(hours)
+            period_length = weeks * 7 * 24
+            activity = np.array([int(t in hours) for t in range(period_length)]) #1 if active at hour t 0 o.w.
             if np.sum(activity) == 0:
                 logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
-            return np.sum(abs(fourier_transform(activity, 1 / 24, 24)))
+            n = np.arange(period_length)
+            return abs(fourier_transform(activity, 1 / 24, n))
 
         elif self.settings['mode'] == 'm2':
-            n = np.arange((weeks * 7 * 24 * 60 * 60) // (60 * 60))
-            self.data['hours'] = self.data['date'].dt.hour.astype(int).to_list()
-            activity = np.zeros((weeks, 24))
-            activity[self.data['week'], self.data['hours']] += 1
-            return np.sum(abs(fourier_transform(activity.flatten(), 1 / (7 * 24), 7 * 24)))
+            period_length = weeks * 7 * 24
+            hours = self.data['date'].values.astype(np.int64) // 10 ** 9 // 3600
+            hours -= min(hours)
+            activity = np.array([int(t in hours) for t in range(period_length)])
+            # print(activity)
+            n = np.arange(period_length)
+            return abs(fourier_transform(activity.flatten(), 1 / (7 * 24), n))
 
         elif self.settings['mode'] == 'm3':
             assert self.settings['timeframe'] is not 'eq_week' and weeks > 0
-            weekdays = self.data['date'].dt.weekday.astype(int).to_list()
-            activity = np.array([weekdays.count(h) for h in np.arange(6)])
-            return np.sum(abs(fourier_transform(activity, 1 / 7, 7)))
+            # Convert date to days starting from 0
+            days = self.data['date'].values.astype(np.int64) // 10 ** 9 // (24 * 3600)
+            days -= min(days)
+            period_length = weeks * 7
+            activity = np.array([int(d in days) for d in range(period_length)]) # 1 if active at day d 0 o.w.
+            n = np.arange(period_length)
+            return abs(fourier_transform(activity, 1 / 7, n))
         else:
             raise NotImplementedError()

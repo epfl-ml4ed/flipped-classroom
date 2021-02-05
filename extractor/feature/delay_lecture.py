@@ -20,17 +20,15 @@ class DelayLecture(Feature):
 
     def compute(self):
         assert 'course' in self.settings and self.settings['course'].has_schedule()
-
         if len(self.data[self.data['event_type'].str.contains('Video')].index) == 0:
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.schedule = self.schedule[self.schedule['type'] == 'video']
-        maps_schedule_date = {k:v for k,v in zip(self.schedule['id'].values, self.schedule['date'].values)}
+        maps_schedule_date = {k: v for k, v in zip(self.schedule['id'].values, self.schedule['date'].values)}
 
         self.data = self.data.drop_duplicates(subset=['video_id'])
-        maps_student_date = {k:v for k,v in zip(self.data['video_id'].values, self.data['date'].values)}
-
+        maps_student_date = {k: v for k, v in zip(self.data['video_id'].values, self.data['date'].values)}
         delays = [pd.Timedelta(maps_student_date[key] - maps_schedule_date[key]).total_seconds() for key in maps_student_date.keys() if key in maps_schedule_date]
 
         if len(delays) == 0:

@@ -20,7 +20,7 @@ class HeEtAl(Extractor):
         super().__init__(name)
         self.name = 'he_et_al'
 
-    def extract_features(self, data,settings):
+    def extract_features(self, data, settings):
         self.features = [AttendanceRate(data, settings),
                          UtilizationRate(data, settings),
                          WatchingRatio(data, settings)]

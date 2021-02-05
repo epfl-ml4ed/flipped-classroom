@@ -26,21 +26,21 @@ class RegPeakTime(Feature):
 
         if self.settings['mode'] == 'dayhour':
             hours = self.data['date'].dt.hour.astype(int).to_list()
-            activity = np.array([hours.count(h) for h in np.arange(23)])
+            activity = np.array([hours.count(h) for h in np.arange(24)])
             if np.sum(activity) == 0:
                 logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             entropy = stats.entropy(activity / np.sum(activity))
-            return (np.log2(24) - entropy) * np.max(activity)
+            return (np.log(24) - entropy) * np.max(activity)
         elif self.settings['mode'] == 'weekday':
             assert self.settings['timeframe'] is not 'eq_week' and self.settings['week'] > 0
             weekdays = self.data['date'].dt.weekday.astype(int).to_list()
-            activity = np.array([weekdays.count(h) for h in np.arange(6)])
+            activity = np.array([weekdays.count(h) for h in np.arange(7)])
             if np.sum(activity) == 0:
                 logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             entropy = stats.entropy(activity / np.sum(activity))
-            return (np.log2(7) - entropy) * np.max(activity)
+            return (np.log(7) - entropy) * np.max(activity)
         else:
             raise NotImplementedError()
 

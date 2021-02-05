@@ -105,6 +105,9 @@ class Course():
         assert self.schedule is not None
         return self.schedule.copy()
 
+    def get_video_schedule(self):
+        return self.get_schedule().query('type == "video"')
+
     def is_complete(self):
         return self.metadata is not None and self.schedule is not None and self.clickstream_grade is not None and self.clickstream_video is not None
 

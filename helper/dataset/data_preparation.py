@@ -33,14 +33,12 @@ def get_sessions(data, max_session_length=120, min_session_action=3):
 
 def get_videos_watched_on_right_week(data, settings):
     data = data[data['event_type'].str.contains('Video')]
-    schedule = settings['course'].get_schedule()[['id', 'date']].rename(columns={'date': 'schedule_date'})
-    first_views = data.merge(schedule, left_on=['video_id'], right_on=['id'])
-    first_views['from_date'] = first_views['schedule_date'] - timedelta(weeks=1)
-    filtered_first_views = first_views[(first_views['date'] >= first_views['from_date']) & (first_views['date'] <= first_views['schedule_date'])]
-    return filtered_first_views.groupby(by='week').size().to_frame(name='count')
+    schedule = settings['course'].get_video_schedule()[['id', 'week']]
+    videos_watched_in_time = data.merge(schedule, left_on=['video_id', 'week'], right_on=['id', 'week'])
+    return videos_watched_in_time.groupby(by='week').size().to_frame(name='count')
 
 def get_week_video_total(settings):
-    schedule = settings['course'].get_schedule()
+    schedule = settings['course'].get_video_schedule()
     return schedule.groupby(by='week').size().to_frame(name='total')
 
 def get_weekly_prop(data, settings):
@@ -48,7 +46,7 @@ def get_weekly_prop(data, settings):
     weekly_total = get_week_video_total(settings)
     weekly_prop = weekly_total.merge(weekly_count, left_index=True, right_index=True, how='left')
     weekly_prop['count'] = weekly_prop['count'].fillna(0)
-    return np.clip((weekly_prop['count'] / weekly_prop['total']).values, 0., 1.)
+    return np.clip((weekly_prop['count'] / weekly_prop['total']), 0., 1.).reset_index() #[:settings['week'] + 1]
 
 def get_weekly_prop_watched(data, settings):
     return get_weekly_prop(data.drop_duplicates(subset=['video_id']), settings)
@@ -57,24 +55,25 @@ def get_weekly_prop_replayed(data, settings):
     data['only_date'] = data['date'].dt.date
     data = data.drop_duplicates(subset=['video_id', 'only_date'])
     repeated_ids = [i for i, g in data.groupby('video_id') if len(g) > 1]
-    replayed_data = data[data['video_id'].isin(repeated_ids)]
+    replayed_data = data[data['video_id'].isin(repeated_ids)].drop_duplicates('video_id')
     return get_weekly_prop(replayed_data, settings)
 
 def get_weekly_prop_interrupted(data, settings, end_period=60, stop_events=np.array(['Video.Pause', 'Video.Stop', 'Video.Load'])):
-    schedule = settings['course'].get_schedule()[['id', 'duration']]
+    schedule = settings['course'].get_video_schedule()[['id', 'duration']]
+    # Remove first event of each video because some users load videos while watching others
+    data = data[~data.timestamp.isin(data.sort_values(by='date').drop_duplicates('video_id').timestamp)].copy()
 
     data['time_diff'] = abs(data['date'].diff(-1).dt.total_seconds())
     data['next_video_id'] = data['video_id'].shift(-1)
     data = data.dropna(subset=['time_diff'])
 
     data = data.merge(schedule, left_on=['video_id'], right_on=['id'])
-    data = data[(data['duration'] - data['current_time']) > end_period]
+    data = data[(data['duration'] - data['current_time']) > end_period]  # Remove events in the last minute
 
     break_too_long = (data['event_type'].isin(stop_events.tolist())) & (data['time_diff'] > end_period * end_period)
     break_then_other_video = (data['event_type'].isin(stop_events.tolist())) & (data['video_id'] != data['next_video_id'])
     event_other_video = (data['video_id'] != data['next_video_id']) & ((data['duration'] - data['current_time']) > data['time_diff'])
     data = data[break_too_long | break_then_other_video | event_other_video]
-
     return get_weekly_prop(data, settings)
 
 def count_events(data, event):
@@ -106,10 +105,10 @@ def chi2_divergence(p1, p2, a1, a2):
     a = p1 - p2
     b = p1 + p2
     frac = np.divide(a, b, out=np.zeros(a.shape, dtype=float), where=b != 0)
-    m1 = np.where(a1 >= 0)[0]
-    m2 = np.where(a2 >= 0)[0]
+    m1 = np.where(a1 > 0)[0]
+    m2 = np.where(a2 > 0)[0]
     union = set(m1) & set(m2)
-    if (len(union) == 0): return np.nan
+    if len(union) == 0: return np.nan
     return 1 - (1 / len(union)) * np.sum(np.square(frac))
 
 def fourier_transform(Xi, f, n):
