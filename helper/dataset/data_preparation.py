@@ -5,14 +5,14 @@ from datetime import timedelta
 from helper.htime import *
 from extractor.feature.feature import Feature
 
-def get_sessions(data, max_session_length=120, min_session_action=3):
+def get_sessions(data, max_interruption_length=1800, min_session_action=3):
     sessions = []
 
     for index, group in data.groupby(['user_id']):
 
         group = group.sort_values('date')
         group['interval'] = (group['date'] - group['date'].shift(1)).dt.total_seconds()
-        group['session_id'] = (group['date'] - group['date'].shift(1) > pd.Timedelta(max_session_length, 'm')).cumsum() + 1
+        group['session_id'] = (group['date'] - group['date'].shift(1) > pd.Timedelta(max_interruption_length, 'sec')).cumsum() + 1
 
         session = group.groupby('session_id').count()
         session['user_id'] = index
@@ -139,6 +139,7 @@ def get_sequence_from_course(course, seq_length=300):
     return acts, tims, maps
 
 def get_time_after_event(data, event_type):
+    print(event_type)
     """Returns the time between every event_type (e.g. Video.Play, Video.Pause) and the following event."""
     data['prev_event'] = data['event_type'].shift(1)
     data['prev_video_id'] = data['video_id'].shift(1)

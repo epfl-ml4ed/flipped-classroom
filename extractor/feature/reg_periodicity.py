@@ -36,7 +36,7 @@ class RegPeriodicity(Feature):
             hours = self.data['date'].values.astype(np.int64) // 10 ** 9 // 3600
             hours -= min(hours)
             period_length = weeks * 7 * 24
-            activity = np.array([int(t in hours) for t in range(period_length)]) #1 if active at hour t 0 o.w.
+            activity = np.array([int(t in hours) for t in range(period_length)])  # 1 if active at hour t 0 o.w.
             if np.sum(activity) == 0:
                 logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
@@ -48,7 +48,6 @@ class RegPeriodicity(Feature):
             hours = self.data['date'].values.astype(np.int64) // 10 ** 9 // 3600
             hours -= min(hours)
             activity = np.array([int(t in hours) for t in range(period_length)])
-            # print(activity)
             n = np.arange(period_length)
             return abs(fourier_transform(activity.flatten(), 1 / (7 * 24), n))
 
@@ -58,7 +57,7 @@ class RegPeriodicity(Feature):
             days = self.data['date'].values.astype(np.int64) // 10 ** 9 // (24 * 3600)
             days -= min(days)
             period_length = weeks * 7
-            activity = np.array([int(d in days) for d in range(period_length)]) # 1 if active at day d 0 o.w.
+            activity = np.array([int(d in days) for d in range(period_length)])  # 1 if active at day d 0 o.w.
             n = np.arange(period_length)
             return abs(fourier_transform(activity, 1 / 7, n))
         else:

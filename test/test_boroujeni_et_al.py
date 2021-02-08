@@ -10,44 +10,11 @@ from extractor.feature.reg_weekly_sim import RegWeeklySim
 from extractor.feature.reg_periodicity import RegPeriodicity
 from extractor.feature.delay_lecture import DelayLecture
 
-# logging.getLogger().setLevel(logging.INFO)
-
-def load_set(settings):
-    # Load feature set
-    extractor = ExtractorLoader()
-    extractor.load(settings)
-
-    # Arrange data
-    feature_labels = extractor.get_features_values()[0][settings['target']].values
-    feature_values = extractor.get_features_values()[1]
-
-    y = feature_labels if settings['target_type'] == 'regression' else feature_labels.astype(int)
-    X = feature_values
-
-    return X, y
-
 
 class TestBoroujeni(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        eq_settings = {
-            'feature_set': 'eq_week-boroujeni_et_al-toy_course_20210202_000840-20210202_160217',
-            'target': 'label-pass-fail',
-            'target_type': 'classification',
-            'classes': 1,
-            'workdir': '../data/result/test'
-        }
-        lq_settings = {
-            'feature_set': 'lq_week-boroujeni_et_al-toy_course_20210202_000840-20210202_163428',
-            'target': 'label-pass-fail',
-            'target_type': 'classification',
-            'classes': 1,
-            'workdir': '../data/result/test'
-        }
-        cls.X_eq, cls.y_eq = load_set(eq_settings)
-        cls.X_lq, cls.y_lq = load_set(lq_settings)
-
         cls.course = init_courses({'types': ['toy-course'], 'course_ids': ['toy_course-20210202_000840'],
                                    'load': True, 'label': True})[0]
         cls.feature_settings = {
@@ -73,13 +40,6 @@ class TestBoroujeni(unittest.TestCase):
 
         cls.uniform_data = create_uniform_hours()
         cls.skewed_data = create_skewed_hours()
-
-    def test_dimensions(self):
-        self.assertEqual(self.X_eq.shape, (9, 12, 3))
-        self.assertEqual(self.y_eq.shape, (9,))
-
-        self.assertEqual(self.X_lq.shape, (9, 12, 9))
-        self.assertEqual(self.y_lq.shape, (9,))
 
     def test_RegPeakTime(self):
         dayhour_settings = self.feature_settings.copy()
@@ -167,13 +127,14 @@ class TestBoroujeni(unittest.TestCase):
         m2_settings = self.feature_settings.copy()
         m2_settings.update({'timeframe': 'lq_week', 'week': 4, 'mode': 'm2'})
         # One hour active every day for 5 weeks
-        m2_data = [[datetime(2021, 1, 2) + timedelta(weeks=week, days=day), week, 0] for week in range(5) for day in range(7)]
+        m2_data = [[datetime(2021, 1, 2) + timedelta(weeks=week, days=day), week, 0] for week in range(5) for day in
+                   range(7)]
         m2_data = pd.DataFrame(m2_data, columns=['date', 'week', 'user_id'])
         m2_data['weekday'] = m2_data.date.dt.weekday
         m2_value = RegWeeklySim(m2_data, m2_settings).compute()
         self.assertEqual(m2_value, 1)
 
-        m2_data.drop_duplicates('week', inplace=True) # Keep one day active per week (the same day)
+        m2_data.drop_duplicates('week', inplace=True)  # Keep one day active per week (the same day)
         m2_value = RegWeeklySim(m2_data, m2_settings).compute()
         self.assertEqual(m2_value, 1)
 
@@ -186,10 +147,7 @@ class TestBoroujeni(unittest.TestCase):
         m3_data = pd.DataFrame(m3_data, columns=['date', 'week', 'user_id'])
         m3_data['weekday'] = m3_data.date.dt.weekday
         m3_value = RegWeeklySim(m3_data, m3_settings).compute()
-        self.assertAlmostEqual(m3_value, 8/9, 5)
-
-
-
+        self.assertAlmostEqual(m3_value, 8 / 9, 5)
 
 
 if __name__ == '__main__':

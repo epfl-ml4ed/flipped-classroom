@@ -22,7 +22,7 @@ class TimeBetweenSessions(Feature):
             return Feature.INVALID_VALUE
 
         sessions = get_sessions(self.data, self.schedule['duration'].max())
-        time_between_session = (sessions['end_time'] - sessions['start_time'].shift(1)).dropna().dt.total_seconds()
+        time_between_session = (sessions['end_time'] - sessions['start_time'].shift(-1)).dropna().dt.total_seconds()
 
         if len(time_between_session) == 0:
             logging.debug('feature {} is invalid'.format(self.name))
