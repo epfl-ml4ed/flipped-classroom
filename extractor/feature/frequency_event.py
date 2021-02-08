@@ -2,13 +2,15 @@
 # -*- coding: utf-8 -*-
 
 import logging
-
+import numpy as np
 from extractor.feature.feature import Feature
-
+from extractor.feature.time import Time
 from helper.dataset.data_preparation import count_events
 
 '''
-The frequency of a given action in the clickstream
+The frequency of a given action in the clickstream.
+Note: since we don't have access directly to the time spent by a user watching videos we have to infer it.
+The current model measures the time between every Video.Play action and the following action.
 '''
 class FrequencyEvent(Feature):
 
@@ -28,5 +30,11 @@ class FrequencyEvent(Feature):
             if 'mode' in self.settings and self.settings['mode'] == 'relative':
                 return count_events(self.data, self.settings['type']) / len(self.data[self.settings['type'].split('.')[0].lower() + '_id'].unique())
             raise NotImplementedError()
+
+        if self.settings['type'] == 'Video':
+            time_settings = self.settings.copy()
+            time_settings.update({'type': 'Video.Play', 'ffunc': np.sum})
+            time_spent_watching = Time(self.data, time_settings).compute()
+            return count_events(self.data, self.settings['type']) / time_spent_watching
 
         return count_events(self.data, self.settings['type']) / len(self.data.index)

@@ -21,7 +21,7 @@ class TimeSpeedingUp(Feature):
             return Feature.INVALID_VALUE
 
         speed_up_timings = get_time_speeding_up(self.data)
-        speed_up_timings = speed_up_timings[(speed_up_timings >= Feature.TIME_MIN) & (speed_up_timings <= Feature.TIME_MAX)]
+        speed_up_timings = speed_up_timings[speed_up_timings <= Feature.TIME_MAX]
 
         if len(speed_up_timings) == 0:
             logging.debug('feature {} is invalid'.format(self.name))

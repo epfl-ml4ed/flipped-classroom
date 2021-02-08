@@ -3,6 +3,7 @@
 
 from datetime import timedelta
 from helper.htime import *
+from extractor.feature.feature import Feature
 
 def get_sessions(data, max_session_length=120, min_session_action=3):
     sessions = []
@@ -42,11 +43,16 @@ def get_week_video_total(settings):
     return schedule.groupby(by='week').size().to_frame(name='total')
 
 def get_weekly_prop(data, settings):
+    """
+    Warning: This function returns a dataframe that spans the whole period even if a timeframe is specified in settings.
+    The values outside of the timeframe are null. It is therefore necessary to filter the output dataframe with
+    self.filter to apply the same timeframe filtering as for data.
+    """
     weekly_count = get_videos_watched_on_right_week(data, settings)
     weekly_total = get_week_video_total(settings)
     weekly_prop = weekly_total.merge(weekly_count, left_index=True, right_index=True, how='left')
     weekly_prop['count'] = weekly_prop['count'].fillna(0)
-    return np.clip((weekly_prop['count'] / weekly_prop['total']), 0., 1.).reset_index() #[:settings['week'] + 1]
+    return np.clip((weekly_prop['count'] / weekly_prop['total']), 0., 1.).reset_index()
 
 def get_weekly_prop_watched(data, settings):
     return get_weekly_prop(data.drop_duplicates(subset=['video_id']), settings)
@@ -87,13 +93,10 @@ def count_events(data, event):
 
 def get_time_speeding_up(data):
     data = data[(data['event_type'].str.contains('Video.'))].copy()
-    data['new_speed'] = data['new_speed'].fillna(method='ffill')
-    data = data.dropna(subset=['new_speed'])
-    data['time_diff'] = data['date'].diff().dt.total_seconds()
-    data = data.dropna(subset=['time_diff'])
-    data['prev_speed'] = data['new_speed'].shift(1)
-    data = data.dropna(subset=['prev_speed'])
-    return data[data['prev_speed'] > 1.0]['time_diff'].values
+    data['curr_speed'] = data.new_speed.fillna(method='ffill')
+    data['curr_speed'] = data.curr_speed.fillna(data.old_speed.fillna(method='bfill'))
+    data['time_diff'] = abs(data.timestamp.diff(-1))
+    return data.query('curr_speed > 1').time_diff.values
 
 def similarity_days(wi, wj):
     m1, m2 = np.where(wi == 1)[0], np.where(wj == 1)[0]
@@ -134,5 +137,17 @@ def get_sequence_from_course(course, seq_length=300):
                 tims[sid, wid] = data_week['timestamp'].values[:seq_length] if len(data_week) > seq_length else np.pad(data_week['timestamp'].values, (0, seq_length - len(data_week)), 'constant')
 
     return acts, tims, maps
+
+def get_time_after_event(data, event_type):
+    """Returns the time between every event_type (e.g. Video.Play, Video.Pause) and the following event."""
+    data['prev_event'] = data['event_type'].shift(1)
+    data['prev_video_id'] = data['video_id'].shift(1)
+    data['time_diff'] = data['date'].diff().dt.total_seconds()
+    data = data.dropna(subset=['time_diff'])
+    data = data[(data['time_diff'] >= Feature.TIME_MIN) & (data['time_diff'] <= Feature.TIME_MAX)]
+
+    time_intervals = data[(data['prev_event'].str.contains(event_type)) &
+                          (data['video_id'] == data['prev_video_id'])]['time_diff'].values
+    return time_intervals[(time_intervals >= Feature.TIME_MIN) & (time_intervals <= Feature.TIME_MAX)]
 
 
