@@ -4,7 +4,7 @@
 import logging
 
 from extractor.feature.feature import Feature
-from helper.dataset.data_preparation import get_time_after_event
+from extractor.feature.time import Time
 
 from helper.dataset.data_preparation import count_events
 
@@ -23,10 +23,4 @@ class PauseDuration(Feature):
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        pause_durations = get_time_after_event(self.data, 'Video.Pause')
-
-        if len(pause_durations) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return Feature.INVALID_VALUE
-
-        return self.settings['ffunc'](pause_durations)
+        return Time(self.data, {**self.settings, **{'type': 'Video.Pause'}}).compute()

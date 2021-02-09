@@ -1,5 +1,4 @@
 import unittest
-import logging
 import numpy as np
 import pandas as pd
 from datetime import datetime
@@ -13,12 +12,11 @@ from extractor.feature.pause_duration import PauseDuration
 from extractor.feature.time_speeding_up import TimeSpeedingUp
 
 
-# logging.getLogger().setLevel(logging.INFO)
-
 class TestLalleConati(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        assert Feature.TIME_MIN == 1.0 and Feature.TIME_MAX == 3600
         cls.course = init_courses({'types': ['toy-course'], 'course_ids': ['toy_course-20210202_000840'],
                                    'load': True, 'label': True})[0]
         cls.feature_settings = {
@@ -127,6 +125,7 @@ class TestLalleConati(unittest.TestCase):
         pause_ts = np.array([1571077210, 1571078578, 1571254966, 1571255010, 1571256110, 1571257279])
         next_ts = np.array([1571078577, 1571081009, 1571255009, 1571256109, 1571257278, 1571258102])
         self.assertEqual(TimeSpeedingUp(data, settings).compute(), np.sum(next_ts - pause_ts))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -31,7 +31,7 @@ class FrequencyEvent(Feature):
                 return count_events(self.data, self.settings['type']) / len(self.data[self.settings['type'].split('.')[0].lower() + '_id'].unique())
             raise NotImplementedError()
 
-        if self.settings['type'] == 'Video':
+        if self.settings['type'].lower() == 'video':
             time_settings = self.settings.copy()
             time_settings.update({'type': 'Video.Play', 'ffunc': np.sum})
             time_spent_watching = Time(self.data, time_settings).compute()

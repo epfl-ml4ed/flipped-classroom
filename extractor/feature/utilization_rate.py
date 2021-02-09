@@ -5,7 +5,7 @@ import numpy as np
 import logging
 
 from extractor.feature.feature import Feature
-from helper.dataset.data_preparation import get_time_after_event
+from extractor.feature.time import Time
 
 '''
 The utilization rate of a student s on a given week c since the beginning of the course is the proportion
@@ -23,7 +23,7 @@ class UtilizationRate(Feature):
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        sum_time_intervals = np.sum(get_time_after_event(self.data, 'Video.Play'))
+        sum_time_intervals = Time(self.data, {**self.settings, **{'type': 'Video.Play', 'ffunc': np.sum}}).compute()
 
         self.schedule = self.schedule[self.schedule['type'] == 'video']
         sum_video_lengths = np.sum(self.schedule['duration'].values)

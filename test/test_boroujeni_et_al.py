@@ -3,8 +3,8 @@ import logging
 import numpy as np
 import pandas as pd
 from datetime import datetime, timedelta
-from extractor.extractor_loader import ExtractorLoader
 from helper.hcourse import init_courses
+from extractor.feature.feature import Feature
 from extractor.feature.reg_peak_time import RegPeakTime
 from extractor.feature.reg_weekly_sim import RegWeeklySim
 from extractor.feature.reg_periodicity import RegPeriodicity
@@ -15,6 +15,7 @@ class TestBoroujeni(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
+        assert Feature.TIME_MIN == 1.0 and Feature.TIME_MAX == 3600
         cls.course = init_courses({'types': ['toy-course'], 'course_ids': ['toy_course-20210202_000840'],
                                    'load': True, 'label': True})[0]
         cls.feature_settings = {

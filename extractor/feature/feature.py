@@ -7,7 +7,7 @@ import logging
 class Feature():
 
     INVALID_VALUE = np.nan
-    TIME_MIN = 3.0
+    TIME_MIN = 1.0
     TIME_MAX = 3600
 
     WEEKEND = [5, 6]

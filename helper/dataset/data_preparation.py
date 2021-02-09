@@ -5,7 +5,7 @@ from datetime import timedelta
 from helper.htime import *
 from extractor.feature.feature import Feature
 
-def get_sessions(data, max_interruption_length=1800, min_session_action=3):
+def get_sessions(data, max_interruption_length=Feature.TIME_MAX, min_session_action=3):
     sessions = []
 
     for index, group in data.groupby(['user_id']):
@@ -84,11 +84,11 @@ def get_weekly_prop_interrupted(data, settings, end_period=60, stop_events=np.ar
 
 def count_events(data, event):
     if 'Backward' in event:
-        data = data[(data['event_type'] == 'Video.Seek') & (data['old_time'] > data['new_time'])]
+        data = data[(data['event_type'].str.contains('Video.Seek')) & (data['old_time'] > data['new_time'])]
     elif 'Forward' in event:
-        data = data[(data['event_type'] == 'Video.Seek') & (data['old_time'] < data['new_time'])]
+        data = data[(data['event_type'].str.contains('Video.Seek')) & (data['old_time'] < data['new_time'])]
     else:
-        data = data[data['event_type'].str.contains(event)]
+        data = data[data['event_type'].str.contains(event.title())]
     return len(data.index)
 
 def get_time_speeding_up(data):
@@ -139,7 +139,6 @@ def get_sequence_from_course(course, seq_length=300):
     return acts, tims, maps
 
 def get_time_after_event(data, event_type):
-    print(event_type)
     """Returns the time between every event_type (e.g. Video.Play, Video.Pause) and the following event."""
     data['prev_event'] = data['event_type'].shift(1)
     data['prev_video_id'] = data['video_id'].shift(1)

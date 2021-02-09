@@ -20,4 +20,4 @@ class CountUniqueElement(Feature):
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        return len(self.data.drop_duplicates(subset=[self.settings['type'] + '_id']))
+        return self.data[self.settings['type'] + '_id'].nunique()
