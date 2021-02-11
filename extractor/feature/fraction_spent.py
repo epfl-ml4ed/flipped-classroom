@@ -18,6 +18,8 @@ relative to its length.
 Fraction completed (mode = completed, type = Video.Play): The percentage of the video that the user played, not counting
 repeated play position intervals; hence, it must be between 0 and 1.
 '''
+
+
 class FractionSpent(Feature):
 
     def __init__(self, data, settings):
@@ -75,6 +77,22 @@ class FractionSpent(Feature):
 
             return np.mean(percentages)
 
+        if self.settings['mode'] == 'time':
+            self.data = self.data[self.data.event_type == self.settings["type"]]
+            if 'backward' in self.settings['phase']:
+                self.data = self.data[self.data['new_time'] < self.data['old_time']]
+            else:
+                self.data = self.data[self.data['new_time'] > self.data['old_time']]
+            self.data['seek_length'] = np.abs(self.data['new_time'] - self.data['old_time'])
+            self.data = self.data.merge(self.schedule.query('type=="video"')[['id', 'duration']], left_on='video_id', right_on='id')
+            self.data['seek_length'] = self.data.seek_length / self.data.duration
+            maps_spent = {v: d for v, d in zip(self.data.groupby(by='video_id').sum().index,
+                                               self.data.groupby(by='video_id').sum()['seek_length'])}
+            if len(maps_spent) == 0:
+                logging.debug('feature {} is invalid'.format(self.name))
+                return Feature.INVALID_VALUE
+            return np.mean(np.fromiter(maps_spent.values(), dtype=float))
+
         self.data = self.data.sort_values(by=['video_id', 'timestamp'])
         self.data['current_time'].fillna(self.data.old_time, inplace=True)
         self.data['prev_event'] = self.data['event_type'].shift(1)
@@ -83,27 +101,14 @@ class FractionSpent(Feature):
         self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
         self.data = self.data.dropna(subset=['time_diff'])
         self.data = self.data.dropna(subset=['current_time'])
-        self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= Feature.TIME_MAX)]
+        self.data = self.data[
+            (self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= Feature.TIME_MAX)]
 
         if self.settings['mode'] in ['completed', 'entirety']:
-            self.data = self.data[(self.data['prev_event'].str.contains(self.settings['type'])) & (self.data['video_id'] == self.data['prev_video_id'])]
+            self.data = self.data[(self.data['prev_event'].str.contains(self.settings['type'])) & (
+                        self.data['video_id'] == self.data['prev_video_id'])]
             completion = self.find_completion(maps_duration)
             if len(completion) == 0:
                 logging.debug('feature {} is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             return np.mean(np.fromiter(completion.values(), dtype=float))
-
-        elif self.settings['mode'] == 'time':
-            self.data = self.data[(self.data['prev_event'].str.contains(self.settings['type'])) & (self.data['video_id'] == self.data['prev_video_id'])]
-            if 'backward' in self.settings['phase']:
-                self.data = self.data[self.data['current_time'] < self.data['prev_current_time']]
-            else:
-                self.data = self.data[self.data['current_time'] > self.data['prev_current_time']]
-            self.data['diff_current_time'] = np.abs(self.data['current_time'] - self.data['prev_current_time'])
-            maps_spent = {v:d for v, d in zip(self.data.groupby(by='video_id').sum().index, self.data.groupby(by='video_id').sum()['diff_current_time'])}
-            if len(maps_spent) == 0:
-                logging.debug('feature {} is invalid'.format(self.name))
-                return Feature.INVALID_VALUE
-            return np.mean(np.fromiter(maps_spent.values(), dtype=float))
-
-

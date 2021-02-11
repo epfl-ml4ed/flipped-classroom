@@ -24,16 +24,16 @@ class MubarakEtAl(Extractor):
         self.features = [FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'completed'}}),
                          FractionSpent(data, {**settings, **{'type': 'Video.Play'}}),
                          FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'played'}}),
-                         FrequencyEvent(data, {**settings, **{'type':'Video.Play', 'mode': 'relative'}}),
-                         FrequencyEvent(data, {**settings, **{'type':'Video.Pause', 'mode': 'relative'}}),
+                         FrequencyEvent(data, {**settings, **{'type': 'Video.Play', 'mode': 'relative'}}),
+                         FrequencyEvent(data, {**settings, **{'type': 'Video.Pause', 'mode': 'relative'}}),
                          FractionSpent(data, {**settings, **{'type': 'Video.Pause'}}),
                          FractionSpent(data, {**settings, **{'type': 'Video.Seek', 'mode': 'time', 'phase': 'backward'}}),
                          FractionSpent(data, {**settings, **{'type': 'Video.Seek', 'mode': 'time', 'phase': 'forward'}}),
                          FrequencyEvent(data, {**settings, **{'mode': 'total', 'type': 'Video.SeekBackward'}}),
                          FrequencyEvent(data, {**settings, **{'mode': 'total', 'type': 'Video.SeekForward'}}),
                          SpeedPlayback(data, {**settings, **{'ffunc': np.mean}}),
-                         FrequencyEvent(data, {**settings, **{'type':'Video.Load', 'mode': 'relative'}}),
-                         FractionSpent(data, {**settings, **{'type':'Video.Play', 'mode': 'entirety'}})]
+                         FrequencyEvent(data, {**settings, **{'type': 'Video.Load', 'mode': 'relative'}}),
+                         FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'entirety'}})]
 
         features = [f.compute() for f in self.features]
         assert len(features) == self.__len__()
