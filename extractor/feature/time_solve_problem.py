@@ -20,7 +20,6 @@ class TimeSolveProblem(Feature):
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        self.data['prev_event'] = self.data['event_type'].shift(1)
         self.data['prev_problem_id'] = self.data['problem_id'].shift(1)
         self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
         self.data = self.data.dropna(subset=['time_diff'])
