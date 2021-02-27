@@ -48,6 +48,7 @@ def filter_events(df, type=np.array(['Video.Pause', 'Video.Load', 'Video.Play', 
     df = df[df['event_type'].isin(type.tolist())].sort_values(by='date')
     if 'problem_id' in df.columns:
         df = df.drop_duplicates(subset=['problem_id', 'event_type', 'timestamp'], keep='first')
+        df = df[~(df['event_type'].str.contains('Assignment'))]
     return df
 
 def init_clickstream(df, type, start_date, end_date):
@@ -59,8 +60,11 @@ def init_clickstream(df, type, start_date, end_date):
     return df
 
 def init_schedule(df, type, start_date, end_date):
-    df['date'] = df['date'].apply(lambda x: str2dt(x, '%Y-%m-%d'))
-    df['weekday'] = get_weekday(df['date'])
-    df = filter_range_dates(df, start_date, end_date)
-    df = w4s(df, start_date, type)
+    if type == 'flipped-classroom':
+        df['date'] = df['date'].apply(lambda x: str2dt(x, '%Y-%m-%d'))
+        df['weekday'] = get_weekday(df['date'])
+        df = filter_range_dates(df, start_date, end_date)
+        df = w4s(df, start_date, type)
+    elif type == 'mooc':
+        df['week'] = df['date']
     return df

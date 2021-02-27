@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+import logging
 
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from predictor.predictor import Predictor
 
 class RandomForest(Predictor):
@@ -14,13 +15,15 @@ class RandomForest(Predictor):
         self.hasproba = True
 
     def build(self, settings):
-        assert 'target_type' in settings
+        super().build(settings)
 
         if settings['target_type'] == 'classification':
-            self.predictor = RandomForestClassifier()
+            logging.info('built {} classifier'.format(self.name))
+            self.predictor = RandomForestClassifier(random_state=0)
         else:
-            self.predictor = RandomForestRegressor()
+            logging.info('built {} regressor'.format(self.name))
+            self.predictor = RandomForestRegressor(random_state=0)
 
-        if 'grid' in settings:
+        if 'params_grid' in settings:
             self.add_grid(settings)
 

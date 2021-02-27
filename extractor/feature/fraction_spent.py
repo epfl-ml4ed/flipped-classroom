@@ -29,7 +29,7 @@ class FractionSpent(Feature):
         maps_spent = {}
 
         for video_id, video_data in self.data.groupby(by='video_id'):
-            if video_id not in maps_duration:
+            if video_id not in maps_duration or math.isnan(maps_duration[video_id]):
                 continue
 
             video_completed = np.zeros(int(maps_duration[video_id]))
@@ -38,8 +38,10 @@ class FractionSpent(Feature):
                 start_current_time = int(min(row['prev_current_time'], row['current_time']))
                 end_current_time = int(max(row['prev_current_time'], row['current_time']))
                 video_completed[start_current_time:end_current_time] += 1
+
             if row.event_type not in ['Video.Pause', 'Video.Stop', 'Video.Load']:
                 video_completed[end_current_time:] += 1
+
             if self.settings['mode'].startswith('completed'):
                 maps_spent[video_id] = np.count_nonzero(video_completed) / len(video_completed)
             elif self.settings['mode'].startswith('entirety'):

@@ -15,7 +15,6 @@ Lemay, D. J., & Doleck, T. (2020). Grade prediction of weekly assignments in MOO
 Education and Information Technologies, 25(2), 1333-1342.
 '''
 
-
 class LemayDoleck(Extractor):
 
     def __init__(self, name='base'):

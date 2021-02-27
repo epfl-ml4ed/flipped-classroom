@@ -14,6 +14,8 @@ class Course():
         self.course_id = id
         self.type = type
         self.platform = platform
+        self.clickstream_video = None
+        self.clickstream_problem = None
 
     def load(self, filepath=os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/course')):
         metadata_path = os.path.join(filepath, self.type, 'metadata.csv')
@@ -86,7 +88,6 @@ class Course():
         return self.weeks
 
     def get_clickstream(self):
-        assert self.clickstream_video is not None or self.clickstream_problem is not None
         return self.clickstream_video.copy() if self.clickstream_problem is None else self.clickstream_video.append(self.clickstream_problem).copy()
 
     def get_clickstream_problem(self):
@@ -118,7 +119,8 @@ class Course():
         return 'ID: {} Type: {} Title: {} Students: {}'.format(self.course_id, self.type, self.title, self.__len__())
 
     def __add__(self, x):
-        self.course_id = '-'.join(self.course_id.split('-')[:-1])
+        if len(self.course_id.split('-')) > 2:
+            self.course_id = '-'.join(self.course_id.split('-')[:-1])
         self.clickstream_grade = self.clickstream_grade.append(x.clickstream_grade, ignore_index=True)
         self.clickstream_video = self.clickstream_video.append(x.clickstream_video, ignore_index=True)
         self.clickstream_problem = self.clickstream_problem.append(x.clickstream_problem, ignore_index=True)

@@ -16,7 +16,7 @@ class TimeSolveProblem(Feature):
 
     def compute(self):
 
-        if len(self.data.index) == 0:
+        if len(self.data.index) == 0 or not 'problem_id' in self.data:
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 

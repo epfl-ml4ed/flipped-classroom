@@ -35,6 +35,9 @@ class FrequencyEvent(Feature):
             time_settings = self.settings.copy()
             time_settings.update({'type': 'Video.Play', 'ffunc': np.sum})
             time_spent_watching = Time(self.data, time_settings).compute()
+            if time_spent_watching == Feature.INVALID_VALUE:
+                logging.debug('feature {} is invalid'.format(self.name))
+                return Feature.INVALID_VALUE
             return count_events(self.data, self.settings['type']) / time_spent_watching
 
         return count_events(self.data, self.settings['type']) / len(self.data.index)

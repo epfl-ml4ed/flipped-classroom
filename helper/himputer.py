@@ -26,7 +26,8 @@ class NanImputeScaler(BaseEstimator, TransformerMixin):
         X = check_array(X, force_all_finite=False, ensure_2d=True)
 
         # Use average to deal with missing values
-        X[np.isnan(X)] = self.means_
+        nan_pos = np.isnan(X)
+        X[np.isnan(X)] = self.nan_level
 
         # center if needed
         if self.with_mean and self.means_ != 0:
@@ -35,5 +36,7 @@ class NanImputeScaler(BaseEstimator, TransformerMixin):
         # scale if needed
         if self.with_std and self.std_ != 0:
             X /= self.std_
+
+        X[np.isnan(X)] = self.nan_level
 
         return X

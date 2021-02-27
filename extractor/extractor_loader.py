@@ -3,6 +3,7 @@
 
 import pandas as pd
 import numpy as np
+import logging
 import json
 import os
 
@@ -11,47 +12,78 @@ from extractor.extractor import Extractor
 class ExtractorLoader(Extractor):
 
     def __init__(self):
-        super().__init__('extractor_loader')
+        super().__init__('feature-ensemble')
 
     def load(self, settings):
-        assert 'feature_set' in settings
-        if isinstance(settings['feature_set'], list):
-            return self.load_ensemble(settings)
-        return super().load(settings)
+        assert 'feature_set' in settings or 'feature_list' in settings
+
+        if 'feature_list' in settings:
+            self.load_ensemble(settings)
+            return
+
+        super().load(settings)
+
+        filepath = os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'feature_selected.txt')
+        if os.path.exists(filepath) and 'selected_features' in settings and settings['selected_features']:
+            with open(filepath, 'rb') as file:
+                selection = json.load(file)
+            feature_labels = self.feature_values[0]
+            feature_values = self.feature_values[1][:, :, np.array(selection['support']).astype(bool)]
+            logging.info('loaded best-selected features from {}'.format(filepath))
+            self.feature_values = (feature_labels, feature_values)
 
     def load_ensemble(self, settings):
-        assert 'feature_set' in settings and isinstance(settings['feature_set'], list)
+        assert 'feature_list' in settings
 
         self.settings = {}
         feature_labels = None
         feature_values = None
-        course_id, course_type, course_platform = None, None, None
-        for fs in settings['feature_set']:
+        course_id, course_type, course_platform, feature_names = None, None, None, []
+
+        for fs in settings['feature_list']:
+            logging.info('loading {} feature set'.format(fs))
+
             # Merge features
             feature_values_tmp = np.load(os.path.join(settings['workdir'], 'feature', fs, 'feature_values.npz'))['feature_values']
+
             if feature_values is None:
                 feature_values = feature_values_tmp
             else:
                 feature_values = np.append(feature_values, feature_values_tmp, axis=2)
+            logging.info('loaded {} for feature set {}'.format(feature_values.shape, fs))
+
             # Check same labels
             feature_labels_tmp = pd.read_csv(os.path.join(settings['workdir'], 'feature', fs, 'feature_labels.csv'))
-            assert feature_labels == None or feature_labels.equals(feature_labels_tmp)
             feature_labels = feature_labels_tmp
+
             # Check same course and other settings
-            settings = json.load(open(os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'settings.txt'), 'rb'))
-            assert course_id == None or course_id == settings['course_id']
-            course_id = settings['course_id']
-            assert course_type == None or course_type == settings['type']
-            course_type = settings['type']
-            assert course_platform == None or course_platform == settings['platform']
-            course_platform = settings['platform']
+            feature_settings = json.load(open(os.path.join(settings['workdir'], 'feature', fs, 'settings.txt'), 'rb'))
+            course_id = feature_settings['course_id']
+            course_type = feature_settings['type']
+            course_platform = feature_settings['platform']
+            feature_names += [fs.split('-')[1] + '-' + e for e in feature_settings['feature_names'][:feature_values_tmp.shape[2]]]
 
         # Prepare settings and feature values pair as for any other feature set
-        self.settings = {'course_id': course_id, 'type': course_type, 'platform': course_platform}
+        self.settings = {'course_id': course_id, 'type': course_type, 'platform': course_platform, 'feature_names': feature_names}
         self.feature_values = (feature_labels, feature_values)
 
-    def save(self, course, settings):
-        raise NotImplementedError()
+    def save(self, course, settings, label='ensemble'):
+        assert self.feature_values is not None and settings['workdir'].endswith('/')
+
+        filename = settings['timeframe'] + '-' + label + '-' + course
+
+        if not os.path.exists(os.path.join(settings['workdir'], 'feature', filename)):
+            os.makedirs(os.path.join(settings['workdir'], 'feature', filename))
+
+        # Save the feature values
+        np.savez(os.path.join(settings['workdir'], 'feature', filename, 'feature_values.npz'), feature_values=self.feature_values[1])
+        # Save the feature labels
+        self.feature_values[0].to_csv(os.path.join(settings['workdir'], 'feature', filename, 'feature_labels.csv'), index=False)
+        # Save the current settings
+        with open(os.path.join(settings['workdir'], 'feature', filename, 'settings.txt'), 'w') as file:
+            file.write(json.dumps(settings))
+
+        logging.info('saved features {} of shape {} in {}'.format(label, self.feature_values[1].shape, filename))
 
     def extract_features(self, data, settings):
         raise NotImplementedError()

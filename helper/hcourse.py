@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from course.course import Course
+from course.course_mooc import CourseMOOC
 
 import logging
 import os
@@ -20,7 +21,10 @@ def init_courses(settings, filepath=os.path.join(os.path.abspath(os.path.dirname
                 course_id = os.path.splitext(course_file)[0]
                 if 'course_ids' in settings is not None and course_id not in settings['course_ids']:
                     continue
-                course = Course(course_id, type, platform)
+                if type == 'mooc':
+                    course = CourseMOOC(course_id, type, platform)
+                else:
+                    course = Course(course_id, type, platform)
                 if settings['load']:
                     course.load()
                 if settings['label']:

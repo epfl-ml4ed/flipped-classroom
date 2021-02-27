@@ -8,7 +8,7 @@ class Feature():
 
     INVALID_VALUE = np.nan
     TIME_MIN = 1.0
-    TIME_MAX = 3600
+    TIME_MAX = 3600.0
 
     WEEKEND = [5, 6]
     WEEKDAY = [0, 1, 2, 3, 4]

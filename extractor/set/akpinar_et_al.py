@@ -16,6 +16,7 @@ Akpinar, N. J., Ramdas, A., & Acar, U. (2020). Analyzing Student Strategies In B
 In Thirteenth International Conference on Educational Data Mining (EDM 2020).
 '''
 
+
 class AkpinarEtAl(Extractor):
 
     def __init__(self, name='base', vocab=np.array(['Video.Pause', 'Video.Load', 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange', 'Problem.Check']), ngram=3):
@@ -41,3 +42,17 @@ class AkpinarEtAl(Extractor):
         features = [f.compute() for f in self.features] + CountNGrams(data, {**settings, **{'perms': self.perms, 'ngram': self.ngram}}).compute()
         assert len(features) == self.__len__()
         return features
+
+
+if __name__ == "__main__":
+    base = ["TotalClicks", "NumberSessions", "Time-video-sum", "Time-problem-sum"]
+
+    AkpinarEtAl()
+    others = list(product(np.array(['Video.Pause', 'Video.Load', 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange', 'Problem.Check']), repeat=3))
+
+    refined = []
+    for o in others:
+        refined.append(o[0].lower() + '-' + o[1].lower() + '-' + o[2].lower())
+
+    print(base + refined)
+

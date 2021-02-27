@@ -21,6 +21,11 @@ class CompetencyAnticipation(Feature):
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
+
+        if not 'problem_id' in self.data:
+            logging.debug('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
+
         self.schedule = self.schedule[(self.schedule['week'] > self.settings['week']) & (self.schedule['type'] == 'problem')]
         self.data = self.data[self.data['week'] <= self.settings['week']]
 

@@ -28,14 +28,16 @@ class DelayLecture(Feature):
         maps_schedule_date = {k: v for k, v in zip(self.schedule['id'].values, self.schedule['date'].values)}
 
         self.data = self.data.drop_duplicates(subset=['video_id'])
-        maps_student_date = {k: v for k, v in zip(self.data['video_id'].values, self.data['date'].values)}
-        delays = [pd.Timedelta(maps_student_date[key] - maps_schedule_date[key]).total_seconds() for key in maps_student_date.keys() if key in maps_schedule_date]
+        maps_student_date = {k: v for k, v in zip(self.data['video_id'].values, self.data['week'].values)}
+        #delays = [pd.Timedelta(maps_student_date[key] - maps_schedule_date[key]).total_seconds() for key in maps_student_date.keys() if key in maps_schedule_date]
+        delays = [(maps_student_date[key] - maps_schedule_date[key]) for key in maps_student_date.keys() if key in maps_schedule_date]
 
         if len(delays) == 0:
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return np.mean(delays)
+
 
 
 

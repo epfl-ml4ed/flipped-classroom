@@ -20,6 +20,10 @@ class CompetencyStrength(Feature):
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
+        if not 'grade' in self.data:
+            logging.debug('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
+
         self.data = self.data[self.data['event_type'].str.contains('Problem.Check') & (self.data['grade'].notnull())]
         self.data = self.data.merge(self.schedule, left_on='problem_id', right_on='id')
         self.data = self.data.groupby(by='problem_id').max()

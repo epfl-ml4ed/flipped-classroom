@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from sklearn.dummy import DummyClassifier, DummyRegressor
+import logging
 
+from sklearn.dummy import DummyClassifier, DummyRegressor
 from predictor.predictor import Predictor
 
 class Dummy(Predictor):
@@ -17,7 +18,11 @@ class Dummy(Predictor):
         assert 'target_type' in settings
 
         if settings['target_type'] == 'classification':
-            self.predictor = DummyClassifier(strategy=settings['strategy'] if 'strategy' in settings else 'uniform')
+            logging.info('built {} classifier'.format(self.name))
+            self.predictor = DummyClassifier(random_state=0)
         else:
-            self.predictor = DummyRegressor(strategy=settings['strategy'] if 'strategy' in settings else 'mean')
+            logging.info('built {} regressor'.format(self.name))
+            self.predictor = DummyRegressor()
 
+        if 'params_grid' in settings:
+            self.add_grid(settings)

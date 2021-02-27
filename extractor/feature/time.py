@@ -21,7 +21,15 @@ class Time(Feature):
             return Feature.INVALID_VALUE
 
         if '.' in self.settings['type']:
-            return self.settings['ffunc'](get_time_after_event(self.data, self.settings['type']))
+            time_after_event = get_time_after_event(self.data, self.settings['type'])
+            if len(time_after_event) == 0:
+                logging.debug('feature {} is invalid'.format(self.name))
+                return Feature.INVALID_VALUE
+            return self.settings['ffunc'](time_after_event)
+
+        if not self.settings['type'] + '_id' in self.data:
+            logging.debug('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
 
         self.data['prev_event'] = self.data['event_type'].shift(1)
         self.data['prev' + self.settings['type'] + '_id'] = self.data[self.settings['type'] + '_id'].shift(1)

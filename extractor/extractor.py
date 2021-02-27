@@ -15,7 +15,6 @@ class Extractor():
         self.name = name
         self.features = None
         self.feature_values = None
-        self.time = time.strftime('%Y%m%d_%H%M%S')
 
     def get_name(self):
         assert self.name is not None
@@ -37,10 +36,14 @@ class Extractor():
         assert self.feature_values is not None
         return self.feature_values
 
+    def exists(self, course, settings):
+        filename = settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower().replace('-', '_')
+        return os.path.exists(os.path.join(settings['workdir'], filename))
+
     def save(self, course, settings):
         assert self.feature_values is not None and settings['workdir'].endswith('/')
 
-        filename = self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower().replace('-', '_') + '-'+ self.time
+        filename = self.settings['timeframe'] + '-' + self.name + '-' + course.course_id.lower().replace('-', '_')
 
         if not os.path.exists(os.path.join(settings['workdir'], filename)):
             os.makedirs(os.path.join(settings['workdir'], filename))
@@ -64,12 +67,17 @@ class Extractor():
         self.feature_values = (feature_labels, feature_values)
         with open(os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'settings.txt'), 'rb') as file:
             self.settings = json.load(file)
+            if 'feature_list' in settings:
+                self.settings['feature_names'] += self.settings['feature_names'][:self.feature_values[1].shape[2]]
 
     def extract_features(self, data, settings):
         return np.empty()
 
     def extract_features_bunch(self, course, settings):
         assert 'timeframe' in settings
+
+        if self.exists(course, settings):
+            return
 
         data = course.get_clickstream()
         label = course.get_clickstream_grade()

@@ -17,11 +17,11 @@ class Svm(Predictor):
         assert 'target_type' in settings
 
         if settings['target_type'] == 'classification':
-            self.predictor = SVC(gamma='auto', probability=True)
+            self.predictor = SVC(random_state=0, probability=True)
         else:
-            self.predictor = SVR(gamma='auto')
+            self.predictor = SVR()
 
-        if 'grid' in settings:
+        if 'params_grid' in settings:
             self.add_grid(settings)
 
 

@@ -20,6 +20,10 @@ class StudentSpeed(Feature):
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
+        if not 'grade' in self.data:
+            logging.debug('feature {} is invalid'.format(self.name))
+            return Feature.INVALID_VALUE
+
         self.data = self.data[self.data['event_type'].str.contains('Problem.Check') & (self.data['grade'].notnull())].sort_values(by=['problem_id', 'date'])
 
         if len(self.data) == 0:
