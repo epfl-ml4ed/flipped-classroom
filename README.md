@@ -103,7 +103,7 @@ If you find any bugs or would like to contribute new models, training protocols,
 Please feel free to file issues and pull requests on the repo and we will address them as we can.
 
 ## Citations
-If you find this code useful in your work, please cite our papers:
+If you find this code useful in your work, please cite our paper:
 
 ```
 Marras, M., Vignoud, J., Käser, T. (2021). 
