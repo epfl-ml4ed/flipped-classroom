@@ -73,9 +73,9 @@ To train and evaluate a predictor on a set of features, run this command:
 
 ```train
 python routine/train_predictor.py 
-    --predictor "random_forest"
+    --predictor "predictor.random_forest.RandomForest"
     --target_col "label-pass-fail"
-    --feature_set "lq_week-{feature_set}-{course_id}"
+    --feature_set "{lq-week|eq-week}-{feature_set}-{course_id}"
     --workdir "../data/result/edm21/"
     --folds 10
 ```
