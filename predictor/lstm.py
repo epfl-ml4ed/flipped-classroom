@@ -21,8 +21,8 @@ class Lstm(Predictor):
 
         # Create layers
         inp = tf.keras.layers.Input(shape=settings['input_shape'])
-        x = tf.keras.layers.LSTM(settings['params_grid']['hidden_units'], return_sequences=False)(inp)
-        x = tf.keras.layers.Dropout(settings['params_grid']['dropout_rate'])(x)
+        x = tf.keras.layers.Masking(-1)(inp)
+        x = tf.keras.layers.LSTM(settings['params_grid']['hidden_units'], return_sequences=False)(x)
         x = tf.keras.layers.Dense(settings['target_classes'], activation='softmax')(x)
         model = tf.keras.Model(inputs=[inp], outputs=[x])
 

@@ -24,13 +24,19 @@ class ExtractorLoader(Extractor):
         super().load(settings)
 
         filepath = os.path.join(settings['workdir'], 'feature', settings['feature_set'], 'feature_selected.txt')
-        if os.path.exists(filepath) and 'selected_features' in settings and settings['selected_features']:
-            with open(filepath, 'rb') as file:
-                selection = json.load(file)
-            feature_labels = self.feature_values[0]
-            feature_values = self.feature_values[1][:, :, np.array(selection['support']).astype(bool)]
-            logging.info('loaded best-selected features from {}'.format(filepath))
-            self.feature_values = (feature_labels, feature_values)
+
+        feature_labels = self.feature_values[0]
+        feature_values = self.feature_values[1]
+
+        with open(filepath, 'rb') as file:
+            selection = json.load(file)
+            if os.path.exists(filepath) and 'selected_features' in settings and settings['selected_features']:
+                feature_values = self.feature_values[1][:, :, np.array(selection['support']) > 0]
+                logging.info('loaded best-selected features from {} as {}'.format(filepath, np.array(selection['feature_names'])[np.array(selection['support']) > 0]))
+            self.feature_names = selection['feature_names']
+            logging.info('loaded feature names {}'.format(self.feature_names))
+
+        self.feature_values = (feature_labels, feature_values)
 
     def load_ensemble(self, settings):
         assert 'feature_list' in settings

@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     for t in timeframes:
         for m in models:
-            if 'mubarak' not in m:
+            if 'marras' not in m:
                 continue
             logging.info('{} {} {}'.format(t, course_ids, m))
             main({'model': m, 'courses': course_ids, 'timeframe': t, 'workdir': '../data/result/edm21/feature/'})

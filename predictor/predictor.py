@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from sklearn.model_selection import StratifiedKFold, KFold, GridSearchCV
+from sklearn.calibration import CalibratedClassifierCV
 from sklearn import metrics
 import tensorflow as tf
 import pandas as pd
@@ -12,7 +13,7 @@ import json
 import time
 import os
 
-from helper.hutils import perform_scaling, perform_oversampling
+from helper.hutils import perform_scaling, perform_oversampling, perform_reduction
 
 class Predictor():
 
@@ -93,7 +94,12 @@ class Predictor():
 
         # Show best hyper-parameters
         if 'params_grid' in settings:
-            logging.info('found best hyper-parameters {}'.format(self.predictor.best_params_))
+            logging.info('found best score {} with hyper-parameters {}'.format(self.predictor.best_score_, self.predictor.best_params_))
+
+    def calibrate(self, X, y, settings):
+        X, y = self.prepare_data(X, y, settings)
+        self.predictor = CalibratedClassifierCV(base_estimator=self.predictor, cv=settings['cv'])
+        self.predictor.fit(X, y)
 
     def train(self, X, y, settings):
         assert 'target_type' in settings and len(X.shape) == 3
@@ -105,22 +111,26 @@ class Predictor():
             return
         '''
 
-        # Initialize the fold creation
-        folds = StratifiedKFold(n_splits=settings['folds'], shuffle=True, random_state=0).split(X, y.astype(int)) if settings['target_type'] == 'classification' else KFold(n_splits=settings['folds'], shuffle=True, random_state=0).split(X)
-
         # Initialize the dataframe for statistics
         self.stats = []
 
-        # Loop for folds, then weeks
-        for fold, (train_index, test_index) in enumerate(folds):
-            X_train, X_test = X[train_index], X[test_index]
-            y_train, y_test = y[train_index], y[test_index]
+        logging.info('X={}, y={}, y0={}, y1={}'.format(X.shape, y.shape, list(y).count(0), list(y).count(1)))
 
-            for week in np.arange(2, X.shape[1] - 1):
+        # Loop for folds, then weeks
+        for week in np.arange(2, 10):
+
+            # Initialize the fold creation
+            folds = StratifiedKFold(n_splits=settings['folds'], shuffle=True, random_state=0).split(X, y.astype(int)) if settings['target_type'] == 'classification' else KFold(n_splits=settings['folds'], shuffle=True, random_state=0).split(X)
+
+            for fold, (train_index, test_index) in enumerate(folds):
+                X_train, X_test = X[train_index].copy(), X[test_index].copy()
+                y_train, y_test = y[train_index].copy(), y[test_index].copy()
+
                 tic = time.perf_counter()
 
                 logging.info(('*' * 100))
-                logging.info('working on setting with fold {} and week {}'.format(fold, week))
+                logging.info('working on setting with fold {}-{} and week {}-{}'.format(fold, settings['folds'], week, X.shape[1] - 1))
+                logging.info('first 10 sampled test index {}'.format(test_index[:10]))
 
                 X_train_w = X_train[:, :week, :]
                 X_test_w = X_test[:, :week, :]
@@ -130,14 +140,14 @@ class Predictor():
                 X_test_w = np.nan_to_num(X_test_w, nan=-1)
 
                 # Build and compile the model
-                Z, _ = self.prepare_data(X_test_w, None, settings)
+                Z, _ = self.prepare_data(X_train_w, None, settings)
                 self.build({**settings, **{'input_shape': Z.shape[1:]}})
 
                 # Scale the data standardly
                 X_train_w, X_test_w = perform_scaling(X_train_w, X_test_w, settings['scaler'])
 
                 # Oversample data
-                X_train_w_r, y_train_r = perform_oversampling(X_train_w, y_train, settings['oversampling']) if 'oversampling' in settings else (X_train_w, y_train)
+                X_train_w_r, y_train_r = X_train_w, y_train
 
                 # Fit the model for the current fold and week
                 self.fit(X_train_w_r, y_train_r, settings)
@@ -168,7 +178,7 @@ class Predictor():
     def add_grid(self, settings):
         assert self.predictor is not None
         logging.info('added the param grid {}'.format(settings['params_grid']))
-        self.predictor = GridSearchCV(self.predictor, settings['params_grid'], cv=settings['cv'], scoring='f1' if settings['target_type'] == 'classification' else 'neg_mean_squared_error')
+        self.predictor = GridSearchCV(self.predictor, settings['params_grid'], cv=settings['cv'], scoring='roc_auc' if settings['target_type'] == 'classification' else 'neg_mean_squared_error')
 
     def evaluate(self, X, y, settings):
         assert 'target_type' in settings
@@ -180,6 +190,11 @@ class Predictor():
 
         return stats
 
+    def monitor_performance(self, settings):
+        metric_label = 'auc' if settings['target_type'] == 'classification' else 'rmse'
+        metric_score = pd.DataFrame(self.stats).groupby('week').mean(metric_label)[metric_label].to_dict()
+        logging.info('computed partial evaluation metrics as {}={}'.format(metric_label, metric_score))
+
     def evaluate_classification(self, X, y, settings):
         stats = {}
 
@@ -187,17 +202,23 @@ class Predictor():
         y_pred = self.predict(X, settings)
         y_pred_proba = self.predict(X, settings, proba=True)
 
+        logging.info('preds {}'.format([(a, b, c) for a, b, c in zip(y, y_pred, y_pred_proba)]))
+
         # Compute base metrics, i.e., AUC, balanced accuracy, f-measure
         fpr, tpr, thresholds = metrics.roc_curve(y, y_pred_proba, pos_label=1)
         stats['auc'] = metrics.auc(fpr, tpr)
         stats['bal_acc'] = metrics.balanced_accuracy_score(y, y_pred)
         stats['f1'] = metrics.f1_score(y, y_pred)
+        stats['feature_importance'] = self.predictor.best_estimator_.feature_importances_
+        stats['feature_names'] = settings['feature_names']
 
         # Compute recall per class
         pass_ix = np.where(y==0)[0]
         fail_ix = np.where(y==1)[0]
         stats['acc_fail'] = np.sum(y_pred[fail_ix]) / len(y_pred[fail_ix])
-        stats['acc_pass'] = 1 -np.sum(y_pred[pass_ix]) / len(y_pred[pass_ix])
+        stats['acc_pass'] = 1 - np.sum(y_pred[pass_ix]) / len(y_pred[pass_ix])
+
+        logging.info('bal_acc={}, auc={}, f1={}, acc_fail={}, acc_pass={}'.format(stats['bal_acc'], stats['auc'], stats['f1'], stats['acc_fail'], stats['acc_pass']))
 
         # Save fine-grained predictions
         stats['bthr'] = thresholds[np.argmax(np.sqrt(tpr * (1-fpr)))]
@@ -222,11 +243,6 @@ class Predictor():
         stats['ytrue'] = y
 
         return stats
-
-    def monitor_performance(self, settings):
-        metric_label = 'auc' if settings['target_type'] == 'classification' else 'rmse'
-        metric_score = pd.DataFrame(self.stats).groupby('week').mean(metric_label)[metric_label].to_dict()
-        logging.info('computed partial evaluation metrics as {}={}'.format(metric_label, metric_score))
 
     def __str__(self):
         return 'Name: {}'.format(self.name)

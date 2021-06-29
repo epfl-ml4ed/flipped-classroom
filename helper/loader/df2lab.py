@@ -20,7 +20,7 @@ def downloadLabelsFromISA(config, metadata):
 
     for course in config['courses']:
         print('retrieving labels for', course, '...')
-        title = metadata[metadata['DataPackageID'] == '_'.join(course.split('.')[0].split('_')[2:])]['OfficialTitle'].values[0]
+        title = metadata[metadata['course_id'] == '_'.join(course.split('.')[0].split('_')[2:])]['title'].values[0]
 
         labels = pd.DataFrame.from_records(db.execute("""SELECT StudentPersonHash, Grade, GradeDate FROM project_himanshu.Request_2021Jan26_Bachelor_Master_Results WHERE SubjectName LIKE \'%{}%\'""".format(title)), columns=['StudentSCIPER', 'Grade', 'GradeDate']).drop_duplicates()
         labels = labels[~labels['Grade'].isin(['STATUT_NOTE_NA', 'STATUT_NOTE_M'])]
@@ -43,7 +43,7 @@ def downloadLabelsFromISA(config, metadata):
         print('retrieved labels for', len(courseLabels), 'students in this year course')
         print('found counts of labels as', courseLabels['Grade'].value_counts().sort_index().to_dict())
 
-        courseLabels[['AccountUserID', 'OldAccountUserID', 'Grade', 'GradeMax', 'GradeDate']].to_csv(os.path.join('request_2021jan26_labels', 'request_2021jan26_final_grades_' + course + '.csv'), index=False)
+        courseLabels[['AccountUserID', 'OldAccountUserID', 'Grade', 'GradeMax', 'GradeDate']].to_csv(os.path.join('C:/Users/mirko/Desktop', 'request_2021jan26_final_grades_' + course + '.csv'), index=False)
 
         print()
 
@@ -266,13 +266,11 @@ def downloadAssignmentsLabelsFromCourseware(config, base_folder='./problem_event
 
 def main():
 
-    metadata = pd.read_csv('metadata.csv', encoding='iso-8859-1')
+    metadata = pd.read_csv('../../data/course/flipped-classroom/metadata.csv', encoding='iso-8859-1')
 
     config = {
         'courses': ['ca_courseware_EPFL-AlgebreLineaire-2018',
-                    'ca_courseware_EPFL-AlgebreLineaire-2019',
-                    'ca_courseware_EPFL-CS-210-2018_t3',
-                    'ca_courseware_EPFL-CS-206-2019_T1']
+                    'ca_courseware_EPFL-AlgebreLineaire-2019']
     }
 
     downloadLabelsFromISA(config, metadata)

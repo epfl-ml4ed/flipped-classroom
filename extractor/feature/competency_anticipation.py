@@ -30,10 +30,10 @@ class CompetencyAnticipation(Feature):
         self.data = self.data[self.data['week'] <= self.settings['week']]
 
         problems_in_future = self.schedule['id'].unique()
-        problems_in_future_so_far = self.data['problem_id'].unique()
+        problems_so_far = self.data['problem_id'].unique()
 
         if len(problems_in_future) == 0:
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        return len(set(problems_in_future_so_far) & set(problems_in_future)) / len(problems_in_future)
+        return len(set(problems_so_far) & set(problems_in_future)) / len(problems_in_future)

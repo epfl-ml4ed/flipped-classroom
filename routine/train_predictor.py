@@ -14,6 +14,7 @@ from helper.hutils import import_class
 
 def main(settings):
     assert settings['predictor'] is not None and settings['feature_set'] is not None
+    logging.info('found main settings {}'.format(settings))
 
     # Load feature set
     extractor = ExtractorLoader()
@@ -35,17 +36,17 @@ def main(settings):
 
     # Start training
     logging.info('starting to train predictor {}'.format(settings['predictor']))
-    predictor.train(X, y, settings)
+    predictor.train(X, y, {**settings, **{'feature_names': extractor_settings['feature_names']}})
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Train predictor')
 
-    parser.add_argument('--model', dest='model', default='predictor.lstm_with_attention.LstmWithAttention', type=str, action='store')
-    parser.add_argument('--target', dest='target', default='label-pass-fail', type=str, action='store')
+    parser.add_argument('--predictor', dest='predictor', default='predictor.lstm.Lstm', type=str, action='store')
+    parser.add_argument('--target_col', dest='target_col', default='label-pass-fail', type=str, action='store')
     parser.add_argument('--target_type', dest='target_type', default='classification', type=str, action='store')
     parser.add_argument('--classes', dest='classes', default=1, type=int, action='store')
-    parser.add_argument('--feature_set', dest='feature_set', default='eq_week-marras_et_al-epfl_algebrelineaire-20210131_202058', type=str, action='store')
+    parser.add_argument('--feature_set', dest='feature_set', default='lq_week-marras_et_al-epfl_algebrelineaire', type=str, action='store')
     parser.add_argument('--depth', dest='depth', default='deep', type=str, action='store')
     parser.add_argument('--workdir', dest='workdir', default='../data/result/edm21/', type=str, action='store')
     parser.add_argument('--batch', dest='batch', default=512, type=int, action='store')

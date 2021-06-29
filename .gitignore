@@ -4,5 +4,15 @@ notebooks/.ipynb_checkpoints/*
 .DS_STORE
 __pycache__/
 *.pyc
+extractor/autoencoder/*
+helpers/loader/*
+helpers/scraping/*
+helpers/database/*
+notebook/*
+predictors/layers/*
+predictors/loss/*
+predictors/lstm_with_attention.py
+predictors/lstm_with_contrastive.py
+routine/train_ae.py
 data/*
 venv/*

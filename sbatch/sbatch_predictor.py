@@ -13,24 +13,24 @@ if __name__ == "__main__":
 
     # Customize parameters
     params_grid = {
-        'random_forest': {'n_estimators': [5, 10, 25, 50, 100, 200, 500], 'max_features': ['auto', 'sqrt', 'log2', None], 'criterion': ['gini', 'entropy']},
+        'random_forest': {'n_estimators': [25, 50, 100, 200, 300, 500], 'max_features': ['sqrt', None, 'log2'], 'criterion': ['gini', 'entropy']},
         'gradient_boosting': {'n_estimators': [5, 10, 25, 50, 100, 200, 500], 'max_features':  ['auto', 'sqrt', 'log2', None]},
-        'dummy': {'strategy': ['stratified', 'most_frequent', 'prior', 'uniform', 'constant']},
+        'dummy': {'strategy': ['stratified', 'most_frequent', 'prior', 'uniform']},
         'svm': {'C': [0.1, 1, 10, 100], 'gamma': ['scale', 'auto'], 'kernel': ['rbf', 'poly', 'sigmoid'], 'degree': [3, 5, 10, 20]},
-        'dnn': {'hidden_units': 32, 'dropout_rate': 0.2, 'learning_rate': 0.01, 'batch_size': 128, 'epochs': 100, 'verbose': 0, 'shuffle': True},
-        'lstm': {'hidden_units': 32, 'dropout_rate': 0.2, 'learning_rate': 0.01, 'batch_size': 128, 'epochs': 30, 'verbose': 0, 'shuffle': True},
-        'lstm_with_attention': {'hidden_units': 8, 'dropout_rate': 0.2, 'learning_rate': 0.01, 'batch_size': 128, 'epochs': 100, 'verbose': 0, 'shuffle': True},
-        'lstm_with_contrastive': {'temperature': .2, 'projection_units': 16, 'hidden_units': 32, 'dropout_rate': 0.2, 'learning_rate': 0.01, 'batch_size': 128, 'epochs': 50, 'verbose': 0, 'shuffle': True}
+        'dnn': {'hidden_units': 16, 'dropout_rate': 0.2, 'learning_rate': 0.01, 'batch_size': 256, 'epochs': 100, 'verbose': 1, 'shuffle': True},
+        'lstm': {'hidden_units': 32, 'dropout_rate': 0.2, 'learning_rate': 0.01, 'batch_size': 64, 'epochs': 40, 'verbose': 1, 'shuffle': True},
+        'lstm_with_attention': {'hidden_units': 8, 'dropout_rate': 0.2, 'learning_rate': 0.01, 'batch_size': 128, 'epochs': 150, 'verbose': 1, 'shuffle': True},
+        'lstm_with_contrastive': {'temperature': .1, 'projection_units': 64, 'hidden_units': 512, 'dropout_rate': 0.2, 'learning_rate': 0.01, 'batch_size': 256, 'epochs': 200, 'verbose': 1, 'shuffle': True}
     }
 
-    config_grid = {'folds': 10, 'cv': 5, 'shuffle': True, 'verbose': 0, 'depth': 'deep', 'selected_features': True, 'avg-strategy': 'avg', 'scaler': 'standard_scaler', 'oversampling': 'borderline-2'}
+    config_grid = {'folds': 10, 'cv': 10, 'shuffle': True, 'verbose': 0, 'depth': 'deep', 'selected_features': True, 'avg-strategy': 'none', 'scaler': 'none', 'oversampling': 'none'}
     label_grid = {'label-pass-fail': 'classification', 'label-grade': 'regression', 'label-dropout': 'classification', 'label-stopout': 'regression'}
     workdir_feature = '../data/result/edm21/feature'
 
     # Retrieve all the timeframes, courses, feature sets, and predictors
-    timeframes = sorted({fs.split('-')[0] for fs in os.listdir(workdir_feature) if not fs.endswith('csv')})
-    course_ids = sorted({fs.split('-')[2] for fs in os.listdir(workdir_feature) if not fs.endswith('csv')})
-    feature_sets = sorted({fs.split('-')[1] for fs in os.listdir(workdir_feature) if not fs.endswith('csv')})
+    timeframes = sorted({fs.split('-')[0] for fs in os.listdir(workdir_feature) if not '.' in fs})
+    course_ids = sorted({fs.split('-')[2] for fs in os.listdir(workdir_feature) if not '.' in fs})
+    feature_sets = sorted({fs.split('-')[1] for fs in os.listdir(workdir_feature) if not '.' in fs})
     predictors = sorted({'predictor.' + fs.split('.')[0] + '.' + fs.split('.')[0].replace('_', '.').title().replace('.', '') for fs in os.listdir('../predictor') if os.path.isfile(os.path.join('../predictor', fs)) and not 'pycache' in fs and not 'predictor' in fs})
 
     logging.info('found timeframes {}'.format(timeframes))
@@ -40,10 +40,10 @@ if __name__ == "__main__":
 
     # Filtered combinations of timeframes, courses, feature sets, and predictors
     target_label_col = 'label-pass-fail'
-    timeframes = set(timeframes) & {'lq_week'}
-    course_ids = set(course_ids) & {'epfl_algebrelineaire'}
-    feature_sets = set(feature_sets) & {'ensemble_all'}
-    predictors = set(predictors) & {'predictor.svm.Svm'}
+    timeframes = sorted(set(timeframes) & {'lq_week'})
+    course_ids = sorted(set(course_ids) & {'epfl_algebrelineaire'})  #, 'epfl_cs_210_2018_t3', 'epflx_algebrex', 'progfun_005', 'epfl_algebrelineaire', 'epfl_cs_206_2019_t1'})
+    feature_sets = sorted(set(feature_sets) & {'marras_et_al'})
+    predictors = sorted(set(predictors) & {'predictor.lstm.Lstm'})
 
     logging.info('filtered timeframes {}'.format(timeframes))
     logging.info('filtered course ids {}'.format(course_ids))

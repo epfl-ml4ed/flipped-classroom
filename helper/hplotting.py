@@ -41,7 +41,7 @@ def plot_grade_distribution(course, mingrade=1, maxgrade=6, depgrade=.25, thrgra
     plt.grid(axis='y')
 
 def plot_pass_fail_distribution(course):
-    x = course.get_clickstream_grade()['pass-fail'].to_list()
+    x = course.get_clickstream_grade()['label-pass-fail'].to_list()
 
     # Bar Plot
     plt.bar(['Pass', 'Fail'], [x.count(0) / len(x), x.count(1) / len(x)], color=['#50A2A7', '#D16666'], width=0.4, edgecolor='white')
@@ -54,7 +54,7 @@ def plot_pass_fail_distribution(course):
     plt.grid(axis='y')
 
 def plot_dropout_distribution(course):
-    x = course.get_clickstream_grade()['dropout'].to_list()
+    x = course.get_clickstream_grade()['label-dropout'].to_list()
 
     # Bar Plot
     plt.bar(['Stay', 'Drop'], [x.count(0) / len(x), x.count(1) / len(x)], color=['#50A2A7', '#D16666'], width=0.4, edgecolor='white')
@@ -67,7 +67,7 @@ def plot_dropout_distribution(course):
     plt.grid(axis='y')
 
 def plot_stopout_distribution(course, extra_weeks=8):
-    x = course.get_clickstream_grade()['stopout'].to_list()
+    x = course.get_clickstream_grade()['label-stopout'].to_list()
 
     w = np.arange(course.get_weeks() + extra_weeks + 1)
     d = np.array([x.count(el) for el in w])
@@ -100,8 +100,8 @@ def plot_feature(feature, feature_values, groups):
     plt.legend()
 
 def plot_feature_per_model(timeframe, target, course_id, metric='f1', ylim=np.array([0.0, 1.0]), filepath='../data/result/edm21/predictor'):
-    predictors = set([p.split('-')[3] for p in os.listdir(filepath) if target in p and timeframe in p and course_id in p and not 'ensemble' in p])
-    results = [p for p in os.listdir(filepath) if course_id in p and target in p and timeframe in p and not 'ensemble' in p]
+    predictors = set([p.split('-')[3] for p in os.listdir(filepath) if target in p and course_id in p and not 'ensemble' in p])
+    results = [p for p in os.listdir(filepath) if course_id in p and target in p and not 'ensemble' in p]
 
     plt.figure(figsize=(30, 24), dpi=300)
     plt.rcParams.update({'font.size': 16})
@@ -153,14 +153,15 @@ def plot_feature_per_model_at_timeframe(predictor, target, course_id, metric='f1
     plt.tight_layout()
     plt.show()
 
-def plot_feature_vs_ensemble(timeframe, target, course_id, feature_set, metric='f1', ylim=np.array([0.0, 1.0]), filepath='../data/result/edm21/predictor'):
-    predictors = set([p.split('-')[3] for p in os.listdir(filepath) if target in p and timeframe in p and course_id in p and 'ensemble' in p])
-    results = [p for p in os.listdir(filepath) if target in p and timeframe in p and 'ensemble' in p ]
+def plot_feature_vs_ensemble(timeframe, target, course_id, metric='f1', ylim=np.array([0.0, 1.0]), filepath='../data/result/edm21/predictor'):
+    predictors = set([p.split('-')[3] for p in os.listdir(filepath) if target in p and course_id in p and 'ensemble' in p and ('vec' in p or 'none' in p)])
+    results = [p for p in os.listdir(filepath) if target in p and course_id in p and 'ensemble' in p and ('vec' in p or 'none' in p)]
 
     plt.figure(figsize=(30, 10), dpi=300)
 
     plt.rcParams.update({'font.size': 16})
     for p_idx, predictor in enumerate(predictors):
+        print(p_idx, predictor)
         predictor_result = [predictor_result for predictor_result in results if '-' + predictor + '-' in predictor_result][0]
         data_with_folds = pd.read_csv(os.path.join(filepath, predictor_result, 'stats.csv'))[['week', 'fold', metric]]
         data_per_fold = data_with_folds.groupby(by='week').mean(metric)

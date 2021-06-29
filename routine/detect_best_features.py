@@ -59,7 +59,7 @@ def main(settings):
     logging.info('averaging on X_avg with shape {}'.format(X_avg.shape))
 
     # Estimate best features
-    param_grid = {'n_estimators': [10, 25, 50, 100, 200, 500], 'max_features': ['auto', 'sqrt', 'log2', None]}
+    param_grid = {'n_estimators': [10, 25, 50, 100, 200, 500], 'max_features': ['sqrt', 'log2', None]}
 
     estimator = model_selection.GridSearchCV(RandomForestClassifier(class_weight='balanced', random_state=0), param_grid=param_grid, cv=10, scoring='roc_auc')
     estimator.fit(X_avg, y)

@@ -44,9 +44,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Extract feature')
 
     parser.add_argument('--model', dest='model', default='extractor.set.akpinar_et_al.AkpinarEtAl', type=str, action='store')
-    parser.add_argument('--courses', dest='courses', default='flipped-classroom/EPFL-AlgebreLineaire-2019', type=str, action='store')
+    parser.add_argument('--courses', dest='courses', default='flipped-classroom/toy-course', type=str, action='store')
     parser.add_argument('--timeframe', dest='timeframe', default='eq_week', type=str, action='store')
-    parser.add_argument('--workdir', dest='workdir', default='../data/result/edm21/feature/', type=str, action='store')
+    parser.add_argument('--workdir', dest='workdir', default='../data/result/toy/feature/', type=str, action='store')
 
     settings = vars(parser.parse_args())
 

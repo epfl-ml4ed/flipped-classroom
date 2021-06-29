@@ -19,11 +19,10 @@ class RandomForest(Predictor):
 
         if settings['target_type'] == 'classification':
             logging.info('built {} classifier'.format(self.name))
-            self.predictor = RandomForestClassifier(random_state=0)
+            self.predictor = RandomForestClassifier(class_weight='balanced', random_state=0)
         else:
             logging.info('built {} regressor'.format(self.name))
             self.predictor = RandomForestRegressor(random_state=0)
 
         if 'params_grid' in settings:
             self.add_grid(settings)
-

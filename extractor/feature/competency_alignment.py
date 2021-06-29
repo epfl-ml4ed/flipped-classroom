@@ -33,4 +33,4 @@ class CompetencyAlignment(Feature):
             logging.debug('feature {} is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
-        return len(set(learnt_problems) & set(learnt_problems)) / len(taught_problems)
+        return len(set(learnt_problems) & set(taught_problems)) / len(taught_problems)

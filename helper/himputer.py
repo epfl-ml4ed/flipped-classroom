@@ -19,24 +19,18 @@ class NanImputeScaler(BaseEstimator, TransformerMixin):
         return self
 
     def transform(self, X):
-        # Check that we have already fit this transformer
         check_is_fitted(self, "means_")
 
-        # get a copy of X so we can change it in place
         X = check_array(X, force_all_finite=False, ensure_2d=True)
 
-        # Use average to deal with missing values
-        nan_pos = np.isnan(X)
-        X[np.isnan(X)] = self.nan_level
+        col_mean = np.nanmean(X, axis=0)
+        inds = np.where(np.isnan(X))
+        X[inds] = np.take(col_mean, inds[1])
 
-        # center if needed
         if self.with_mean and self.means_ != 0:
             X -= self.means_
 
-        # scale if needed
         if self.with_std and self.std_ != 0:
             X /= self.std_
-
-        X[np.isnan(X)] = self.nan_level
 
         return X
