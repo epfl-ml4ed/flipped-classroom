@@ -1,5 +1,4 @@
-# Can Feature Predictive Power Generalize? 
-## Benchmarking Early Predictors of Student Success across Flipped and Online Courses
+## Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses
 
 This repository is the official implementation of the EDM 2021 entitled "[Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses](https://youtu.be/_1sdX3W5Q5A)". 
 
