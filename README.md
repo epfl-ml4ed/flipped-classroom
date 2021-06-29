@@ -34,7 +34,7 @@ mkdir -p data/course/{flipped-classroom|mooc}/{courseplatform}/video_event
 mkdir -p data/course/{flipped-classroom|mooc}/{courseplatform}/schedule
 ```
 
-In the folder ```data/course/{flipped-classroom|mooc}/{courseplatform}```, a file ```metadata.csv``` [format: course_id, title, teachers, period, start_date, end_date, weeks, grade_thr, grade_max] needs to include the main descriptive attributes of the courses.
+In the folder ```data/course/{flipped-classroom|mooc}/{courseplatform}```, a file ```metadata.csv``` [format: course_id, title, teachers, period, start_date, end_date, weeks, grade_thr, grade_max] needs to include course descriptive attributes.
 
 For each course, we expect that the following data is provided in the corresponding subfolders below:
 - ```grade/{course_id}.csv``` [format: user_id, grade, date].
