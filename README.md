@@ -1,6 +1,6 @@
 ## Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses
 
-This repository is the official implementation of the EDM 2021 entitled "[Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses](https://youtu.be/_1sdX3W5Q5A)". 
+This repository is the official implementation of the EDM 2021 paper entitled "[Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses](https://youtu.be/_1sdX3W5Q5A)". 
 
 ![Our approach](assets/schema.png)
 
@@ -34,7 +34,7 @@ mkdir -p data/course/{flipped-classroom|mooc}/{courseplatform}/video_event
 mkdir -p data/course/{flipped-classroom|mooc}/{courseplatform}/schedule
 ```
 
-In the folder ```data/course/{flipped-classroom|mooc}/{courseplatform}```, a file ```metadata.csv``` [format: course_id, title, teachers, period, start_date, end_date, weeks, grade_thr, grade_max] is expected to include the main descriptive attributes of the courses.
+In the folder ```data/course/{flipped-classroom|mooc}/{courseplatform}```, a file ```metadata.csv``` [format: course_id, title, teachers, period, start_date, end_date, weeks, grade_thr, grade_max] needs to include the main descriptive attributes of the courses.
 
 For each course, we expect that the following data is provided in the corresponding subfolders below:
 - ```grade/{course_id}.csv``` [format: user_id, grade, date].
@@ -56,7 +56,11 @@ python routine/compute_feature_set.py
 
 By default, features are expected to be stored in ```./data/result/edm21/feature/```. 
 
-Each course feature set is saved in a folder named as ```{lq-week|eq-week}-{feature_set}-{course_id}```.
+Each course feature set is saved in a folder named as: 
+
+```
+{lq-week|eq-week}-{feature_set}-{course_id}
+```
 
 For each feature set, in the above folder, the following files are stored:
 - ```feature_labels.csv``` [format: user_index, label-grade, label-pass-fail, label-dropout, label-stopout]
