@@ -25,7 +25,7 @@ export PYTHONPATH=${PYTHONPATH}:`pwd`
 
 ## Data Preparation
 
-By default, course grades, problem events, video events, and course schedules are expected to be stored in ```ata/course/{flipped-classroom|mooc}/{courseplatform}```.
+By default, course grades, problem events, video events, and course schedules are expected to be stored in ```data/course/{flipped-classroom|mooc}/{courseplatform}```.
 
 ```
 mkdir -p data/course/{flipped-classroom|mooc}/{courseplatform}/grade
@@ -59,7 +59,7 @@ By default, features are expected to be stored in ```./data/result/edm21/feature
 Each course feature set is saved in a folder named as ```{lq-week|eq-week}-{feature_set}-{course_id}```.
 
 For each feature set, in the above folder, the following files are stored:
-- ```feature_labels.csv``` [format: user_index,label-grade,label-pass-fail,label-dropout,label-stopout]
+- ```feature_labels.csv``` [format: user_index, label-grade, label-pass-fail, label-dropout, label-stopout]
 - ```feature_values.npz``` [shape: (no_users, no_weeks, no_features)]
 - ```settings.txt```
 
@@ -78,7 +78,11 @@ python routine/train_predictor.py
 
 By default, models and evaluations are expected to be stored in ```./data/result/edm21/```. 
 
-Each predictor is saved in a folder named as ```{lq-week|eq-week}-{course_id}-{target_col}-{model}-{feature_set}-{aggregation_type}```.
+Each predictor is saved in a folder named as:
+
+```
+{lq-week|eq-week}-{course_id}-{target_col}-{model}-{feature_set}-{aggregation_type}
+```
 
 For each predictor, in the above folder, the following files are stored:
 - ```params.txt```
