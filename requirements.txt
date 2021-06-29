@@ -1,9 +1,12 @@
+imblearn
 jupyter
 matplotlib
 numpy
 pandas
+pickle
 pymysql
 scikit-learn
 scipy
 seaborn
+tensorflow
 tqdm
