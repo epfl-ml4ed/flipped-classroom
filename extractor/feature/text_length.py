@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import numpy as np
 
 from extractor.feature.feature import Feature
 
@@ -20,13 +21,21 @@ class TextLength(Feature):
             return Feature.INVALID_VALUE
 
         data = self.data
-        length = 0
+        length = [0]
+        res = 0
         if 'type' in self.settings:
             logging.debug('filtering by event type')
             data = data[self.data['event_type'].str.contains(self.settings['type'].title())]
 
         if 'field' in self.settings:
             logging.debug('filtering by event type')
-            length = data[self.settings['field']].str.len()
+            df_text = data[self.settings['field']][data[self.settings['field']].notna()]
+            if len(df_text)>0:
+                length = df_text.str.len()
 
-        return length
+                if self.settings['ffunc'] == 'avg':
+                    res = np.mean(length)
+                elif self.settings['ffunc'] == 'max':
+                    res = np.max(length)
+
+        return res

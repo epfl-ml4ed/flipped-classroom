@@ -102,6 +102,8 @@ class Course():
             clickstream = clickstream.append(self.clickstream_problem).copy()
         if self.clickstream_forum is not None:
             clickstream = clickstream.append(self.clickstream_forum).copy()
+
+        # filter students > 10
         return clickstream
 
     def get_clickstream_problem(self):

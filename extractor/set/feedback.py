@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
 from extractor.extractor import Extractor
 
 from extractor.feature.total_clicks import TotalClicks
 from extractor.feature.text_length import TextLength
-
+from extractor.feature.bool_event import BoolEvent
 '''
 Test feedback features
 
@@ -30,7 +29,14 @@ class Feedback(Extractor):
         TotalClicks(data, {**settings, **{'type':'Forum'}}),
         TotalClicks(data, {**settings, **{'type':'Forum.Thread.Launch'}}),
         TotalClicks(data, {**settings, **{'type':'Forum.Thread.View'}}),
-        TextLength(data, {**settings, **{'type':'Forum.Thread.Launch', 'field':'post_text'}}),
+        TextLength(data, {**settings, **{'type':'Forum.Thread.Launch',
+                                         'field':'post_text',
+                                          'ffunc': 'avg'}}),
+        TextLength(data, {**settings, **{'type':'Forum.Thread.Launch',
+                                         'field':'post_text',
+                                          'ffunc': 'max'}}),
+        BoolEvent(data, {**settings, **{'type':'Forum'}}),
+        BoolEvent(data, {**settings, **{'type':'Forum.Thread.Launch'}})
         ]
 
         features = [f.compute() for f in self.features]
