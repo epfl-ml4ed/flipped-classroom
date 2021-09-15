@@ -47,9 +47,7 @@ def filter_range_dates(df, start_date, end_date):
     df = df[df['date'] <= str2dt(end_date)] if end_date is not np.nan else df
     return df
 
-# Why are we filtering the events? Doesn't this prevent us from computing
-# the complete session time? And creating future features?
-# I would not filter out any events
+
 def filter_events(df, type=np.array(['Video.Pause', 'Video.Load',
 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange', 'Problem.Check',
   'Forum.Load', 'Forum.Search', 'Forum.Thread.Delete',
@@ -67,7 +65,7 @@ def init_clickstream(df, type, start_date, end_date):
     df['weekday'] = get_weekday(df['date'])
     df = filter_range_dates(df, start_date, end_date)
     df = add_week(df, start_date, type)
-    #df = filter_events(df)
+    df = filter_events(df)
     return df
 
 def init_schedule(df, type, start_date, end_date):

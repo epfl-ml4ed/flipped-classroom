@@ -38,6 +38,8 @@ class MySQLConnector:
 		if ReturnCursor:
 			return self.Cursor
 		# Fill in list with returned rows
+		fields = [x[0] for x in self.Cursor.description]
+
 		self.ReturnedRows = []
 		while True:
 			Row = self.Cursor.fetchone()
@@ -46,7 +48,7 @@ class MySQLConnector:
 			else:
 				self.ReturnedRows.append(Row)
 		# Return list of returned rows
-		return self.ReturnedRows
+		return self.ReturnedRows, fields
 
 	# Return list of returned rows
 	def getRows(self):
