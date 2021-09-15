@@ -23,6 +23,9 @@ The following features cannot be computed, based on the data we currently have:
 - Number of clicks for module “Overview report”
 - Number of clicks for module “System”
 - Number of clicks for module “User report”
+
+New features:
+- Number of clicks for module “Forum”
 '''
 
 class ChenCui(Extractor):

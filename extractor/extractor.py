@@ -94,9 +94,15 @@ class Extractor():
         for u, user_id in tqdm(enumerate(users)):
             user_feature_values = []
             user_feature_labels = label[label['user_id'] == user_id][filter_label_cols].head(1).values.tolist()
+            data_user = data[data['user_id'] == user_id]
             assert len(user_feature_labels) == 1
             for w, week in enumerate(weeks):
-                f = self.extract_features(data[data['user_id'] == user_id], {**settings, **{'week': week, 'course': course}})
+                if settings['timeframe'] == 'eq-week':
+                    data_week = data_user[data_user['week']== week]
+                elif settings['timeframe'] == 'lq-week':
+                    data_week = data_user[data_user['week']<= week]
+
+                f = self.extract_features(data_week, {**settings, **{'week': week, 'course': course}})
                 user_feature_values.append(np.array(f))
             features_values.append(np.array(user_feature_values))
             features_labels.append([u] + user_feature_labels[0])

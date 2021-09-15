@@ -21,6 +21,11 @@ The following features cannot be computed, based on the data we currently have:
 - number forum responses
 - average number of submissions percentile
 - average number of submissions percent
+
+New forum data:
+- average_length_forum_post
+- number_forum_posts
+- number_forum_responses
 '''
 
 class WanEtAl(Extractor):
@@ -43,9 +48,9 @@ class WanEtAl(Extractor):
                          ObsDurationProblem(data, {**settings, **{'ffunc': np.max}}),
                          Time(data, {**settings, **{'type': 'video', 'ffunc': np.sum}}),
                          TimeSessions(data, {**settings, **{'mode': 'length'}}),
-                         NumberSubmissions(data, {**settings, **{'mode': 'correct'}})]
+                         NumberSubmissions(data, {**settings, **{'mode': 'correct'}})
+                         ]
 
         features = [f.compute() for f in self.features]
         assert len(features) == self.__len__()
         return features
-

@@ -6,7 +6,8 @@ import logging
 
 from helper.himputer import NanImputeScaler
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-from imblearn.over_sampling import BorderlineSMOTE
+#from imblearn import under_sampling, over_sampling
+#from imblearn.over_sampling import BorderlineSMOTE
 from sklearn.decomposition import PCA
 
 def import_class(name):

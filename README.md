@@ -1,6 +1,6 @@
 ## Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses
 
-This repository is the official implementation of the EDM 2021 paper entitled "[Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses](https://youtu.be/_1sdX3W5Q5A)". 
+This repository is the official implementation of the EDM 2021 paper entitled "[Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses](https://youtu.be/_1sdX3W5Q5A)".
 
 ![Our approach](assets/schema.png)
 
@@ -8,9 +8,25 @@ Early predictors of student success are becoming a key tool in flipped and onlin
 
 ## Requirements
 
-The code has been tested under Python >= 3.6. 
+The code has been tested under Python >= 3.6.
 
-Install dependencies:
+1. Create a virtual environment
+- Instal virtualenv
+```
+pip install virtualenv
+```
+- Create your own
+```
+pyenv virtualenv hca-env
+pyenv activate hca-env
+```
+
+- If you are planning on using Jupyter Notebook, add the kernel to the existing kernels.
+```
+python -m ipykernel install --user --name=hca-env
+```
+
+2. Install dependencies:
 
 ```setup
 git clone https://github.com/d-vet-ml4ed/flipped-classroom.git
@@ -47,16 +63,16 @@ For each course, we expect that the following data is provided in the correspond
 To extract a set of features for a course, run this command:
 
 ```train
-python routine/compute_feature_set.py 
-    --model "extractor.set.marras_et_al.MarrasEtAl" 
+python routine/compute_feature_set.py
+    --model "extractor.set.marras_et_al.MarrasEtAl"
     --courses "{flipped-classroom|mooc}/{course_id}"
     --timeframe "{lq-week|eq-week}"
     --workdir "../data/result/edm21/feature/"
 ```
 
-By default, features are expected to be stored in ```./data/result/edm21/feature/```. 
+By default, features are expected to be stored in ```./data/result/edm21/feature/```.
 
-Each course feature set is saved in a folder named as: 
+Each course feature set is saved in a folder named as:
 
 ```
 {lq-week|eq-week}-{feature_set}-{course_id}
@@ -72,7 +88,7 @@ For each feature set, in the above folder, the following files are stored:
 To train and evaluate a predictor on a set of features, run this command:
 
 ```train
-python routine/train_predictor.py 
+python routine/train_predictor.py
     --predictor "predictor.random_forest.RandomForest"
     --target_col "label-pass-fail"
     --feature_set "{lq-week|eq-week}-{feature_set}-{course_id}"
@@ -80,7 +96,7 @@ python routine/train_predictor.py
     --folds 10
 ```
 
-By default, models and evaluations are expected to be stored in ```./data/result/edm21/```. 
+By default, models and evaluations are expected to be stored in ```./data/result/edm21/```.
 
 Each predictor is saved in a folder named as:
 
@@ -93,9 +109,9 @@ For each predictor, in the above folder, the following files are stored:
 - ```predictor-w{week_id}-f{fold_id}.h5``` files
 - ```stats.csv``` [format: week, fold, y_train_idx, y_test_idx, auc, bal_acc, f1, acc_fail, acc_pass, bthr, ypred_proba, ypred, ytrue]
 
-## Contributing 
+## Contributing
 
-This code is provided for educational purposes and aims to facilitate reproduction of our results, and further research 
+This code is provided for educational purposes and aims to facilitate reproduction of our results, and further research
 in this direction. We have done our best to document, refactor, and test the code before publication.
 
 If you find any bugs or would like to contribute new models, training protocols, etc, please let us know.
@@ -106,9 +122,9 @@ Please feel free to file issues and pull requests on the repo and we will addres
 If you find this code useful in your work, please cite our paper:
 
 ```
-Marras, M., Vignoud, J., Käser, T. (2021). 
-Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses. 
-In: Proceedings of the 14th International Conference on Educational Data Mining (EDM 2021). 
+Marras, M., Vignoud, J., Käser, T. (2021).
+Can Feature Predictive Power Generalize? Benchmarking Early Predictors of Student Success across Flipped and Online Courses.
+In: Proceedings of the 14th International Conference on Educational Data Mining (EDM 2021).
 ```
 
 ## License
@@ -117,5 +133,3 @@ This code is free software: you can redistribute it and/or modify it under the t
 This software is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose. See the GNU General Public License for details.
 
 You should have received a copy of the GNU General Public License along with this source code. If not, go the following link: http://www.gnu.org/licenses/.
-
-

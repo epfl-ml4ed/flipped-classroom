@@ -17,7 +17,9 @@ from extractor.feature.student_thoughtfulness import StudentThoughtfulness
 from extractor.feature.student_weekly_activeness import StudentWeeklyActiveness
 
 '''
-TODO: add citation to EDM21 here
+Marras, M., Vignoud, J. T. T., & Käser, T.
+Can Feature Predictive Power Generalize? Benchmarking Early Predictors of
+Student Success across Flipped and Online Courses.
 '''
 
 class MarrasEtAl(Extractor):
