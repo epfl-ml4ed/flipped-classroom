@@ -3,8 +3,8 @@
 
 from extractor.feature.feature import Feature
 
-import numpy as np
 import logging
+
 
 '''
 The number of videos covered by the student from those that are in subsequent weeks
@@ -12,23 +12,17 @@ The number of videos covered by the student from those that are in subsequent we
 class ContentAnticipation(Feature):
 
     def __init__(self, data, settings):
-        super().__init__('content_anticipation', data, {**settings, **{'timeframe': 'full'}})
+        super().__init__('content_anticipation', data, {**settings, **{'check_future': True}})
 
     def compute(self):
         assert 'week' in self.settings
 
-        if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return Feature.INVALID_VALUE
-
         self.schedule = self.schedule[(self.schedule['week'] > self.settings['week']) & (self.schedule['type'] == 'video')]
-        self.data = self.data[self.data['week'] <= self.settings['week']]
-
         videos_in_future = self.schedule['id'].unique()
-        videos_in_future_so_far = self.data['video_id'].unique()
-
         if len(videos_in_future) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid: no videos taught in the future'.format(self.name))
             return Feature.INVALID_VALUE
+
+        videos_in_future_so_far = self.data['video_id'].unique()
 
         return len(set(videos_in_future_so_far) & set(videos_in_future)) / len(videos_in_future)

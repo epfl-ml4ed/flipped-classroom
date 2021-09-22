@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+from extractor.feature.feature import Feature
+
 import numpy as np
+
 import logging
 
-from extractor.feature.feature import Feature
 
 '''
 The average time to solve a problem
@@ -16,8 +18,8 @@ class TimeSolveProblem(Feature):
 
     def compute(self):
 
-        if len(self.data.index) == 0 or not 'problem_id' in self.data:
-            logging.debug('feature {} is invalid'.format(self.name))
+        if not 'problem_id' in self.data:
+            logging.debug('feature {} is invalid: no problem id column'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.data['prev_problem_id'] = self.data['problem_id'].shift(1)
@@ -28,7 +30,7 @@ class TimeSolveProblem(Feature):
         time_intervals = self.data.groupby(by='problem_id').sum()['time_diff'].values
 
         if len(time_intervals) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid: no time intervals computable'.format(self.name))
             return Feature.INVALID_VALUE
 
         return np.mean(time_intervals)

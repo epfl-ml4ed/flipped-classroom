@@ -25,25 +25,14 @@ The following features cannot be computed, based on the data we currently have:
 - Number of clicks for module “User report”
 '''
 
-class ChenCui(Extractor):
+class ExtraChenCui(Extractor):
     def __init__(self, name='base'):
         super().__init__(name)
-        self.name = 'chen_cui'
+        self.name = 'extra_chen_cui'
 
     def extract_features(self, data, settings):
-        self.features = [TotalClicks(data, settings),
-                         NumberSessions(data, settings),
-                         TimeSessions(data, {**settings, **{'ffunc': np.sum}}),
-                         TimeSessions(data, {**settings, **{'ffunc': np.mean}}),
-                         TimeBetweenSessions(data, {**settings, **{'ffunc': np.std}}),
-                         TimeSessions(data, {**settings, **{'ffunc': np.std}}),
-                         TotalClicks(data, {**settings, **{'mode':  'weekday'}}),
-                         TotalClicks(data, {**settings, **{'mode':'weekend'}}),
-                         RatioClicksWeekendDay(data, settings),
-                         TotalClicks(data, {**settings, **{'type':'video'}}),
-                         TotalClicks(data, {**settings, **{'type':'problem'}}),
-                         Time(data, {**settings, **{'type': 'problem', 'ffunc': np.sum}}),
-                         Time(data, {**settings, **{'type': 'video', 'ffunc': np.sum}})]
+        self.features = [TotalClicks(data, {**settings, **{'type':'video'}}),
+                         TotalClicks(data, {**settings, **{'type':'problem'}})]
         features = [f.compute() for f in self.features]
         assert len(features) == self.__len__()
         return features

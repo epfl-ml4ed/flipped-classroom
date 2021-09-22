@@ -4,7 +4,9 @@
 from extractor.feature.feature import Feature
 
 import numpy as np
+
 import logging
+
 
 '''
 The amount of time passed reflecting on pause during a video
@@ -17,7 +19,7 @@ class StudentThoughtfulness(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid: empty dataframe'.format(self.name))
             return Feature.INVALID_VALUE
 
         self.data = self.data[self.data['event_type'].isin(['Video.Play', 'Video.Pause'])]
@@ -29,7 +31,7 @@ class StudentThoughtfulness(Feature):
         self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= Feature.TIME_MAX)]
 
         if np.sum(self.data['time_diff'].values) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid: no time diff between pauses computable'.format(self.name))
             return Feature.INVALID_VALUE
 
         return 1 - 1 / np.sum(self.data['time_diff'].values)

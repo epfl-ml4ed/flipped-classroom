@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import logging
-
 from extractor.feature.feature import Feature
 from helper.dataset.data_preparation import get_sessions
+
+import logging
+
 
 '''
 The (statistics) time duration of online sessions
@@ -17,8 +18,8 @@ class TimeSessions(Feature):
     def compute(self):
 
         if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return Feature.INVALID_VALUE
+            logging.debug('feature {} is invalid: empty dataframe'.format(self.name))
+            return 0.0
 
         sessions = get_sessions(self.data, self.schedule['duration'].max())
 
@@ -27,10 +28,10 @@ class TimeSessions(Feature):
                 return len(sessions.index)
             raise NotImplementedError()
 
-        durations = sessions['duration'].values
+        if len(sessions) == 0:
+            logging.debug('feature {} is invalid: no sessions done by the student'.format(self.name))
+            return 0.0
 
-        if len(durations) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return Feature.INVALID_VALUE
+        durations = sessions['duration'].values
 
         return self.settings['ffunc'](durations)

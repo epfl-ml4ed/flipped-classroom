@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from helper.dataset.data_preparation import get_sessions, similarity_days, chi2_divergence
+from helper.dataset.data_preparation import similarity_days, chi2_divergence
 from extractor.feature.feature import Feature
 
 from scipy.spatial.distance import jensenshannon
 from datetime import datetime
 import numpy as np
+
 import logging
+
 
 '''
 Three measures WS1, WS2 and WS3 based on the similarity between weekly profiles of user’s activities.
@@ -24,7 +26,7 @@ class RegWeeklySim(Feature):
         assert 'mode' in self.settings
 
         if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid: empty dataframe'.format(self.name))
             return Feature.INVALID_VALUE
 
         weeks = self.settings['week'] + 1
@@ -51,7 +53,7 @@ class RegWeeklySim(Feature):
                         continue
                     res.append(1 - jensenshannon(activity[i], activity[j], 2.0))
             if len(res) == 0:
-                logging.debug('feature {} is invalid'.format(self.name))
+                logging.debug('feature {} is invalid: the m2 mode is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             return np.mean(np.clip(np.nan_to_num(res), 0, 1))
         elif self.settings['mode'] == 'm3':

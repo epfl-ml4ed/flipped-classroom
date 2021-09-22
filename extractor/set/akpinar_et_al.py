@@ -16,10 +16,9 @@ Akpinar, N. J., Ramdas, A., & Acar, U. (2020). Analyzing Student Strategies In B
 In Thirteenth International Conference on Educational Data Mining (EDM 2020).
 '''
 
-
 class AkpinarEtAl(Extractor):
 
-    def __init__(self, name='base', vocab=np.array(['Video.Pause', 'Video.Load', 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange', 'Problem.Check']), ngram=3):
+    def __init__(self, name='base', vocab=np.array(['Video.Pause', 'Video.Load', 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange', 'Problem.Check', 'Forum.Load', 'Forum.Search', 'Forum.Thread.Delete', 'Forum.Thread.Follow', 'Forum.Thread.Launch', 'Forum.Thread.Unfollow', 'Forum.Thread.Update', 'Forum.Thread.View', 'Forum.Unknown']), ngram=3):
         super().__init__(name)
         self.name = 'akpinar_et_al'
         self.ngram = ngram
@@ -48,7 +47,7 @@ if __name__ == "__main__":
     base = ["TotalClicks", "NumberSessions", "Time-video-sum", "Time-problem-sum"]
 
     AkpinarEtAl()
-    others = list(product(np.array(['Video.Pause', 'Video.Load', 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange', 'Problem.Check']), repeat=3))
+    others = list(product(np.array(['Video.Pause', 'Video.Load', 'Video.Play', 'Video.Seek', 'Video.Stop', 'Video.SpeedChange', 'Problem.Check', 'Forum.Load', 'Forum.Search', 'Forum.Thread.Delete', 'Forum.Thread.Follow', 'Forum.Thread.Launch', 'Forum.Thread.Unfollow', 'Forum.Thread.Update', 'Forum.Thread.View', 'Forum.Unknown']), repeat=3))
 
     refined = []
     for o in others:

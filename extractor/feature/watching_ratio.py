@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import logging
-import sys
-
 from extractor.feature.feature import Feature
 
 from extractor.feature.attendance_rate import AttendanceRate
 from extractor.feature.utilization_rate import UtilizationRate
+
+import logging
+
 
 '''
 With attendance and utilization rate, the student’s overall specialty watching ratio is defined. The wathing ratio represents how student
@@ -19,16 +19,14 @@ class WatchingRatio(Feature):
         super().__init__('watching_ratio', data, settings)
 
     def compute(self):
-
-        if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+        u = UtilizationRate(self.data, self.settings).compute()
+        if u == Feature.INVALID_VALUE or u == 0:
+            logging.debug('feature {} is invalid: utilization rate is invalid or zero'.format(self.name))
             return Feature.INVALID_VALUE
 
         a = AttendanceRate(self.data, self.settings).compute()
-        u = UtilizationRate(self.data, self.settings).compute()
-
-        if u == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+        if a == Feature.INVALID_VALUE:
+            logging.debug('feature {} is invalid: attendance rate is invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return a / u

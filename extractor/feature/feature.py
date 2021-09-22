@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+
 import logging
+
 
 class Feature():
 
@@ -18,33 +20,32 @@ class Feature():
         self.settings = settings
         self.name = self.rename(name)
         self.data = self.filter(data).copy().sort_values(by='date')
-        self.schedule = self.filter(settings['course'].get_schedule())
+        self.schedule = self.filter(settings['course'].get_schedule()) if not 'check_future' in settings else settings['course'].get_schedule()
 
     def rename(self, name):
+
         if 'mode' in self.settings:
             name += '_' + self.settings['mode']
+
         if 'type' in self.settings:
             name += '_' + self.settings['type']
+
         if 'ffunc' in self.settings:
             name += '_' + str(self.settings['ffunc'])
+
         return name
 
     def filter(self, data):
-        if self.settings['timeframe'] == 'full':
-            return data
 
         if self.settings['timeframe'] == 'eq_week':
             assert 'week' in self.settings
-            logging.debug('framing data on a {} timeframe'.format(self.settings['timeframe']))
             return data[data['week'] == self.settings['week']]
 
         if self.settings['timeframe'] == 'lq_week':
             assert 'week' in self.settings
-            logging.debug('framing data on a {} timeframe'.format(self.settings['timeframe']))
             return data[data['week'] <= self.settings['week']]
 
-        logging.debug('no framing is applied')
-        return data
+        raise NotImplementedError()
 
     def compute(self):
         return None

@@ -35,7 +35,6 @@ class WanEtAl(Extractor):
                          NumberSubmissions(data, settings),
                          NumberSubmissions(data, {**settings, **{'mode': 'distinct_correct'}}),
                          NumberSubmissions(data, {**settings, **{'mode': 'avg'}}),
-                         NumberSubmissions(data, {**settings, **{'mode': 'avg_time'}}),
                          ObsDurationProblem(data, settings),
                          NumberSubmissions(data, {**settings, **{'mode': 'perc_correct'}}),
                          TimeSolveProblem(data, settings),

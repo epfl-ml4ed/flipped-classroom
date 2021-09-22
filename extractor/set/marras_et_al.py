@@ -28,16 +28,11 @@ class MarrasEtAl(Extractor):
     def extract_features(self, data, settings):
         self.features = [CompetencyStrength(data, settings),
                          CompetencyAlignment(data, settings),
-                         CompetencyCoverage(data, settings),
                          CompetencyAnticipation(data, settings),
                          ContentAlignment(data, settings),
-                         ContentCoverage(data, settings),
                          ContentAnticipation(data, settings),
                          StudentSpeed(data, settings),
-                         StudentShape(data, settings),
-                         StudentActiveness(data, settings),
-                         StudentThoughtfulness(data, settings),
-                         StudentWeeklyActiveness(data, settings)]
+                         StudentShape(data, settings)]
 
         features = [f.compute() for f in self.features]
         assert len(features) == self.__len__()

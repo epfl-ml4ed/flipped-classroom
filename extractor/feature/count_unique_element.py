@@ -5,6 +5,7 @@ from extractor.feature.feature import Feature
 
 import logging
 
+
 '''
 The number of unique elements (either videos or problems)
 '''
@@ -17,7 +18,7 @@ class CountUniqueElement(Feature):
         assert 'course' in self.settings and self.settings['course'].has_schedule() and 'type' in self.settings
 
         if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return Feature.INVALID_VALUE
+            logging.debug('feature {} is invalid: empty dataframe'.format(self.name))
+            return 0.0
 
         return self.data[self.settings['type'] + '_id'].nunique()

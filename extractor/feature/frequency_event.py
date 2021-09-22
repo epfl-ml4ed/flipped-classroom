@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import logging
-import numpy as np
 from extractor.feature.feature import Feature
 from extractor.feature.time import Time
 from helper.dataset.data_preparation import count_events
 
+import numpy as np
+
+import logging
+
+
 '''
 The frequency of a given action in the clickstream.
-Note: since we don't have access directly to the time spent by a user watching videos we have to infer it.
-The current model measures the time between every Video.Play action and the following action.
 '''
 class FrequencyEvent(Feature):
 
@@ -21,22 +22,30 @@ class FrequencyEvent(Feature):
         assert 'type' in self.settings
 
         if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return Feature.INVALID_VALUE
+            logging.debug('feature {} is invalid: empty dataframe'.format(self.name))
+            return 0.0
 
         if 'mode' in self.settings:
             if self.settings['mode'] == 'total':
                 return count_events(self.data, self.settings['type'])
+
             if 'mode' in self.settings and self.settings['mode'] == 'relative':
-                return count_events(self.data, self.settings['type']) / len(self.data[self.settings['type'].split('.')[0].lower() + '_id'].unique())
+                that_type_data = self.data[self.data['event_type'].str.contains(self.settings['type'].split('.')[0].title())]
+
+                if len(that_type_data.index) == 0:
+                    logging.debug('feature {} is invalid: no data of that type'.format(self.name))
+                    return 0.0
+
+                return count_events(self.data, self.settings['type']) / len(that_type_data)
+
             raise NotImplementedError()
 
         if self.settings['type'].lower() == 'video':
             time_settings = self.settings.copy()
             time_settings.update({'type': 'Video.Play', 'ffunc': np.sum})
             time_spent_watching = Time(self.data, time_settings).compute()
-            if time_spent_watching == Feature.INVALID_VALUE:
-                logging.debug('feature {} is invalid'.format(self.name))
+            if time_spent_watching == Feature.INVALID_VALUE or time_spent_watching == 0:
+                logging.debug('feature {} is invalid: time spent watching is invalid or zero'.format(self.name))
                 return Feature.INVALID_VALUE
             return count_events(self.data, self.settings['type']) / time_spent_watching
 

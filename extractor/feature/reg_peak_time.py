@@ -5,7 +5,9 @@ from extractor.feature.feature import Feature
 
 from scipy import stats
 import numpy as np
+
 import logging
+
 
 '''
 Two measures, PDH and PWD, based on the entropy of the histogram of user’s activitiy over time.
@@ -21,14 +23,14 @@ class RegPeakTime(Feature):
         assert 'mode' in self.settings
 
         if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid: empty dataframe'.format(self.name))
             return Feature.INVALID_VALUE
 
         if self.settings['mode'] == 'dayhour':
             hours = self.data['date'].dt.hour.astype(int).to_list()
             activity = np.array([hours.count(h) for h in np.arange(24)])
             if np.sum(activity) == 0:
-                logging.debug('feature {} is invalid'.format(self.name))
+                logging.debug('feature {} is invalid: the dayhour mode is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             entropy = stats.entropy(activity / np.sum(activity))
             return (np.log(24) - entropy) * np.max(activity)
@@ -37,7 +39,7 @@ class RegPeakTime(Feature):
             weekdays = self.data['date'].dt.weekday.astype(int).to_list()
             activity = np.array([weekdays.count(h) for h in np.arange(7)])
             if np.sum(activity) == 0:
-                logging.debug('feature {} is invalid'.format(self.name))
+                logging.debug('feature {} is invalid: the weekday mode is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             entropy = stats.entropy(activity / np.sum(activity))
             return (np.log(7) - entropy) * np.max(activity)

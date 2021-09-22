@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import numpy as np
-import logging
-
 from extractor.feature.feature import Feature
 from extractor.feature.time import Time
+
+import numpy as np
+
+import logging
+
 
 '''
 The utilization rate of a student s on a given week c since the beginning of the course is the proportion
@@ -19,16 +21,14 @@ class UtilizationRate(Feature):
         super().__init__('utilization_rate', data, settings)
 
     def compute(self):
-        if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return Feature.INVALID_VALUE
 
         sum_time_intervals = Time(self.data, {**self.settings, **{'type': 'Video.Play', 'ffunc': np.sum}}).compute()
 
         self.schedule = self.schedule[self.schedule['type'] == 'video']
         sum_video_lengths = np.sum(self.schedule['duration'].values)
+
         if sum_video_lengths == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid: no videos taught'.format(self.name))
             return Feature.INVALID_VALUE
 
         return sum_time_intervals / sum_video_lengths

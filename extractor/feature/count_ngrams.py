@@ -2,7 +2,9 @@
 # -*- coding: utf-8 -*-
 
 import numpy as np
+
 import logging
+
 
 from extractor.feature.feature import Feature
 from helper.dataset.data_preparation import get_sessions
@@ -19,8 +21,8 @@ class CountNGrams(Feature):
         assert 'ngram' in self.settings and 'perms' in self.settings
 
         if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return (np.zeros(len(self.settings['perms'])) + Feature.INVALID_VALUE).tolist()
+            logging.debug('feature {} is invalid: empty dataframe'.format(self.name))
+            return (np.zeros(len(self.settings['perms']))).tolist()
 
         sessions = get_sessions(self.data.sort_values(by='date'), self.schedule['duration'].max())
         maps = {c:i for i,c in enumerate(self.settings['perms'])}

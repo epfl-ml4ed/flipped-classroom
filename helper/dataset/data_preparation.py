@@ -145,9 +145,7 @@ def get_time_after_event(data, event_type):
     data['time_diff'] = data['date'].diff().dt.total_seconds()
     data = data.dropna(subset=['time_diff'])
     data = data[(data['time_diff'] >= Feature.TIME_MIN) & (data['time_diff'] <= Feature.TIME_MAX)]
-
-    time_intervals = data[(data['prev_event'].str.contains(event_type)) &
-                          (data['video_id'] == data['prev_video_id'])]['time_diff'].values
+    time_intervals = data[(data['prev_event'].str.contains(event_type)) &  (data['video_id'] == data['prev_video_id'])]['time_diff'].values
     return time_intervals[(time_intervals >= Feature.TIME_MIN) & (time_intervals <= Feature.TIME_MAX)]
 
 

@@ -3,8 +3,8 @@
 
 from extractor.feature.feature import Feature
 
-import numpy as np
 import logging
+
 
 '''
 The number of videos the student watched in their entirety
@@ -15,9 +15,5 @@ class StudentWeeklyActiveness(Feature):
         super().__init__('student_weekly_activeness', data, settings)
 
     def compute(self):
-
-        if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return Feature.INVALID_VALUE
 
         return len(self.data['weekday'].unique()) / 7.0

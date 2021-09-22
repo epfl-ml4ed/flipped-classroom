@@ -21,19 +21,19 @@ class MubarakEtAl(Extractor):
         self.name = 'mubarak_et_al'
 
     def extract_features(self, data, settings):
-        self.features = [FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'completed'}}),
-                         FractionSpent(data, {**settings, **{'type': 'Video.Play'}}),
-                         FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'played'}}),
+        self.features = [FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'ratio_duration'}}),
+                         FractionSpent(data, {**settings, **{'type': 'Video.Pause', 'mode': 'ratio_played'}}),
+                         FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'entirety'}}),
+                         FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'completed'}}),
+                         FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'spent'}}),
+                         FractionSpent(data, {**settings, **{'type': 'Video.Seek', 'mode': 'seek_time', 'phase': 'backward'}}),
+                         FractionSpent(data, {**settings, **{'type': 'Video.Seek', 'mode': 'seek_time', 'phase': 'forward'}}),
                          FrequencyEvent(data, {**settings, **{'type': 'Video.Play', 'mode': 'relative'}}),
                          FrequencyEvent(data, {**settings, **{'type': 'Video.Pause', 'mode': 'relative'}}),
-                         FractionSpent(data, {**settings, **{'type': 'Video.Pause'}}),
-                         FractionSpent(data, {**settings, **{'type': 'Video.Seek', 'mode': 'time', 'phase': 'backward'}}),
-                         FractionSpent(data, {**settings, **{'type': 'Video.Seek', 'mode': 'time', 'phase': 'forward'}}),
+                         FrequencyEvent(data, {**settings, **{'type': 'Video.Load', 'mode': 'relative'}}),
                          FrequencyEvent(data, {**settings, **{'mode': 'total', 'type': 'Video.SeekBackward'}}),
                          FrequencyEvent(data, {**settings, **{'mode': 'total', 'type': 'Video.SeekForward'}}),
-                         SpeedPlayback(data, {**settings, **{'ffunc': np.mean}}),
-                         FrequencyEvent(data, {**settings, **{'type': 'Video.Load', 'mode': 'relative'}}),
-                         FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'entirety'}})]
+                         SpeedPlayback(data, {**settings, **{'ffunc': np.mean}})]
 
         features = [f.compute() for f in self.features]
         assert len(features) == self.__len__()

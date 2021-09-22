@@ -16,6 +16,7 @@ class Course():
         self.platform = platform
         self.clickstream_video = None
         self.clickstream_problem = None
+        self.clickstream_forum = None
 
     def load(self, filepath=os.path.join(os.path.abspath(os.path.dirname(__file__)), '../data/course')):
         metadata_path = os.path.join(filepath, self.type, 'metadata.csv')
@@ -52,6 +53,14 @@ class Course():
         else:
             logging.warning('problem events missing for {}'.format(self.course_id))
 
+        forum_path = os.path.join(filepath, self.type, self.platform, 'forum_event', self.course_id + '.csv')
+        if os.path.exists(forum_path):
+            data = init_clickstream(pd.read_csv(forum_path), self.type, self.start_date, self.end_date)
+            self.clickstream_forum = data[data['user_id'].isin(self.clickstream_grade['user_id'].unique())]
+            logging.info('loaded forum events for {}'.format(self.course_id))
+        else:
+            logging.warning('forum events missing for {}'.format(self.course_id))
+
         schedule_path = os.path.join(filepath, self.type, self.platform, 'schedule', self.course_id + '.csv')
         if os.path.exists(schedule_path):
             schedule = pd.read_csv(schedule_path)
@@ -80,7 +89,7 @@ class Course():
 
         if labels is None or 'label-stopout' in labels:
             max_week = self.get_clickstream_video().groupby(by='user_id')['week'].max()
-            self.clickstream_grade['label-stopout'] = np.array([max_week[row['user_id']] for index, row in self.clickstream_grade.iterrows()])
+            self.clickstream_grade['label-stopout'] = np.array([(max_week[row['user_id']] if row['user_id'] in max_week else 0) for index, row in self.clickstream_grade.iterrows()])
             logging.info('assigned stopout')
 
     def get_weeks(self):
@@ -88,7 +97,12 @@ class Course():
         return self.weeks
 
     def get_clickstream(self):
-        return self.clickstream_video.copy() if self.clickstream_problem is None else self.clickstream_video.append(self.clickstream_problem).copy()
+        clickstream = self.clickstream_video
+        if self.clickstream_problem is not None:
+            clickstream = clickstream.append(self.clickstream_problem).copy()
+        if self.clickstream_forum is not None:
+            clickstream = clickstream.append(self.clickstream_forum).copy()
+        return clickstream
 
     def get_clickstream_problem(self):
         assert self.clickstream_problem is not None
@@ -101,6 +115,10 @@ class Course():
     def get_clickstream_grade(self):
         assert self.clickstream_grade is not None
         return self.clickstream_grade.copy()
+
+    def get_clickstream_forum(self):
+        assert self.clickstream_forum is not None
+        return self.clickstream_forum.copy()
 
     def get_schedule(self):
         assert self.schedule is not None
@@ -124,6 +142,7 @@ class Course():
         self.clickstream_grade = self.clickstream_grade.append(x.clickstream_grade, ignore_index=True)
         self.clickstream_video = self.clickstream_video.append(x.clickstream_video, ignore_index=True)
         self.clickstream_problem = self.clickstream_problem.append(x.clickstream_problem, ignore_index=True)
+        self.clickstream_forum = self.clickstream_forum.append(x.clickstream_forum, ignore_index=True)
         self.schedule = self.schedule.append(x.schedule, ignore_index=True)
         return self
 

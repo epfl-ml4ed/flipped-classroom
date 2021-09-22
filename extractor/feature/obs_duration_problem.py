@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import numpy as np
-import logging
-
 from extractor.feature.feature import Feature
 from extractor.feature.time_sessions import TimeSessions
 from extractor.feature.number_submissions import NumberSubmissions
 
+import numpy as np
+
+import logging
+
+
 '''
-The total time needed to solve a problem, from the first to the last submission
+Total time spent divided by the number of correct problems
 '''
 class ObsDurationProblem(Feature):
 
@@ -18,27 +20,25 @@ class ObsDurationProblem(Feature):
 
     def compute(self):
 
-        if len(self.data.index) == 0 or not 'problem_id' in self.data:
-            logging.debug('feature {} is invalid'.format(self.name))
+        if len(self.data.index) == 0:
+            logging.debug('feature {} is invalid: empty dataframe'.format(self.name))
             return Feature.INVALID_VALUE
 
         if 'ffunc' in self.settings:
-            self.data['prev_problem_id'] = self.data['problem_id'].shift(1)
             self.data['time_diff'] = self.data['date'].diff().dt.total_seconds()
             self.data = self.data.dropna(subset=['time_diff'])
-            self.data = self.data[(self.data['prev_problem_id'] == self.data['problem_id']) &
-                                  (self.data['time_diff'] >= Feature.TIME_MIN) &
-                                  (self.data['time_diff'] <= Feature.TIME_MAX)]
+            self.data = self.data[(self.data['time_diff'] >= Feature.TIME_MIN) & (self.data['time_diff'] <= Feature.TIME_MAX)]
             time_intervals = self.data['time_diff'].values
             if len(time_intervals) == 0:
-                logging.debug('feature {} is invalid'.format(self.name))
+                logging.debug('feature {} is invalid: no time intervals computed'.format(self.name))
                 return Feature.INVALID_VALUE
             return self.settings['ffunc'](time_intervals)
 
         no_submissions = NumberSubmissions(self.data, {**self.settings, **{'mode': 'distinct_correct'}}).compute()
         no_sessions = TimeSessions(self.data, {**self.settings, **{'ffunc': np.sum}}).compute()
-        if no_submissions == 0 or no_submissions == Feature.INVALID_VALUE or no_sessions == Feature.INVALID_VALUE:
-            logging.debug('feature {} is invalid'.format(self.name))
+
+        if no_submissions == 0 or no_submissions == Feature.INVALID_VALUE:
+            logging.debug('feature {} is invalid: the number of submissions is zeros or invalid'.format(self.name))
             return Feature.INVALID_VALUE
 
         return no_sessions / no_submissions

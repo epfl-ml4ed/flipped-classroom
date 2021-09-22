@@ -22,15 +22,15 @@ class LemayDoleck(Extractor):
         self.name = 'lemay_doleck'
 
     def extract_features(self, data, settings):
-        self.features = [FractionSpent(data, {**settings, **{'type': 'Video.Play'}}),
+        self.features = [FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'ratio_duration'}}),
+                         FractionSpent(data, {**settings, **{'type': 'Video.Pause', 'mode': 'ratio_played'}}),
                          FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'completed'}}),
-                         FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'played'}}),
+                         FractionSpent(data, {**settings, **{'type': 'Video.Play', 'mode': 'spent'}}),
                          FrequencyEvent(data, {**settings, **{'mode': 'total', 'type': 'Video.Pause'}}),
-                         FractionSpent(data, {**settings, **{'type': 'Video.Pause'}}),
-                         SpeedPlayback(data, {**settings, **{'ffunc': np.mean}}),
-                         SpeedPlayback(data, {**settings, **{'ffunc': np.std}}),
                          FrequencyEvent(data, {**settings, **{'mode': 'total', 'type': 'Video.SeekBackward'}}),
                          FrequencyEvent(data, {**settings, **{'mode': 'total', 'type': 'Video.SeekForward'}}),
+                         SpeedPlayback(data, {**settings, **{'ffunc': np.mean}}),
+                         SpeedPlayback(data, {**settings, **{'ffunc': np.std}}),
                          CountUniqueElement(data, {**settings, **{'type': 'video'}})]
 
         features = [f.compute() for f in self.features]

@@ -4,9 +4,10 @@
 from helper.dataset.data_preparation import get_sessions, fourier_transform
 from extractor.feature.feature import Feature
 
-import time
 import numpy as np
+
 import logging
+
 
 '''
 Three frequency based measures, FDH, FWH and FWD as
@@ -23,7 +24,7 @@ class RegPeriodicity(Feature):
         assert 'mode' in self.settings
 
         if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
+            logging.debug('feature {} is invalid: empty dataframe'.format(self.name))
             return Feature.INVALID_VALUE
 
         sessions = get_sessions(self.data, self.schedule['duration'].max())
@@ -38,7 +39,7 @@ class RegPeriodicity(Feature):
             period_length = weeks * 7 * 24
             activity = np.array([int(t in hours) for t in range(period_length)])  # 1 if active at hour t 0 o.w.
             if np.sum(activity) == 0:
-                logging.debug('feature {} is invalid'.format(self.name))
+                logging.debug('feature {} is invalid: the m1 mode is invalid'.format(self.name))
                 return Feature.INVALID_VALUE
             n = np.arange(period_length)
             return abs(fourier_transform(activity, 1 / 24, n))

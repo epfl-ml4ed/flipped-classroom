@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import logging
-
 from extractor.feature.total_clicks import TotalClicks
 from extractor.feature.feature import Feature
+
+import logging
+
 
 '''
 The ratio between the number of clicks in the weekend and the weekdays
@@ -16,15 +17,11 @@ class RatioClicksWeekendDay(Feature):
 
     def compute(self):
 
-        if len(self.data.index) == 0:
-            logging.debug('feature {} is invalid'.format(self.name))
-            return Feature.INVALID_VALUE
-
         clicks_weekday = TotalClicks(self.data, {**self.settings, **{'mode':'weekday'}}).compute()
         clicks_weekend = TotalClicks(self.data, {**self.settings, **{'mode':'weekend'}}).compute()
 
-        if clicks_weekend == 0 or clicks_weekday == Feature.INVALID_VALUE or clicks_weekend == Feature.INVALID_VALUE:
-            logging.debug('feature {} is invalid'.format(self.name))
+        if clicks_weekend == 0:
+            logging.debug('feature {} is invalid: no clicks in the weekend'.format(self.name))
             return Feature.INVALID_VALUE
 
         return clicks_weekday / clicks_weekend
